@@ -1,0 +1,22 @@
+diff -up konsole-15.04.0/src/History.cpp.tmp konsole-15.04.0/src/History.cpp
+--- konsole-15.04.0/src/History.cpp.tmp	2015-03-28 14:16:01.000000000 -0500
++++ konsole-15.04.0/src/History.cpp	2015-05-15 11:59:58.385218446 -0500
+@@ -34,6 +34,7 @@
+ 
+ #include <QDir>
+ #include <qplatformdefs.h>
++#include <QStandardPaths>
+ 
+ // Reasonable line size
+ static const int LINE_SIZE = 1024;
+@@ -62,7 +63,9 @@ HistoryFile::HistoryFile()
+       _fileMap(0),
+       _readWriteBalance(0)
+ {
+-    const QString tmpFormat = QDir::tempPath() + QLatin1Char('/') + "konsole-XXXXXX.history";
++    const QString tmpDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
++    QDir().mkpath(tmpDir);
++    const QString tmpFormat = tmpDir + QLatin1Char('/') + "konsole-XXXXXX.history";
+     _tmpFile.setFileTemplate(tmpFormat);
+     if (_tmpFile.open()) {
+         _tmpFile.setAutoRemove(true);

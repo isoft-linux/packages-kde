@@ -1,0 +1,119 @@
+diff -Nur kdepimlibs-4.14.9/CMakeLists.txt kdepimlibs-4.14.9n/CMakeLists.txt
+--- kdepimlibs-4.14.9/CMakeLists.txt	2015-05-28 21:39:40.000000000 +0000
++++ kdepimlibs-4.14.9n/CMakeLists.txt	2015-06-27 22:06:34.788780388 +0000
+@@ -78,14 +78,6 @@
+ endif()
+ 
+ if (NOT KDEPIM_ONLY_KLEO)
+-  #FindAkonadi.cmake is only there for compatibility reasons, but we don't want to use that.
+-  set(Akonadi_MIN_VERSION "1.12.90")
+-  find_package(Akonadi ${Akonadi_MIN_VERSION} QUIET NO_MODULE)
+-  set_package_properties(Akonadi PROPERTIES DESCRIPTION "Akonadi server libraries" URL "http://pim.kde.org/akonadi" TYPE REQUIRED PURPOSE "Access to PIM storage and services")
+-
+-  find_package(Sasl2)
+-  set_package_properties(Sasl2 PROPERTIES DESCRIPTION "cyrus-sasl" URL "http://asg.web.cmu.edu/sasl/sasl-library.html" TYPE REQUIRED PURPOSE "Login authentication for IMAP and Sieve")
+-
+   include (ConfigureChecks.cmake)
+ 
+   set(SHARED_MIME_INFO_MINIMUM_VERSION "0.30")
+@@ -141,40 +133,9 @@
+ add_subdirectory(cmake)
+ add_subdirectory(gpgme++)
+ add_subdirectory(qgpgme)
+-
+-if (NOT KDEPIM_ONLY_KLEO)
+-  add_subdirectory(kabc)
+-  add_subdirectory(kalarmcal)
+-  if (NOT KDEPIM_NO_KCAL)
+-    add_subdirectory(kblog)
+-    add_subdirectory(kcal)
+-  endif()
+-  add_subdirectory(kcalcore)
+-  add_subdirectory(kcalutils)
+-  add_subdirectory(akonadi) # depends on kabc is build
+-  add_subdirectory(kholidays)
+-  add_subdirectory(kimap)
+-  add_subdirectory(kioslave)
+-  add_subdirectory(kldap)
+-  add_subdirectory(kmbox)
+-endif()
+-  add_subdirectory(kmime)
+-if (NOT KDEPIM_ONLY_KLEO)
+-  add_subdirectory(kpimidentities)
+-  add_subdirectory(kpimutils)
+-  add_subdirectory(kpimtextedit)
+-  if (NOT KDEPIM_NO_KRESOURCES)
+-    add_subdirectory(kresources)
+-  endif()
+-  add_subdirectory(ktnef)
+-  add_subdirectory(kxmlrpcclient)
+-  add_subdirectory(mailtransport)
+-  add_subdirectory(microblog)
+-  add_subdirectory(syndication)
+-  add_subdirectory(kontactinterface)
+-  # Build the CamelCase headers
+-  add_subdirectory(includes)
+-endif()
++add_subdirectory(kmime)
++add_subdirectory(kxmlrpcclient)
++add_subdirectory(includes)
+ 
+ 
+ # doc must be a subdir of kdepimlibs
+--- kdepimlibs-4.14.9n/includes/CMakeLists.txt	2015-06-27 22:05:44.301777480 +0000
++++ kdepimlibs-4.14.9/includes/CMakeLists.txt	2015-06-27 22:11:52.634798694 +0000
+@@ -6,28 +6,6 @@
+   install( DIRECTORY ${_dir} DESTINATION ${INCLUDE_INSTALL_DIR}/KDE )
+ endmacro()
+ 
+-install_headers( Akonadi )
+-install_headers( KHolidays )
+-install_headers( KAlarmCal )
+-install_headers( KABC )
+-if (NOT KDEPIM_NO_KCAL)
+-  install_headers( KBlog )
+-  install_headers( KCal )
+-endif()
+-install_headers( KCalCore )
+-install_headers( KCalUtils )
+-install_headers( KIMAP )
+-install_headers( KLDAP )
+ install_headers( KMime )
+-install_headers( KontactInterface )
+-install_headers( KPIMIdentities )
+-install_headers( KPIMUtils )
+-if (NOT KDEPIM_NO_KRESOURCES)
+-  install_headers( KResources )
+-endif()
+-install_headers( KTNEF )
+-install_headers( Mailtransport )
+-install_headers( Syndication )
+-install_headers( KPIMTextEdit )
+ 
+ endif()
+--- kdepimlibs-4.14.9/CMakeLists.txt	2015-06-27 22:18:22.999821176 +0000
++++ kdepimlibs-4.14.9new/CMakeLists.txt	2015-06-27 22:17:56.491819650 +0000
+@@ -139,7 +139,7 @@
+ 
+ 
+ # doc must be a subdir of kdepimlibs
+-macro_optional_add_subdirectory(doc)
++#macro_optional_add_subdirectory(doc)
+ 
+ # All done, let's display what we found...
+ feature_summary(WHAT ALL
+@@ -149,10 +149,10 @@
+ 
+ ############### Here we install some extra stuff  ###############
+ 
+-if (NOT KDEPIM_ONLY_KLEO)
+-  install(FILES kdepimlibs-mime.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
+-  update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
+-endif()
++#if (NOT KDEPIM_ONLY_KLEO)
++#  install(FILES kdepimlibs-mime.xml DESTINATION ${XDG_MIME_INSTALL_DIR})
++#  update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
++#endif()
+ 
+ 
+ # now create the KdepimLibsConfig.cmake file, which will be loaded by

@@ -1,0 +1,12 @@
+diff -Nur kde-gtk-config-5.3.2/src/iconthemesmodel.cpp kde-gtk-config-5.3.2n/src/iconthemesmodel.cpp
+--- kde-gtk-config-5.3.2/src/iconthemesmodel.cpp	2015-06-25 11:07:35.000000000 +0000
++++ kde-gtk-config-5.3.2n/src/iconthemesmodel.cpp	2015-07-25 22:27:23.732589560 +0000
+@@ -51,7 +51,7 @@
+             QString currentPath = it.next();
+             QDir dir(currentPath);
+             
+-            if(dir.exists() && !dir.exists("cursors") && dir.exists("index.theme")) {
++            if(dir.exists() && (dir.exists("32x32") || dir.exists("apps")) && dir.exists("index.theme")) {
+                 availableIcons << dir;
+             }
+         }

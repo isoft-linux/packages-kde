@@ -1,0 +1,14 @@
+It's very simple to reproduce the problem.
+Open designer, open filedialog, press esc, again and again.
+You will encounter the problem that filedialog actually popup but not visible.
+diff -Nur frameworkintegration-5.12.0/src/platformtheme/kdeplatformfiledialoghelper.cpp frameworkintegration-5.12.0n/src/platformtheme/kdeplatformfiledialoghelper.cpp
+--- frameworkintegration-5.12.0/src/platformtheme/kdeplatformfiledialoghelper.cpp	2015-07-05 08:51:22.000000000 +0000
++++ frameworkintegration-5.12.0n/src/platformtheme/kdeplatformfiledialoghelper.cpp	2015-07-19 14:57:46.891751979 +0000
+@@ -303,6 +303,7 @@
+     m_dialog->show();
+     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
+     KWindowConfig::restoreWindowSize(m_dialog->windowHandle(), conf->group("FileDialogSize"));
++    m_dialog->resize(m_dialog->windowHandle()->size());
+     return true;
+ }
+ 

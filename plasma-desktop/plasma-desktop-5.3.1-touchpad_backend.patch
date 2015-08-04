@@ -1,0 +1,20 @@
+diff -ur plasma-desktop-5.3.1/kcms/touchpad/src/backends/x11/xlibbackend.cpp plasma-desktop-5.3.1-patched/kcms/touchpad/src/backends/x11/xlibbackend.cpp
+--- plasma-desktop-5.3.1/kcms/touchpad/src/backends/x11/xlibbackend.cpp	2015-05-21 11:56:56.000000000 -0500
++++ plasma-desktop-5.3.1-patched/kcms/touchpad/src/backends/x11/xlibbackend.cpp	2015-06-23 14:37:18.191713320 -0500
+@@ -322,11 +322,16 @@
+     xcb_connection_t *connection = XGetXCBConnection(display.data());
+     XcbAtom synaptics_prop_capablities, libinput_prop_tapping;
+ 
++    synaptics_prop_capablities.intern(connection,"synaptics Tap Action");
++    if (synaptics_prop_capablities.atom()) {
++        return new XlibSynapticsBackend(parent);
++    } else {
+     libinput_prop_tapping.intern(connection, "libinput Tapping Enabled");
+     if (libinput_prop_tapping.atom())
+         return new XlibLibinputBackend(parent);
+     else
+         return new XlibSynapticsBackend(parent);
++    }
+ }
+ 
+ XlibBackend::~XlibBackend()

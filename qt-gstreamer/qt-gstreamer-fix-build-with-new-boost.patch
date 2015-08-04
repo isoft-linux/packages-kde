@@ -1,0 +1,15 @@
+diff -Nur qt-gstreamer-1.2.0/src/QGlib/connect.cpp qt-gstreamer-1.2.0n/src/QGlib/connect.cpp
+--- qt-gstreamer-1.2.0/src/QGlib/connect.cpp	2014-07-08 18:38:36.000000000 +0000
++++ qt-gstreamer-1.2.0n/src/QGlib/connect.cpp	2015-06-30 10:26:04.900979377 +0000
+@@ -21,8 +21,11 @@
+ #include <QtCore/QHash>
+ #include <QtCore/QMutex>
+ #include <boost/multi_index_container.hpp>
++    
++#ifndef Q_MOC_RUN  // See: https://bugreports.qt-project.org/browse/QTBUG-22829
+ #include <boost/multi_index/sequenced_index.hpp>
+ #include <boost/multi_index/ordered_index.hpp>
++#endif
+ #include <boost/multi_index/member.hpp>
+ 
+ namespace QGlib {

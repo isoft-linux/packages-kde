@@ -1,0 +1,12 @@
+diff -Nur kio-extras-5.3.2/mtp/solid_mtp.desktop kio-extras-5.3.2n/mtp/solid_mtp.desktop
+--- kio-extras-5.3.2/mtp/solid_mtp.desktop	2015-06-25 11:16:07.000000000 +0000
++++ kio-extras-5.3.2n/mtp/solid_mtp.desktop	2015-07-23 23:35:11.596540823 +0000
+@@ -4,7 +4,7 @@
+ Actions=open;
+ 
+ [Desktop Action open]
+-Exec=kioclient exec mtp:udi=%i/
++Exec=kioclient5 exec mtp:udi=%i/
+ Icon=system-file-manager
+ Name=Open with File Manager
+ Name[ar]=افتح بمدير الملفات

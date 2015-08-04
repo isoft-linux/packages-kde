@@ -1,0 +1,47 @@
+diff -Nur pam-kwallet/pam_kwallet.c pam-kwalletn/pam_kwallet.c
+--- pam-kwallet/pam_kwallet.c	2015-07-08 22:18:36.000000000 +0000
++++ pam-kwalletn/pam_kwallet.c	2015-07-16 15:09:30.244818226 +0000
+@@ -41,7 +41,6 @@
+ #define KWALLET_PAM_SALTSIZE 56
+ #define KWALLET_PAM_ITERATIONS 50000
+ 
+-const static char *kdehome = NULL;
+ const static char *kwalletd = NULL;
+ const static char *socketPath = NULL;
+ static int argumentsParsed = -1;
+@@ -57,20 +56,15 @@
+ 
+     int x = 0;
+     for (;x < argc; ++x) {
+-        if (strstr(argv[x], "kdehome=") != NULL) {
+-            kdehome = argv[x] + 8;
+-        } else if (strstr(argv[x], "kwalletd=") != NULL) {
++        if (strstr(argv[x], "kwalletd=") != NULL) {
+             kwalletd = argv[x] + 9;
+         } else if (strstr(argv[x], "socketPath=") != NULL) {
+             socketPath= argv[x] + 11;
+         }
+     }
+ 
+-    if (kdehome == NULL) {
+-        kdehome = ".kde";
+-    }
+     if (kwalletd == NULL) {
+-        kwalletd = "/usr/bin/kwalletd";
++        kwalletd = "/usr/bin/kwalletd5";
+     }
+     if (socketPath == NULL) {
+         socketPath = "/tmp/";
+@@ -546,9 +540,9 @@
+         return 1;
+     }
+ 
+-    char *fixpath = "share/apps/kwallet/kdewallet.salt";
+-    char *path = (char*) malloc(strlen(userInfo->pw_dir) + strlen(kdehome) + strlen(fixpath) + 3);//3 == / and \0
+-    sprintf(path, "%s/%s/%s", userInfo->pw_dir, kdehome, fixpath);
++    char *fixpath = ".local/share/kwalletd/kdewallet.salt";
++    char *path = (char*) malloc(strlen(userInfo->pw_dir) + strlen(fixpath) + 2);//2 == / and \0
++    sprintf(path, "%s/%s", userInfo->pw_dir, fixpath);
+ 
+     struct stat info;
+     char *salt = NULL;

@@ -1,0 +1,25 @@
+diff -Nur plasma-workspace-5.3.2/dataengines/geolocation/CMakeLists.txt plasma-workspace-5.3.2n/dataengines/geolocation/CMakeLists.txt
+--- plasma-workspace-5.3.2/dataengines/geolocation/CMakeLists.txt	2015-06-25 10:56:35.000000000 +0000
++++ plasma-workspace-5.3.2n/dataengines/geolocation/CMakeLists.txt	2015-07-25 23:03:11.616994545 +0000
+@@ -50,21 +50,3 @@
+ install(FILES plasma-geolocation-ip.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
+ install(TARGETS plasma-geolocation-ip DESTINATION ${KDE_INSTALL_PLUGINDIR})
+ 
+-# -------------------------------------------------------------------------------------------------
+-
+-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
+-find_package(libgps)
+-set_package_properties(libgps PROPERTIES DESCRIPTION "GPS support for geolocation"
+-                       URL "http://gpsd.berlios.de/"
+-                       TYPE OPTIONAL
+-                      )
+-if(LIBGPS_FOUND)
+-    include_directories(${LIBGPS_INCLUDES} ${LIBGPS_INCLUDE_DIR})
+-    set(plasma_geolocation_gps_SRCS location_gps.cpp)
+-    add_library(plasma-geolocation-gps MODULE ${plasma_geolocation_gps_SRCS})
+-    target_link_libraries(plasma-geolocation-gps plasma-geolocation-interface ${LIBGPS_LIBRARIES})
+-    install(FILES plasma-geolocation-gps.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
+-    install(TARGETS plasma-geolocation-gps DESTINATION ${KDE_INSTALL_PLUGINDIR})
+-endif()
+-
+-# -------------------------------------------------------------------------------------------------

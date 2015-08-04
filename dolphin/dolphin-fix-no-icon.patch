@@ -1,0 +1,116 @@
+diff -Nur dolphin/src/kitemviews/kfileitemlistview.cpp dolphinn/src/kitemviews/kfileitemlistview.cpp
+--- dolphin/src/kitemviews/kfileitemlistview.cpp	2015-06-28 02:37:35.000000000 +0000
++++ dolphinn/src/kitemviews/kfileitemlistview.cpp	2015-07-20 15:21:49.833778011 +0000
+@@ -207,7 +207,9 @@
+         KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(model());
+ 
+         const KFileItem fileItem = fileItemModel->fileItem(item->index());
+-        data.insert("iconName", fileItem.iconName());
++        QString itemIconName = fileItem.iconName();
++        
++        data.insert("iconName", QIcon::fromTheme(itemIconName).isNull()?"unknown":itemIconName);
+         item->setData(data, {"iconName"});
+     }
+ }
+diff -Nur dolphin/src/kitemviews/kfileitemmodel.cpp dolphinn/src/kitemviews/kfileitemmodel.cpp
+--- dolphin/src/kitemviews/kfileitemmodel.cpp	2015-06-28 02:37:35.000000000 +0000
++++ dolphinn/src/kitemviews/kfileitemmodel.cpp	2015-07-20 15:22:38.953777131 +0000
+@@ -1570,7 +1570,8 @@
+     }
+ 
+     if (item.isMimeTypeKnown()) {
+-        data.insert(sharedValue("iconName"), item.iconName());
++        QString itemIconName = item.iconName();
++        data.insert(sharedValue("iconName"), QIcon::fromTheme(itemIconName).isNull()?"unknown":itemIconName);
+ 
+         if (m_requestRole[TypeRole]) {
+             data.insert(sharedValue("type"), item.mimeComment());
+diff -Nur dolphin/src/kitemviews/kfileitemmodelrolesupdater.cpp dolphinn/src/kitemviews/kfileitemmodelrolesupdater.cpp
+--- dolphin/src/kitemviews/kfileitemmodelrolesupdater.cpp	2015-06-28 02:37:35.000000000 +0000
++++ dolphinn/src/kitemviews/kfileitemmodelrolesupdater.cpp	2015-07-20 15:23:28.746776239 +0000
+@@ -1025,8 +1025,8 @@
+         if (resolveAll) {
+             data = rolesData(item);
+         }
+-
+-        data.insert("iconName", item.iconName());
++        QString itemIconName = item.iconName();
++        data.insert("iconName", QIcon::fromTheme(itemIconName).isNull()?"unknown":itemIconName);
+ 
+         if (m_clearPreviews) {
+             data.insert("iconPixmap", QPixmap());
+diff -Nur dolphin/src/panels/information/informationpanelcontent.cpp dolphinn/src/panels/information/informationpanelcontent.cpp
+--- dolphin/src/panels/information/informationpanelcontent.cpp	2015-06-28 02:37:35.000000000 +0000
++++ dolphinn/src/panels/information/informationpanelcontent.cpp	2015-07-20 15:28:11.977771167 +0000
+@@ -330,7 +330,10 @@
+ {
+     m_outdatedPreviewTimer->stop();
+     if (!applyPlace(item.targetUrl())) {
+-        const QPixmap icon = KIconLoader::global()->loadIcon(item.iconName(), KIconLoader::Desktop,
++        QString itemIconName = item.iconName();
++        if(QIcon::fromTheme(itemIconName).isNull())
++            itemIconName = "unknown";
++        const QPixmap icon = KIconLoader::global()->loadIcon(itemIconName, KIconLoader::Desktop,
+                                                              KIconLoader::SizeEnormous, KIconLoader::DefaultState,
+                                                              item.overlays());
+         m_preview->setPixmap(icon);
+diff -Nur dolphin/src/panels/places/placesitemeditdialog.cpp dolphinn/src/panels/places/placesitemeditdialog.cpp
+--- dolphin/src/panels/places/placesitemeditdialog.cpp	2015-06-28 02:37:35.000000000 +0000
++++ dolphinn/src/panels/places/placesitemeditdialog.cpp	2015-07-20 15:27:14.609772194 +0000
+@@ -153,7 +153,10 @@
+     m_iconButton->setIconType(KIconLoader::NoGroup, KIconLoader::Place);
+     if (m_icon.isEmpty()) {
+         QMimeDatabase db;
+-        m_iconButton->setIcon(db.mimeTypeForUrl(m_url).iconName());
++        QString iconName = db.mimeTypeForUrl(m_url).iconName();
++        if(QIcon::fromTheme(iconName).isNull())
++            iconName = "unknown";
++        m_iconButton->setIcon(iconName);
+     } else {
+         m_iconButton->setIcon(m_icon);
+     }
+diff -Nur dolphin/src/views/tooltips/tooltipmanager.cpp dolphinn/src/views/tooltips/tooltipmanager.cpp
+--- dolphin/src/views/tooltips/tooltipmanager.cpp	2015-06-28 02:37:35.000000000 +0000
++++ dolphinn/src/views/tooltips/tooltipmanager.cpp	2015-07-20 15:25:39.673773895 +0000
+@@ -164,8 +164,9 @@
+     if (!m_toolTipRequested) {
+         return;
+     }
+-
+     const QPixmap pixmap = QIcon::fromTheme(m_item.iconName()).pixmap(128, 128);
++    if(pixmap.isNull())
++        pixmap = QIcon::fromTheme("unknown").pixmap(128, 128); 
+     m_fileMetaDataToolTip->setPreview(pixmap);
+     if (!m_showToolTipTimer->isActive()) {
+         showToolTip();
+--- dolphinn/src/kitemviews/kfileitemmodelrolesupdater.cpp	2015-07-20 15:23:28.746776239 +0000
++++ dolphin/src/kitemviews/kfileitemmodelrolesupdater.cpp	2015-07-20 15:30:24.041768802 +0000
+@@ -38,6 +38,7 @@
+ #include <QPixmap>
+ #include <QElapsedTimer>
+ #include <QTimer>
++#include <QIcon>
+ 
+ #include <algorithm>
+ 
+--- dolphinn/src/kitemviews/kfileitemmodel.cpp	2015-07-20 15:22:38.953777131 +0000
++++ dolphin/src/kitemviews/kfileitemmodel.cpp	2015-07-20 15:31:21.689767770 +0000
+@@ -32,6 +32,7 @@
+ #include <QMimeData>
+ #include <QTimer>
+ #include <QWidget>
++#include <QIcon>
+ 
+ #include <algorithm>
+ #include <vector>
+--- dolphinn/src/views/tooltips/tooltipmanager.cpp	2015-07-20 15:25:39.673773895 +0000
++++ dolphin/src/views/tooltips/tooltipmanager.cpp	2015-07-20 15:33:09.977765830 +0000
+@@ -164,7 +164,7 @@
+     if (!m_toolTipRequested) {
+         return;
+     }
+-    const QPixmap pixmap = QIcon::fromTheme(m_item.iconName()).pixmap(128, 128);
++    QPixmap pixmap = QIcon::fromTheme(m_item.iconName()).pixmap(128, 128);
+     if(pixmap.isNull())
+         pixmap = QIcon::fromTheme("unknown").pixmap(128, 128); 
+     m_fileMetaDataToolTip->setPreview(pixmap);

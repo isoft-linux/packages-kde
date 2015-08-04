@@ -1,0 +1,22 @@
+diff -Nur qt-gstreamer-1.2.0/src/QGst/CMakeLists.txt qt-gstreamer-1.2.0n/src/QGst/CMakeLists.txt
+--- qt-gstreamer-1.2.0/src/QGst/CMakeLists.txt	2014-07-08 18:38:36.000000000 +0000
++++ qt-gstreamer-1.2.0n/src/QGst/CMakeLists.txt	2015-06-30 10:18:19.623015827 +0000
+@@ -141,6 +141,7 @@
+ set(QTGSTREAMER_UTILS_SOVERSION 0)
+ include_directories(
+     ${GSTREAMER_INCLUDE_DIR}
++    "/usr/lib/gstreamer-1.0/include"
+     ${GSTREAMER_AUDIO_INCLUDE_DIR}
+     ${GSTREAMER_VIDEO_INCLUDE_DIR}
+     ${GSTREAMER_BASE_INCLUDE_DIR}
+--- qt-gstreamer/elements/CMakeLists.txt	2015-06-30 10:29:50.000000000 +0000
++++ qt-gstreamern/elements/CMakeLists.txt	2015-06-30 10:33:33.368944245 +0000
+@@ -8,7 +8,7 @@
+                 -DGST_DISABLE_XML
+                 -DGST_DISABLE_LOADSAVE)
+ 
+-include_directories(${GSTREAMER_INCLUDE_DIR} ${GLIB2_INCLUDE_DIR})
++include_directories(${GSTREAMER_INCLUDE_DIR} "/usr/lib/gstreamer-1.0/include/" ${GLIB2_INCLUDE_DIR})
+ 
+ if (GSTREAMER_BASE_LIBRARY_FOUND AND GSTREAMER_VIDEO_LIBRARY_FOUND)
+     include_directories(${GSTREAMER_BASE_INCLUDE_DIR} ${GSTREAMER_VIDEO_INCLUDE_DIR})

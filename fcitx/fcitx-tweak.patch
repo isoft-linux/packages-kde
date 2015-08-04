@@ -1,0 +1,30 @@
+diff -Nur fcitx-4.2.8.3/data/config.desc fcitx-4.2.8.3n/data/config.desc
+--- fcitx-4.2.8.3/data/config.desc	2013-09-28 16:33:14.000000000 +0800
++++ fcitx-4.2.8.3n/data/config.desc	2013-10-29 14:50:27.936447878 +0800
+@@ -116,12 +116,12 @@
+ 
+ [Hotkey/PrevPageKey]
+ Type=Hotkey
+-DefaultValue=- UP
++DefaultValue=, - UP
+ Description=Prev Page
+ 
+ [Hotkey/NextPageKey]
+ Type=Hotkey
+-DefaultValue== DOWN
++DefaultValue=. = DOWN
+ Description=Next Page
+ 
+ [Hotkey/SecondThirdCandWordKey]
+diff -Nur fcitx-4.2.8.6/data/config.desc fcitx-4.2.8.6n/data/config.desc
+--- fcitx-4.2.8.6/data/config.desc	2015-07-03 16:00:35.680115546 +0000
++++ fcitx-4.2.8.6n/data/config.desc	2015-07-03 16:02:32.265113458 +0000
+@@ -33,7 +33,7 @@
+ Enum17=Super+Right Ctrl
+ Enum18=Disabled
+ Enum19=Custom
+-DefaultValue=L_SHIFT
++DefaultValue=Disabled
+ Description=Extra key for trigger input method
+ 
+ [Hotkey/CustomSwitchKey]

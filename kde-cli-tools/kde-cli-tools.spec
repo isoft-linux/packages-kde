@@ -1,0 +1,98 @@
+Name:           kde-cli-tools
+Version:        5.3.2
+Release:        1%{?dist}
+Summary:        Tools based on KDE Frameworks 5 to better interact with the system
+
+License:        GPLv2+
+URL:            https://projects.kde.org/projects/kde/workspace/kde-cli-tools
+
+%global revision %(echo %{version} | cut -d. -f3)
+%if %{revision} >= 50
+%global stable unstable
+%else
+%global stable stable
+%endif
+Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtsvg-devel
+BuildRequires:  qt5-qtx11extras-devel
+
+BuildRequires:  kf5-rpm-macros
+
+BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-kconfig-devel
+BuildRequires:  kf5-kiconthemes-devel
+BuildRequires:  kf5-kinit-devel >= 5.10.0-3
+BuildRequires:  kf5-ki18n-devel
+BuildRequires:  kf5-kcmutils-devel
+BuildRequires:  kf5-kdesu-devel
+BuildRequires:  kf5-kdelibs4support-devel
+BuildRequires:  kf5-kwindowsystem-devel
+
+Requires:       kf5-filesystem
+
+# probably could be unversioned, but let's play it safe so we can avoid adding Conflicts: -- rex
+Requires:       kdesu = 1:%{version}-%{release}
+
+# libkdeinit5_kcmshell5
+%{?kf5_kinit_requires}
+
+%description
+Provides several KDE and Plasma specific command line tools to allow
+better interaction with the system.
+
+%package -n kdesu
+Summary: Runs a program with elevated privileges
+Epoch: 1
+Conflicts: kde-runtime < 14.12.3-2
+Conflicts: kde-runtime-docs < 14.12.3-2
+## added deps below avoidable to due main pkg Requires: kdesu -- rex
+# upgrade path, when kdesu was introduced
+#Obsoletes: kde-cli-tools < 5.2.1-3
+#Requires: %{name} = %{version}-%{release}
+%description -n kdesu
+%{summary}.
+
+
+%prep
+%setup -q -n %{name}-%{version}
+
+%build
+mkdir %{_target_platform}
+pushd %{_target_platform}
+%{cmake_kf5} ..
+popd
+
+make %{?_smp_mflags} -C %{_target_platform}
+
+%install
+make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+%find_lang kdeclitools_qt --with-qt --with-kde --all-name
+
+ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
+
+%files -f kdeclitools_qt.lang
+%{_bindir}/kcmshell5
+%{_bindir}/kde-open5
+%{_bindir}/kdecp5
+%{_bindir}/kdemv5
+%{_bindir}/keditfiletype5
+%{_bindir}/kioclient5
+%{_bindir}/kmimetypefinder5
+%{_bindir}/kstart5
+%{_bindir}/ksvgtopng5
+%{_bindir}/ktraderclient5
+%{_kf5_libexecdir}/kdeeject
+%{_kf5_libdir}/libkdeinit5_kcmshell5.so
+%{_kf5_qtplugindir}/kcm_filetypes.so
+%{_kf5_datadir}/kservices5/filetypes.desktop
+
+%files -n kdesu
+%{_bindir}/kdesu
+%{_kf5_libexecdir}/kdesu
+%{_mandir}/man1/kdesu.1.gz
+%{_datadir}/doc/HTML/*/kdesu
+
+
+%changelog

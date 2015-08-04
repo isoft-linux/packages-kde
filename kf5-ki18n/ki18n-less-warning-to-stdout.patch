@@ -1,0 +1,30 @@
+diff -Nur ki18n-5.12.0/src/klocalizedstring.cpp ki18n-5.12.0n/src/klocalizedstring.cpp
+--- ki18n-5.12.0/src/klocalizedstring.cpp	2015-07-05 09:04:42.000000000 +0000
++++ ki18n-5.12.0n/src/klocalizedstring.cpp	2015-07-23 14:59:15.853273637 +0000
+@@ -861,10 +861,10 @@
+             ++tpos;
+         }
+         if (tpos == slen) {
+-            qWarning() << QString::fromLatin1(
++            /*qWarning() << QString::fromLatin1(
+                            "Unclosed interpolation {%1} in message {%2}.")
+                        .arg(scriptedTranslation.mid(pos, tpos - pos),
+-                            shortenMessage(scriptedTranslation));
++                            shortenMessage(scriptedTranslation));*/
+             return -1;
+         }
+         if (scriptedTranslation.midRef(tpos, ielen) == s->endInterp) {
+@@ -990,11 +990,11 @@
+     if (!scriptError.isEmpty()) { // problem with evaluation
+         fallback = true; // also signal fallback
+         if (!scriptError.isEmpty()) {
+-            qWarning() << QString::fromLatin1(
++            /*qWarning() << QString::fromLatin1(
+                            "Interpolation {%1} in {%2} failed: %3")
+                        .arg(scriptedTranslation.mid(pos, tpos - pos),
+                             shortenMessage(scriptedTranslation),
+-                            scriptError);
++                            scriptError);*/
+         }
+     }
+ 
