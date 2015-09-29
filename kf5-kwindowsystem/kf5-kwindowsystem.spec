@@ -1,7 +1,7 @@
 %global framework kwindowsystem
 
 Name:           kf5-%{framework}
-Version:        5.12.0
+Version:        5.14.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 integration module with classes for windows management
 
@@ -65,6 +65,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 %files -f kwindowsystem5_qt.lang
 %doc COPYING.LIB README.md
 %{_kf5_libdir}/libKF5WindowSystem.so.*
+%{_kf5_plugindir}/org.kde.kwindowsystem.platforms/KF5WindowSystemWaylandPlugin.so
+%{_kf5_plugindir}/org.kde.kwindowsystem.platforms/KF5WindowSystemX11Plugin.so
 
 %files devel
 %{_kf5_includedir}/kwindowsystem_version.h
@@ -75,3 +77,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0

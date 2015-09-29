@@ -1,8 +1,7 @@
-
 Name:    kate
 Summary: Advanced Text Editor
-Version: 15.04.3
-Release: 1
+Version: 15.08.1
+Release: 2 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/kate
 
@@ -13,6 +12,9 @@ URL:     https://projects.kde.org/projects/kde/applications/kate
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/kate-%{version}.tar.xz
+
+#use /usr/src/rust/src instead of /usr/local/src/rust/src
+Patch0: kate-rust-plugin-src-dir.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -71,7 +73,7 @@ License: LGPLv2+
 
 %prep
 %setup -q -n kate-%{version}
-
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -105,6 +107,15 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 update-desktop-database -q &> /dev/null || :
 fi
 
+%postun -n kwrite
+if [ $1 -eq 0 ] ; then
+update-desktop-database -q &> /dev/null || :
+fi
+
+%posttrans -n kwrite
+update-desktop-database -q &> /dev/null || :
+
+
 %files
 %doc COPYING.LIB
 %doc AUTHORS
@@ -125,22 +136,7 @@ fi
 
 %files plugins
 %config(noreplace) %{_sysconfdir}/xdg/ktexteditor_codesnippets_core.knsrc
-%{_kf5_qtplugindir}/ktexteditor/katebacktracebrowserplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katebuildplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katecloseexceptplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katectagsplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katefilebrowserplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katefiletreeplugin.so
-%{_kf5_qtplugindir}/ktexteditor/kategdbplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katekonsoleplugin.so
-%{_kf5_qtplugindir}/ktexteditor/kateopenheaderplugin.so
-%{_kf5_qtplugindir}/ktexteditor/kateprojectplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katesearchplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katesnippetsplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katesqlplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katesymbolviewerplugin.so
-%{_kf5_qtplugindir}/ktexteditor/katexmltoolsplugin.so
-%{_kf5_qtplugindir}/ktexteditor/tabswitcherplugin.so
+%{_kf5_qtplugindir}/ktexteditor/*.so
 %{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_katesessions.so
 %{_kf5_datadir}/kateproject/
 %{_kf5_datadir}/katexmltools/
@@ -159,14 +155,9 @@ fi
 %{_kf5_datadir}/kxmlgui5/katesymbolviewer/
 %{_kf5_datadir}/kxmlgui5/katexmltools/
 %{_kf5_datadir}/kxmlgui5/tabswitcher/
+%{_kf5_datadir}/kxmlgui5/katereplicodeplugin
+%{_kf5_datadir}/kxmlgui5/kterustcompletion
 
-%posttrans -n kwrite
-update-desktop-database -q &> /dev/null || :
-
-%postun -n kwrite
-if [ $1 -eq 0 ] ; then
-update-desktop-database -q &> /dev/null || :
-fi
 
 %files -n kwrite
 %{_kf5_bindir}/kwrite
@@ -178,3 +169,5 @@ fi
 
 
 %changelog
+* Fri Sep 25 2015 Cjacker <cjacker@foxmail.com>
+- rebuild with new libgit2

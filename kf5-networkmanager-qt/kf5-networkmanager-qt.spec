@@ -1,7 +1,7 @@
 %global framework networkmanager-qt
 
 Name:           kf5-%{framework}
-Version:        5.12.0
+Version:        5.14.0
 Release:        2%{?dist}
 Summary:        A Tier 1 KDE Frameworks 5 module that wraps NetworkManager DBus API
 
@@ -73,3 +73,8 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_archdatadir}/mkspecs/modules/qt_NetworkManagerQt.pri
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0

@@ -1,7 +1,7 @@
 %global framework kwallet
 
 Name:           kf5-%{framework}
-Version:        5.12.0
+Version:        5.14.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for password management
 
@@ -19,9 +19,6 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 
 #This is use to support pam_kwallet to open kwallet silience.
 #Ported by Cjacker.
-
-#NOTE, be careful this patch when update!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Patch0:         kwallet-pam-kwallet.patch
 
 BuildRequires:  libgcrypt-devel
 BuildRequires:  kf5-rpm-macros
@@ -66,7 +63,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -111,3 +107,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0
+- drop kwallet-pam patch, already upstream.

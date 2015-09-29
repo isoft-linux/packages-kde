@@ -1,0 +1,12 @@
+diff -Nur plasma-desktop-5.4.1/applets/kickoff/package/contents/ui/Header.qml plasma-desktop-5.4.1n/applets/kickoff/package/contents/ui/Header.qml
+--- plasma-desktop-5.4.1/applets/kickoff/package/contents/ui/Header.qml	2015-09-09 17:32:13.472633087 +0800
++++ plasma-desktop-5.4.1n/applets/kickoff/package/contents/ui/Header.qml	2015-09-09 17:33:20.638765483 +0800
+@@ -89,7 +89,7 @@
+             acceptedButtons: Qt.LeftButton
+             cursorShape: Qt.PointingHandCursor
+             onClicked: {
+-                KCMShell.open("user_manager")
++                KCMShell.open("kcm_useraccount")
+             }
+         }
+     }

@@ -16,7 +16,6 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/kolourpaint
 #git version
 #git clone git://anongit.kde.org/kolourpaint
 #git checkout frameworks
-
 Source0: kolourpaint.tar.gz
 Patch0: kolourpaint-fix-soversion.patch
 
@@ -45,7 +44,7 @@ BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
 
-BuildRequires: libappstream-glib
+BuildRequires: appstream-glib
 #BuildRequires: pkgconfig(qimageblitz)
 
 %description
@@ -53,7 +52,6 @@ BuildRequires: libappstream-glib
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
 
 
 %build

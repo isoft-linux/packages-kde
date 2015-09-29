@@ -1,5 +1,5 @@
 Name:           kdeplasma-addons
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 Summary:        Additional Plasmoids for Plasma 5.
 
@@ -79,6 +79,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/plasma/wallpapers/*
 %{_kf5_datadir}/plasma/services/*.operations
 %{_kf5_qtplugindir}/plasma/dataengine/*.so
+%{_kf5_qtplugindir}/plasma/applets/*.so
 %{_kf5_qtplugindir}/*.so
 %{_kf5_datadir}/kservices5/*.desktop
 %{_kf5_datadir}/kservices5/kwin/*.desktop
@@ -90,6 +91,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libdir}/libplasmacomicprovidercore.so.*
 %{_kf5_qtplugindir}/kpackage/packagestructure/plasma_packagestructure_comic.so
 %{_kf5_datadir}/kservicetypes5/plasma_comicprovider.desktop
+%{_datadir}/kservices5/plasma-applet-org.kde.plasma.kickerdash.desktop
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+

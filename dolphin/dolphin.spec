@@ -1,11 +1,18 @@
 Name:    dolphin 
 Summary: KDE File Manager
-Version: 15.04.2
-Release: 1.git
+Version: 15.08.1
+Release: 2 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
-Source0: dolphin.tar.gz
+%global revision %(echo %{version} | cut -d. -f3)
+%if %{revision} >= 50
+%global stable unstable
+%else
+%global stable stable
+%endif
+Source0:        http://download.kde.org/%{stable}/applications/%{version}/%{name}-%{version}.tar.xz
+
 #KFileItem.iconName() return iconName from mimedatabase, but the icon may not exist in theme at all.
 Patch0:     dolphin-fix-no-icon.patch
 
@@ -34,6 +41,8 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-plasma-devel
 BuildRequires: kf5-threadweaver-devel
 BuildRequires: kf5-kwallet-devel
+#for sidebar search
+BuildRequires: baloo-widgets-devel
 
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtscript-devel
@@ -54,7 +63,7 @@ The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
 %prep
-%setup -q -n dolphin
+%setup -q 
 %patch0 -p1
 
 %build
@@ -109,5 +118,9 @@ fi
 %{_includedir}/Dolphin/
 %{_includedir}/*.h
 %{_kf5_libdir}/cmake/DolphinVcs/
-%{_kf5_libdir}/libdolphinprivate.so
 %{_kf5_libdir}/libdolphinvcs.so
+
+%changelog
+* Wed Sep 16 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.1
+- add baloo-widgets-devel build requires.

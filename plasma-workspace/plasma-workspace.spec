@@ -3,7 +3,7 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
@@ -27,12 +27,12 @@ Source12:       metadata.desktop
 ## downstream Patches
 Patch10:        plasma-workspace-5.3.0-konsole-in-contextmenu.patch
 
-#https://bugs.kde.org/show_bug.cgi?format=multiple&id=348511
-Patch11:        plasma-workspace-5.3.2-logout-crash-fix.patch
-
 #always disable gpsd, most desktop had no need to run a gpsd service
 Patch12: 	plasma-workspace-disable-gpsd.patch
 
+
+#Patch from Leslie Zhai
+Patch13:  0001-kscreenlocker-accounts-service.patch
 ## upstreamable Patches
 
 ## upstream Patches
@@ -101,7 +101,7 @@ BuildRequires:  kf5-kidletime-devel
 BuildRequires:  kf5-threadweaver-devel
 BuildRequires:  kf5-ktexteditor-devel
 BuildRequires:  kf5-kdeclarative-devel
-BuildRequires:  kf5-plasma-devel
+BuildRequires:  kf5-plasma-devel >= 5.13.0
 BuildRequires:  kf5-ktextwidgets-devel
 BuildRequires:  kf5-kdewebkit-devel
 BuildRequires:  kf5-kdelibs4support-devel
@@ -110,6 +110,9 @@ BuildRequires:  kf5-kglobalaccel-devel >= 5.7
 BuildRequires:  kf5-networkmanager-qt-devel
 BuildRequires:  kf5-kxmlrpcclient-devel
 BuildRequires:  kf5-kinit-devel >= 5.10.0-3
+
+#git codes
+BuildRequires:  kf5-prison-devel
 
 BuildRequires:  kf5-ksysguard-devel
 BuildRequires:  kf5-kscreen-devel
@@ -128,6 +131,12 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  kf5-kactivities-devel
 
 BuildRequires:  libqalculate-devel
+
+#for patch13
+BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
+Requires: qt5-qtaccountsservice >= 0.6.0
+
+
 
 # for libkdeinit5_*
 %{?kf5_kinit_requires}
@@ -207,8 +216,8 @@ Documentation and user manuals for %{name}.
 %setup -q
 
 %patch10 -p1 -b .konsole-in-contextmenu
-%patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -288,6 +297,11 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_datadir}/sddm/themes/breeze
 %{_datadir}/xsessions/plasma.desktop
 
+%{_kf5_plugindir}/kio/desktop.so
+%{_datadir}/kio_desktop/DesktopLinks/Home.desktop
+%{_datadir}/kio_desktop/directory.desktop
+%{_datadir}/kio_desktop/directory.trash
+
 # PAM
 %config %{_sysconfdir}/pam.d/kde
 
@@ -315,5 +329,18 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+- drop patch11
+
+* Fri Aug 07 2015 Cjacker <cjacker@foxmail.com>
+- add patch 13 to enable qtaccountservice face support.
+
 * Wed Jul 15 2015 Cjacker <cjacker@foxmail.com>
 - add patch11, fix logout crash.

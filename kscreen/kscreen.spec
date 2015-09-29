@@ -1,13 +1,12 @@
-#%global git_version 7a8460a
-#%global git_date 20150112
+#NOTE, this is not the original release of kscreen.
+#It's isoft forked version with OSD support.
 
 Name:           kscreen
 Epoch:          1
-Version:        5.3.2
-Release:        1%{?dist}
+Version:        5.4.0
+Release:        3%{?dist}
 Summary:        KDE Display Management software
 
-# KDE e.V. may determine that future GPL versions are accepted
 License:        GPLv2 or GPLv3
 URL:            https://projects.kde.org/projects/playground/base/kscreen
 
@@ -17,13 +16,11 @@ URL:            https://projects.kde.org/projects/playground/base/kscreen
 %else
 %global stable stable
 %endif
-Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
-# git archive --format=tar.gz --prefix=kscreen-%{version}/ --remote=git://anongit.kde.org/kscreen \
-#             --output=kscreen-%{git_version}.tar.gz %{git_version}
-#Source0:        kscreen-%{git_version}.tar.gz
+#Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
-# Upstream patches
+#git@git.isoft.zhcn.cc:zhaixiang/kscreen.git
+Source0: %{name}-%{version}.tar.bz2
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
@@ -79,6 +76,7 @@ fi
 %files -f %{name}.lang
 %doc COPYING
 %{_bindir}/kscreen-console
+%{_bindir}/kscreen-osd
 %{_kf5_qtplugindir}/kcm_kscreen.so
 %{_kf5_qtplugindir}/kded_kscreen.so
 %{_datadir}/kcm_kscreen/
@@ -88,3 +86,9 @@ fi
 
 
 %changelog
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Fri Aug 07 2015 Cjacker <cjacker@foxmail.com>
+- taken codes from Leslie Zhai.
+- Kscreen-OSD should works.

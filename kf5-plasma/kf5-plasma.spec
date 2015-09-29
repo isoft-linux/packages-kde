@@ -1,7 +1,7 @@
 %global framework plasma
 
 Name:           kf5-%{framework}
-Version:        5.12.0
+Version:        5.14.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
@@ -110,7 +110,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/dbus-1/interfaces/*.xml
 %{_kf5_datadir}/plasma/
 %{_kf5_datadir}/kservices5/*.desktop
-%{_kf5_datadir}/kservices5/kded/*.desktop
+#%{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservicetypes5/*.desktop
 %{_kf5_mandir}/man1/plasmapkg2.1.gz
 %{_kf5_plugindir}/kded/platformstatus.so
@@ -128,3 +128,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0

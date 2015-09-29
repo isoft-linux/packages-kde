@@ -1,5 +1,10 @@
+#gtk2/3 im module requires glib version >= build time version.
+#so we had added a requirement to gtk2/3 immodule.
+
+%global build_time_glib_version %(pkg-config --modversion glib-2.0)
+ 
 %define nam             fcitx 
-%define ver             4.2.8.6
+%define ver             4.2.9
 %define rel             1
 
 
@@ -35,6 +40,7 @@ weight core. You can easily customize it to fit your requirements.
 Summary:        Gtk2 im module of fcitx
 Group:          User Interface/Desktops 
 Requires:       %{name} = %{version}
+Requires:	glib2 >= %{build_time_glib_version}
 Requires(pre):       gtk2
 
 %description gtk2-im-module
@@ -44,6 +50,7 @@ Gtk2 im module of fcitx
 Summary:        Gtk3 im module of fcitx
 Group:          User Interface/Desktops
 Requires:       %{name} = %{version}
+Requires:	glib2 >= %{build_time_glib_version}
 Requires(pre):       gtk3
 %description gtk3-im-module
 Gtk3 im module of fcitx

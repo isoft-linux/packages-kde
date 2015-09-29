@@ -1,7 +1,7 @@
 
 Name:    kdiamond
 Summary: A three-in-a-row game
-Version: 15.04.3
+Version: 15.08.1
 Release: 2%{?dist}
 
 License: GPLv2+ and GFDL
@@ -39,7 +39,7 @@ BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
 BuildRequires: pkgconfig(Qt5Widgets)
-BuildRequires: libappstream-glib
+BuildRequires: appstream-glib
 BuildRequires: libkdegames-devel >= %{version}
 
 %description

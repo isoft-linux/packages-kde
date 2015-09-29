@@ -1,6 +1,6 @@
 Name:    gwenview 
 Summary: An image viewer
-Version: 15.04.3
+Version: 15.08.1
 Release: 3
 
 License: GPLv2+
@@ -27,7 +27,7 @@ BuildRequires: kf5-kio-devel
 ## frameworks soon to come (hopefully) -- rex
 #BuildRequires: kf5-kdcraw-devel
 #BuildRequires: kf5-kipi-devel
-BuildRequires: libappstream-glib
+BuildRequires: appstream-glib
 BuildRequires: libjpeg-devel
 BuildRequires: pkgconfig(exiv2)
 BuildRequires: pkgconfig(lcms2)
@@ -88,6 +88,9 @@ fi
 %posttrans
 gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 
+%post libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
+
 %files 
 %doc COPYING 
 %{_kf5_bindir}/%{name}*
@@ -95,14 +98,11 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 %{_datadir}/appdata/%{name}.appdata.xml
 %{_kf5_datadir}/icons/hicolor/*/*/*
 %{_kf5_docdir}/HTML/en/gwenview/
-%{_kf5_datadir}/gvpart/
 %{_kf5_datadir}/kservices5/gvpart.desktop
 %{_kf5_datadir}/gwenview/
 %{_kf5_datadir}/kservices5/ServiceMenus/slideshow.desktop
 %{_kf5_datadir}/kxmlgui5/gwenview/
-
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%{_kf5_datadir}/kxmlgui5/gvpart/gvpart.rc
 
 %files libs
 %{_kf5_libdir}/libgwenviewlib.so.*

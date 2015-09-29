@@ -1,6 +1,6 @@
 Name:    konsole5
 Summary: KDE Terminal emulator
-Version: 15.04.3
+Version: 15.08.1
 Release: 2%{?dist}
 
 # sources: MIT and LGPLv2 and LGPLv2+ and GPLv2+

@@ -1,7 +1,7 @@
 %global framework kdelibs4support
 
 Name:           kf5-%{framework}
-Version:        5.12.0
+Version:        5.14.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 module with porting aid from KDELibs 4
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -124,10 +124,12 @@ make %{?_smp_mflags} -C %{_target_platform}
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %find_lang kdelibs4support5_qt --with-qt --all-name
 
+#in kde-settings
+rm -rf %{buildroot}%{_sysconfdir}/xdg/kdebugrc
 
 %files -f kdelibs4support5_qt.lang
 %doc COPYING.LIB README.md
-%{_sysconfdir}/xdg/kdebugrc
+#%{_sysconfdir}/xdg/kdebugrc
 %{_kf5_bindir}/kf5-config
 %{_kf5_bindir}/kdebugdialog5
 %{_kf5_libexecdir}/fileshareset
@@ -135,7 +137,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/*.desktop
 %{_kf5_datadir}/kservices5/qimageioplugins/*.desktop
 %{_kf5_datadir}/kservicetypes5/*.desktop
-%{_kf5_datadir}/kservices5/kded/networkstatus.desktop
+#%{_kf5_datadir}/kservices5/kded/networkstatus.desktop
 %{_kf5_datadir}/kf5/kdoctools/customization
 %{_kf5_datadir}/kf5/locale/*
 %{_kf5_datadir}/locale/kf5_all_languages
@@ -174,3 +176,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0

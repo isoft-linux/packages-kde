@@ -1,7 +1,7 @@
 %global         base_name oxygen
 
 Name:           plasma-%{base_name}
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 Summary:        Plasma and Qt widget style and window decorations for Plasma 5 and KDE 4
 
@@ -122,32 +122,8 @@ rm %{buildroot}/%{_kde4_libdir}/liboxygenstyleconfig.so
 %post -n    qt4-style-oxygen -p /sbin/ldconfig
 %postun -n  qt4-style-oxygen -p /sbin/ldconfig
 
-%files
-# Empty
-
-%files -n   qt4-style-oxygen
-%{_kde4_libdir}/liboxygenstyle.so.*
-%{_kde4_libdir}/liboxygenstyleconfig.so.*
-%{_kde4_libdir}/kde4/kstyle_oxygen_config.so
-%{_kde4_libdir}/kde4/plugins/styles/oxygen.so
-%{_kde4_appsdir}/kstyle/themes/oxygen.themerc
-%{_kde4_bindir}/oxygen-demo
-%{_kde4_bindir}/oxygen-settings
-
 %post -n    qt5-style-oxygen -p /sbin/ldconfig
 %postun -n  qt5-style-oxygen -p /sbin/ldconfig
-
-%files -n   qt5-style-oxygen -f oxygen.lang
-%{_bindir}/oxygen-demo5
-%{_bindir}/oxygen-settings5
-%{_libdir}/liboxygenstyle5.so.*
-%{_libdir}/liboxygenstyleconfig5.so.*
-%{_kf5_qtplugindir}/styles/oxygen.so
-%{_kf5_qtplugindir}/kstyle_oxygen_config.so
-%{_kf5_qtplugindir}/org.kde.kdecoration2/oxygendecoration.so
-%{_kf5_datadir}/kservices5/oxygenstyleconfig.desktop
-%{_kf5_datadir}/kstyle/themes/oxygen.themerc
-%{_kf5_datadir}/plasma/look-and-feel/org.kde.oxygen/
 
 %post -n    oxygen-cursor-themes
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
@@ -161,6 +137,31 @@ fi
 %posttrans -n oxygen-cursor-themes
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
+
+%files
+# Empty
+
+%files -n   qt4-style-oxygen
+%{_kde4_libdir}/liboxygenstyle.so.*
+%{_kde4_libdir}/liboxygenstyleconfig.so.*
+%{_kde4_libdir}/kde4/kstyle_oxygen_config.so
+%{_kde4_libdir}/kde4/plugins/styles/oxygen.so
+%{_kde4_appsdir}/kstyle/themes/oxygen.themerc
+%{_kde4_bindir}/oxygen-demo
+
+%files -n   qt5-style-oxygen -f oxygen.lang
+%{_bindir}/oxygen-demo5
+%{_bindir}/oxygen-settings5
+%{_libdir}/liboxygenstyle5.so.*
+%{_libdir}/liboxygenstyleconfig5.so.*
+%{_kf5_qtplugindir}/styles/oxygen.so
+%{_kf5_qtplugindir}/kstyle_oxygen_config.so
+%{_kf5_qtplugindir}/org.kde.kdecoration2/oxygendecoration.so
+%{_kf5_datadir}/kservices5/oxygenstyleconfig.desktop
+%{_kf5_datadir}/kservices5/oxygendecorationconfig.desktop
+%{_kf5_datadir}/kstyle/themes/oxygen.themerc
+%{_kf5_datadir}/plasma/look-and-feel/org.kde.oxygen/
+
 %files -n   oxygen-cursor-themes
 %{_datadir}/icons/*
 
@@ -169,3 +170,12 @@ fi
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+

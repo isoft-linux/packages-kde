@@ -1,6 +1,6 @@
 Name:           bluedevil
 Summary:        Bluetooth stack for KDE
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 
 License:        GPLv2+
@@ -13,8 +13,6 @@ URL:            https://projects.kde.org/projects/extragear/base/bluedevil
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-Patch0:  bluedevil-5.3-adapt-to-bluez-qt-5-11-API-changes.patch
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
@@ -54,9 +52,6 @@ BlueDevil is the bluetooth stack for KDE.
 
 %prep
 %setup -q -n %{name}-%{version}
-
-%patch0 -p1 -b .kf5bluezAPI
-
 
 %build
 mkdir %{_target_platform}
@@ -112,3 +107,12 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+

@@ -1,8 +1,8 @@
 %global framework kservice
 
 Name:           kf5-%{framework}
-Version:        5.12.0
-Release:        2%{?dist}
+Version:        5.14.0
+Release:        3%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for advanced plugin and service introspection
 
 License:        GPLv2+ and LGPLv2+
@@ -16,6 +16,7 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+Patch0: 0001-fix-rebuild-ksycoa-issue.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -47,7 +48,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -90,3 +91,8 @@ mkdir -p %{buildroot}%{_kf5_datadir}/kservicetypes5
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0

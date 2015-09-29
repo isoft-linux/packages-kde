@@ -36,13 +36,16 @@ Patch20: 0020-put-headers-of-a-suffixed-build-in-a-suffixed-direct.patch
 Patch21: 0021-properly-support-co-existing-qt4-and-qt5-versions.patch
 Patch22: 0022-initialize-QCA_SUFFIX-cache-with-the-possibly-previo.patch
 
+Patch23: qca-add-missing-header.patch
+Patch24: qca-disable-bsd-source-warning.patch
+
 BuildRequires: cmake >= 2.8.12
 BuildRequires: libgcrypt-devel
-#BuildRequires: pkgconfig(botan-1.10)
+BuildRequires: pkgconfig(botan-1.10)
 BuildRequires: pkgconfig(libcrypto) pkgconfig(libssl)
 BuildRequires: pkgconfig(nss)
 BuildRequires: pkgconfig(libpkcs11-helper-1)
-#BuildRequires: pkgconfig(libsasl2)
+BuildRequires: pkgconfig(libsasl2)
 BuildRequires: pkgconfig(QtCore)
 # apidocs
 # may need to add some tex-related ones too -- rex
@@ -295,13 +298,13 @@ make test ARGS="--timeout 300 --output-on-failure" -C %{_target_platform}-qt5
 %{_libdir}/cmake/Qca/
 %{_qt4_prefix}/mkspecs/features/crypto.prf
 
-#%files botan
-#%doc plugins/qca-botan/README
-#%{_qt4_plugindir}/crypto/libqca-botan.so
-#
-#%files cyrus-sasl
-#%doc plugins/qca-gcrypt/README
-#%{_qt4_plugindir}/crypto/libqca-cyrus-sasl.so
+%files botan
+%doc plugins/qca-botan/README
+%{_qt4_plugindir}/crypto/libqca-botan.so
+
+%files cyrus-sasl
+%doc plugins/qca-gcrypt/README
+%{_qt4_plugindir}/crypto/libqca-cyrus-sasl.so
 
 %files gcrypt
 %{_qt4_plugindir}/crypto/libqca-gcrypt.so
@@ -348,13 +351,13 @@ make test ARGS="--timeout 300 --output-on-failure" -C %{_target_platform}-qt5
 %{_libdir}/cmake/Qca-qt5/
 %{_qt5_prefix}/mkspecs/features/crypto.prf
 
-#%files qt5-botan
-#%doc plugins/qca-botan/README
-#%{_qt5_plugindir}/crypto/libqca-botan.so
-#
-#%files qt5-cyrus-sasl
-#%doc plugins/qca-gcrypt/README
-#%{_qt5_plugindir}/crypto/libqca-cyrus-sasl.so
+%files qt5-botan
+%doc plugins/qca-botan/README
+%{_qt5_plugindir}/crypto/libqca-botan.so
+
+%files qt5-cyrus-sasl
+%doc plugins/qca-gcrypt/README
+%{_qt5_plugindir}/crypto/libqca-cyrus-sasl.so
 
 %files qt5-gcrypt
 %{_qt5_plugindir}/crypto/libqca-gcrypt.so
@@ -386,3 +389,7 @@ make test ARGS="--timeout 300 --output-on-failure" -C %{_target_platform}-qt5
 
 
 %changelog
+* Thu Aug 13 2015 Cjacker <cjacker@foxmail.com>
+- add patch23, fix missing header.
+- add patch24, disable BSD_SOURCE warnings.
+- enable botan/sasl plugin.

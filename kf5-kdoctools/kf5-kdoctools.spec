@@ -1,7 +1,7 @@
 %global framework kdoctools
 
 Name:           kf5-%{framework}
-Version:        5.12.0
+Version:        5.14.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 2 addon for generating documentation
 
@@ -25,7 +25,7 @@ BuildRequires:  docbook-style-xsl
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
-BuildRequires:  kf5-ki18n-devel
+BuildRequires:  kf5-ki18n-devel  >= %{version}
 BuildRequires:  kf5-karchive-devel >= %{version}
 
 BuildRequires:  perl-Any-URI-Escape
@@ -68,11 +68,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
-#%find_lang kdoctools5_qt --with-qt --with-man --all-name
+%find_lang kdoctools5_qt --with-qt --with-man --all-name
 
 
-%files
-# -f kdoctools5_qt.lang
+%files -f kdoctools5_qt.lang
 %doc COPYING.LIB README.md
 %{_kf5_bindir}/checkXML5
 %{_kf5_bindir}/meinproc5
@@ -90,3 +89,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0

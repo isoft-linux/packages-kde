@@ -1,0 +1,55 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 89928b6..bf9782e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -126,6 +126,13 @@ else()
+                         )
+ endif()
+ 
++find_package(QtAccountsService)
++set_package_properties(QtAccountsService PROPERTIES
++    DESCRIPTION "Qt-style API to use freedesktop.org's AccountsService DBus service"
++    URL "http://git.isoft.zhcn.cc/zhaixiang/qtaccountsservice"
++    TYPE REQUIRED
++)
++
+ include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+ 
+ configure_file(config-workspace.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-workspace.h)
+diff --git a/applets/kickoff/package/contents/ui/Header.qml b/applets/kickoff/package/contents/ui/Header.qml
+index 591a9b1..ca5dbfb 100644
+--- a/applets/kickoff/package/contents/ui/Header.qml
++++ b/applets/kickoff/package/contents/ui/Header.qml
+@@ -1,5 +1,6 @@
+ /*
+  *    Copyright 2014  Sebastian Kügler <sebas@kde.org>
++ *    Copyright 2015  Leslie Zhai <xiang.zhai@i-soft.com.cn>
+  *
+  *    This program is free software; you can redistribute it and/or modify
+  *    it under the terms of the GNU General Public License as published by
+@@ -22,6 +23,7 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
+ import org.kde.plasma.extras 2.0 as PlasmaExtras
+ import org.kde.kcoreaddons 1.0 as KCoreAddons
+ import org.kde.kquickcontrolsaddons 2.0
++import QtAccountsService 1.0
+ 
+ Item {
+     id: header
+@@ -35,6 +37,17 @@ Item {
+         id: kuser
+     }
+ 
++    UserAccount {
++        id: userAccount
++
++        Component.onCompleted: {
++            faceIcon.source = userAccount.iconFileName != "" ? userAccount.iconFileName : kuser.faceIconUrl;
++        }
++        onAccountChanged: {
++            faceIcon.source = userAccount.iconFileName != "" ? userAccount.iconFileName : kuser.faceIconUrl;
++        }
++    }
++
+     state: (query !== "") ? "query" : "hint"
+ 
+     Timer {

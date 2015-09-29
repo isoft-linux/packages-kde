@@ -1,5 +1,5 @@
 Name:           kinfocenter
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 Summary:        KDE Info Center
 
@@ -105,3 +105,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+

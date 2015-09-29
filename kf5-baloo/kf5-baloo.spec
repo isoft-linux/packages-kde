@@ -2,7 +2,7 @@
 %define         plasma_version 5.3.0
 
 Name:           kf5-%{framework}
-Version:        5.9.2
+Version:        5.14.0
 Release:        1
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
@@ -23,19 +23,18 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
-BuildRequires:  xapian-core-devel
 
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-kidletime-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-kauth-devel
-BuildRequires:  kf5-kcrash-devel
-BuildRequires:  kf5-solid-devel
-BuildRequires:  kf5-kio-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-kfilemetadata-devel
+BuildRequires:  kf5-ki18n-devel >= %{version}
+BuildRequires:  kf5-kconfig-devel >= %{version}
+BuildRequires:  kf5-kidletime-devel >= %{version}
+BuildRequires:  kf5-kcmutils-devel >= %{version}
+BuildRequires:  kf5-kauth-devel >= %{version}
+BuildRequires:  kf5-kcrash-devel >= %{version}
+BuildRequires:  kf5-solid-devel >= %{version}
+BuildRequires:  kf5-kio-devel >= %{version}
+BuildRequires:  kf5-kfilemetadata-devel >= %{version} 
 
+BuildRequires:  lmdb-devel 
 Requires:       kf5-filesystem
 
 Obsoletes:      kf5-baloo-tools < 5.5.95-1
@@ -47,11 +46,9 @@ Provides:       baloo = %{version}-%{release}
 
 %package        devel
 Summary:        Development files for %{name}
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       %{name}-file%{?_isa} = %{version}-%{release}
 Requires:       kf5-kfilemetadata-devel
-Requires:       xapian-core-devel
 %description    devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
@@ -120,46 +117,57 @@ touch --no-create %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 fi
 
+%post libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
+
 %files -f %{name}.lang
 %{_kf5_bindir}/baloosearch
 %{_kf5_bindir}/balooshow
 %{_kf5_bindir}/balooctl
+%{_kf5_bindir}/baloo-monitor
 %{_kf5_plugindir}/kio/baloosearch.so
 %{_kf5_plugindir}/kio/tags.so
 %{_kf5_plugindir}/kio/timeline.so
-%{_kf5_qtplugindir}/kded_baloosearch_kio.so
+%{_kf5_plugindir}/kded/baloosearchmodule.so
 %{_kf5_qmldir}/org/kde/baloo
 %{_kf5_datadir}/kservices5/baloosearch.protocol
 %{_kf5_datadir}/kservices5/tags.protocol
 %{_kf5_datadir}/kservices5/timeline.protocol
-%{_kf5_datadir}/kservices5/kded/baloosearchfolderupdater.desktop
+#%{_kf5_datadir}/kservices5/kded/baloosearchfolderupdater.desktop
 %{_kf5_datadir}/icons/hicolor/*/apps/baloo.png
 
 %files file -f %{name}-file.lang
 %{_prefix}/lib/sysctl.d/97-kde-baloo-filewatch-inotify.conf
 %{_kf5_bindir}/baloo_file
 %{_kf5_bindir}/baloo_file_extractor
-%{_kf5_bindir}/baloo_file_cleaner
 %{_kf5_sysconfdir}/xdg/autostart/baloo_file.desktop
 %{_kf5_sysconfdir}/dbus-1/system.d/org.kde.baloo.filewatch.conf
 %{_kf5_libexecdir}/kauth/kde_baloo_filewatch_raiselimit
 %{_kf5_datadir}/dbus-1/system-services/org.kde.baloo.filewatch.service
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.file.indexer.xml
+%{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.fileindexer.xml
+%{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.main.xml
+%{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.scheduler.xml
 %{_datadir}/polkit-1/actions/org.kde.baloo.filewatch.policy
 
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
 
 %files libs -f %{name}-libs.lang
 %{_kf5_libdir}/libKF5Baloo.so.*
-%{_kf5_libdir}/libKF5BalooXapian.so.*
+%{_kf5_libdir}/libKF5BalooEngine.so.*
 
 %files devel
 %{_kf5_libdir}/libKF5Baloo.so
-%{_kf5_libdir}/libKF5BalooXapian.so
+#%{_kf5_libdir}/libKF5BalooEngine.so
 %{_kf5_libdir}/cmake/KF5Baloo
+%{_kf5_libdir}/pkgconfig/Baloo.pc
 %{_kf5_includedir}/Baloo
 %{_kf5_includedir}/baloo_version.h
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0
+

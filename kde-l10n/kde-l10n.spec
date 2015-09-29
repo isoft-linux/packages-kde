@@ -3,8 +3,8 @@
 
 Name:    kde-l10n
 Summary: Internationalization support for KDE
-Version: 15.04.3
-Release: 2
+Version: 15.08.1
+Release: 3 
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -16,14 +16,14 @@ BuildArch: noarch
 %else
 %global stable stable
 %endif
-Source1: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-de-%{version}.tar.xz
-Source2: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-en_GB-%{version}.tar.xz
-Source3: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-es-%{version}.tar.xz
-Source4: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-el-%{version}.tar.xz
-Source5: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-fr-%{version}.tar.xz
+#Source1: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-de-%{version}.tar.xz
+#Source2: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-en_GB-%{version}.tar.xz
+#Source3: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-es-%{version}.tar.xz
+#Source4: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-el-%{version}.tar.xz
+#Source5: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-fr-%{version}.tar.xz
 Source6: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-ja-%{version}.tar.xz
 Source7: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-ko-%{version}.tar.xz
-Source8: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-ru-%{version}.tar.xz
+#Source8: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-ru-%{version}.tar.xz
 Source9: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-zh_CN-%{version}.tar.xz
 Source10: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-zh_TW-%{version}.tar.xz
 Source1000: subdirs-kde-l10n
@@ -178,6 +178,7 @@ for i in $(cat %{SOURCE1000}) ; do
       rm -fv 4/$i/$j/messages/kde-runtime/kcm{_emoticons,_phonon,componentchooser,icons,kded,notify}.po
       rm -fv 4/$i/$j/messages/kde-runtime/kio_{applications,remote}.po
       rm -fv 4/$i/$j/messages/kdelibs/{kcm_baloofile,plasma_runner_baloosearchrunner}.po
+      rm -fv 4/$i/$j/messages/kdelibs/{kio_baloosearch,baloo_file_extractor,baloo_file,kio_tags,kio_timeline,balooshow,baloosearch}.po
       rm -fv 4/$i/$j/messages/applications/useraccount.po
       if [ -e 4/$i/$j/docs/kde-runtime/CMakeLists.txt ]; then
         sed -i -e 's/add_subdirectory( *kcontrol *)/#add_subdirectory(kcontrol)/g' 4/$i/$j/docs/kde-runtime/CMakeLists.txt
@@ -189,11 +190,6 @@ for i in $(cat %{SOURCE1000}) ; do
       sed -i -e 's/add_subdirectory( *kdeplasma-addons *)/#add_subdirectory(kdeplasma-addons)/g' 4/$i/$j/messages/CMakeLists.txt
       # Provided by kf5-kfilemetada
       rm -fv 4/$i/$j/messages/kdelibs/kfilemetadata.po
-      # Provided by kf5-baloo
-      rm -fv 4/$i/$j/messages/kdelibs/kio_{baloosearch,tags,timeline}.po
-      rm -fv 4/$i/$j/messages/kdelibs/baloo{search,show,_file,_file_extractor}.po
-      # Provided by kio-extras
-      rm -fv 4/$i/$j/messages/kde-runtime/kio_{archive,bookmarks,fish,info,man,nfs,recentdocuments,sftp,smb,thumbnail}.po
       # Provided by kde-cli-tools
       rm -fv 4/$i/$j/messages/kde-runtime/{filetypes,kcmshell,kdesu,kioclient,kmimetypefinder,kstart,ktraderclient}.po
       # Provided by khelpcenter

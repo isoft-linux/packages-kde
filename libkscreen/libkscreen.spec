@@ -1,5 +1,5 @@
 Name:           libkscreen
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 Summary:        KDE display configuration library
 
@@ -87,3 +87,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+

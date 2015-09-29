@@ -1,6 +1,6 @@
 Name:    dolphin-plugins
 Summary: Dolphin plugins for revision control systems
-Version: 15.04.2
+Version: 15.08.1
 Release: 2%{?dist}
 
 License: GPLv2+
@@ -11,11 +11,11 @@ URL:     https://projects.kde.org/projects/kde/kdesdk/dolphin-plugins
 %else
 %global stable stable
 %endif
-#Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
 #git://anongit.kde.org/dolphin-plugins
 #git checkout frameworks
-Source0: %{name}.tar.gz
+#Source0: %{name}.tar.gz
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -55,7 +55,7 @@ systems:
 * Mercurial (Hg)
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 
 %build

@@ -4,7 +4,7 @@
 
 Name:    kde-runtime
 Summary: KDE Runtime
-Version: 15.04.3
+Version: 15.08.1
 Release: 3
 
 # http://techbase.kde.org/Policies/Licensing_Policy
@@ -78,7 +78,7 @@ Requires: %{name}-flags = %{version}-%{release}
 
 # ensure default/fallback icon theme present
 # beware of bootstrapping, there be dragons
-Requires: oxygen-icon-theme >= %{version}
+Requires: oxygen-icon-theme 
 
 BuildRequires: bzip2-devel
 BuildRequires: chrpath
@@ -212,6 +212,7 @@ mkdir %{_target_platform}
 pushd %{_target_platform}
 %{cmake_kde4} \
   -DKDE4_ENABLE_FPIE:BOOL=ON \
+  -DCMAKE_MINIMUM_REQUIRED_VERSION=3.0 \
   %{?no_webkit} \
   .. 
 popd
@@ -466,3 +467,6 @@ fi
 
 
 %changelog
+* Wed Sep 16 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.1
+- add -DCMAKE_MINIMUM_REQUIRED_VERSION=3.0 to fix build with cmake-3.x

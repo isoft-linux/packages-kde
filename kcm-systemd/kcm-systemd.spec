@@ -1,6 +1,6 @@
 Name:           kcm-systemd
 Version:        1.2.0
-Release:        3
+Release:        4 
 Summary:        Systemd control module for KDE
 
 License:        GPLv3+
@@ -41,7 +41,6 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %find_lang systemd-kcm
 
 %files -f systemd-kcm.lang
-%license LICENSE
 %doc NEWS README.md
 %{_kf5_sysconfdir}/dbus-1/system.d/org.kde.kcontrol.kcmsystemd.conf
 %{_kf5_qtplugindir}/kcm_systemd.so
@@ -52,3 +51,5 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/polkit-1/actions/org.kde.kcontrol.kcmsystemd.policy
 
 %changelog
+* Thu Sep 03 2015 Cjacker <cjacker@foxmail.com>
+- rebuilt with new boost

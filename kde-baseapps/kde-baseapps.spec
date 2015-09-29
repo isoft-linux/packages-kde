@@ -1,6 +1,6 @@
 Name:    kde-baseapps
 Summary: KDE Core Applications 
-Version: 5.11.0 
+Version: 5.11.0
 Release: 2.git
 
 License: GPLv2 and GFDL

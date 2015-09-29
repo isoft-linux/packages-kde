@@ -2,8 +2,8 @@
 
 Name:    ark
 Summary: Archive manager
-Version: 15.07.80
-Release: 2.git
+Version: 15.08.1
+Release: 2
 
 License: GPLv2+
 URL:     http://utils.kde.org/projects/ark 
@@ -13,11 +13,11 @@ URL:     http://utils.kde.org/projects/ark
 %else
 %global stable stable
 %endif
-#Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
 #git clone git://anongit.kde.org/ark
 #git checkout frameworks
-Source0: ark.tar.gz
+#Source0: ark.tar.gz
 
 ## upstream patches
 
@@ -48,7 +48,7 @@ BuildRequires: kf5-kxmlgui-devel
 
 
 BuildRequires: bzip2-devel
-BuildRequires: libappstream-glib
+BuildRequires: appstream-glib
 BuildRequires: pkgconfig(libarchive)
 BuildRequires: pkgconfig(liblzma) 
 BuildRequires: zlib-devel
@@ -84,7 +84,7 @@ Requires: %{name} = %{version}-%{release}
 
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 %build
 mkdir -p %{_target_platform}
@@ -98,6 +98,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
+rm -rf %{buildroot}%{_libdir}/libkerfuffle.so
 
 %check
 appstream-util validate-relax --nonet %{buildroot}%{_kf5_datadir}/appdata/%{name}.appdata.xml ||:

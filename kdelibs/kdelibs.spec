@@ -1,12 +1,11 @@
 #kdelibs also need HUPNP optional
 Summary:    The KDE libraries provide a powerful framework to make writing applications easier
-Name:	    kdelibs 
-Version:	4.14.10
-Release:    2	
-License:	GPL
-Group:	 	User Interface/Desktops
-Source0:	%{name}-%{version}.tar.xz
-Source1:    macros.kdelibs4
+Name: kdelibs 
+Version: 4.14.12
+Release: 2	
+License: GPL
+Source0: %{name}-%{version}.tar.xz
+Source1: macros.kdelibs4
 
 
 # fix http://bugs.kde.org/149705
@@ -51,7 +50,7 @@ Patch54: kdelibs-4.8.4-kjs-locale.patch
 
 # borrow from  opensuse
 # https://build-test.opensuse.org/package/view_file/home:coolo:test/kdelibs4/0001-Drop-Nepomuk-from-KParts-LINK_INTERFACE_LIBRARIES.patch
-Patch55: Drop-Nepomuk-from-KParts-LINK_INTERFACE_LIBRARIES.patch
+#Patch55: Drop-Nepomuk-from-KParts-LINK_INTERFACE_LIBRARIES.patch
 
 # candidate fix for: kde deamon crash on wakeup
 # https://bugs.kde.org/show_bug.cgi?id=288410
@@ -117,6 +116,7 @@ BuildRequires: libpng-devel
 BuildRequires: pcre-devel
 BuildRequires: polkit-qt-devel
 BuildRequires: phonon-devel
+BuildRequires: strigi-devel
 
 Provides:   kdelibs4 = %{version}-%{release}
 
@@ -142,7 +142,6 @@ Among other things, the KDE libraries provide:
 
 %package devel
 Summary: Development files for %{name}
-Group:   Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Requires: qt4-devel
 Requires: attica-devel
@@ -181,12 +180,12 @@ developing applications that use %{name}.
 %patch51 -p1 -b .myspell_paths
 %patch53 -p1 -b .kjs-s390
 %patch54 -p1 -b .kjs-locale
-%patch55 -p1 -b .Drop-Nepomuk-from-KParts-LINK_INTERFACE_LIBRARIES
+#%patch55 -p1 -b .Drop-Nepomuk-from-KParts-LINK_INTERFACE_LIBRARIES
 %patch56 -p1 -b .kdebug288410
 %patch59 -p1 -b .filter
 %patch61 -p1 -b .dot
 %patch62 -p1 -b .arm-plasma
-%patch63 -p1 -b .klauncher-no-glib
+#%patch63 -p1 -b .klauncher-no-glib
 %patch64 -p1 -b .invokeTerminal
 
 %patch090 -p1 -R -b .return-not-break.-copy-paste-error

@@ -1,14 +1,15 @@
 Name:           sddm
-Version:        0.11.0
+Version:        0.12.0
 Release:        6
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
 Url:            https://github.com/sddm/sddm
-Source0:        https://github.com/sddm/sddm/archive/%{name}-%{version}.tar.gz
 
-# Default configuration is handled by the binary itself
-Source10:       Configuration.h
+#git@git.isoft.zhcn.cc:zhaixiang/sddm.git
+
+Source0:        https://github.com/sddm/sddm/releases/download/v0.12.0/sddm-%{version}.tar.xz
+
 # Shamelessly stolen from gdm
 Source11:       sddm.pam
 # Shamelessly stolen from gdm
@@ -20,7 +21,15 @@ Source13:       tmpfiles-sddm.conf
 # sample sddm.conf generated with sddm --example-config, and entries commented-out
 Source14:   sddm.conf
 
-Patch0:     sddm-search-accountsservice-for-usericon-first.patch
+#patch from leslie to enable accountservice face icon support.
+Patch0: 0001-greeter-accounts-service.patch
+#!!!!!!!This patch is very important, sddm drops a lot system environment settings such as PATH/JAVA_HOME ...
+#it will cause a lot of problem in plasma, since plasma got envs from dm directly.
+#Remember, when konsole or other terminal started, it will reload all env settings automatically.
+#So, test in konsole works DO NOT means it will works from kickoff menu.
+#The better way is respect sysenv and replace some of them use 'insert' as sddm does.
+#By Cjacker.
+Patch1:	sddm-please-respect-system-path-settings.patch
 
 Provides: service(graphical-login) = sddm
 
@@ -33,6 +42,9 @@ BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qttools-devel
 BuildRequires:  pkgconfig
 BuildRequires:  python-docutils
+
+BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
+Requires: qt5-qtaccountsservice >= 0.6.0
 
 Requires: qt5-qtbase
 Requires: qt5-qtdeclarative
@@ -51,14 +63,16 @@ designer the ability to create smooth, animated user interfaces.
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
-
-cp %{SOURCE10} src/common/
-
+%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
-%{cmake} -DUSE_QT5=true -DBUILD_MAN_PAGES=true -DENABLE_JOURNALD=true ..
+%{cmake} \
+	-DUSE_QT5=true \
+	-DBUILD_MAN_PAGES=true \
+	-DENABLE_JOURNALD=true \
+	-DENABLE_PLYMOUTH=OFF ..
 popd
 
 make %{?_smp_mflags} -C %{_target_platform}
@@ -106,6 +120,7 @@ exit 0
 %attr(0711, root, sddm) %dir %{_localstatedir}/run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm
 %{_unitdir}/sddm.service
+#%{_unitdir}/sddm-plymouth.service
 %{_qt5_archdatadir}/qml/SddmComponents/
 %dir %{_datadir}/sddm
 %{_datadir}/sddm/faces/
@@ -121,3 +136,13 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Sun Sep 06 2015 Cjacker <cjacker@foxmail.com>
+- update to 0.12
+
+* Fri Aug 07 2015 Cjacker <cjacker@foxmail.com>
+- take codes from Leslie Zhai with plymouth smooth transition and qtaccountservice support.
+- ENABLE_PLYMOUTH=ON
+- rebase patch1.
+
+* Tue Aug 04 2015 Cjacker <cjacker@foxmail.com>
+- add patch1, let sddm respect system path settings.

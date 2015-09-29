@@ -1,0 +1,11 @@
+diff -Nur plasma-desktop-5.3.95/layout-templates/org.kde.plasma.desktop.defaultPanel/contents/layout.js plasma-desktop-5.3.95n/layout-templates/org.kde.plasma.desktop.defaultPanel/contents/layout.js
+--- plasma-desktop-5.3.95/layout-templates/org.kde.plasma.desktop.defaultPanel/contents/layout.js	2015-08-06 12:01:21.000000000 +0000
++++ plasma-desktop-5.3.95n/layout-templates/org.kde.plasma.desktop.defaultPanel/contents/layout.js	2015-08-13 15:03:54.392730410 +0000
+@@ -34,6 +34,7 @@
+ //panel.addWidget("org.kde.plasma.showActivityManager")
+ panel.addWidget("org.kde.plasma.pager")
+ panel.addWidget("org.kde.plasma.taskmanager")
++panel.addWidget("org.kde.plasma.kimpanel")
+ panel.addWidget("org.kde.plasma.systemtray")
+ panel.addWidget("org.kde.plasma.digitalclock")
+ 

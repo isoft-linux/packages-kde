@@ -1,7 +1,7 @@
 
 Name:    knetwalk
 Summary: Network construction game
-Version: 15.04.3
+Version: 15.08.1
 Release: 2%{?dist}
 
 License: GPLv2+ and GFDL
@@ -40,7 +40,7 @@ BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
 BuildRequires: pkgconfig(phonon4qt5)
 BuildRequires: pkgconfig(Qt5Widgets) pkgconfig(Qt5Qml) pkgconfig(Qt5Quick) pkgconfig(Qt5QuickWidgets) pkgconfig(Qt5Svg) pkgconfig(Qt5Test)
-BuildRequires: libappstream-glib
+BuildRequires: appstream-glib
 BuildRequires: libkdegames-devel >= %{version}
 
 %description

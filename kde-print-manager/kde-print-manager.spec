@@ -1,6 +1,6 @@
 Name:    kde-print-manager
 Summary: Printer management for KDE
-Version: 15.04.3
+Version: 15.08.1
 Release: 3
 
 License: GPLv2+ and LGPLv2+

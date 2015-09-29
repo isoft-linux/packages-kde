@@ -32,7 +32,7 @@ BuildRequires: ebook-tools-devel
 %if 0%{?mobi}
 BuildRequires: qmobipocket-devel
 %endif
-BuildRequires: libkexiv2-devel
+BuildRequires: kf5-libkexiv2-devel
 BuildRequires: libjpeg-devel
 BuildRequires: libtiff-devel
 BuildRequires: pkgconfig(ddjvuapi) 
@@ -162,9 +162,9 @@ fi
 %endif
 
 %files devel
-%{_kf5_libdir}/libokularcore.so
-%dir %{_libdir}/cmake/Okular
-%{_libdir}/cmake/Okular/*
+%{_kf5_libdir}/libOkular5Core.so
+%dir %{_libdir}/cmake/Okular5
+%{_libdir}/cmake/Okular5/*
 
 %dir %{_includedir}/okular
 %{_includedir}/okular/*
@@ -174,7 +174,7 @@ fi
 
 
 %files libs
-%{_kf5_libdir}/libokularcore.so.*
+%{_kf5_libdir}/libOkular5Core.so.*
 %{_kf5_datadir}/kconf_update/okular.upd
 
 

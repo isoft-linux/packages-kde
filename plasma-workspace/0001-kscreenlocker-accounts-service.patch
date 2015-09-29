@@ -1,0 +1,116 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 367bcd4..360fdaf 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,6 +11,11 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Widgets Quick Quic
+ find_package(ECM 1.8.0 REQUIRED NO_MODULE)
+ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+ 
++option(ENABLE_DEBUG "Enable debug" OFF)
++if(ENABLE_DEBUG)
++    add_definitions(-g -DDEBUG)
++endif()
++
+ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+                     Plasma DocTools Runner JsEmbed NotifyConfig Su NewStuff Wallet KCMUtils
+                     IdleTime Declarative TextWidgets KDELibs4Support Crash GlobalAccel
+@@ -95,6 +100,13 @@ set_package_properties(Wayland PROPERTIES
+                        TYPE REQUIRED
+                        PURPOSE "Required for building screenlocker")
+ 
++find_package(QtAccountsService)
++set_package_properties(QtAccountsService PROPERTIES 
++    DESCRIPTION "Qt-style API to use freedesktop.org's AccountsService DBus service"
++    URL "http://git.isoft.zhcn.cc/zhaixiang/qtaccountsservice"
++    TYPE REQUIRED
++)
++
+ include(ConfigureChecks.cmake)
+ 
+ include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+diff --git a/ksmserver/screenlocker/greeter/CMakeLists.txt b/ksmserver/screenlocker/greeter/CMakeLists.txt
+index 4fb679f..19e4fb0 100644
+--- a/ksmserver/screenlocker/greeter/CMakeLists.txt
++++ b/ksmserver/screenlocker/greeter/CMakeLists.txt
+@@ -43,6 +43,7 @@ target_link_libraries(kscreenlocker_greet
+                         KF5::KDELibs4Support
+                         KF5::WaylandClient
+                         Wayland::Client
++                        QtAccountsService::QtAccountsService
+                         )
+ 
+ install(TARGETS kscreenlocker_greet DESTINATION ${KDE_INSTALL_LIBEXECDIR})
+diff --git a/ksmserver/screenlocker/greeter/greeterapp.cpp b/ksmserver/screenlocker/greeter/greeterapp.cpp
+index b500ba4..ca0b3f2 100644
+--- a/ksmserver/screenlocker/greeter/greeterapp.cpp
++++ b/ksmserver/screenlocker/greeter/greeterapp.cpp
+@@ -4,6 +4,7 @@
+ 
+ Copyright (C) 2004 Chris Howells <howells@kde.org>
+ Copyright (C) 2011 Martin Gräßlin <mgraesslin@kde.org>
++Copyright (C) 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+ 
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+@@ -82,6 +83,7 @@ UnlockApp::UnlockApp(int &argc, char **argv)
+     connect(m_authenticator, &Authenticator::succeeded, this, &QCoreApplication::quit);
+     initialize();
+     connect(this, &UnlockApp::screenAdded, this, &UnlockApp::desktopResized);
++    m_userAccount = new QtAccountsService::UserAccount;
+ }
+ 
+ UnlockApp::~UnlockApp()
+@@ -99,6 +101,10 @@ UnlockApp::~UnlockApp()
+         m_ksldConnectionThread->quit();
+         m_ksldConnectionThread->wait();
+     }
++    if (m_userAccount) {
++        delete m_userAccount;
++        m_userAccount = nullptr;
++    }
+ }
+ 
+ void UnlockApp::initialize()
+@@ -192,9 +198,12 @@ void UnlockApp::desktopResized()
+         QQmlContext* context = view->engine()->rootContext();
+         const KUser user;
+         const QString fullName = user.property(KUser::FullName).toString();
++        QString faceIconPath = "";
++        if (m_userAccount)
++            faceIconPath = m_userAccount->iconFileName();
+ 
+         context->setContextProperty(QStringLiteral("kscreenlocker_userName"), fullName.isEmpty() ? user.loginName() : fullName);
+-        context->setContextProperty(QStringLiteral("kscreenlocker_userImage"), user.faceIconPath());
++        context->setContextProperty(QStringLiteral("kscreenlocker_userImage"), QFile::exists(faceIconPath) ? faceIconPath : user.faceIconPath());
+         context->setContextProperty(QStringLiteral("authenticator"), m_authenticator);
+         context->setContextProperty(QStringLiteral("backgroundPath"), KScreenSaverSettings::themeBackground());
+ 
+diff --git a/ksmserver/screenlocker/greeter/greeterapp.h b/ksmserver/screenlocker/greeter/greeterapp.h
+index ed278e4..f622efe 100644
+--- a/ksmserver/screenlocker/greeter/greeterapp.h
++++ b/ksmserver/screenlocker/greeter/greeterapp.h
+@@ -3,6 +3,7 @@
+  This file is part of the KDE project.
+ 
+ Copyright (C) 2011 Martin Gräßlin <mgraesslin@kde.org>
++Copyright (C) 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+ 
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+@@ -25,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #include <KPackage/PackageStructure>
+ #include <QQuickView>
+ 
++#include <QtAccountsService/UserAccount>
++
+ namespace KWayland {
+ namespace Client {
+     class ConnectionThread;
+@@ -92,6 +95,7 @@ private:
+     KWayland::Client::Registry *m_ksldRegistry = nullptr;
+     QThread *m_ksldConnectionThread = nullptr;
+     org_kde_ksld *m_ksldInterface = nullptr;
++    QtAccountsService::UserAccount *m_userAccount = nullptr;
+ };
+ } // namespace
+ 

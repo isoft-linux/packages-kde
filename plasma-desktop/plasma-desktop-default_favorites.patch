@@ -1,0 +1,21 @@
+diff -Nur plasma-desktop-5.4.0/applets/kickoff/core/favoritesmodel.cpp plasma-desktop-5.4.0n/applets/kickoff/core/favoritesmodel.cpp
+--- plasma-desktop-5.4.0/applets/kickoff/core/favoritesmodel.cpp	2015-08-21 18:52:33.000000000 +0800
++++ plasma-desktop-5.4.0n/applets/kickoff/core/favoritesmodel.cpp	2015-08-26 14:47:02.171694893 +0800
+@@ -133,12 +133,11 @@
+         // Application releases (i.e. find one that is installed regardless of
+         // whether it uses the current or a previous name).
+         // BUG: 351550
+-        applications  << browser
+-                      << "org.kde.kontact" << "kontact"
+-                      << "org.kde.systemsettings" << "systemsettings"
+-                      << "org.kde.dolphin" << "dolphin"
+-                      << "org.kde.ktpcontactlist" << "ktp-contactlist"
+-                      << "org.kde.kate" << "kate";
++        applications << "firefox" 
++                     << "thunderbird" 
++                     << "pidgin" 
++                     << "org.kde.dolphin" << "vlc" << "audacious" 
++                     << "wps-office-wps" << "org.kde.konsole" << "systemsettings";
+ 
+         QList<QString> desktopFiles;
+ 

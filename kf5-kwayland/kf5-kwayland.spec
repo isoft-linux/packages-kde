@@ -3,7 +3,7 @@
 %global         wayland_min_version 1.3
 
 Name:           kf5-%{framework}
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 Summary:        KDE Frameworks 5 library that wraps Client and Server Wayland libraries
 
@@ -66,6 +66,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %doc COPYING.LIB
 %{_kf5_libdir}/libKF5WaylandClient.so.*
 %{_kf5_libdir}/libKF5WaylandServer.so.*
+%{_sysconfdir}/xdg/org_kde_kwayland.categories
+%{_libdir}/qt5/mkspecs/modules/qt_KWaylandClient.pri
+%{_libdir}/qt5/mkspecs/modules/qt_KWaylandServer.pri
 
 %files devel
 %{_kf5_includedir}/KWayland
@@ -76,3 +79,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+

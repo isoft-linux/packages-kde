@@ -1,7 +1,7 @@
 
 Name:    kpat
 Summary: A selection of solitaire card games
-Version: 15.04.3
+Version: 15.08.1
 Release: 2%{?dist}
 
 License: GPLv2+ and GFDL

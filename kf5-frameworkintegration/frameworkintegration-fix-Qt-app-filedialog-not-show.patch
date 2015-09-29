@@ -1,0 +1,15 @@
+It's very simple to reproduce the problem.
+Open designer, open filedialog, press esc, again and again.
+You will encounter the problem that filedialog actually popup but not visible.
+By Cjacker.
+diff -Nur frameworkintegration-5.13.0/src/platformtheme/kdeplatformfiledialoghelper.cpp frameworkintegration-5.13.0n/src/platformtheme/kdeplatformfiledialoghelper.cpp
+--- frameworkintegration-5.13.0/src/platformtheme/kdeplatformfiledialoghelper.cpp	2015-08-04 10:43:10.000000000 +0000
++++ frameworkintegration-5.13.0n/src/platformtheme/kdeplatformfiledialoghelper.cpp	2015-08-14 10:13:59.850931952 +0000
+@@ -280,6 +280,7 @@
+ void KDEPlatformFileDialogHelper::exec()
+ {
+     m_dialog->hide(); // ensure dialog is not shown (exec would block input)
++    initializeDialog();
+     m_dialog->winId(); // ensure there's a window created
+     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
+     KWindowConfig::restoreWindowSize(m_dialog->windowHandle(), conf->group("FileDialogSize"));

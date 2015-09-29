@@ -1,5 +1,5 @@
 Name:           kio-extras
-Version:        5.3.2
+Version:        15.08.1
 Release:        1
 Summary:        Additional components to increase the functionality of KIO Framework
 
@@ -13,7 +13,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/kio-extras
 %else
 %global stable stable
 %endif
-Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+Source0:        http://download.kde.org/%{stable}/applications/%{version}/%{name}-%{version}.tar.xz
 
 ## downstream patches
 # temporarily adjust translation catalog until kio_mtp updates hit stable
@@ -76,15 +76,9 @@ BuildArch:      noarch
 
 %prep
 %setup -q -n %{name}-%{version}
-
 # temporary
 %patch1 -p1 -b .mtp_catalog
-for po in po/*/kio_mtp.po ; do
-pushd $(dirname $po)
-mv kio_mtp.po kio_mtp5.po
-popd
-done
-%patch2 -p1
+#%patch2 -p1
 
 
 %build
@@ -99,7 +93,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
-%find_lang %{name} --all-name --with-qt
+#%find_lang %{name} --all-name --with-qt
 
 
 %post
@@ -116,11 +110,11 @@ fi
 %posttrans
 update-mime-database  %{_datadir}/mime &> /dev/null || :
 
-%files -f %{name}.lang
+%files
+# -f %{name}.lang
 %{_libdir}/libmolletnetwork5.so.*
 %{_kf5_plugindir}/kio/archive.so
 %{_kf5_plugindir}/kio/bookmarks.so
-%{_kf5_plugindir}/kio/desktop.so
 %{_kf5_plugindir}/kio/filenamesearch.so
 %{_kf5_plugindir}/kio/filter.so
 %{_kf5_plugindir}/kio/fish.so
@@ -139,13 +133,11 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 %{_kf5_qtplugindir}/comicbookthumbnail.so
 %{_kf5_qtplugindir}/imagethumbnail.so
 %{_kf5_qtplugindir}/jpegthumbnail.so
-%{_kf5_qtplugindir}/kded_desktopnotifier.so
 %{_kf5_qtplugindir}/kded_networkwatcher.so
 %{_kf5_qtplugindir}/kded_recentdocumentsnotifier.so
 %{_kf5_qtplugindir}/libkmanpart.so
 %{_kf5_qtplugindir}/svgthumbnail.so
 %{_kf5_qtplugindir}/textthumbnail.so
-%{_datadir}/kio_desktop/
 %{_datadir}/kio_docfilter/
 %{_datadir}/kio_bookmarks/
 %{_datadir}/kio_info/

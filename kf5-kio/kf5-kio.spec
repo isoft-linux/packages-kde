@@ -1,7 +1,7 @@
 %global framework kio
 
 Name:           kf5-%{framework}
-Version:        5.12.0
+Version:        5.14.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
@@ -192,8 +192,8 @@ fi
 %{_kf5_datadir}/kservices5/useragent.desktop
 %{_kf5_datadir}/kservices5/*.protocol
 %{_kf5_datadir}/kservices5/http_cache_cleaner.desktop
-%dir %{_kf5_datadir}/kservices5/kded/
-%{_kf5_datadir}/kservices5/kded/*.desktop
+#%dir %{_kf5_datadir}/kservices5/kded/
+#%{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservices5/kcmtrash.desktop
 %{_kf5_datadir}/kservices5/useragentstrings
 %{_kf5_datadir}/knotifications5/proxyscout.*
@@ -264,7 +264,14 @@ fi
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0
+
 * Mon Jul 20 2015 Cjacker <cjacker@foxmail.com>
 - drop kfileitem icon patch
+
 * Mon Jul 20 2015 Cjacker <cjacker@foxmail.com>
 - add kfileitem icon patch.

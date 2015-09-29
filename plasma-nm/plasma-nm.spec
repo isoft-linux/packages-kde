@@ -1,6 +1,6 @@
 Name:           plasma-nm
-Version:        5.3.2
-Release:        1%{?dist}
+Version:        5.4.1
+Release:        2%{?dist}
 Summary:        Plasma Next applet written in QML for managing network connections
 License:        LGPLv2+ and GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-nm
@@ -145,6 +145,19 @@ Provides:       kde-plasma-nm-pptp = %{version}-%{release}
 %description    pptp
 %{summary}.
 
+%package        ssh
+Summary:        SSH suppor for %{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       NetworkManager-ssh
+%description    ssh
+%{summary}.
+
+%package        sstp
+Summary:        SSTP support for %{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+%description    sstp
+%{summary}.
+
 %prep
 %autosetup -p1 -n %{name}-%{version}
 
@@ -171,6 +184,8 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %find_lang plasmanetworkmanagement_strongswanui
 %find_lang plasmanetworkmanagement_l2tpui
 %find_lang plasmanetworkmanagement_pptpui
+%find_lang plasmanetworkmanagement_sshui
+%find_lang plasmanetworkmanagement_sstpui
 
 # migrate to nm plasmoid
 install -m644 -p -D %{SOURCE10} %{buildroot}%{_datadir}/plasma/updates/01-plasma-nm.js
@@ -215,20 +230,37 @@ install -m644 -p -D %{SOURCE10} %{buildroot}%{_datadir}/plasma/updates/01-plasma
 %{_kf5_qtplugindir}/libplasmanetworkmanagement_openconnectui.so
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_openconnectui.desktop
 
-#%files openswan -f plasmanetworkmanagement_openswanui.lang
-#%{_kf5_qtplugindir}/libplasmanetworkmanagement_openswanui.so
-#%{_kf5_datadir}/kservices5/plasmanetworkmanagement_openswanui.desktop
+%files openswan -f plasmanetworkmanagement_openswanui.lang
+%{_kf5_qtplugindir}/libplasmanetworkmanagement_openswanui.so
+%{_kf5_datadir}/kservices5/plasmanetworkmanagement_openswanui.desktop
 
 %files strongswan -f plasmanetworkmanagement_strongswanui.lang
 %{_kf5_qtplugindir}/libplasmanetworkmanagement_strongswanui.so
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_strongswanui.desktop
 
-#%files l2tp -f plasmanetworkmanagement_l2tpui.lang
-#%{_kf5_qtplugindir}/libplasmanetworkmanagement_l2tpui.so
-#%{_kf5_datadir}/kservices5/plasmanetworkmanagement_l2tpui.desktop
+%files l2tp -f plasmanetworkmanagement_l2tpui.lang
+%{_kf5_qtplugindir}/libplasmanetworkmanagement_l2tpui.so
+%{_kf5_datadir}/kservices5/plasmanetworkmanagement_l2tpui.desktop
 
 %files pptp -f plasmanetworkmanagement_pptpui.lang
 %{_kf5_qtplugindir}/libplasmanetworkmanagement_pptpui.so
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_pptpui.desktop
 
+%files ssh -f plasmanetworkmanagement_sshui.lang
+%{_kf5_qtplugindir}/libplasmanetworkmanagement_sshui.so
+%{_kf5_datadir}/kservices5/plasmanetworkmanagement_sshui.desktop
+
+%files sstp -f plasmanetworkmanagement_sstpui.lang
+%{_kf5_qtplugindir}/libplasmanetworkmanagement_sstpui.so
+%{_kf5_datadir}/kservices5/plasmanetworkmanagement_sstpui.desktop
+
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+

@@ -3,7 +3,7 @@
 %global         build_kde4  1
 
 Name:           plasma-breeze
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 Summary:        Artwork, styles and assets for the Breeze visual style for the Plasma Desktop
 
@@ -165,3 +165,12 @@ fi
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+

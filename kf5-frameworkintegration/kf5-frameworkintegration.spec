@@ -1,7 +1,7 @@
 %global framework frameworkintegration
 
 Name:           kf5-%{framework}
-Version:        5.12.0
+Version:        5.14.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 workspace and cross-framework integration plugins
 License:        LGPLv2+
@@ -15,7 +15,10 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-Patch0:         frameworkintegration-fix-Qt-app-filedialog-no-size.patch
+#if QFileDialog->show, only involk show, so we need show dialog in show.
+#if QFileDialog->exec, then first involk show, then exec, the hide call in exec will cause dialog not shown at all.
+#so, we need do something, this is not a correct fix, but at least, work now.
+Patch0:         frameworkintegration-fix-Qt-app-filedialog-not-show.patch
 
 # upstream patches
 
@@ -102,3 +105,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.14.0
+
+* Thu Aug 13 2015 Cjacker <cjacker@foxmail.com>
+- modify patch0, pure qt application under kf5 always call "show" then "exec"
+- if show first and hide then in exec, the dialog may not show at all.
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.13.0

@@ -1,7 +1,7 @@
 %global         wayland 1
 
 Name:           kwin
-Version:        5.3.2
+Version:        5.4.1
 Release:        1
 Summary:        KDE Window manager
 
@@ -18,12 +18,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/kwin
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-## upstreamable patches
-# session management, https://git.reviewboard.kde.org/r/123580/
-Patch1: kwin-session_management_review123580.patch
-# followup to add discard support
-Patch2: kwin-sm_discard.patch
 
 # Base
 BuildRequires:  kf5-rpm-macros
@@ -172,7 +166,11 @@ fi
 %posttrans
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
+%post libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
+
 %files -f kwin5.lang
+%{_sysconfdir}/xdg/org_kde_kwin.categories
 %{_bindir}/kwin
 %{_bindir}/kwin_x11
 %{_kf5_libdir}/libkdeinit5_kwin_x11.so
@@ -181,6 +179,7 @@ fi
 %{_kf5_qtplugindir}/*.so
 %{_kf5_qtplugindir}/kwin
 %{_kf5_qtplugindir}/org.kde.kdecoration2/*.so
+%{_kf5_qtplugindir}/org.kde.kglobalaccel5.platforms/KF5GlobalAccelPrivateKWin.so
 %{_qt5_prefix}/qml/org/kde/kwin
 %{_kf5_libdir}/kconf_update_bin/kwin5_update_default_rules
 %{_libexecdir}/kwin_killer_helper
@@ -199,11 +198,11 @@ fi
 %if 0%{?wayland}
 %files wayland
 %{_bindir}/kwin_wayland
-%{_kf5_libdir}/libkdeinit5_kwin_wayland.so
+%{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandDrmBackend.so
+%{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandFbdevBackend.so
+%{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandWaylandBackend.so
+%{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandX11Backend.so
 %endif
-
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
 
 %files libs
 # these dbus xml files probably ought to be moved to -devel, kde-sig needs agreed policy first -- rex
@@ -223,8 +222,16 @@ fi
 %{_includedir}/kwin*.h
 
 %files doc
-%doc COMPLIANCE COPYING COPYING.DOC HACKING README
 %{_docdir}/HTML/en/kcontrol/
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+

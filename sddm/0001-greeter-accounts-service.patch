@@ -1,0 +1,142 @@
+diff -Nur sddm-0.12.0/CMakeLists.txt sddm-0.12.0n/CMakeLists.txt
+--- sddm-0.12.0/CMakeLists.txt	2015-09-06 04:40:50.000000000 +0800
++++ sddm-0.12.0n/CMakeLists.txt	2015-09-06 13:56:45.535884417 +0800
+@@ -62,6 +62,8 @@
+ # Standard installation paths
+ include(GNUInstallDirs)
+ 
++include(FeatureSummary)
++
+ # PKG-CONFIG
+ find_package(PkgConfig)
+ 
+@@ -85,6 +87,20 @@
+ find_package(Qt5DBus REQUIRED)
+ find_package(Qt5LinguistTools REQUIRED)
+ 
++# AccountsService Qt5 binding
++find_package(QtAccountsService)
++set_package_properties(QtAccountsService PROPERTIES DESCRIPTION "Qt-style API to use freedesktop.org's AccountsService DBus service"
++                    URL "https://github.com/AOSC-Dev/qtaccountsservice"
++                    TYPE OPTIONAL
++                    PURPOSE "Use AccountsService`s iconFileName"
++                    )
++set(HAVE_QTACCOUNTSSERVICE FALSE)
++if (QtAccountsService_FOUND)
++    add_definitions(-DHAVE_QTACCOUNTSSERVICE)
++    set(HAVE_QTACCOUNTSSERVICE TRUE)
++endif()
++
++
+ # find qt5 imports dir
+ get_target_property(QMAKE_EXECUTABLE Qt5::qmake LOCATION)
+ if(NOT QT_IMPORTS_DIR)
+diff -Nur sddm-0.12.0/src/greeter/CMakeLists.txt sddm-0.12.0n/src/greeter/CMakeLists.txt
+--- sddm-0.12.0/src/greeter/CMakeLists.txt	2015-08-18 00:06:19.000000000 +0800
++++ sddm-0.12.0n/src/greeter/CMakeLists.txt	2015-09-06 13:57:20.796849006 +0800
+@@ -17,7 +17,16 @@
+ )
+ 
+ add_executable(sddm-greeter ${GREETER_SOURCES})
+-target_link_libraries(sddm-greeter ${LIBXCB_LIBRARIES} ${LIBXKB_LIBRARIES})
++if(HAVE_QTACCOUNTSSERVICE)
++    target_link_libraries(sddm-greeter
++        ${LIBXCB_LIBRARIES}
++        ${LIBXKB_LIBRARIES}
++        QtAccountsService::QtAccountsService)
++else()
++    target_link_libraries(sddm-greeter
++        ${LIBXCB_LIBRARIES}
++        ${LIBXKB_LIBRARIES})
++endif()
+ qt5_use_modules(sddm-greeter Quick)
+ 
+ if(JOURNALD_FOUND)
+diff -Nur sddm-0.12.0/src/greeter/UserModel.cpp sddm-0.12.0n/src/greeter/UserModel.cpp
+--- sddm-0.12.0/src/greeter/UserModel.cpp	2015-08-22 23:17:51.000000000 +0800
++++ sddm-0.12.0n/src/greeter/UserModel.cpp	2015-09-06 13:59:22.552049195 +0800
+@@ -1,5 +1,6 @@
+ /***************************************************************************
+ * Copyright (c) 2013 Abdurrahman AVCI <abdurrahmanavci@gmail.com>
++* Copyright (c) 2015 AnthonOS Open Source Community
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+@@ -52,6 +53,9 @@
+ 
+     UserModel::UserModel(QObject *parent) : QAbstractListModel(parent), d(new UserModelPrivate()) {
+         struct passwd *current_pw;
++#if HAVE_QTACCOUNTSSERVICE
++        am = new QtAccountsService::AccountsManager;
++#endif
+         while ((current_pw = getpwent()) != nullptr) {
+ 
+             // skip entries with uids smaller than minimum uid
+@@ -72,6 +76,9 @@
+             // create user
+             UserPtr user { new User() };
+             user->name = QString::fromLocal8Bit(current_pw->pw_name);
++#if HAVE_QTACCOUNTSSERVICE
++            QtAccountsService::UserAccount *ua = am->findUserByName(user->name);
++#endif
+             user->realName = QString::fromLocal8Bit(current_pw->pw_gecos).split(QLatin1Char(',')).first();
+             user->homeDir = QString::fromLocal8Bit(current_pw->pw_dir);
+             user->uid = int(current_pw->pw_uid);
+@@ -89,7 +96,12 @@
+                 user->icon = systemFace;
+             else
+                 user->icon = QStringLiteral("%1/default.face.icon").arg(mainConfig.Theme.FacesDir.get());
+-
++#if HAVE_QTACCOUNTSSERVICE
++            if (ua) {
++                if (QFile::exists(ua->iconFileName()))
++                    user->icon = ua->iconFileName();
++            }
++#endif
+             // add user
+             d->users << user;
+         }
+@@ -108,6 +120,12 @@
+ 
+     UserModel::~UserModel() {
+         delete d;
++#if HAVE_QTACCOUNTSSERVICE
++        if (am) {
++            delete am;
++            am = nullptr;
++        }
++#endif
+     }
+ 
+     QHash<int, QByteArray> UserModel::roleNames() const {
+diff -Nur sddm-0.12.0/src/greeter/UserModel.h sddm-0.12.0n/src/greeter/UserModel.h
+--- sddm-0.12.0/src/greeter/UserModel.h	2015-08-18 00:06:19.000000000 +0800
++++ sddm-0.12.0n/src/greeter/UserModel.h	2015-09-06 13:59:53.674520448 +0800
+@@ -1,5 +1,6 @@
+ /***************************************************************************
+ * Copyright (c) 2013 Abdurrahman AVCI <abdurrahmanavci@gmail.com>
++* Copyright (c) 2015 AnthonOS Open Source Community
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+@@ -24,6 +25,10 @@
+ 
+ #include <QHash>
+ 
++#if HAVE_QTACCOUNTSSERVICE
++#include <QtAccountsService/AccountsManager>
++#endif
++
+ namespace SDDM {
+     class UserModelPrivate;
+ 
+@@ -54,6 +59,9 @@
+ 
+     private:
+         UserModelPrivate *d { nullptr };
++#if HAVE_QTACCOUNTSSERVICE
++        QtAccountsService::AccountsManager *am { nullptr };
++#endif
+     };
+ }
+ 

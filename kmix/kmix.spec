@@ -2,7 +2,7 @@
 
 Name:    kmix 
 Summary: KDE volume control 
-Version: 15.04.3
+Version: 15.08.1
 Release: 2
 
 License: GPLv2+ and GFDL
@@ -62,8 +62,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
-#DO NOT display menu item. already in system tray.
-echo "NoDisplay=true" >>$RPM_BUILD_ROOT%{_datadir}/applications/kmix.desktop
+#echo "NoDisplay=true" >>$RPM_BUILD_ROOT%{_datadir}/applications/kmix.desktop
+#plasma-5.4 have plasma-pa, drop autostart of kmix.
+#rm -rf %{buildroot}%{_sysconfdir}/xdg/autostart
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/kmix.desktop
@@ -91,6 +92,7 @@ fi
 %{_kf5_bindir}/kmixremote
 %{_kf5_datadir}/applications/kmix.desktop
 %{_kf5_datadir}/kmix/
+%{_kf5_datadir}/kxmlgui5/kmix/kmixui.rc
 %{_kf5_libdir}/libkdeinit5_kmix.so
 %{_kf5_libdir}/libkdeinit5_kmixctrl.so
 %{_qt5_plugindir}/libkded_kmixd.so

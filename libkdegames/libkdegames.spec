@@ -1,6 +1,6 @@
 Name:    libkdegames
 Summary: Common code and data for many KDE games
-Version: 15.04.3
+Version: 15.08.1
 Release: 2
 
 # libKF5KDEGames is LGPLv2, libKF5KDEGamesPrivate is GPLv2+

@@ -1,0 +1,51 @@
+diff -Nur sddm-0.12.0/src/daemon/Display.cpp sddm-0.12.0n/src/daemon/Display.cpp
+--- sddm-0.12.0/src/daemon/Display.cpp	2015-08-22 23:17:51.000000000 +0800
++++ sddm-0.12.0n/src/daemon/Display.cpp	2015-09-06 12:41:30.131474596 +0800
+@@ -268,8 +268,8 @@
+             VirtualTerminal::jumpToVt(vt);
+         }
+ 
+-        QProcessEnvironment env;
+-        env.insert(QStringLiteral("PATH"), mainConfig.Users.DefaultPath.get());
++        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
++//        env.insert(QStringLiteral("PATH"), mainConfig.Users.DefaultPath.get());
+         if (session.xdgSessionType() == QStringLiteral("x11"))
+             env.insert(QStringLiteral("DISPLAY"), name());
+         env.insert(QStringLiteral("XDG_SEAT"), seat()->name());
+diff -Nur sddm-0.12.0/src/daemon/Greeter.cpp sddm-0.12.0n/src/daemon/Greeter.cpp
+--- sddm-0.12.0/src/daemon/Greeter.cpp	2015-08-22 23:17:51.000000000 +0800
++++ sddm-0.12.0n/src/daemon/Greeter.cpp	2015-09-06 12:41:51.621509027 +0800
+@@ -122,7 +122,7 @@
+                  << QStringLiteral("--theme") << m_theme;
+ 
+             // greeter environment
+-            QProcessEnvironment env;
++            QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+             QProcessEnvironment sysenv = QProcessEnvironment::systemEnvironment();
+ 
+             insertEnvironmentList({QStringLiteral("LANG"), QStringLiteral("LANGUAGE"),
+@@ -131,7 +131,7 @@
+                                    QStringLiteral("LC_ADDRESS"), QStringLiteral("LC_TELEPHONE"), QStringLiteral("LC_MEASUREMENT"), QStringLiteral("LC_IDENTIFICATION")
+             }, sysenv, env);
+ 
+-            env.insert(QStringLiteral("PATH"), mainConfig.Users.DefaultPath.get());
++            //env.insert(QStringLiteral("PATH"), mainConfig.Users.DefaultPath.get());
+             env.insert(QStringLiteral("DISPLAY"), m_display->name());
+             env.insert(QStringLiteral("XAUTHORITY"), m_authPath);
+             env.insert(QStringLiteral("XCURSOR_THEME"), mainConfig.Theme.CursorTheme.get());
+diff -Nur sddm-0.12.0/src/daemon/XorgDisplayServer.cpp sddm-0.12.0n/src/daemon/XorgDisplayServer.cpp
+--- sddm-0.12.0/src/daemon/XorgDisplayServer.cpp	2015-08-22 23:17:51.000000000 +0800
++++ sddm-0.12.0n/src/daemon/XorgDisplayServer.cpp	2015-09-06 12:42:20.140560216 +0800
+@@ -238,10 +238,10 @@
+         QProcess *displayStopScript = new QProcess();
+ 
+         // set process environment
+-        QProcessEnvironment env;
++        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+         env.insert(QStringLiteral("DISPLAY"), m_display);
+         env.insert(QStringLiteral("HOME"), QStringLiteral("/"));
+-        env.insert(QStringLiteral("PATH"), mainConfig.Users.DefaultPath.get());
++//        env.insert(QStringLiteral("PATH"), mainConfig.Users.DefaultPath.get());
+         env.insert(QStringLiteral("SHELL"), QStringLiteral("/bin/sh"));
+         displayStopScript->setProcessEnvironment(env);
+ 

@@ -1,5 +1,5 @@
 Name:           plasma-sdk
-Version:        5.3.2
+Version:        5.4.1
 Release:        1%{?dist}
 Summary:        Development tools for Plasma 5
 
@@ -90,5 +90,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/plasma/packages/org.kde.plasma.cuttlefish
 %{_kf5_datadir}/plasma/shells/org.kde.plasma.plasmoidviewershell
 %{_kf5_datadir}/kservices5/*.desktop
+%{_datadir}/applications/cuttlefish.desktop
+%{_datadir}/applications/org.kde.plasma.themeexplorer.desktop
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+

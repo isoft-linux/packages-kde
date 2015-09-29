@@ -1,15 +1,10 @@
-
-%global rel 11
-%global system_kde_theme_ver 20.90
-
 Summary: Config files for kde
 Name:    kde-settings
-Version: 22
-Release: %{rel}%{?dist}
+Version: 40 
+Release: 2%{?dist}
 
 License: MIT
-Url:     http://fedorahosted.org/kde-settings
-Source0: https://fedorahosted.org/releases/k/d/kde-settings/%{name}-%{version}-%{rel}.tar.xz
+Source0: %{name}-%{version}.tar.xz
 
 BuildArch: noarch
 
@@ -54,7 +49,7 @@ Requires: pciutils
 
 
 %prep
-%setup -q -n %{name}-%{version}-%{rel}
+%setup -q -n %{name}-%{version}
 
 
 %build
@@ -66,42 +61,20 @@ mkdir -p %{buildroot}{%{_datadir}/config,%{_sysconfdir}/kde/kdm}
 
 tar cpf - . | tar --directory %{buildroot} -xvpf -
 
-rm -rf $RPM_BUILD_ROOT/etc/kde/env/fedora-bookmarks.sh
-rm -rf $RPM_BUILD_ROOT/etc/kde/kdm/README
-rm -rf $RPM_BUILD_ROOT/etc/kde/kdm/Xaccess
-rm -rf $RPM_BUILD_ROOT/etc/kde/kdm/Xresources
-rm -rf $RPM_BUILD_ROOT/etc/kde/kdm/Xsession
-rm -rf $RPM_BUILD_ROOT/etc/kde/kdm/Xsetup
-rm -rf $RPM_BUILD_ROOT/etc/kde/kdm/Xwilling
-rm -rf $RPM_BUILD_ROOT/etc/kde/kdm/kdmrc
-rm -rf $RPM_BUILD_ROOT/etc/logrotate.d/kdm
-rm -rf $RPM_BUILD_ROOT/etc/pam.d/kdm
-rm -rf $RPM_BUILD_ROOT/etc/pam.d/kdm-np
-rm -rf $RPM_BUILD_ROOT/etc/xdg/kdebugrc
-rm -rf $RPM_BUILD_ROOT/etc/xdg/plasmarc
-rm -rf $RPM_BUILD_ROOT/usr/lib/rpm/fileattrs/plasma4.attr
-rm -rf $RPM_BUILD_ROOT/usr/lib/rpm/plasma4.prov
-rm -rf $RPM_BUILD_ROOT/usr/lib/rpm/plasma4.req
-rm -rf $RPM_BUILD_ROOT/usr/lib/systemd/system/kdm.service
-rm -rf $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/kdm.conf
-rm -rf $RPM_BUILD_ROOT/usr/share/plasma/shells/org.kde.plasma.desktop/updates/00-start-here-kde-fedora-2.js
-rm -rf $RPM_BUILD_ROOT/usr/share/polkit-1/rules.d/11-fedora-kde-policy.rules
-rm -rf $RPM_BUILD_ROOT/var/lib/kdm/backgroundrc
 
-#rm -rf $RPM_BUILD_ROOT/usr/share/kde-settings/kde-profile/default/share/applications
-rm -rf $RPM_BUILD_ROOT/usr/share/kde-settings/kde-profile/default/share/apps/konqueror
-#rm -rf $RPM_BUILD_ROOT/usr/share/kde-settings/kde-profile/default/share/apps/plasma-desktop
-#rm -rf $RPM_BUILD_ROOT/usr/share/kde-settings/kde-profile/minimal/share/apps/plasma-desktop
-#rm -rf $RPM_BUILD_ROOT/usr/share/kde-settings/kde-profile/minimal/share/config
+#until our logo finished. use it to setup logo's of start menu
+rm -rf %{buildroot}%{_datadir}/plasma/shells/org.kde.plasma.desktop/updates/00-start-here-kde-isoft-2.js
 
+#this is for kde4
+rm -rf %{buildroot}%{_datadir}/kde-settings/kde-profile/default/share/apps/plasma-desktop/updates/00-start-here-kde-isoft-2.js
 
 %files 
 %config(noreplace) %{_sysconfdir}/profile.d/kde.*
 %{_sysconfdir}/kde/env/env.sh
-%{_sysconfdir}/kde/env/gpg-agent-startup.sh
-%{_sysconfdir}/kde/shutdown/gpg-agent-shutdown.sh
 %{_sysconfdir}/kde/env/gtk2_rc_files.sh
 %config(noreplace) %{_sysconfdir}/xdg/kdeglobals
+%config(noreplace) %{_sysconfdir}/xdg/kdebugrc
+%{_datadir}/polkit-1/rules.d/11-isoft-policy.rules
 %config(noreplace) /etc/pam.d/kcheckpass
 %config(noreplace) /etc/pam.d/kscreensaver
 
@@ -118,8 +91,7 @@ rm -rf $RPM_BUILD_ROOT/usr/share/kde-settings/kde-profile/default/share/apps/kon
 
 %files plasma
 %config(noreplace) %{_sysconfdir}/xdg/kcminputrc
-#%config(noreplace) %{_sysconfdir}/xdg/plasmarc
-#%{_datadir}/plasma/shells/org.kde.plasma.desktop/updates/00-start-here-kde-fedora-2.js
+#%{_datadir}/plasma/shells/org.kde.plasma.desktop/updates/00-start-here-kde-isoft-2.js
 %{_sysconfdir}/xdg/plasma-workspace/env/env.sh
 %{_sysconfdir}/xdg/plasma-workspace/env/gtk2_rc_files.sh
 %{_sysconfdir}/xdg/plasma-workspace/env/gtk3_scrolling.sh
@@ -131,3 +103,8 @@ rm -rf $RPM_BUILD_ROOT/usr/share/kde-settings/kde-profile/default/share/apps/kon
 
 
 %changelog
+* Mon Aug 17 2015 Cjacker <cjacker@foxmail.com>
+- add more policy controls of wheel group to 11-isoft-policy.rules
+
+* Fri Aug 14 2015 Cjacker <cjacker@foxmail.com>
+- add default browser in /etc/xdg/kdeglobals

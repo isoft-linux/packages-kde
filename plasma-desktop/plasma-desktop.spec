@@ -1,6 +1,6 @@
 Name:           plasma-desktop
-Version:        5.3.2
-Release:        7
+Version:        5.4.1
+Release:        8 
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -16,20 +16,24 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 ## downstream patches
 # adjust default kickoff favorites: -preferred_browser(buggy) +konqueror +konsole +apper
-Patch100: plasma-desktop-5.2.1-default_favorites.patch
+Patch100: plasma-desktop-default_favorites.patch
 # FIXME: make upstreamable, fix dup'd PREFIX KAUTH_HELPER_INSTALL_DIR when using absolute paths
 Patch101: plasma-desktop-fix-fontinst-service-path.patch
 # Default to Folder containment (rather than Desktop)
 Patch102: plasma-desktop-default-layout.patch
 
-# /usr/lib and /lib is merged and symbol linked,  original codes did not works.
-# and also, make it run fast, we had no need to detect it anymore, just hardcode the path here.
+#patches from Leslie Zhai
+Patch200: 0001-kickoff-accounts-service.patch  
+Patch201: plasma-desktop-kickoff-face-click-open-user_account.patch
 
-Patch103: plasma-desktop-fix-xkb-dir-and-let-codes-light.patch
+#default enable kimpanel by Cjacker.
+Patch300: plasma-desktop-default-enable-kimpanel.patch
+#By default, lock the panel.
+Patch301: plasma-desktop-default-locked.patch
+
 
 
 ## upstreamable patches
-Patch50: plasma-desktop-5.3.1-touchpad_backend.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -87,6 +91,12 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  xorg-x11-drv-synaptics-devel
 # for xserver-properties
 BuildRequires:  xorg-x11-server-devel
+
+
+#for patch200/201
+BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
+Requires: qt5-qtaccountsservice >= 0.6.0
+
 Requires:       kf5-kded
 
 # for kcm_keyboard
@@ -158,7 +168,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 rm -fv %{buildroot}%{_libdir}/libkfontinst{,ui}.so
 
 # KDM is dead
-rm -rv %{buildroot}%{_datadir}/kdm
+rm -rf %{buildroot}%{_datadir}/kdm
 
 # Copy konqsidebartng to kde4/apps so that KDE Konqueror can find it
 mkdir -p %{buildroot}%{_datadir}/kde4/apps/konqsidebartng/virtual_folders/services/
@@ -270,3 +280,14 @@ fi
 
 
 %changelog
+* Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.1
+
+* Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.0
+
+* Wed Aug 12 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.3.95
+
+* Fri Aug 07 2015 Cjacker <cjacker@foxmail.com>
+- add patch 200/201 to enable qtaccountservice face support.

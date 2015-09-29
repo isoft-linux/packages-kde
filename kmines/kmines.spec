@@ -1,6 +1,6 @@
 Name:    kmines
 Summary: A classic Minesweeper game
-Version: 15.04.3
+Version: 15.08.1
 Release: 2
 
 License: GPLv2+
@@ -42,7 +42,7 @@ BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
 BuildRequires: pkgconfig(phonon4qt5)
 BuildRequires: pkgconfig(Qt5Widgets) pkgconfig(Qt5Test) pkgconfig(Qt5Qml)
-BuildRequires: libappstream-glib
+BuildRequires: appstream-glib
 BuildRequires: libkdegames-devel >= %{version}
 
 
