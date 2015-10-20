@@ -1,5 +1,5 @@
 Name:           plasma-sdk
-Version:        5.4.1
+Version:        5.4.2
 Release:        1%{?dist}
 Summary:        Development tools for Plasma 5
 
@@ -94,6 +94,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/applications/org.kde.plasma.themeexplorer.desktop
 
 %changelog
+* Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.2
+
 * Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.1
 

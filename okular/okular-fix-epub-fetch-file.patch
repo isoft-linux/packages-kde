@@ -1,0 +1,24 @@
+diff -Nur okular/generators/epub/epubdocument.cpp okularnew/generators/epub/epubdocument.cpp
+--- okular/generators/epub/epubdocument.cpp	2015-07-04 01:50:53.000000000 +0800
++++ okularnew/generators/epub/epubdocument.cpp	2015-10-11 00:17:41.392114756 +0800
+@@ -20,9 +20,19 @@
+ 
+ QString resourceUrl(const QUrl &baseUrl, const QString &u)
+ {
++// the behavior of QUrl toLocalFile is undefined if the url is just a path(aka. without file://)
++// here we use file:// as a base url and resolve the url until it is absolute path.
++// and remove all '/' at start 
++  QUrl bUrl("file://");
+   QUrl newUrl(baseUrl.adjusted(QUrl::RemoveFilename).path() + '/' + u);
++
++  while(newUrl.toString().contains("//"))
++    newUrl = QUrl(newUrl.toString().replace("//","/"));	
++  newUrl = bUrl.resolved(newUrl);
++
+   QString newDir = newUrl.toLocalFile();
+-  newDir.remove(0, 1);
++  while(newDir.startsWith("/"))
++    newDir.remove(0, 1);
+   return newDir;
+ }
+ 

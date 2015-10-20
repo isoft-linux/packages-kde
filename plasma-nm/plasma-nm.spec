@@ -1,6 +1,6 @@
 Name:           plasma-nm
-Version:        5.4.1
-Release:        2%{?dist}
+Version:        5.4.2
+Release:        3%{?dist}
 Summary:        Plasma Next applet written in QML for managing network connections
 License:        LGPLv2+ and GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-nm
@@ -15,6 +15,9 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 # Add plasma-nm to default systray if needed, for upgraders...
 Source10:       01-plasma-nm.js
+
+#add an entry to systemsettings.
+Source11: connection-editor.desktop
 
 # Upstream patches
 
@@ -190,6 +193,11 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 # migrate to nm plasmoid
 install -m644 -p -D %{SOURCE10} %{buildroot}%{_datadir}/plasma/updates/01-plasma-nm.js
 
+# Add an systemsettings entry.
+mkdir -p %{buildroot}%{_datadir}/kservices5/
+install -m 0644 %{SOURCE11} %{buildroot}%{_datadir}/kservices5/
+
+
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -215,6 +223,8 @@ install -m644 -p -D %{SOURCE10} %{buildroot}%{_datadir}/plasma/updates/01-plasma
 # plasma-nm other
 %{_kf5_datadir}/kservicetypes5/plasma-networkmanagement-vpnuiplugin.desktop
 
+#systemsettings entry
+%{_datadir}/kservices5/connection-editor.desktop
 
 %files mobile
 
@@ -255,6 +265,12 @@ install -m644 -p -D %{SOURCE10} %{buildroot}%{_datadir}/plasma/updates/01-plasma
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_sstpui.desktop
 
 %changelog
+* Mon Oct 19 2015 Cjacker <cjacker@foxmail.com>
+- add an systemsettings entry for kde4-nm-connection-editor
+
+* Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.2
+
 * Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.1
 

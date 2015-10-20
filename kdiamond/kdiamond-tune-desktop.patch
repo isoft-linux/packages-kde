@@ -1,0 +1,18 @@
+diff -Nur kdiamond-15.08.2/src/org.kde.kdiamond.desktop kdiamond-15.08.2n/src/org.kde.kdiamond.desktop
+--- kdiamond-15.08.2/src/org.kde.kdiamond.desktop	2015-07-26 02:31:43.000000000 +0800
++++ kdiamond-15.08.2n/src/org.kde.kdiamond.desktop	2015-10-17 10:04:53.285438617 +0800
+@@ -101,11 +101,11 @@
+ GenericName[uk]=Гра у три в рядок
+ GenericName[wa]=Djeu «troes e roye»
+ GenericName[x-test]=xxThree-in-a-row gamexx
+-GenericName[zh_CN]=三子连线棋游戏
+-GenericName[zh_TW]=把三個相同的寶石連成一線
++GenericName[zh_CN]=爱消除
++GenericName[zh_TW]=寶石連線
+ Terminal=false
+ Icon=kdiamond
+ StartupNotify=true
+-Categories=Qt;KDE;Game;LogicGame;
++Categories=Qt;KDE;Game;
+ X-DocPath=kdiamond/index.html
+ X-DBUS-ServiceName=org.kde.kdiamond

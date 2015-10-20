@@ -1,0 +1,45 @@
+diff -Nur dolphin-15.08.2/src/kitemviews/kfileitemmodelrolesupdater.cpp dolphin-15.08.2n/src/kitemviews/kfileitemmodelrolesupdater.cpp
+--- dolphin-15.08.2/src/kitemviews/kfileitemmodelrolesupdater.cpp	2015-10-18 10:15:09.371642658 +0800
++++ dolphin-15.08.2n/src/kitemviews/kfileitemmodelrolesupdater.cpp	2015-10-18 10:17:58.073191616 +0800
+@@ -100,6 +100,11 @@
+     m_enabledPlugins = globalConfig.readEntry("Plugins", QStringList()
+                                                          << "directorythumbnail"
+                                                          << "imagethumbnail"
++                                                         << "svgthumbnail"
++                                                         << "ffmpegthumbs"
++                                                         << "icnsthumbs"
++                                                         << "gsthumbnail"
++                                                         << "rawthumbnail"
+                                                          << "jpegthumbnail");
+ 
+     connect(m_model, &KFileItemModel::itemsInserted,
+diff -Nur dolphin-15.08.2/src/settings/general/previewssettingspage.cpp dolphin-15.08.2n/src/settings/general/previewssettingspage.cpp
+--- dolphin-15.08.2/src/settings/general/previewssettingspage.cpp	2015-10-09 07:12:29.000000000 +0800
++++ dolphin-15.08.2n/src/settings/general/previewssettingspage.cpp	2015-10-18 10:18:58.556068632 +0800
+@@ -177,6 +177,11 @@
+     m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList()
+                                                      << QLatin1String("directorythumbnail")
+                                                      << QLatin1String("imagethumbnail")
++                                                     << QLatin1String("svgthumbnail")
++                                                     << QLatin1String("icnsthumbs")
++                                                     << QLatin1String("ffmpegthumbs")
++                                                     << QLatin1String("gsthumbnail")
++                                                     << QLatin1String("rawthumbnail")
+                                                      << QLatin1String("jpegthumbnail"));
+ 
+     const qulonglong defaultRemotePreview = static_cast<qulonglong>(MaxRemotePreviewSize) * 1024 * 1024;
+diff -Nur dolphin-15.08.2/src/views/dolphinitemlistview.cpp dolphin-15.08.2n/src/views/dolphinitemlistview.cpp
+--- dolphin-15.08.2/src/views/dolphinitemlistview.cpp	2015-10-09 07:12:29.000000000 +0800
++++ dolphin-15.08.2n/src/views/dolphinitemlistview.cpp	2015-10-18 10:18:16.396555693 +0800
+@@ -97,6 +97,11 @@
+     const QStringList plugins = globalConfig.readEntry("Plugins", QStringList()
+                                                        << "directorythumbnail"
+                                                        << "imagethumbnail"
++                                                       << "svgthumbnail"
++                                                       << "ffmpegthumbs"
++                                                       << "icnsthumbs"
++                                                       << "gsthumbnail"
++                                                       << "rawthumbnail"
+                                                        << "jpegthumbnail");
+     setEnabledPlugins(plugins);
+ 

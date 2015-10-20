@@ -1,0 +1,16 @@
+diff -Nur kpat-15.08.2/org.kde.kpat.desktop kpat-15.08.2n/org.kde.kpat.desktop
+--- kpat-15.08.2/org.kde.kpat.desktop	2015-10-04 03:25:07.000000000 +0800
++++ kpat-15.08.2n/org.kde.kpat.desktop	2015-10-17 10:01:40.695317865 +0800
+@@ -121,9 +121,9 @@
+ GenericName[wa]=Cwårdjeu d' pacyince
+ GenericName[xh]=Ikhadi lomdlalo wokunyamezela
+ GenericName[x-test]=xxPatience Card Gamexx
+-GenericName[zh_CN]=考验耐心的牌类游戏
+-GenericName[zh_TW]=單人玩的紙牌遊戲
++GenericName[zh_CN]=纸牌
++GenericName[zh_TW]=紙牌
+ X-DBUS-StartupType=Multi
+-Categories=Qt;KDE;Game;CardGame;
++Categories=Qt;KDE;Game;
+ MimeType=application/vnd.kde.kpatience.savedstate;
+ X-DBUS-ServiceName=org.kde.kpat

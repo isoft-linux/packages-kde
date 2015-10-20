@@ -3,8 +3,8 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.4.1
-Release:        1
+Version:        5.4.2
+Release:        4 
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -33,6 +33,12 @@ Patch12: 	plasma-workspace-disable-gpsd.patch
 
 #Patch from Leslie Zhai
 Patch13:  0001-kscreenlocker-accounts-service.patch
+
+#from Cjacker, protect ~/Desktop(localized by xdg-user-dirs)
+#if it get deleted or Home.desktop/trash.desktop get deleted.
+#when desktop started, all will be restored.
+Patch14:  plasma-workspace-protect-home-Desktop-dir.patch
+
 ## upstreamable Patches
 
 ## upstream Patches
@@ -181,6 +187,9 @@ Requires:       oxygen-icon-theme
 Requires:       oxygen-sound-theme
 Requires:       oxygen-fonts
 
+#our patch on kio_desktop need xdg-user-dirs.
+Requires: xdg-user-dirs
+
 # PolicyKit authentication agent
 Requires:        polkit-kde
 
@@ -218,6 +227,7 @@ Documentation and user manuals for %{name}.
 %patch10 -p1 -b .konsole-in-contextmenu
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -298,7 +308,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_datadir}/xsessions/plasma.desktop
 
 %{_kf5_plugindir}/kio/desktop.so
-%{_datadir}/kio_desktop/DesktopLinks/Home.desktop
+%{_datadir}/kio_desktop/Home.desktop
 %{_datadir}/kio_desktop/directory.desktop
 %{_datadir}/kio_desktop/directory.trash
 
@@ -329,6 +339,12 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Fri Oct 16 2015 Cjacker <cjacker@foxmail.com>
+- modify startkde.cmake to generate plasma-locale-setting.sh at first login.
+
+* Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.2
+
 * Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.1
 

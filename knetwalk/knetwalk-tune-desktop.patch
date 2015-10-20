@@ -1,0 +1,17 @@
+diff -Nur knetwalk-15.08.2/src/org.kde.knetwalk.desktop knetwalk-15.08.2n/src/org.kde.knetwalk.desktop
+--- knetwalk-15.08.2/src/org.kde.knetwalk.desktop	2015-05-02 19:43:02.000000000 +0800
++++ knetwalk-15.08.2n/src/org.kde.knetwalk.desktop	2015-10-17 10:06:27.837020398 +0800
+@@ -106,10 +106,10 @@
+ GenericName[uk]=Гра з побудови мереж
+ GenericName[wa]=Djeu d' costrujhaedje del rantoele
+ GenericName[x-test]=xxNetwork Construction Gamexx
+-GenericName[zh_CN]=网络建设游戏
+-GenericName[zh_TW]=網路建構遊戲
++GenericName[zh_CN]=网络建设
++GenericName[zh_TW]=網路建構
+ Terminal=false
+ Icon=knetwalk
+ StartupNotify=true
+-Categories=Qt;KDE;Game;StrategyGame;
++Categories=Qt;KDE;Game;
+ X-DBUS-ServiceName=org.kde.knetwalk

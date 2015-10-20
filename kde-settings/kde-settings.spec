@@ -1,7 +1,7 @@
 Summary: Config files for kde
 Name:    kde-settings
 Version: 40 
-Release: 2%{?dist}
+Release: 6%{?dist}
 
 License: MIT
 Source0: %{name}-%{version}.tar.xz
@@ -91,6 +91,7 @@ rm -rf %{buildroot}%{_datadir}/kde-settings/kde-profile/default/share/apps/plasm
 
 %files plasma
 %config(noreplace) %{_sysconfdir}/xdg/kcminputrc
+%{_sysconfdir}/xdg/dolphinrc
 #%{_datadir}/plasma/shells/org.kde.plasma.desktop/updates/00-start-here-kde-isoft-2.js
 %{_sysconfdir}/xdg/plasma-workspace/env/env.sh
 %{_sysconfdir}/xdg/plasma-workspace/env/gtk2_rc_files.sh
@@ -103,6 +104,13 @@ rm -rf %{buildroot}%{_datadir}/kde-settings/kde-profile/default/share/apps/plasm
 
 
 %changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- change default browser to chromium in /etc/xdg/kdeglobals.
+
+* Tue Oct 13 2015 Cjacker <cjacker@foxmail.com>
+- set default icon size of dolphin IconMode to 64. /etc/xdg/dolphinrc
+- set "SingleClick=false" in /etc/xdg/kdeglobals
+
 * Mon Aug 17 2015 Cjacker <cjacker@foxmail.com>
 - add more policy controls of wheel group to 11-isoft-policy.rules
 

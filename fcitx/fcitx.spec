@@ -5,7 +5,7 @@
  
 %define nam             fcitx 
 %define ver             4.2.9
-%define rel             1
+%define rel             2 
 
 
 %global _xinputconf %{_sysconfdir}/X11/xinit/xinput.d/fcitx.conf
@@ -24,7 +24,8 @@ Patch0:         fcitx-tweak.patch
 
 BuildRequires:  gtk2-devel
 BuildRequires:  gtk3-devel
-#BuildRequires:  qt4-devel
+BuildRequires:  opencc-devel
+BuildRequires:  qt4-devel
 BuildRequires:  cmake
 Obsoletes:      scim
 

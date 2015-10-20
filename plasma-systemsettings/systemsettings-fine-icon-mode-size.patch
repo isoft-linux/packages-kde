@@ -1,0 +1,14 @@
+diff -Nur systemsettings-5.4.2/icons/CategorizedView.cpp systemsettings-5.4.2n/icons/CategorizedView.cpp
+--- systemsettings-5.4.2/icons/CategorizedView.cpp	2015-10-01 18:00:56.000000000 +0800
++++ systemsettings-5.4.2n/icons/CategorizedView.cpp	2015-10-19 23:35:40.407952609 +0800
+@@ -40,6 +40,10 @@
+         maxWidth = qMax( maxWidth, size.width() );
+         maxHeight = qMax( maxHeight, size.height() );
+     }
++    if(maxWidth > maxHeight)
++        maxHeight = maxWidth;
++    else
++        maxWidth = maxHeight;
+     setGridSize( QSize( maxWidth, maxHeight ) );
+     static_cast<KFileItemDelegate*>( itemDelegate() )->setMaximumSize( QSize( maxWidth, maxHeight ) );
+ }

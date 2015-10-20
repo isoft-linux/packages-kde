@@ -1,11 +1,11 @@
 %global framework kfilemetadata
 
 # Enable to build ffmpeg extractor
-%global         ffmpeg  0
+%global         ffmpeg 1 
 
 Name:           kf5-%{framework}
 Summary:        A Tier 2 KDE Framework for extracting file metadata
-Version:        5.14.0
+Version:        5.15.0
 Release:        1
 
 # # KDE e.V. may determine that future LGPL versions are accepted
@@ -81,6 +81,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/KFileMetaData
 
 %changelog
+* Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.15.0
+
 * Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.14.0
 

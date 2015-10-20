@@ -1,6 +1,6 @@
 Name:    kate
 Summary: Advanced Text Editor
-Version: 15.08.1
+Version: 15.08.2
 Release: 2 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/kate
@@ -169,5 +169,8 @@ update-desktop-database -q &> /dev/null || :
 
 
 %changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+
 * Fri Sep 25 2015 Cjacker <cjacker@foxmail.com>
 - rebuild with new libgit2

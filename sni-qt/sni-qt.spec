@@ -1,11 +1,11 @@
 Name:    sni-qt
 Summary: Plugin for Qt4 that turns QSystemTrayIcons into status notifiers
-Version: 0.2.6
+Version: 0.2.7
 Release: 6
 
 License: LGPLv3
 URL:     https://launchpad.net/sni-qt
-Source0: https://launchpad.net/sni-qt/trunk/%{version}/+download/sni-qt-%{version}.tar.bz2
+Source0: https://launchpad.net/sni-qt/trunk/%{version}/+download/sni-qt-%{version}.tar.gz
 
 # From Ubuntu packaging version 0.2.5-0ubuntu3
 Source1: sni-qt.conf

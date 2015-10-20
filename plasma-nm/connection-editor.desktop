@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=SystemSettingsExternalApp
+
+X-KDE-Keywords=network;wireless;interface;
+
+X-KDE-System-Settings-Parent-Category=network
+
+Exec=kde5-nm-connection-editor
+Icon=preferences-system-network
+
+X-KDE-Weight=10
+
+Name=ConnectionEditor
+Name[zh_CN]=网络设置
+Comment=Network Connection Editor
+Comment[zh_CN]=网络接口设置

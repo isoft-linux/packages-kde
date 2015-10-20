@@ -1,7 +1,7 @@
 %global framework kconfig
 
 Name:           kf5-%{framework}
-Version:        5.14.0
+Version:        5.15.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with advanced configuration system
 
@@ -110,6 +110,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.15.0
+
 * Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.14.0
 

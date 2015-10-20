@@ -1,7 +1,6 @@
-
 Name:    baloo-widgets
 Summary: Widgets for Baloo
-Version: 15.08.1
+Version: 15.08.2
 Release: 3%{?dist}
 
 # # KDE e.V. may determine that future LGPL versions are accepted
@@ -78,3 +77,6 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+

@@ -1,6 +1,6 @@
 Name:    dolphin-plugins
 Summary: Dolphin plugins for revision control systems
-Version: 15.08.1
+Version: 15.08.2
 Release: 2%{?dist}
 
 License: GPLv2+
@@ -83,3 +83,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/fileviewbazaarplugin.desktop
 %{_kf5_datadir}/config.kcfg/fileviewgitpluginsettings.kcfg
 %{_kf5_datadir}/config.kcfg/fileviewsvnpluginsettings.kcfg
+
+%changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+

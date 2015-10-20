@@ -1,0 +1,12 @@
+diff -Nur plasma-desktop-5.4.2/layout-templates/org.kde.plasma.desktop.defaultPanel/contents/layout.js plasma-desktop-5.4.2n/layout-templates/org.kde.plasma.desktop.defaultPanel/contents/layout.js
+--- plasma-desktop-5.4.2/layout-templates/org.kde.plasma.desktop.defaultPanel/contents/layout.js	2015-10-13 12:59:05.515921045 +0800
++++ plasma-desktop-5.4.2n/layout-templates/org.kde.plasma.desktop.defaultPanel/contents/layout.js	2015-10-13 12:59:34.773019909 +0800
+@@ -25,7 +25,7 @@
+     panel.location = "top";
+ }
+ 
+-panel.height = screenGeometry(panel.screen).height > 1024 ? 35 : 27
++panel.height = screenGeometry(panel.screen).height > 1024 ? 38 : 30
+ 
+ var kickoff = panel.addWidget("org.kde.plasma.kickoff")
+ kickoff.currentConfigGroup = ["Shortcuts"]

@@ -4,7 +4,7 @@
 
 Name:    kde-runtime
 Summary: KDE Runtime
-Version: 15.08.1
+Version: 15.08.2
 Release: 3
 
 # http://techbase.kde.org/Policies/Licensing_Policy
@@ -467,6 +467,9 @@ fi
 
 
 %changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+
 * Wed Sep 16 2015 Cjacker <cjacker@foxmail.com>
 - update to 15.08.1
 - add -DCMAKE_MINIMUM_REQUIRED_VERSION=3.0 to fix build with cmake-3.x

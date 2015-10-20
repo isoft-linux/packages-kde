@@ -1,0 +1,99 @@
+diff -Nur kio-5.15.0/src/kcms/kio/cache.desktop kio-5.15.0new/src/kcms/kio/cache.desktop
+--- kio-5.15.0/src/kcms/kio/cache.desktop	2015-10-05 16:11:41.000000000 +0800
++++ kio-5.15.0new/src/kcms/kio/cache.desktop	2015-10-14 20:59:39.208718347 +0800
+@@ -9,8 +9,8 @@
+ X-KDE-PluginKeyword=cache
+ X-KDE-ParentApp=kcontrol
+ 
+-X-KDE-System-Settings-Parent-Category=networksettings
+-X-KDE-Weight=80
++#X-KDE-System-Settings-Parent-Category=networksettings
++#X-KDE-Weight=80
+ 
+ Name=Cache
+ Name[af]=Kas
+diff -Nur kio-5.15.0/src/kcms/kio/cookies.desktop kio-5.15.0new/src/kcms/kio/cookies.desktop
+--- kio-5.15.0/src/kcms/kio/cookies.desktop	2015-10-05 16:11:41.000000000 +0800
++++ kio-5.15.0new/src/kcms/kio/cookies.desktop	2015-10-14 20:59:45.695824950 +0800
+@@ -9,8 +9,8 @@
+ X-KDE-PluginKeyword=cookie
+ X-KDE-ParentApp=kcontrol
+ 
+-X-KDE-System-Settings-Parent-Category=networksettings
+-X-KDE-Weight=90
++#X-KDE-System-Settings-Parent-Category=networksettings
++#X-KDE-Weight=90
+ 
+ Name=Cookies
+ Name[ca]=Galetes
+diff -Nur kio-5.15.0/src/kcms/kio/netpref.desktop kio-5.15.0new/src/kcms/kio/netpref.desktop
+--- kio-5.15.0/src/kcms/kio/netpref.desktop	2015-10-05 16:11:41.000000000 +0800
++++ kio-5.15.0new/src/kcms/kio/netpref.desktop	2015-10-14 20:59:54.820976344 +0800
+@@ -9,8 +9,8 @@
+ X-KDE-PluginKeyword=netpref
+ X-KDE-ParentApp=kcontrol
+ 
+-X-KDE-System-Settings-Parent-Category=networksettings
+-X-KDE-Weight=50
++#X-KDE-System-Settings-Parent-Category=networksettings
++#X-KDE-Weight=50
+ 
+ Name=Connection Preferences
+ Name[af]=Koppeling Voorkeure
+diff -Nur kio-5.15.0/src/kcms/kio/proxy.desktop kio-5.15.0new/src/kcms/kio/proxy.desktop
+--- kio-5.15.0/src/kcms/kio/proxy.desktop	2015-10-05 16:11:41.000000000 +0800
++++ kio-5.15.0new/src/kcms/kio/proxy.desktop	2015-10-14 21:12:08.393714719 +0800
+@@ -9,9 +9,11 @@
+ X-KDE-PluginKeyword=proxy
+ X-KDE-ParentApp=kcontrol
+ 
+-X-KDE-System-Settings-Parent-Category=networksettings
++X-KDE-System-Settings-Parent-Category=proxy
+ X-KDE-Weight=40
+ 
++#X-KDE-System-Settings-Parent-Category=networksettings
++
+ Name=Proxy
+ Name[af]=Volmag
+ Name[as]=প্ৰশমক
+diff -Nur kio-5.15.0/src/kcms/kio/smb.desktop kio-5.15.0new/src/kcms/kio/smb.desktop
+--- kio-5.15.0/src/kcms/kio/smb.desktop	2015-10-05 16:11:41.000000000 +0800
++++ kio-5.15.0new/src/kcms/kio/smb.desktop	2015-10-14 21:11:57.908458783 +0800
+@@ -7,7 +7,7 @@
+ 
+ X-KDE-Library=kcm_kio
+ X-KDE-PluginKeyword=smb
+-X-KDE-System-Settings-Parent-Category=connectivity
++#X-KDE-System-Settings-Parent-Category=connectivity
+ X-KDE-ParentApp=kcontrol
+ 
+ Name=Windows Shares
+diff -Nur kio-5.15.0/src/kcms/kio/useragent.desktop kio-5.15.0new/src/kcms/kio/useragent.desktop
+--- kio-5.15.0/src/kcms/kio/useragent.desktop	2015-10-05 16:11:41.000000000 +0800
++++ kio-5.15.0new/src/kcms/kio/useragent.desktop	2015-10-14 21:01:24.740552328 +0800
+@@ -6,10 +6,10 @@
+ X-DocPath=kcontrol/useragent/index.html
+ 
+ X-KDE-Library=kcm_kio
+-X-KDE-System-Settings-Parent-Category=networksettings
++#X-KDE-System-Settings-Parent-Category=networksettings
+ X-KDE-PluginKeyword=useragent
+ X-KDE-ParentApp=kcontrol
+-X-KDE-Weight=100
++#X-KDE-Weight=100
+ 
+ Name=Browser Identification
+ Name[af]=Stelsel identifisering
+diff -Nur kio-5.15.0/src/kcms/webshortcuts/webshortcuts.desktop kio-5.15.0n/src/kcms/webshortcuts/webshortcuts.desktop
+--- kio-5.15.0/src/kcms/webshortcuts/webshortcuts.desktop	2015-10-05 16:11:41.000000000 +0800
++++ kio-5.15.0n/src/kcms/webshortcuts/webshortcuts.desktop	2015-10-17 08:56:14.250608612 +0800
+@@ -8,9 +8,6 @@
+ X-KDE-Library=kcm_webshortcuts
+ X-KDE-ParentApp=kcontrol
+ 
+-X-KDE-System-Settings-Parent-Category=shortcuts
+-X-KDE-Weight=70
+-
+ Name=Web Shortcuts
+ Name[af]=Web Kortpaaie
+ Name[as]=ৱেবৰ চমু পথ

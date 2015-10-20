@@ -6,7 +6,7 @@
 Name:    okular 
 Summary: A document viewer
 Version: 1.0.0 
-Release: 5.git%{?dist}
+Release: 6.git%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -21,6 +21,11 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
 #git clone git://anongit.kde.org/okular
 #git checkout frameworks
 Source0: okular.tar.gz
+
+#below patches is created by Cjacker.
+Patch0: okular-fix-accident-pdf-stretch.patch
+Patch1: okular-kio-with-slash-not-work-fix.patch
+Patch2: okular-fix-epub-fetch-file.patch
 
 %if 0%{?chm}
 BuildRequires: chmlib-devel
@@ -108,6 +113,9 @@ Summary: A kioslave for displaying WinHelp files
 
 %prep
 %setup -q -n okular
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -125,6 +133,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 rm -rf %{buildroot}%{_kf5_datadir}/kpackage/genericqml/org.kde.active.documentviewer
 rm -rf %{buildroot}%{_kf5_datadir}/applications/active-documentviewer_*.desktop
 rm -rf %{buildroot}%{_kf5_datadir}/applications/org.kde.active.documentviewer.desktop
+rm -rf %{buildroot}%{_kf5_datadir}/applications/org.kde.mobile.*
+rm -rf %{buildroot}%{_kf5_datadir}/kpackage/genericqml/org.kde.mobile.okular
 %endif
 
 
@@ -206,7 +216,11 @@ fi
 
 
 %changelog
-
+* Sat Oct 10 2015 Cjacker <cjacker@foxmail.com>
+- add patch0 to fix pdf stretch issue.
+- it's related to qt5, the dpi width should be equal to height.
+- add patch1 to fix chm kio_msits issue.
+- add patch2 to fix epub image fetch issue.
 
 
 

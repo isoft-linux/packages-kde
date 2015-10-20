@@ -2,7 +2,7 @@
 
 Name:           kwalletmanager
 Summary:        Manage KDE passwords
-Version:        15.08.1
+Version:        15.08.2
 Release:        1
 
 License:        GPLv2+
@@ -90,3 +90,6 @@ fi
 
 
 %changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+

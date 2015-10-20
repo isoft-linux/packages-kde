@@ -3,8 +3,8 @@
 
 Name:    kde-l10n
 Summary: Internationalization support for KDE
-Version: 15.08.1
-Release: 3 
+Version: 15.08.2
+Release: 4 
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -190,6 +190,8 @@ for i in $(cat %{SOURCE1000}) ; do
       sed -i -e 's/add_subdirectory( *kdeplasma-addons *)/#add_subdirectory(kdeplasma-addons)/g' 4/$i/$j/messages/CMakeLists.txt
       # Provided by kf5-kfilemetada
       rm -fv 4/$i/$j/messages/kdelibs/kfilemetadata.po
+      # Provided by kcmlocale 
+      rm -fv 4/$i/$j/messages/kde-runtime/kcmlocale.po
       # Provided by kde-cli-tools
       rm -fv 4/$i/$j/messages/kde-runtime/{filetypes,kcmshell,kdesu,kioclient,kmimetypefinder,kstart,ktraderclient}.po
       # Provided by khelpcenter
@@ -368,3 +370,6 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/ki18n5/
 
 
 %changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+

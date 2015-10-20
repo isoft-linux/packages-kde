@@ -1,8 +1,8 @@
 %global framework kio
 
 Name:           kf5-%{framework}
-Version:        5.14.0
-Release:        2%{?dist}
+Version:        5.15.0
+Release:        5%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -16,6 +16,11 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+#Remove "Link to Device" submenu from "Create New" menu.
+Patch0: kio-remove-Create_New-Link-to-Device.patch
+
+#Hide unwanted systemsettings entries, but it still can be called with "kcmshell5 modules".
+Patch1: kio-hide-unwanted-systemsettings-entries.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -264,6 +269,12 @@ fi
 
 
 %changelog
+* Wed Oct 14 2015 Cjacker <cjacker@foxmail.com>
+- remove "Link to Device" submenu from "Create New" menu.
+
+* Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.15.0
+
 * Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.14.0
 

@@ -28,3 +28,15 @@ diff -Nur fcitx-4.2.8.6/data/config.desc fcitx-4.2.8.6n/data/config.desc
  Description=Extra key for trigger input method
  
  [Hotkey/CustomSwitchKey]
+diff -Nur fcitx-4.2.9/data/config.desc fcitx-4.2.9n/data/config.desc
+--- fcitx-4.2.9/data/config.desc	2015-10-13 10:38:00.741651067 +0800
++++ fcitx-4.2.9n/data/config.desc	2015-10-13 10:38:39.071455532 +0800
+@@ -6,7 +6,7 @@
+ 
+ [Hotkey/UseExtraTriggerKeyOnlyWhenUseItToInactivate]
+ Type=Boolean
+-DefaultValue=True
++DefaultValue=False
+ Description=Use extra trigger key only after using it to inactivate
+ Advance=True
+ 

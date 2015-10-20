@@ -2,7 +2,7 @@
 %define         plasma_version 5.3.0
 
 Name:           kf5-%{framework}
-Version:        5.14.0
+Version:        5.15.0
 Release:        1
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
@@ -86,6 +86,7 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 
 install -p -m644 -D %{SOURCE1} %{buildroot}%{_prefix}/lib/sysctl.d/97-kde-baloo-filewatch-inotify.conf
 
+%find_lang baloomonitorplugin --with-qt
 %find_lang balooctl --with-qt
 %find_lang kio_baloosearch --with-qt
 %find_lang baloo_file --with-qt
@@ -101,7 +102,7 @@ cat kio_tags.lang kio_baloosearch.lang kio_timeline.lang \
 cat baloo_file.lang baloo_file_extractor.lang \
     > %{name}-file.lang
 
-cat baloosearch.lang balooshow.lang balooctl.lang \
+cat baloomonitorplugin.lang baloosearch.lang balooshow.lang balooctl.lang \
     > %{name}.lang
 
 
@@ -124,7 +125,6 @@ fi
 %{_kf5_bindir}/baloosearch
 %{_kf5_bindir}/balooshow
 %{_kf5_bindir}/balooctl
-%{_kf5_bindir}/baloo-monitor
 %{_kf5_plugindir}/kio/baloosearch.so
 %{_kf5_plugindir}/kio/tags.so
 %{_kf5_plugindir}/kio/timeline.so
@@ -141,14 +141,14 @@ fi
 %{_kf5_bindir}/baloo_file
 %{_kf5_bindir}/baloo_file_extractor
 %{_kf5_sysconfdir}/xdg/autostart/baloo_file.desktop
-%{_kf5_sysconfdir}/dbus-1/system.d/org.kde.baloo.filewatch.conf
-%{_kf5_libexecdir}/kauth/kde_baloo_filewatch_raiselimit
-%{_kf5_datadir}/dbus-1/system-services/org.kde.baloo.filewatch.service
+#%{_kf5_sysconfdir}/dbus-1/system.d/org.kde.baloo.filewatch.conf
+#%{_kf5_libexecdir}/kauth/kde_baloo_filewatch_raiselimit
+#%{_kf5_datadir}/dbus-1/system-services/org.kde.baloo.filewatch.service
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.file.indexer.xml
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.fileindexer.xml
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.main.xml
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.scheduler.xml
-%{_datadir}/polkit-1/actions/org.kde.baloo.filewatch.policy
+#%{_datadir}/polkit-1/actions/org.kde.baloo.filewatch.policy
 
 
 %files libs -f %{name}-libs.lang
@@ -165,6 +165,9 @@ fi
 
 
 %changelog
+* Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.15.0
+
 * Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.14.0
 

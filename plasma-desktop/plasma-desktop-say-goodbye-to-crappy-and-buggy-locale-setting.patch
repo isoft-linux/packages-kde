@@ -1,0 +1,26 @@
+diff -Nur plasma-desktop-5.4.2/kcms/formats/formats.desktop plasma-desktop-5.4.2n/kcms/formats/formats.desktop
+--- plasma-desktop-5.4.2/kcms/formats/formats.desktop	2015-10-01 17:51:50.000000000 +0800
++++ plasma-desktop-5.4.2n/kcms/formats/formats.desktop	2015-10-16 23:46:47.516098489 +0800
+@@ -8,9 +8,6 @@
+ X-KDE-Library=kcm_formats
+ X-KDE-ParentApp=kcontrol
+ 
+-X-KDE-System-Settings-Parent-Category=regionalsettings
+-X-KDE-Weight=50
+-
+ Name=Formats
+ Name[ar]=التنسيقات
+ Name[bs]=Formati
+diff -Nur plasma-desktop-5.4.2/kcms/translations/translations.desktop plasma-desktop-5.4.2n/kcms/translations/translations.desktop
+--- plasma-desktop-5.4.2/kcms/translations/translations.desktop	2015-10-01 17:51:50.000000000 +0800
++++ plasma-desktop-5.4.2n/kcms/translations/translations.desktop	2015-10-16 23:46:59.352966609 +0800
+@@ -8,9 +8,6 @@
+ X-KDE-Library=kcm_translations
+ X-KDE-ParentApp=kcontrol
+ 
+-X-KDE-System-Settings-Parent-Category=regionalsettings
+-X-KDE-Weight=40
+-
+ Name=Translations
+ Name[ar]=الترجمات
+ Name[bs]=Prevodi

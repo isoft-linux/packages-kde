@@ -2,8 +2,8 @@
 
 Name:    kmix 
 Summary: KDE volume control 
-Version: 15.08.1
-Release: 2
+Version: 15.08.2
+Release: 3 
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdemultimedia/%{name}
@@ -62,7 +62,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
-#echo "NoDisplay=true" >>$RPM_BUILD_ROOT%{_datadir}/applications/kmix.desktop
+echo "NoDisplay=true" >>$RPM_BUILD_ROOT%{_datadir}/applications/kmix.desktop
 #plasma-5.4 have plasma-pa, drop autostart of kmix.
 #rm -rf %{buildroot}%{_sysconfdir}/xdg/autostart
 
@@ -103,3 +103,6 @@ fi
 
 
 %changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+

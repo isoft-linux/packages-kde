@@ -1,7 +1,7 @@
 %global base_name kgamma5
 Name:    kgamma5
 Summary: A monitor calibration tool 
-Version: 5.4.1
+Version: 5.4.2
 Release: 2%{?dist}
 
 License: GPLv2
@@ -75,6 +75,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.2
+
 * Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.1
 

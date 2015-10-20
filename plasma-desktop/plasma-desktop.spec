@@ -1,6 +1,6 @@
 Name:           plasma-desktop
-Version:        5.4.1
-Release:        8 
+Version:        5.4.2
+Release:        20 
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -18,7 +18,7 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 # adjust default kickoff favorites: -preferred_browser(buggy) +konqueror +konsole +apper
 Patch100: plasma-desktop-default_favorites.patch
 # FIXME: make upstreamable, fix dup'd PREFIX KAUTH_HELPER_INSTALL_DIR when using absolute paths
-Patch101: plasma-desktop-fix-fontinst-service-path.patch
+#Patch101: plasma-desktop-fix-fontinst-service-path.patch
 # Default to Folder containment (rather than Desktop)
 Patch102: plasma-desktop-default-layout.patch
 
@@ -27,10 +27,26 @@ Patch200: 0001-kickoff-accounts-service.patch
 Patch201: plasma-desktop-kickoff-face-click-open-user_account.patch
 
 #default enable kimpanel by Cjacker.
+#Comment out by default, since we hope to support sogou pinyin.
 Patch300: plasma-desktop-default-enable-kimpanel.patch
 #By default, lock the panel.
 Patch301: plasma-desktop-default-locked.patch
 
+#increase the default panel height.
+Patch302: plasma-desktop-increase-default-panel-height.patch
+
+#tweak some default settings
+Patch303: plasma-desktop-tweak.patch
+
+#hide desktopath modules from systemsettings, but still can be used as "kcmshell5 desktoppath"
+Patch304: plasma-desktop-hide-desktoppath-from-systemsettings.patch
+
+#remove formats/translation setting module, it's crappy and buggy.
+#we use our own 'kcmlocale' now.
+
+Patch305: plasma-desktop-say-goodbye-to-crappy-and-buggy-locale-setting.patch
+
+Patch306: plasma-desktop-disable-kcm-mouse-and-touchpad.patch
 
 
 ## upstreamable patches
@@ -151,7 +167,6 @@ BuildArch: noarch
 
 
 %build
-
 mkdir %{_target_platform}
 pushd %{_target_platform}
 %{cmake_kf5} ..
@@ -179,6 +194,8 @@ cp %{buildroot}%{_datadir}/konqsidebartng/virtual_folders/services/fonts.desktop
 # per https://techbase.kde.org/KDE_System_Administration/PlasmaTwoDesktopScripting#Running_Scripts
 mkdir -p %{buildroot}%{_datadir}/plasma/shells/org.kde.plasma.desktop/updates/
 
+#Hide knetattach menu item
+echo "NoDisplay=true" >> %{buildroot}/%{_datadir}/applications/org.kde.knetattach.desktop
 
 %check
 desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.{kfontview,knetattach}.desktop
@@ -223,7 +240,7 @@ fi
 %{_kf5_qmldir}/org/kde/plasma/activityswitcher
 %{_kf5_qmldir}/org/kde/private/desktopcontainment/*
 %{_kf5_datadir}/plasma/*
-%{_kf5_datadir}/kcminput
+#%{_kf5_datadir}/kcminput
 %{_kf5_datadir}/color-schemes
 %{_kf5_datadir}/kconf_update/*
 %{_kf5_datadir}/kdisplay
@@ -256,11 +273,11 @@ fi
 %{_datadir}/polkit-1/actions/org.kde.fontinst.policy
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmclock.policy
 # kcm_touchpad
-%{_bindir}/kcm-touchpad-list-devices
-%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_touchpad.so
-%{_datadir}/config.kcfg/touchpad.kcfg
-%{_datadir}/config.kcfg/touchpaddaemon.kcfg
-%{_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
+#%{_bindir}/kcm-touchpad-list-devices
+#%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_touchpad.so
+#%{_datadir}/config.kcfg/touchpad.kcfg
+#%{_datadir}/config.kcfg/touchpaddaemon.kcfg
+#%{_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
 
 %files doc
 %lang(ca) %{_docdir}/HTML/ca/kcontrol/
@@ -280,6 +297,15 @@ fi
 
 
 %changelog
+* Fri Oct 16 2015 Cjacker <cjacker@foxmail.com>
+- remove 'formats'/'translation' setting tool.
+
+* Wed Oct 14 2015 Cjacker <cjacker@foxmail.com>
+- hide desktoppath.desktop from systemsettings.
+
+* Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.2
+
 * Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.1
 

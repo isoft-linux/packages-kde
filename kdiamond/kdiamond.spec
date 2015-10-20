@@ -1,8 +1,8 @@
 
 Name:    kdiamond
 Summary: A three-in-a-row game
-Version: 15.08.1
-Release: 2%{?dist}
+Version: 15.08.2
+Release: 3%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -13,6 +13,7 @@ URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+Patch0: kdiamond-tune-desktop.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -48,6 +49,7 @@ The object of the game is to build lines of three similar diamonds.
 
 %prep
 %setup -q
+%patch0 -p1
 
 
 %build
@@ -98,3 +100,9 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 
 
 %changelog
+* Sat Oct 17 2015 Cjacker <cjacker@foxmail.com>
+- tune desktop file.
+
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+

@@ -1,0 +1,16 @@
+diff -Nur kmines-15.08.2/data/org.kde.kmines.desktop kmines-15.08.2n/data/org.kde.kmines.desktop
+--- kmines-15.08.2/data/org.kde.kmines.desktop	2015-06-16 21:32:58.000000000 +0800
++++ kmines-15.08.2n/data/org.kde.kmines.desktop	2015-10-17 09:59:28.571948976 +0800
+@@ -134,9 +134,9 @@
+ GenericName[uk]=Гра в сапера
+ GenericName[wa]=On djeu di tchamp d' menes
+ GenericName[x-test]=xxMinesweeper-like Gamexx
+-GenericName[zh_CN]=扫雷游戏
+-GenericName[zh_TW]=類似踩地雷的遊戲
++GenericName[zh_CN]=扫雷
++GenericName[zh_TW]=踩地雷
+ StartupNotify=true
+ X-DBUS-StartupType=Multi
+-Categories=Qt;KDE;Game;StrategyGame;
++Categories=Qt;KDE;Game;
+ X-DBUS-ServiceName=org.kde.kmines

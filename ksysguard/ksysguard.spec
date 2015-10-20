@@ -1,5 +1,5 @@
 Name:           ksysguard
-Version:        5.4.1
+Version:        5.4.2
 Release:        1
 Summary:        KDE Process Management application
 
@@ -95,6 +95,9 @@ fi
 
 
 %changelog
+* Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.2
+
 * Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.1
 

@@ -1,0 +1,62 @@
+diff -Nur okular/generators/chm/generator_chm.cpp okularnew/generators/chm/generator_chm.cpp
+--- okular/generators/chm/generator_chm.cpp	2015-07-04 01:50:53.000000000 +0800
++++ okularnew/generators/chm/generator_chm.cpp	2015-10-10 22:46:19.137509302 +0800
+@@ -178,7 +178,7 @@
+ 
+ void CHMGenerator::preparePageForSyncOperation( int zoom , const QString & url)
+ {
+-    QString pAddress= QString("ms-its:" + m_fileName + "::" + url);
++    QString pAddress= QString("msits:" + m_fileName + "::" + url);
+     m_chmUrl = url;
+     m_syncGen->setZoomFactor(zoom);
+     m_syncGen->openUrl(QUrl(pAddress));
+@@ -273,7 +273,7 @@
+         , static_cast<double>(requestHeight)/static_cast<double>(request->page()->height())
+         ) ) * 100;
+ 
+-    QString pAddress= QString("ms-its:" + m_fileName + "::" + url);
++    QString pAddress= QString("msits:" + m_fileName + "::" + url);
+     m_chmUrl = url;
+     m_syncGen->setZoomFactor(zoom);
+     m_syncGen->view()->resize(requestWidth,requestHeight);
+diff -Nur okular/generators/chm/kio-msits/msits.cpp okularnew/generators/chm/kio-msits/msits.cpp
+--- okular/generators/chm/kio-msits/msits.cpp	2015-07-04 01:50:53.000000000 +0800
++++ okularnew/generators/chm/kio-msits/msits.cpp	2015-10-10 22:46:01.934368944 +0800
+@@ -152,8 +152,8 @@
+ 	QString filename = url.path().left (pos);
+ 	abspath = url.path().mid (pos + 2); // skip ::
+ 	
+-	// Some buggy apps add ms-its:/ to the path as well
+-	if ( abspath.startsWith( "ms-its:" ) )
++	// Some buggy apps add msits:/ to the path as well
++	if ( abspath.startsWith( "msits:" ) )
+ 		abspath = abspath.mid( 7 );
+ 			
+ 	qCDebug(KIO_MITS_LOG) << "ProtocolMSITS::parseLoadAndLookup: filename " << filename << ", path " << abspath;
+diff -Nur okular/generators/chm/kio-msits/msits.protocol okularnew/generators/chm/kio-msits/msits.protocol
+--- okular/generators/chm/kio-msits/msits.protocol	2015-07-04 01:48:09.000000000 +0800
++++ okularnew/generators/chm/kio-msits/msits.protocol	2015-10-10 22:46:08.951434924 +0800
+@@ -1,6 +1,6 @@
+ [Protocol]
+ exec=kio_msits
+-protocol=ms-its
++protocol=msits
+ input=none
+ output=filesystem
+ reading=true
+diff -Nur okular/generators/chm/lib/libchmurlfactory.h okularnew/generators/chm/lib/libchmurlfactory.h
+--- okular/generators/chm/lib/libchmurlfactory.h	2015-07-04 01:48:09.000000000 +0800
++++ okularnew/generators/chm/lib/libchmurlfactory.h	2015-10-10 22:45:53.832277323 +0800
+@@ -62,10 +62,10 @@
+ 	return url.startsWith ("javascript://");
+ }
+ 
+-// Parse urls like "ms-its:file name.chm::/topic.htm"
++// Parse urls like "msits:file name.chm::/topic.htm"
+ static inline bool isNewChmURL( const QString & url, QString & chmfile, QString & page )
+ {
+-	QRegExp uriregex ( "^ms-its:(.*)::(.*)$" );
++	QRegExp uriregex ( "^msits:(.*)::(.*)$" );
+ 	uriregex.setCaseSensitivity( Qt::CaseInsensitive );
+ 
+ 	if ( uriregex.indexIn ( url ) != -1 )

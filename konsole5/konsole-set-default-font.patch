@@ -1,0 +1,12 @@
+diff -Nur konsole-15.08.1/src/Profile.cpp konsole-15.08.1n/src/Profile.cpp
+--- konsole-15.08.1/src/Profile.cpp	2015-08-25 22:55:12.000000000 +0800
++++ konsole-15.08.1n/src/Profile.cpp	2015-10-13 12:40:23.079306745 +0800
+@@ -163,7 +163,7 @@
+ 
+     setProperty(KeyBindings, "default");
+     setProperty(ColorScheme, "Linux"); //use DarkPastels when is start support blue ncurses UI properly
+-    setProperty(Font, QFontDatabase::systemFont(QFontDatabase::FixedFont));
++    setProperty(Font, QFont("Monospace", 11));
+ 
+     setProperty(HistoryMode, Enum::FixedSizeHistory);
+     setProperty(HistorySize, 1000);

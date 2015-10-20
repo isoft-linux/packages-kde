@@ -11,10 +11,10 @@ diff -Nur plasma-desktop-5.4.0/applets/kickoff/core/favoritesmodel.cpp plasma-de
 -                      << "org.kde.dolphin" << "dolphin"
 -                      << "org.kde.ktpcontactlist" << "ktp-contactlist"
 -                      << "org.kde.kate" << "kate";
-+        applications << "firefox" 
++        applications << "chromium-browser" << "firefox" << "google-chrome"
 +                     << "thunderbird" 
 +                     << "pidgin" 
-+                     << "org.kde.dolphin" << "vlc" << "audacious" 
++                     << "org.kde.dolphin" << "bomi" <<"vlc" << "audacious" 
 +                     << "wps-office-wps" << "org.kde.konsole" << "systemsettings";
  
          QList<QString> desktopFiles;

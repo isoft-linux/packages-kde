@@ -1,7 +1,7 @@
 Name:    kde-baseapps
 Summary: KDE Core Applications 
 Version: 5.11.0
-Release: 2.git
+Release: 3.git
 
 License: GPLv2 and GFDL
 URL:     https://projects.kde.org/projects/kde/kde-baseapps 
@@ -52,6 +52,27 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}/kdialog
 
 #%find_lang kdepasswd --with-kde --without-mo
 
+#remove unneeded "New" templates.
+rm -rf %{buildroot}%{_datadir}/templates/linkCAMERA.desktop
+rm -rf %{buildroot}%{_datadir}/templates/linkCDROM.desktop
+rm -rf %{buildroot}%{_datadir}/templates/linkCDWRITER.desktop
+rm -rf %{buildroot}%{_datadir}/templates/linkDVDROM.desktop
+rm -rf %{buildroot}%{_datadir}/templates/linkFloppy.desktop
+rm -rf %{buildroot}%{_datadir}/templates/linkHD.desktop
+rm -rf %{buildroot}%{_datadir}/templates/linkMO.desktop
+rm -rf %{buildroot}%{_datadir}/templates/linkNFS.desktop
+rm -rf %{buildroot}%{_datadir}/templates/linkZIP.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/CAMERA-Device.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/CDROM-Device.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/CDWRITER-Device.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/DVDROM-Device.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/Floppy.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/HD.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/HTMLFile.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/MO-Device.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/NFS.desktop
+rm -rf %{buildroot}%{_datadir}/templates/.source/ZIP-Device.desktop
+
 
 %check
 for f in %{buildroot}%{_kde4_datadir}/applications/*.desktop ; do
@@ -100,4 +121,6 @@ fi
 %{_kf5_libdir}/cmake/KF5Konq
 %{_kf5_libdir}/libKF5Konq.so
 
-
+%changelog
+* Wed Oct 14 2015 Cjacker <cjacker@foxmail.com>
+- remove unneeded "new" templates.

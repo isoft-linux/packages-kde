@@ -1,0 +1,14 @@
+diff -Nur kdelibs4support-5.15.0/src/kssl/kcm/kcm_ssl.desktop kdelibs4support-5.15.0n/src/kssl/kcm/kcm_ssl.desktop
+--- kdelibs4support-5.15.0/src/kssl/kcm/kcm_ssl.desktop	2015-10-05 15:59:32.000000000 +0800
++++ kdelibs4support-5.15.0n/src/kssl/kcm/kcm_ssl.desktop	2015-10-14 21:23:49.205128390 +0800
+@@ -6,8 +6,8 @@
+ 
+ X-KDE-Library=kcm_ssl
+ X-KDE-ParentApp=kcontrol
+-X-KDE-System-Settings-Parent-Category=networksettings
+-X-KDE-Weight=70
++#X-KDE-System-Settings-Parent-Category=networksettings
++#X-KDE-Weight=70
+ X-DocPath=kcontrol/kcm_ssl/index.html
+ 
+ Name=SSL Preferences

@@ -1,6 +1,6 @@
 Name:           sddm
 Version:        0.12.0
-Release:        6
+Release:        8 
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -136,6 +136,9 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
+- set default theme to breeze.
+
 * Sun Sep 06 2015 Cjacker <cjacker@foxmail.com>
 - update to 0.12
 

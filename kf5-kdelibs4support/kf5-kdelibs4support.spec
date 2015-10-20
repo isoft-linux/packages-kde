@@ -1,8 +1,8 @@
 %global framework kdelibs4support
 
 Name:           kf5-%{framework}
-Version:        5.14.0
-Release:        2%{?dist}
+Version:        5.15.0
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 module with porting aid from KDELibs 4
 License:        GPLv2+ and LGPLv2+ and BSD
 URL:            https://projects.kde.org/projects/frameworks/kdelibs4support
@@ -15,6 +15,8 @@ URL:            https://projects.kde.org/projects/frameworks/kdelibs4support
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/portingAids/%{framework}-%{version}.tar.xz
+
+Patch0: kdelibs4support-hide-kcm_ssl.patch
 
 BuildRequires:  ca-certificates
 BuildRequires:  libX11-devel
@@ -105,6 +107,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 
 %build
@@ -119,9 +122,13 @@ popd
 
 make %{?_smp_mflags} -C %{_target_platform}
 
-
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+
+#remove taiwan flag and replace it with P.R.C.
+rm -rf %{buildroot}%{_kf5_datadir}/kf5/locale/countries/tw/flag.png
+cp %{buildroot}%{_kf5_datadir}/kf5/locale/countries/cn/flag.png %{buildroot}%{_kf5_datadir}/kf5/locale/countries/tw
+
 %find_lang kdelibs4support5_qt --with-qt --all-name
 
 #in kde-settings
@@ -176,6 +183,14 @@ rm -rf %{buildroot}%{_sysconfdir}/xdg/kdebugrc
 
 
 %changelog
+* Fri Oct 16 2015 Cjacker <cjacker@foxmail.com>
+- replace taiwan flag.
+* Wed Oct 14 2015 Cjacker <cjacker@foxmail.com>
+- hide kcm_ssl systemsettings module.
+
+* Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.15.0
+
 * Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.14.0
 

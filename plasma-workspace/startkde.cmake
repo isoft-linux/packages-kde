@@ -83,6 +83,20 @@ EOF
 # export LC_* variables set by kcmshell5 formats into environment
 # so it can be picked up by QLocale and friends.
 exportformatssettings=$configDir/plasma-locale-settings.sh
+
+test -f $exportformatssettings || {
+cat >$exportformatssettings <<EOF
+export LANG=$LANG
+export LC_MESSAGES=$LANG
+export LC_NUMERIC=$LANG
+export LC_TIME=$LANG
+export LC_MONETARY=$LANG
+export LC_MEASUREMENT=$LANG
+export LC_COLLATE=$LANG
+export LC_CTYPE=$LANG
+EOF
+}
+
 test -f $exportformatssettings && {
     . $exportformatssettings
 }

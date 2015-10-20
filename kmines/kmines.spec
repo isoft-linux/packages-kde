@@ -1,7 +1,7 @@
 Name:    kmines
 Summary: A classic Minesweeper game
-Version: 15.08.1
-Release: 2
+Version: 15.08.2
+Release: 3 
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -12,6 +12,7 @@ URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+Patch0: kmines-tune-desktop.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -52,6 +53,7 @@ BuildRequires: libkdegames-devel >= %{version}
 
 %prep
 %setup -q
+%patch0 -p1
 
 
 %build
@@ -102,3 +104,9 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 
 
 %changelog
+* Sat Oct 17 2015 Cjacker <cjacker@foxmail.com>
+- tune desktop file.
+
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+

@@ -1,7 +1,7 @@
 %global framework sonnet
 
 Name:           kf5-%{framework}
-Version:        5.14.0
+Version:        5.15.0
 Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 solution for spell checking
 
@@ -16,9 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-## downstream patches
-Patch1: sonnet-5.10.0-myspell_path.patch
 
 BuildRequires:  libupnp-devel
 BuildRequires:  systemd-devel
@@ -65,9 +62,6 @@ GUI part of the Sonnet framework provides widgets with spell checking support.
 
 %prep
 %setup -q -n %{framework}-%{version}
-
-%patch1 -p1 -b .myspell_path
-
 
 %build
 mkdir %{_target_platform}
@@ -116,6 +110,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.15.0
+
 * Sun Sep 13 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.14.0
 

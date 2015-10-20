@@ -1,6 +1,6 @@
 Name:    kwallet-pam
 Summary: PAM module for KWallet
-Version: 5.4.1
+Version: 5.4.2
 Release: 1 
 
 License: LGPLv2+
@@ -46,6 +46,9 @@ mv %{buildroot}/%{_lib}/security/pam_kwallet5.so %{buildroot}/%{_lib}/security/p
 
 
 %changelog
+* Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
+- update to 5.4.2
+
 * Wed Sep 09 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.1
 

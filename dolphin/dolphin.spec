@@ -1,7 +1,7 @@
 Name:    dolphin 
 Summary: KDE File Manager
-Version: 15.08.1
-Release: 2 
+Version: 15.08.2
+Release: 4 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
@@ -14,7 +14,9 @@ URL:     https://projects.kde.org/projects/kde/applications/dolphin
 Source0:        http://download.kde.org/%{stable}/applications/%{version}/%{name}-%{version}.tar.xz
 
 #KFileItem.iconName() return iconName from mimedatabase, but the icon may not exist in theme at all.
-Patch0:     dolphin-fix-no-icon.patch
+Patch0: dolphin-fix-no-icon.patch
+
+Patch1: dolphin-enable-more-thumbnail-by-default.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -65,6 +67,7 @@ developing applications that use %{name}.
 %prep
 %setup -q 
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -121,6 +124,12 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so
 
 %changelog
+* Sun Oct 18 2015 Cjacker <cjacker@foxmail.com>
+- enable more thumbnails by default.
+
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+
 * Wed Sep 16 2015 Cjacker <cjacker@foxmail.com>
 - update to 15.08.1
 - add baloo-widgets-devel build requires.

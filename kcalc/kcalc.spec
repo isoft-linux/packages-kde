@@ -1,6 +1,6 @@
 Name: kcalc 
 Summary: Scientific Calculator 
-Version: 15.08.1
+Version: 15.08.2
 Release: 2%{?dist}
 
 License: GPLv2+
@@ -101,3 +101,6 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 
 
 %changelog
+* Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
+- update to 15.08.2
+

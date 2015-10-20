@@ -1,0 +1,16 @@
+diff -Nur okular/core/document.cpp okularn/core/document.cpp
+--- okular/core/document.cpp	2015-10-10 20:45:01.000000000 +0800
++++ okularn/core/document.cpp	2015-10-10 22:32:13.961468323 +0800
+@@ -938,7 +938,11 @@
+ 
+     QApplication::setOverrideCursor( Qt::WaitCursor );
+ 
+-    const QSizeF dpi = Utils::realDpi(m_widget);
++    QSizeF dpi = Utils::realDpi(m_widget);
++
++    if(dpi.width() != dpi.height())
++ 	dpi.setHeight(dpi.width());
++
+     qCDebug(OkularCoreDebug) << "Output DPI:" << dpi;
+     m_generator->setDPI(dpi);
+ 
