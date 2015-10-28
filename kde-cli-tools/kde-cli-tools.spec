@@ -1,6 +1,6 @@
 Name:           kde-cli-tools
 Version:        5.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tools based on KDE Frameworks 5 to better interact with the system
 
 License:        GPLv2+
@@ -96,6 +96,9 @@ ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
+- Rebuild for new 4.0 release
+
 * Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.2
 

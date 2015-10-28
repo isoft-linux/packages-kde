@@ -1,6 +1,6 @@
 Name:           lmdb
 Version:        0.9.14
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Memory-mapped key-value database
 
 License:        OpenLDAP
@@ -42,7 +42,6 @@ developing applications that use %{name}.
 %package        doc
 Summary:        Documentation files for %{name}
 BuildArch:      noarch
-Group:          Documentation
 
 %description    doc
 The %{name}-doc package contains automatically generated documentation for %{name}.
@@ -95,3 +94,6 @@ LD_LIBRARY_PATH=$PWD make test
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.9.14-3
+- Rebuild for new 4.0 release
+

@@ -1,6 +1,6 @@
 Name:           cln
 Version:        1.3.4
-Release:        3
+Release:        4
 Summary:        Class Library for Numbers
 License:        GPLv2+
 URL:            http://www.ginac.de/CLN/
@@ -61,3 +61,6 @@ make %{_smp_mflags} check
 %{_includedir}/cln/
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.3.4-4
+- Rebuild for new 4.0 release
+

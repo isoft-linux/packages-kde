@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.15.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon for localization
 
 License:        LGPLv2+
@@ -115,6 +115,9 @@ popd
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-5
+- Rebuild for new 4.0 release
+
 * Fri Oct 16 2015 Cjacker <cjacker@foxmail.com>
 - fix zh_CN/zh_TW/ja ki18n5.js issue.
 

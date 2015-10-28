@@ -1,0 +1,11 @@
+diff -Nur kactivities-4.13.3/CMakeLists.txt kactivities-4.13.3n/CMakeLists.txt
+--- kactivities-4.13.3/CMakeLists.txt	2014-06-29 07:30:23.000000000 +0000
++++ kactivities-4.13.3n/CMakeLists.txt	2015-10-25 10:49:24.619564104 +0000
+@@ -1,5 +1,7 @@
+ project (KACTIVITIES)
+ 
++cmake_minimum_required(VERSION 2.8)
++
+ find_package (KDE4 REQUIRED)
+ 
+ include (GenerateExportHeader)

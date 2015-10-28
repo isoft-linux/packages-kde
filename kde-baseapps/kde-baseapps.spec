@@ -1,7 +1,7 @@
 Name:    kde-baseapps
 Summary: KDE Core Applications 
 Version: 5.11.0
-Release: 3.git
+Release: 4.git
 
 License: GPLv2 and GFDL
 URL:     https://projects.kde.org/projects/kde/kde-baseapps 
@@ -122,5 +122,8 @@ fi
 %{_kf5_libdir}/libKF5Konq.so
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.11.0-4.git
+- Rebuild for new 4.0 release
+
 * Wed Oct 14 2015 Cjacker <cjacker@foxmail.com>
 - remove unneeded "new" templates.

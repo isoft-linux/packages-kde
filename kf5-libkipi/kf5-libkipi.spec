@@ -1,7 +1,7 @@
 Name:    kf5-libkipi
 Summary: Common plugin infrastructure for KDE image applications
 Version: 5.0.0
-Release: 3.git%{?dist}
+Release: 4.git%{?dist}
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/libs/libkexiv2
@@ -86,3 +86,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libdir}/cmake/KF5Kipi/
 %{_kf5_includedir}/libkipi_version.h
 %{_kf5_includedir}/KIPI/
+
+%changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.0.0-4.git
+- Rebuild for new 4.0 release
+

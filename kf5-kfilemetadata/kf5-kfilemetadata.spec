@@ -6,7 +6,7 @@
 Name:           kf5-%{framework}
 Summary:        A Tier 2 KDE Framework for extracting file metadata
 Version:        5.15.0
-Release:        1
+Release:        2
 
 # # KDE e.V. may determine that future LGPL versions are accepted
 License:        LGPLv2 or LGPLv3
@@ -81,6 +81,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/KFileMetaData
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-2
+- Rebuild for new 4.0 release
+
 * Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.15.0
 

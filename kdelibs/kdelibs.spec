@@ -2,7 +2,7 @@
 Summary:    The KDE libraries provide a powerful framework to make writing applications easier
 Name: kdelibs 
 Version: 4.14.12
-Release: 2	
+Release: 3	
 License: GPL
 Source0: %{name}-%{version}.tar.xz
 Source1: macros.kdelibs4
@@ -223,7 +223,6 @@ sed -i \
   -e "s|@@KDE_APPLICATIONS_VERSION@@|%{apps_version}|g" \
   %{buildroot}%{rpm_macros_dir}/macros.kdelibs4
 
-rpmclean
 
 %clean
 rm -rf %{buildroot}
@@ -289,6 +288,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 4.14.12-3
+- Rebuild for new 4.0 release
+
 * Sat Dec 21 2013 Cjacker <cjacker@gmail.com>
 - fix some systemtray tooltip wrong position when no active window opened.
 - https://bugs.kde.org/show_bug.cgi?id=317783

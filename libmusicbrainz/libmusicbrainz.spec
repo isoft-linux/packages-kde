@@ -2,9 +2,8 @@
 Summary: Library for accessing MusicBrainz servers
 Name: libmusicbrainz
 Version: 2.1.5
-Release: 20%{?dist}
+Release: 21%{?dist}
 License: LGPLv2+
-Group: System Environment/Libraries
 URL: http://www.musicbrainz.org/
 Source0: ftp://ftp.musicbrainz.org/pub/musicbrainz/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -23,7 +22,6 @@ create CD Index Disk ids from audio CD roms.
 
 %package devel
 Summary: Headers for developing programs that will use %{name} 
-Group: Development/Libraries
 Provides: libmusicbrainz2-devel = %{version}-%{release}
 Requires: %{name} = %{version}-%{release}
 Requires: pkgconfig
@@ -75,3 +73,6 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 2.1.5-21
+- Rebuild for new 4.0 release
+

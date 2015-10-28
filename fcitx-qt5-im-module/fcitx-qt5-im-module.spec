@@ -1,7 +1,7 @@
 Summary:        Qt5 im module for fcitx 
 Name:           fcitx-qt5-im-module 
 Version:        1.0.3
-Release:        1 
+Release:        2 
 License:        GPL
 URL:            https://fcitx-im.org/wiki/Fcitx
 Source0:        http://download.fcitx-im.org/fcitx-qt5/fcitx-qt5-%{version}.tar.xz
@@ -14,7 +14,6 @@ Qt5 im module for fcitx
 
 %package devel
 Summary:        Development libraries for FCITX Qt5 im module
-Group:          Development/Libraries
 Requires:       %{name} = %{version}
 
 %description devel
@@ -38,7 +37,6 @@ make install DESTDIR=$RPM_BUILD_ROOT
 popd
 
 
-rpmclean
 
 %clean
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
@@ -54,4 +52,9 @@ rpmclean
 %{_libdir}/cmake/FcitxQt5DBusAddons
 %{_libdir}/cmake/FcitxQt5WidgetsAddons
 
+
+
+%changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.0.3-2
+- Rebuild for new 4.0 release
 

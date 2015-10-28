@@ -3,7 +3,7 @@
 Name:		strigi
 Summary:    A desktop search program
 Version:	0.7.8
-Release:	11
+Release:	12
 
 License:	LGPLv2+
 #URL:            https://projects.kde.org/projects/kdesupport/strigi
@@ -166,3 +166,6 @@ make test -C %{_target_platform} ||:
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.7.8-12
+- Rebuild for new 4.0 release
+

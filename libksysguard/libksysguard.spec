@@ -1,6 +1,6 @@
 Name:           libksysguard
 Version:        5.4.2
-Release:        1
+Release:        2
 Summary:        Library for managing processes running on the system
 
 License:        GPLv2+
@@ -107,6 +107,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libdir}/cmake/KF5SysGuard
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
+- Rebuild for new 4.0 release
+
 * Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.2
 

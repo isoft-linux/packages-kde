@@ -2,7 +2,7 @@
 Name:    kgamma5
 Summary: A monitor calibration tool 
 Version: 5.4.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/kgamma
@@ -75,6 +75,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-3
+- Rebuild for new 4.0 release
+
 * Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.2
 

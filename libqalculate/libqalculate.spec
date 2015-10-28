@@ -1,9 +1,8 @@
 Summary:	Multi-purpose calculator library
 Name:		libqalculate
 Version:	0.9.7
-Release:	14
+Release:	15
 License:	GPLv2+
-Group:		System Environment/Libraries
 URL:		http://qalculate.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
 Patch1:		libqalculate-0.9.7-pkgconfig_private.patch
@@ -21,7 +20,6 @@ GNU/Linux
 
 %package	devel
 Summary:	Development tools for the Qalculate calculator library
-Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	glib2-devel, libxml2-devel, cln-devel
 
@@ -31,7 +29,6 @@ with libqalculate.
 
 %package -n	qalculate
 Summary:	Multi-purpose calculator, text mode interface
-Group:		Applications/Engineering
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	pkgconfig
 
@@ -80,3 +77,6 @@ rm -f %{buildroot}/%{_libdir}/*.la
 %{_bindir}/qalc
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.9.7-15
+- Rebuild for new 4.0 release
+

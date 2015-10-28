@@ -1,7 +1,7 @@
 Name:    ksnapshot 
 Summary: A screen capture utility 
 Version: 15.04.2
-Release: 5.git 
+Release: 6.git 
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/ksnapshot
@@ -92,3 +92,6 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.04.2-6.git
+- Rebuild for new 4.0 release
+

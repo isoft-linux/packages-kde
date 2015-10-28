@@ -1,7 +1,7 @@
 Name: kdepimlibs
 Summary: KDE PIM Libraries
 Version: 4.14.10
-Release: 2
+Release: 3
 
 License: LGPLv2+
 URL: http://www.kde.org/
@@ -15,6 +15,7 @@ URL: http://www.kde.org/
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/kdepimlibs-%{version}.tar.xz
 
 Patch0: kdepimlibs-only-keep-qgpgme-and-kxmlrpclient.patch
+Patch1: kdepimlibs-fix-cmake-err.patch
 
 BuildRequires: boost-devel
 BuildRequires: gpgme-devel
@@ -44,6 +45,7 @@ Header files for developing applications using %{name}.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -80,3 +82,6 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 4.14.10-3
+- Rebuild for new 4.0 release
+

@@ -1,6 +1,6 @@
 Name:           qt-gstreamer
 Version:        1.2.0
-Release:        4
+Release:        5
 Summary:        C++ bindings for GStreamer with a Qt-style API
 License:        LGPLv2+
 URL:            http://gstreamer.freedesktop.org/modules/qt-gstreamer.html
@@ -141,3 +141,6 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}-qt5
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.2.0-5
+- Rebuild for new 4.0 release
+

@@ -2,7 +2,7 @@
 Name:    kdiamond
 Summary: A three-in-a-row game
 Version: 15.08.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -100,6 +100,9 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-4
+- Rebuild for new 4.0 release
+
 * Sat Oct 17 2015 Cjacker <cjacker@foxmail.com>
 - tune desktop file.
 

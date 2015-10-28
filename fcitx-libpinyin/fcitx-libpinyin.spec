@@ -5,9 +5,8 @@
 Summary:        LibPinyin IM of FCITX input framework
 Name:           %{nam}
 Version:        %{ver}
-Release:        %{rel}
+Release:        %{rel}.1
 License:        GPL
-Group:          User Interface/Desktops 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
 Source0:        %{name}-%{version}_dict.tar.xz
 BuildRequires:  fcitx-devel 
@@ -33,7 +32,6 @@ make DESTDIR=${RPM_BUILD_ROOT} install
 popd
 
 %find_lang fcitx-libpinyin
-rpmclean
 %clean
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
@@ -51,3 +49,8 @@ rpmclean
 %{_datadir}/fcitx/inputmethod/zhuyin-libpinyin.conf
 %{_datadir}/fcitx/libpinyin/
 %{_datadir}/icons/hicolor/*/status/*
+
+%changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.3.1-1.1
+- Rebuild for new 4.0 release
+

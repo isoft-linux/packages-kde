@@ -1,7 +1,7 @@
 Name:    oxygen-icon-theme
 Summary: Oxygen icon theme
 Version: 15.04.3
-Release: 2
+Release: 3
 License: LGPLv3+ 
 
 URL:     http://www.kde.org/
@@ -82,3 +82,6 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.04.3-3
+- Rebuild for new 4.0 release
+

@@ -1,7 +1,7 @@
 Summary: Config files for kde
 Name:    kde-settings
 Version: 40 
-Release: 6%{?dist}
+Release: 7%{?dist}
 
 License: MIT
 Source0: %{name}-%{version}.tar.xz
@@ -104,6 +104,9 @@ rm -rf %{buildroot}%{_datadir}/kde-settings/kde-profile/default/share/apps/plasm
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 40-7
+- Rebuild for new 4.0 release
+
 * Thu Oct 15 2015 Cjacker <cjacker@foxmail.com>
 - change default browser to chromium in /etc/xdg/kdeglobals.
 

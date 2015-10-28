@@ -1,7 +1,7 @@
 Name:    dolphin 
 Summary: KDE File Manager
 Version: 15.08.2
-Release: 4 
+Release: 5 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
@@ -57,7 +57,6 @@ BuildRequires: qt5-qtscript-devel
 
 %package devel
 Summary: Development files for %{name}
-Group:   Development/Libraries
 Requires: %{name} = %{version}-%{release}
 
 %description devel
@@ -124,6 +123,9 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-5
+- Rebuild for new 4.0 release
+
 * Sun Oct 18 2015 Cjacker <cjacker@foxmail.com>
 - enable more thumbnails by default.
 

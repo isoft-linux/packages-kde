@@ -1,9 +1,8 @@
 Summary:    Attica is a Qt library that implements the Open Collaboration Services API.
 Name:	    attica	
 Version:	0.4.2
-Release:    2	
+Release:    3	
 License:	GPL
-Group:		Desktop/KDE4
 Source0:	%{name}-%{version}.tar.bz2
 Requires:   qt4
 BuildRequires: qt4-devel
@@ -15,7 +14,6 @@ Attica is a Qt library that implements the Open Collaboration Services API.
 Summary: Development files for attica 
 Requires: %{name}
 Requires: qt4-devel
-Group: Development/Libraries
 
 %description devel
 Header files for developing applications using attica 
@@ -34,7 +32,6 @@ make %{_smp_mflags} -C build
 mkdir -p $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT -C build
 
-rpmclean
 
 %check
 make test -C build
@@ -55,3 +52,8 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/*
 %dir %{_includedir}/attica
 %{_includedir}/attica/*
+
+%changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.4.2-3
+- Rebuild for new 4.0 release
+

@@ -1,6 +1,6 @@
 Name:           powerdevil
 Version:        5.4.2
-Release:        2
+Release:        3
 Summary:        Manages the power consumption settings of a Plasma Shell
 
 License:        GPLv2+
@@ -92,6 +92,9 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-3
+- Rebuild for new 4.0 release
+
 * Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.2
 

@@ -2,10 +2,9 @@
 
 Name:           kf5-%{framework}
 Version:        5.15.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A Tier 1 KDE Frameworks module wrapping ModemManager DBus API
 
-Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/modemmanager-qt
 
@@ -35,7 +34,6 @@ A Qt 5 library for ModemManager.
 
 %package        devel
 Summary:        Development files for %{name}
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Obsoletes:      kf5-libmm-qt-devel < 5.1.95
 Provides:       kf5-libmm-qt-devel = %{version}-%{release}
@@ -76,6 +74,9 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_archdatadir}/mkspecs/modules/qt_ModemManagerQt.pri
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
+- Rebuild for new 4.0 release
+
 * Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.15.0
 

@@ -1,6 +1,6 @@
 Name:           qjson
 Version:        0.8.1
-Release:        10
+Release:        11
 Summary:        A qt-based library that maps JSON data to QVariant objects
 
 License:        GPLv2+
@@ -69,3 +69,6 @@ make test -C %{_target_platform}
 %{_libdir}/cmake/qjson/
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.8.1-11
+- Rebuild for new 4.0 release
+

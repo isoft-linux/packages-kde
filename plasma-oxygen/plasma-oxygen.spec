@@ -2,7 +2,7 @@
 
 Name:           plasma-%{base_name}
 Version:        5.4.2
-Release:        1
+Release:        2
 Summary:        Plasma and Qt widget style and window decorations for Plasma 5 and KDE 4
 
 License:        GPLv2+
@@ -170,6 +170,9 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
+- Rebuild for new 4.0 release
+
 * Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.2
 

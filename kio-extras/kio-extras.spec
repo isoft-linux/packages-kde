@@ -1,6 +1,6 @@
 Name:           kio-extras
 Version:        15.08.2
-Release:        2 
+Release:        3 
 Summary:        Additional components to increase the functionality of KIO Framework
 
 License:        GPLv2+
@@ -171,6 +171,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-3
+- Rebuild for new 4.0 release
+
 * Tue Oct 20 2015 Cjacker <cjacker@foxmail.com>
 - add image/webp, image/x-icns to imagethumb
 

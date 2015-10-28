@@ -3,7 +3,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.15.0
-Release:        1
+Release:        2
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -165,6 +165,9 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-2
+- Rebuild for new 4.0 release
+
 * Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.15.0
 

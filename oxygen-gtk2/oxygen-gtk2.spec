@@ -2,10 +2,9 @@
 Name:    oxygen-gtk2
 Summary: Oxygen GTK+2 theme
 Version: 1.4.6
-Release: 3
+Release: 4
 
 License: LGPLv2+
-Group:   User Interface/Desktops
 URL:     https://projects.kde.org/projects/playground/artwork/oxygen-gtk
 Source0: http://download.kde.org/stable/oxygen-gtk2/%{version}/src/%{name}-%{version}.tar.bz2
 
@@ -60,3 +59,6 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.4.6-4
+- Rebuild for new 4.0 release
+

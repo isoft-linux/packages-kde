@@ -3,10 +3,9 @@
 
 Name:           libdmtx
 Version:        0.7.2
-Release:        17
+Release:        18
 Summary:        Library for working with Data Matrix 2D bar-codes
 
-Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            http://www.libdmtx.org/
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
@@ -37,7 +36,6 @@ the LGPLv2 and can be used freely under these terms.
 
 %package        devel
 Summary:        Development files for %{name}
-Group:          Development/Libraries
 Requires:       %{name} = %{version}-%{release}
 
 %description    devel
@@ -47,7 +45,6 @@ developing applications that use %{name}.
 
 %package        utils
 Summary:        Utilities for %{name}
-Group:          Applications/System
 Requires:       %{name} = %{version}-%{release}
 
 %description    utils
@@ -56,7 +53,6 @@ The %{name}-utils package contains utilities that use %{name}.
 # language bindings
 %package -n     php-libdmtx
 Summary:        PHP bindings for %{name}
-Group:          System Environment/Libraries
 License:        GPLv2+
 Requires:       %{name} = %{version}-%{release}
 Requires:       php-common
@@ -66,7 +62,6 @@ The php-%{name} package contains bindings for using %{name} from PHP.
 
 %package -n     python-libdmtx
 Summary:        Python bindings for %{name}
-Group:          System Environment/Libraries
 Requires:       %{name} = %{version}-%{release}
 
 %description -n python-libdmtx
@@ -152,3 +147,6 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitearch}/*
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.7.2-18
+- Rebuild for new 4.0 release
+

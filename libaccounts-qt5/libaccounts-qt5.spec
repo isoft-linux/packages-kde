@@ -1,8 +1,7 @@
 Name:           libaccounts-qt5
 Version:        1.13
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Accounts framework Qt 5 bindings
-Group:          System Environment/Libraries
 License:        LGPLv2
 URL:            http://code.google.com/p/accounts-sso/
 
@@ -21,7 +20,6 @@ Framework to provide accounts for Qt 5.
 
 %package        devel
 Summary:        Development files for %{name}
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       qt5-qtbase-devel%{?_isa}
 %description    devel
@@ -73,3 +71,6 @@ mv %{buildroot}%{_docdir}/accounts-qt{,5}
 %{_docdir}/accounts-qt5
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.13-6
+- Rebuild for new 4.0 release
+

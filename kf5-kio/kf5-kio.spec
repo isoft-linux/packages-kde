@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.15.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -269,6 +269,9 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-6
+- Rebuild for new 4.0 release
+
 * Wed Oct 14 2015 Cjacker <cjacker@foxmail.com>
 - remove "Link to Device" submenu from "Create New" menu.
 

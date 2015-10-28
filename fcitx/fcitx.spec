@@ -14,7 +14,7 @@
 Summary:        FCITX input framework
 Name:           %{nam}
 Version:        %{ver}
-Release:        %{rel}
+Release:        %{rel}.1
 License:        GPL
 
 Source0:        %{name}-%{version}_dict.tar.xz
@@ -39,7 +39,6 @@ weight core. You can easily customize it to fit your requirements.
 
 %package gtk2-im-module 
 Summary:        Gtk2 im module of fcitx
-Group:          User Interface/Desktops 
 Requires:       %{name} = %{version}
 Requires:	glib2 >= %{build_time_glib_version}
 Requires(pre):       gtk2
@@ -49,7 +48,6 @@ Gtk2 im module of fcitx
 
 %package gtk3-im-module
 Summary:        Gtk3 im module of fcitx
-Group:          User Interface/Desktops
 Requires:       %{name} = %{version}
 Requires:	glib2 >= %{build_time_glib_version}
 Requires(pre):       gtk3
@@ -58,7 +56,6 @@ Gtk3 im module of fcitx
 
 %package qt-im-module
 Summary:        qt4 im module of fcitx
-Group:          User Interface/Desktops
 Requires:       %{name} = %{version}
 Requires:       qt4
 %description qt-im-module
@@ -67,7 +64,6 @@ qt4 im module of fcitx
 
 %package devel
 Summary:        Development libraries for FCITX
-Group:          Development/Libraries
 Requires:       %{name} = %{version}
 
 %description devel
@@ -121,7 +117,6 @@ install -pm 644 -D %{SOURCE10} %{buildroot}%{_xinputconf}
 rm -rf $RPM_BUILD_ROOT/usr/share/applications
 
 #######################
-rpmclean
 #######################
 %clean
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
@@ -195,6 +190,9 @@ gtk-query-immodules-3.0 >%{_libdir}/gtk-3.0/3.0.0/immodules.cache
 %{_datadir}/gir-?.?/*
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 4.2.9-2.1
+- Rebuild for new 4.0 release
+
 * Tue Dec 10 2013 Cjacker <cjacker@gmail.com>
 - first build, prepare for the new release.
 

@@ -1,0 +1,11 @@
+diff -Nur kdepimlibs-4.14.10/CMakeLists.txt kdepimlibs-4.14.10n/CMakeLists.txt
+--- kdepimlibs-4.14.10/CMakeLists.txt	2015-10-25 12:03:04.690201061 +0000
++++ kdepimlibs-4.14.10n/CMakeLists.txt	2015-10-25 12:03:32.640022831 +0000
+@@ -1,5 +1,7 @@
+ project(kdepimlibs)
+ 
++cmake_minimum_required(VERSION 2.8)
++
+ # where to look first for cmake modules. This line must be the first one or cmake will use the system's FindFoo.cmake
+ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+ 

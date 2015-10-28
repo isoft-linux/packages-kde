@@ -1,8 +1,7 @@
 Name:			fcitx-anthy
 Version:		0.2.2
-Release:		6%{?dist}
+Release:		7%{?dist}
 Summary:		Anthy Engine for Fcitx
-Group:			System Environment/Libraries
 License:		GPLv2+
 URL:			https://fcitx-im.org/wiki/Anthy
 Source0:		http://download.fcitx-im.org/fcitx-anthy/%{name}-%{version}.tar.xz
@@ -62,3 +61,6 @@ fi
 %{_datadir}/icons/hicolor/scalable/status/%{name}-*.svg
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.2.2-7
+- Rebuild for new 4.0 release
+

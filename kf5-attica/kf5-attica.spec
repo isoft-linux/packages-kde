@@ -2,10 +2,9 @@
 
 Name:           kf5-attica
 Version:        5.15.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        KDE Frameworks Tier 1 Addon with Open Collaboration Services API
 
-Group:          Development/Libraries
 License:        LGPLv2+
 URL:            http://www.kde.org
 
@@ -30,7 +29,6 @@ API version 1.4.
 
 %package        devel
 Summary:        Development files for %{name}
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       qt5-qtbase-devel
 
@@ -71,6 +69,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
+- Rebuild for new 4.0 release
+
 * Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.15.0
 

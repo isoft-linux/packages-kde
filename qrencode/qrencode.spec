@@ -1,6 +1,6 @@
 Name:           qrencode
 Version:        3.4.2
-Release:        5
+Release:        6
 Summary:        Generate QR 2D barcodes
 Summary(fr):    Génère les code-barres en 2D QR
 
@@ -88,3 +88,6 @@ sh test_all.sh
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 3.4.2-6
+- Rebuild for new 4.0 release
+

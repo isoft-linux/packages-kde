@@ -1,8 +1,7 @@
 Name:		fcitx-hangul
 Version:	0.3.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Hangul Engine for Fcitx
-Group:		System Environment/Libraries
 License:	GPLv2+
 URL:		https://fcitx-im.org/wiki/Hangul
 Source0:	http://download.fcitx-im.org/fcitx-hangul/%{name}-%{version}.tar.xz
@@ -62,3 +61,6 @@ fi
 %{_datadir}/icons/hicolor/*/status/fcitx-hanja-inactive.png
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.3.0-5
+- Rebuild for new 4.0 release
+

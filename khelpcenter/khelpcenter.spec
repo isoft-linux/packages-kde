@@ -1,6 +1,6 @@
 Name:           khelpcenter
 Version:        5.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Application to show KDE Application's documentation
 # Override khelpcenter subpackage from kde-runtime-15.04 (no longer built)
 Epoch:          1
@@ -99,6 +99,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.Help.desktop
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1:5.4.2-2
+- Rebuild for new 4.0 release
+
 * Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.2
 

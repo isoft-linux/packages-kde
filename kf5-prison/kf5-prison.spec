@@ -1,6 +1,6 @@
 Name:           kf5-prison
 Version:        2.8.8
-Release:        1.git
+Release:        2.git
 Summary:        A Qt-based barcode abstraction library
 
 License:        MIT
@@ -66,5 +66,8 @@ rm -rf %{buildroot}
 %{_libdir}/qt5/mkspecs/modules/qt_Prison.pri
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 2.8.8-2.git
+- Rebuild for new 4.0 release
+
 * Thu Aug 13 2015 Cjacker <cjacker@foxmail.com>
 - initial build.

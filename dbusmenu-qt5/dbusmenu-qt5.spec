@@ -4,9 +4,8 @@
 Summary:        A Qt implementation of the DBusMenu protocol (Qt5 version)
 Name:           dbusmenu-qt5
 Version:        0.9.3
-Release:        0.5.%{snapshot}bzr%{?dist}
+Release:        0.6.%{snapshot}bzr%{?dist}
 
-Group:          System Environment/Libraries
 License:        LGPLv2+
 URL:            https://launchpad.net/libdbusmenu-qt/
 
@@ -30,7 +29,6 @@ their menus over DBus.
 
 %package        devel
 Summary:        Development files for %{name}
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 %description    devel
 %{summary}.
@@ -90,3 +88,6 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.9.3-0.6.20140604bzr
+- Rebuild for new 4.0 release
+

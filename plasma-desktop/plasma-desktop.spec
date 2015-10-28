@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.2
-Release:        20 
+Release:        21 
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -240,7 +240,6 @@ fi
 %{_kf5_qmldir}/org/kde/plasma/activityswitcher
 %{_kf5_qmldir}/org/kde/private/desktopcontainment/*
 %{_kf5_datadir}/plasma/*
-#%{_kf5_datadir}/kcminput
 %{_kf5_datadir}/color-schemes
 %{_kf5_datadir}/kconf_update/*
 %{_kf5_datadir}/kdisplay
@@ -249,6 +248,7 @@ fi
 %{_kf5_datadir}/kcm_componentchooser
 %{_kf5_datadir}/kcm_phonon
 %{_kf5_datadir}/kfontinst
+%{_kf5_datadir}/kcminput
 %{_kf5_datadir}/kcmkeyboard
 %{_kf5_datadir}/ksmserver
 %{_kf5_datadir}/kpackage/kcms/*
@@ -297,6 +297,9 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-21
+- Rebuild for new 4.0 release
+
 * Fri Oct 16 2015 Cjacker <cjacker@foxmail.com>
 - remove 'formats'/'translation' setting tool.
 

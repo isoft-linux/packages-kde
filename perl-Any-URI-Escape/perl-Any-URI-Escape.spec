@@ -1,6 +1,6 @@
 Name:           perl-Any-URI-Escape
 Version:        0.01
-Release:        8
+Release:        9
 Summary:        Load URI::Escape::XS preferentially over URI::Escape
 License:        GPL+ or Artistic
 
@@ -45,3 +45,6 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.01-9
+- Rebuild for new 4.0 release
+

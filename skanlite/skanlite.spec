@@ -1,8 +1,7 @@
 Name:           skanlite
 Version:        1.1
-Release:        6.git
+Release:        7.git
 Summary:        Lightweight scanning program
-Group:          Applications/Productivity
 # Actually: GPLv2 or GPLv3 or any later Version approved by KDE e.V.
 License:        GPLv2 or GPLv3
 URL:            http://kde-apps.org/content/show.php?content=109803
@@ -66,3 +65,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.skanlite.desk
 %{_docdir}/HTML/*/skanlite
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.1-7.git
+- Rebuild for new 4.0 release
+

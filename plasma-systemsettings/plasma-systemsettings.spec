@@ -2,7 +2,7 @@
 
 Name:           plasma-%{base_name}
 Version:        5.4.2
-Release:        4 
+Release:        5 
 Summary:        KDE's System Settings application
 
 License:        GPLv2+
@@ -116,6 +116,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/systemsettings.deskto
 %{_libdir}/libsystemsettingsview.so
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-5
+- Rebuild for new 4.0 release
+
 * Mon Oct 19 2015 Cjacker <cjacker@foxmail.com>
 - Patch10 to fine the iconview item size.
 - Do not wrap Chinese words too much.

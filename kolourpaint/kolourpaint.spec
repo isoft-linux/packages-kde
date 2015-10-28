@@ -1,7 +1,7 @@
 Name:    kolourpaint
 Summary: An easy-to-use paint program 
 Version: 5.0.0 
-Release: 2.git
+Release: 3.git
 
 License: BSD 
 URL:     https://projects.kde.org/projects/kde/kdegraphics/kolourpaint
@@ -100,3 +100,8 @@ fi
 %{_kf5_datadir}/applications/kolourpaint.desktop
 %{_kf5_datadir}/icons/hicolor/*/apps/kolourpaint.*
 %{_kf5_datadir}/kxmlgui5/kolourpaint/
+
+%changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.0.0-3.git
+- Rebuild for new 4.0 release
+

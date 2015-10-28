@@ -1,8 +1,7 @@
 Name:		fcitx-chewing
 Version:	0.2.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Chewing Wrapper for Fcitx
-Group:		System Environment/Libraries
 License:	GPLv2+
 URL:		https://fcitx-im.org/wiki/Chewing
 Source0:	http://download.fcitx-im.org/fcitx-chewing/%{name}-%{version}.tar.xz
@@ -64,3 +63,6 @@ fi
 %{_datadir}/icons/hicolor/48x48/apps/fcitx-chewing.png
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.2.1-5
+- Rebuild for new 4.0 release
+

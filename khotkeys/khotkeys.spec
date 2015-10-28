@@ -1,6 +1,6 @@
 Name:           khotkeys
 Version:        5.4.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Application to configure hotkeys in KDE
 
 License:        GPLv2+
@@ -96,6 +96,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-4
+- Rebuild for new 4.0 release
+
 * Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.2
 

@@ -3,8 +3,7 @@
 Name:           qt5-%{qt_module}
 Summary:        Qt5 - AccountService addon
 Version:        0.6.0
-Release:        2 
-Group:          Applications/System
+Release:        3 
 License:        LGPLv2+
 #URL:            https://github.com/hawaii-desktop/qt-accountsservice-addon
 #git@git.isoft.zhcn.cc:zhaixiang/qtaccountsservice.git
@@ -26,7 +25,6 @@ http://www.freedesktop.org/wiki/Software/AccountsService).
 
 %package devel
 Summary:    Development files for Qt Account Service Addon
-Group:      Development/System
 Requires:   %{name}%{?isa} = %{version}-%{release}
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
@@ -72,5 +70,8 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.6.0-3
+- Rebuild for new 4.0 release
+
 * Sun Sep 06 2015 Cjacker <cjacker@foxmail.com>
 - update for support project with QT_NO_CAST_FROM_ASCII 

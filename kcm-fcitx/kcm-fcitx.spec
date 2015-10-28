@@ -1,8 +1,7 @@
 Name:		kcm-fcitx
 Version:	0.4.3
-Release:	6
+Release:	7
 Summary:	KDE Config Module for Fcitx
-Group:		Applications/System
 License:	GPLv2+
 URL:		https://fcitx-im.org/wiki/Fcitx
 #git clone https://github.com/fcitx/kcm-fcitx.git
@@ -59,3 +58,6 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.4.3-7
+- Rebuild for new 4.0 release
+

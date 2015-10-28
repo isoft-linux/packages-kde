@@ -4,7 +4,7 @@
 Name:    kactivities
 Summary: API for using and interacting with Activities 
 Version: 4.13.3
-Release: 10
+Release: 11
 
 License: GPLv2+ and LGPLv2+
 URL:     https://projects.kde.org/projects/kde/kdelibs/kactivities
@@ -15,6 +15,7 @@ URL:     https://projects.kde.org/projects/kde/kdelibs/kactivities
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/%{version}/src/%{name}-%{version}.tar.xz
+Patch0: kactivities-fix-cmake-err.patch
 
 BuildRequires: kdelibs-devel >= %{version}
 %if ! 0%{?nepomuk}
@@ -81,7 +82,7 @@ Requires: %{name}-devel%{?_isa} = %{version}-%{release}
 
 %prep
 %setup -q 
-
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -165,3 +166,6 @@ rm -fv %{buildroot}%{_kde4_datadir}/kde4/servicetypes/activitymanager-plugin.des
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 4.13.3-11
+- Rebuild for new 4.0 release
+

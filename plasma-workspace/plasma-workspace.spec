@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.2
-Release:        4 
+Release:        5 
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -339,6 +339,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-5
+- Rebuild for new 4.0 release
+
 * Fri Oct 16 2015 Cjacker <cjacker@foxmail.com>
 - modify startkde.cmake to generate plasma-locale-setting.sh at first login.
 

@@ -1,11 +1,10 @@
 Summary: Bidirectional data relay between two data channels ('netcat++')
 Name: socat
 Version: 1.7.2.4
-Release: 5
+Release: 6
 License: GPLv2
 Url:  http://www.dest-unreach.org/%{name}
 Source: http://www.dest-unreach.org/socat/download/%{name}-%{version}.tar.gz
-Group: Applications/Internet
 
 BuildRequires: openssl-devel readline-devel ncurses-devel
 BuildRequires: autoconf kernel-headers > 2.6.18
@@ -64,3 +63,6 @@ export OD_C=/usr/bin/od
 %doc %{_mandir}/man1/socat.1*
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.7.2.4-6
+- Rebuild for new 4.0 release
+

@@ -2,10 +2,9 @@
 Name:    grantlee
 Summary: Qt string template engine based on the Django template system
 Version: 0.5.1
-Release: 1 
+Release: 2 
 
 License: LGPLv2+
-Group:   System Environment/Libraries
 URL:     http://www.gitorious.org/grantlee/pages/Home
 Source0: http://downloads.grantlee.org/grantlee-%{version}%{?pre:-%{pre}}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -37,14 +36,12 @@ how to write templates, see the documentation.
 
 %package devel
 Summary: Development files for %{name}
-Group:   Development/Libraries
 Requires: %{name} = %{version}-%{release}
 %description devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
 %package apidocs
-Group: Development/Documentation
 Summary: Grantlee API documentation
 Requires: kde-filesystem
 BuildArch: noarch
@@ -91,3 +88,8 @@ rm -rf %{buildroot}
 %dir %{_includedir}/grantlee
 %{_includedir}/grantlee/*
 %{_includedir}/*
+
+%changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.5.1-2
+- Rebuild for new 4.0 release
+

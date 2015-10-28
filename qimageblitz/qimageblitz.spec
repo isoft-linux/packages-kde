@@ -1,9 +1,8 @@
 Summary: Graphical effect and filter library
 Name:    qimageblitz
 Version: 0.0.6
-Release: 10.svn20150702
+Release: 11.svn20150702
 
-Group:   System Environment/Libraries
 License: BSD and ImageMagick
 URL:     http://qimageblitz.sourceforge.net/
 #svn://anonsvn.kde.org/home/kde/trunk/kdesupport/qimageblitz
@@ -21,7 +20,6 @@ speed improvements, and MMX/SSE support.
 
 %package devel
 Summary: Developer files for %{name}
-Group:   Development/Libraries
 Requires: %{name}%{?_isa} = %{version}-%{release}
 %description devel
 %{summary}.
@@ -66,3 +64,6 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.0.6-11.svn20150702
+- Rebuild for new 4.0 release
+

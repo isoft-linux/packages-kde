@@ -1,7 +1,7 @@
 Name:    libksane5
 Summary: SANE Library interface for KDE5
 Version: 0.3.0
-Release: 2
+Release: 3
 
 License: LGPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/libs/libksane
@@ -76,3 +76,6 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.3.0-3
+- Rebuild for new 4.0 release
+

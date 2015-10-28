@@ -6,7 +6,7 @@
 Name:    okular 
 Summary: A document viewer
 Version: 1.0.0 
-Release: 6.git%{?dist}
+Release: 7.git%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -216,6 +216,9 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.0.0-7.git
+- Rebuild for new 4.0 release
+
 * Sat Oct 10 2015 Cjacker <cjacker@foxmail.com>
 - add patch0 to fix pdf stretch issue.
 - it's related to qt5, the dpi width should be equal to height.

@@ -3,7 +3,7 @@
 
 Name:           fonts-Oxygen
 Version:        5.4.2
-Release:        2
+Release:        3
 Summary:        Oxygen fonts created by the KDE Community
 
 License:        OFL or GPLv3 with exceptions
@@ -21,6 +21,9 @@ BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
 
 Provides:   oxygen-fonts = %{version}
+
+BuildArch: noarch
+
 %description
 Oxygen fonts created by the KDE Community.
 
@@ -70,6 +73,9 @@ ln -s %{_datadir}/fontconfig/conf.avail/61-oxygen-sans.conf \
 %{_libdir}/cmake/OxygenFont/
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-3
+- Rebuild for new 4.0 release
+
 * Wed Oct 07 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.2
 

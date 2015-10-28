@@ -4,7 +4,7 @@
 Name:           kscreen
 Epoch:          1
 Version:        5.4.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Display Management software
 
 License:        GPLv2 or GPLv3
@@ -86,6 +86,9 @@ fi
 
 
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1:5.4.0-4
+- Rebuild for new 4.0 release
+
 * Wed Aug 26 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.4.0
 

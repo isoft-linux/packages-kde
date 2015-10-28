@@ -1,7 +1,7 @@
 Name:           extra-cmake-modules
 Summary:        Additional modules for CMake build system
 Version:        5.15.0
-Release:        1 
+Release:        2 
 
 License:        BSD
 URL:            http://community.kde.org/KDE_Core/Platform_11/Buildsystem/FindFilesSurvey
@@ -45,6 +45,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_mandir}/man7/*
 %{_docdir}/ECM/
 %changelog
+* Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-2
+- Rebuild for new 4.0 release
+
 * Sun Oct 11 2015 Cjacker <cjacker@foxmail.com>
 - update to 5.15.0
 
