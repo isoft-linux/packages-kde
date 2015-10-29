@@ -11,9 +11,7 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/ksnapshot
 %else
 %global stable stable
 %endif 
-#Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
-
-Source0: ksnapshot.tar.gz
+Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}.tar.gz
 
 # Fix file QUrl issue for example $HOME/snapshot1.png/snapshot1.png
 Patch1: 0001-fix-file-url.patch
