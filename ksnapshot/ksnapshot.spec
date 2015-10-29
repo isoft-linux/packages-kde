@@ -42,9 +42,13 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
+BuildRequires: kf5-kdoctools-devel
+BuildRequires: kf5-kparts-devel
 
 BuildRequires: pkgconfig(exiv2)
 BuildRequires: pkgconfig(xfixes) 
+
+BuildRequires: qt5-qtx11extras-devel
 
 %description
 %{summary}.
@@ -98,6 +102,7 @@ fi
 %changelog
 * Thu Oct 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix file QUrl issue for example $HOME/snapshot1.png/snapshot1.png
+- Add missing BuildRequires.
 
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.04.2-6.git
 - Rebuild for new 4.0 release
