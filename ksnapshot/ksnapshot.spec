@@ -69,8 +69,6 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
-%find_lang %{name} --with-kde --without-mo
-
 
 %check
 desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.desktop
@@ -88,19 +86,21 @@ touch --no-create %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 fi
 
-%files -f %{name}.lang
+%files
 %doc COPYING
 %{_kf5_bindir}/%{name}
 %{_kf5_bindir}/kbackgroundsnapshot
 %{_datadir}/dbus-1/interfaces/org.kde.ksnapshot.xml
 %{_kf5_datadir}/applications/org.kde.%{name}.desktop
 %{_kf5_datadir}/icons/hicolor/*/*/*
+%{_datadir}/doc/HTML/en/ksnapshot/*
 
 
 %changelog
 * Thu Oct 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix file QUrl issue for example $HOME/snapshot1.png/snapshot1.png
 - Add missing BuildRequires.
+- Remove find_lang.
 
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.04.2-6.git
 - Rebuild for new 4.0 release
