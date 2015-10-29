@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.2
-Release:        22
+Release:        23
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -108,6 +108,7 @@ BuildRequires:  xorg-x11-drv-synaptics-devel
 # for xserver-properties
 BuildRequires:  xorg-x11-server-devel
 
+BuildRequires: pkgconfig(gl) pkgconfig(glu)
 
 #for patch200/201
 BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
@@ -297,6 +298,9 @@ fi
 
 
 %changelog
+* Thu Oct 29 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-23
+- add depend on gl/glu to fix build in koji
+
 * Thu Oct 29 2015 sulit <sulitsrc@gmail.com> - 5.4.2-22
 - add show desktop widget for pannel
 
