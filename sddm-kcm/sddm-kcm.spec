@@ -1,6 +1,6 @@
 Name:           sddm-kcm
 Version:        5.4.2
-Release:        2
+Release:        3
 License:        GPLv2+
 Summary:        SDDM KDE configuration module
 
@@ -14,6 +14,10 @@ Url:            https://projects.kde.org/projects/kde/workspace/sddm-kcm
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
+# Fix KJob synchronous exec blocked issue
+Patch0: 0001-fix-save-job-block.patch
+# Fix QQuickWidget embedded into QWidget issue
+Patch1: 0002-fix-quickwidget-freeze.patch
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
@@ -71,6 +75,10 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Oct 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix KJob synchronous exec blocked issue.
+- Fix QQuickWidget embedded into QWidget issue.
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
