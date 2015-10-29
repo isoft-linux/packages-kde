@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.2
-Release:        5 
+Release:        6
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -38,6 +38,9 @@ Patch13:  0001-kscreenlocker-accounts-service.patch
 #if it get deleted or Home.desktop/trash.desktop get deleted.
 #when desktop started, all will be restored.
 Patch14:  plasma-workspace-protect-home-Desktop-dir.patch
+
+#Add CTRL+V for plasmashell desktopview
+Patch15:  0002-add-paste-for-desktopview.patch
 
 ## upstreamable Patches
 
@@ -228,6 +231,7 @@ Documentation and user manuals for %{name}.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -339,6 +343,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Oct 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add CTRL+V for plasmashell desktopview.
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-5
 - Rebuild for new 4.0 release
 
