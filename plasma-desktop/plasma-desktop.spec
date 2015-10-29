@@ -108,8 +108,9 @@ BuildRequires:  xorg-x11-drv-synaptics-devel
 # for xserver-properties
 BuildRequires:  xorg-x11-server-devel
 
-BuildRequires: pkgconfig(gl) pkgconfig(glu) pkgconfig(glesv2)
-
+BuildRequires: mesa-libGL-devel
+BuildRequires: mesa-libGLU-devel
+ 
 #for patch200/201
 BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
 Requires: qt5-qtaccountsservice >= 0.6.0
