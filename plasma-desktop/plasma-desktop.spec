@@ -108,7 +108,7 @@ BuildRequires:  xorg-x11-drv-synaptics-devel
 # for xserver-properties
 BuildRequires:  xorg-x11-server-devel
 
-BuildRequires: pkgconfig(gl) pkgconfig(glu)
+BuildRequires: pkgconfig(gl) pkgconfig(glu) pkgconfig(glesv2)
 
 #for patch200/201
 BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
