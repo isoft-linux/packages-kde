@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.2
-Release:        21 
+Release:        22
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -297,6 +297,9 @@ fi
 
 
 %changelog
+* Thu Oct 29 2015 sulit <sulitsrc@gmail.com> - 5.4.2-22
+- add show desktop widget for pannel
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-21
 - Rebuild for new 4.0 release
 
