@@ -1,6 +1,6 @@
 Name:           sddm
 Version:        0.12.0
-Release:        9 
+Release:        10 
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -23,18 +23,11 @@ Source14:   sddm.conf
 
 #patch from leslie to enable accountservice face icon support.
 Patch0: 0001-greeter-accounts-service.patch
-#!!!!!!!This patch is very important, sddm drops a lot system environment settings such as PATH/JAVA_HOME ...
-#it will cause a lot of problem in plasma, since plasma got envs from dm directly.
-#Remember, when konsole or other terminal started, it will reload all env settings automatically.
-#So, test in konsole works DO NOT means it will works from kickoff menu.
-#The better way is respect sysenv and replace some of them use 'insert' as sddm does.
-#By Cjacker.
-Patch1:	sddm-please-respect-system-path-settings.patch
 
 Provides: service(graphical-login) = sddm
 
 BuildRequires:  cmake
-BuildRequires:  systemd
+BuildRequires:  systemd-devel
 BuildRequires:  pam-devel
 BuildRequires:  libxcb-devel
 BuildRequires:  qt5-qtbase-devel
@@ -63,7 +56,6 @@ designer the ability to create smooth, animated user interfaces.
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
-%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -136,6 +128,9 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Fri Oct 30 2015 Cjacker <cjacker@foxmail.com> - 0.12.0-10
+- Remove patch1, seems already fixed upstream
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.12.0-9
 - Rebuild for new 4.0 release
 
