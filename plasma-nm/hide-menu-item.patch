@@ -1,0 +1,81 @@
+--- plasma-nm-5.4.2-orig/editor/connectioneditor.cpp	2015-10-01 17:54:12.000000000 +0800
++++ plasma-nm-5.4.2/editor/connectioneditor.cpp	2015-10-30 17:51:36.103301015 +0800
+@@ -131,9 +131,9 @@
+     QAction * action = new QAction(i18n("DSL"), this);
+     action->setData(NetworkManager::ConnectionSettings::Pppoe);
+     m_menu->addAction(action);
+-    action = new QAction(i18n("InfiniBand"), this);
+-    action->setData(NetworkManager::ConnectionSettings::Infiniband);
+-    m_menu->addAction(action);
++//    action = new QAction(i18n("InfiniBand"), this);
++//    action->setData(NetworkManager::ConnectionSettings::Infiniband);
++//    m_menu->addAction(action);
+ #if WITH_MODEMMANAGER_SUPPORT
+     action = new QAction(i18n("Mobile Broadband..."), this);
+     action->setData(NetworkManager::ConnectionSettings::Gsm);
+@@ -143,21 +143,21 @@
+     action->setData(NetworkManager::ConnectionSettings::Wired);
+     action->setProperty("shared", false);
+     m_menu->addAction(action);
+-    action = new QAction(i18n("Wired Ethernet (shared)"), this);
+-    action->setData(NetworkManager::ConnectionSettings::Wired);
+-    action->setProperty("shared", true);
+-    m_menu->addAction(action);
++//    action = new QAction(i18n("Wired Ethernet (shared)"), this);
++//    action->setData(NetworkManager::ConnectionSettings::Wired);
++//    action->setProperty("shared", true);
++//    m_menu->addAction(action);
+     action = new QAction(i18n("Wi-Fi"), this);
+     action->setData(NetworkManager::ConnectionSettings::Wireless);
+     action->setProperty("shared", false);
+     m_menu->addAction(action);
+-    action = new QAction(i18n("Wi-Fi (shared)"), this);
+-    action->setData(NetworkManager::ConnectionSettings::Wireless);
+-    action->setProperty("shared", true);
+-    m_menu->addAction(action);
+-    action = new QAction(i18n("WiMAX"), this);
+-    action->setData(NetworkManager::ConnectionSettings::Wimax);
+-    m_menu->addAction(action);
++//    action = new QAction(i18n("Wi-Fi (shared)"), this);
++//    action->setData(NetworkManager::ConnectionSettings::Wireless);
++//    action->setProperty("shared", true);
++//    m_menu->addAction(action);
++//    action = new QAction(i18n("WiMAX"), this);
++//    action->setData(NetworkManager::ConnectionSettings::Wimax);
++//    m_menu->addAction(action);
+ 
+     m_menu->menu()->addSection(i18nc("Virtual hardware devices, eg Bridge, Bond", "Virtual"));
+ 
+@@ -167,14 +167,14 @@
+     action = new QAction(i18n("Bridge"), this);
+     action->setData(NetworkManager::ConnectionSettings::Bridge);
+     m_menu->addAction(action);
+-    action = new QAction(i18n("VLAN"), this);
+-    action->setData(NetworkManager::ConnectionSettings::Vlan);
+-    m_menu->addAction(action);
+-#if NM_CHECK_VERSION(0, 9, 10)
+-    action = new QAction(i18n("Team"), this);
+-    action->setData(NetworkManager::ConnectionSettings::Team);
+-    m_menu->addAction(action);
+-#endif
++//    action = new QAction(i18n("VLAN"), this);
++//    action->setData(NetworkManager::ConnectionSettings::Vlan);
++//    m_menu->addAction(action);
++//#if NM_CHECK_VERSION(0, 9, 10)
++//    action = new QAction(i18n("Team"), this);
++//    action->setData(NetworkManager::ConnectionSettings::Team);
++//    m_menu->addAction(action);
++//#endif
+ 
+     m_menu->menu()->addSection(i18n("VPN"));
+ 
+@@ -188,6 +188,9 @@
+     Q_FOREACH (const KService::Ptr & service, services) {
+         qCDebug(PLASMA_NM) << "Found VPN plugin" << service->name() << ", type:" << service->property("X-NetworkManager-Services", QVariant::String).toString();
+ 
++        if (service->name() != "PPTP")
++            continue;
++
+         action = new QAction(service->name(), this);
+         action->setData(NetworkManager::ConnectionSettings::Vpn);
+         action->setProperty("type", service->property("X-NetworkManager-Services", QVariant::String));
