@@ -1,6 +1,6 @@
 Name:           sddm
 Version:        0.12.0
-Release:        10 
+Release:        13
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -128,8 +128,9 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
-* Fri Oct 30 2015 Cjacker <cjacker@foxmail.com> - 0.12.0-10
-- Remove patch1, seems already fixed upstream
+* Fri Oct 30 2015 Cjacker <cjacker@foxmail.com> - 0.12.0-13
+- Disable patch1 to fix PATH issue
+- Seems already fixed upstream
 
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.12.0-9
 - Rebuild for new 4.0 release
