@@ -1,6 +1,6 @@
 Name:           plasma-nm
 Version:        5.4.2
-Release:        6
+Release:        7
 Summary:        Plasma Next applet written in QML for managing network connections
 License:        LGPLv2+ and GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-nm
@@ -268,6 +268,9 @@ install -m 0644 %{SOURCE11} %{buildroot}%{_datadir}/kservices5/
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_sstpui.desktop
 
 %changelog
+* Tue Nov 03 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-7
+- Change patch, restore all VPN protocols
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-4
 - Rebuild for new 4.0 release
 

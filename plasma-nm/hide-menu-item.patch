@@ -69,13 +69,3 @@
  
      m_menu->menu()->addSection(i18n("VPN"));
  
-@@ -188,6 +188,9 @@
-     Q_FOREACH (const KService::Ptr & service, services) {
-         qCDebug(PLASMA_NM) << "Found VPN plugin" << service->name() << ", type:" << service->property("X-NetworkManager-Services", QVariant::String).toString();
- 
-+        if (service->name() != "PPTP")
-+            continue;
-+
-         action = new QAction(service->name(), this);
-         action->setData(NetworkManager::ConnectionSettings::Vpn);
-         action->setProperty("type", service->property("X-NetworkManager-Services", QVariant::String));
