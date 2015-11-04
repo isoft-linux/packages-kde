@@ -1,6 +1,6 @@
 Name:           lmdb
 Version:        0.9.14
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Memory-mapped key-value database
 
 License:        OpenLDAP
@@ -14,6 +14,7 @@ Source:        %{name}-%{version}.tar.gz
 # Patch description in the corresponding file
 Patch0: lmdb-make.patch
 Patch1: lmdb-s390-check.patch
+Patch2: 0001-fix-env-is-null.patch
 
 BuildRequires: doxygen
 
@@ -51,7 +52,7 @@ The %{name}-doc package contains automatically generated documentation for %{nam
 %setup -q -n lib%{name}
 %patch0 -p1 -b .make
 %patch1 -p1 -b .s390-check
-
+%patch2 -p1 -b .fix-env-is-null
 
 %build
 make XCFLAGS="%{optflags}" %{?_smp_mflags}
@@ -94,6 +95,9 @@ LD_LIBRARY_PATH=$PWD make test
 
 
 %changelog
+* Wed Nov 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix env is NULL issue.
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.9.14-3
 - Rebuild for new 4.0 release
 
