@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.15.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -18,6 +18,8 @@ URL:            http://www.kde.org
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-framework-%{version}.tar.xz
 
 ## upstream patches
+#By default, unlock widget and add widget can not appear at the same time in the menu.
+Patch001: plasma-framework-plasma-reset-action.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -128,6 +130,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Nov 04 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.15.0-4
+- update corona:unlock and add widget never appear at the same time.
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 
