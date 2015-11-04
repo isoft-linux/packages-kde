@@ -1,0 +1,14 @@
+diff --git a/kcms/kfontinst/kcmfontinst/JobRunner.cpp b/kcms/kfontinst/kcmfontinst/JobRunner.cpp
+index 787791d..0cb8d95 100644
+--- a/kcms/kfontinst/kcmfontinst/JobRunner.cpp
++++ b/kcms/kfontinst/kcmfontinst/JobRunner.cpp
+@@ -575,6 +575,9 @@ void CJobRunner::contineuToNext(bool cont)
+ 
+ void CJobRunner::slotButtonClicked(int button)
+ {
++    if (button == Cancel)
++        contineuToNext(false);
++
+     switch(itsStack->currentIndex())
+     {
+         case PAGE_PROGRESS:

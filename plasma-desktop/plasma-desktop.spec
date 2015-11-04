@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.2
-Release:        23
+Release:        24
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -25,6 +25,8 @@ Patch102: plasma-desktop-default-layout.patch
 #patches from Leslie Zhai
 Patch200: 0001-kickoff-accounts-service.patch  
 Patch201: plasma-desktop-kickoff-face-click-open-user_account.patch
+# Cancelable when disable fontinst
+Patch202: 0002-cancel-fontinst.patch
 
 #default enable kimpanel by Cjacker.
 #Comment out by default, since we hope to support sogou pinyin.
@@ -299,6 +301,9 @@ fi
 
 
 %changelog
+* Wed Nov 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix disable fontinst can not cancelable issue.
+
 * Thu Oct 29 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-23
 - add depend on gl/glu to fix build in koji
 
