@@ -1,0 +1,39 @@
+diff -urN plasma-framework-5.15.0/src/plasma/corona.cpp plasma-framework-5.15.0n/src/plasma/corona.cpp
+--- plasma-framework-5.15.0/src/plasma/corona.cpp	2015-10-05 16:28:27.000000000 +0800
++++ plasma-framework-5.15.0n/src/plasma/corona.cpp	2015-11-03 15:35:38.956397798 +0800
+@@ -307,6 +307,7 @@
+         } else {
+             bool unlocked = d->immutability == Types::Mutable;
+             action->setText(unlocked ? i18n("Lock Widgets") : i18n("Unlock Widgets"));
++            action->setIconText(unlocked ? "Lock" :"Unlock");
+             action->setIcon(QIcon::fromTheme(unlocked ? "object-locked" : "object-unlocked"));
+             action->setEnabled(true);
+             action->setVisible(true);
+diff -urN plasma-framework-5.15.0/src/plasma/private/containment_p.cpp plasma-framework-5.15.0n/src/plasma/private/containment_p.cpp
+--- plasma-framework-5.15.0/src/plasma/private/containment_p.cpp	2015-10-05 16:28:27.000000000 +0800
++++ plasma-framework-5.15.0n/src/plasma/private/containment_p.cpp	2015-11-03 15:37:49.108402118 +0800
+@@ -159,7 +159,23 @@
+         action = q->actions()->action("add widgets");
+         if (action) {
+             action->setEnabled(unlocked);
+-            action->setVisible(unlocked);
++            //action->setVisible(unlocked);
++
++            QAction *act = q->actions()->action("lock widgets");
++            if (act) {
++                QString lockStr(act->iconText());
++                if (lockStr == "Unlock") {
++                    if (unlocked)
++                        action->setVisible(!unlocked);
++                    else
++                        action->setVisible(unlocked);
++                }
++                else {
++                    action->setVisible(unlocked);
++                }
++            } else {
++                action->setVisible(unlocked);
++            }
+         }
+ 
+         // tell the applets too
