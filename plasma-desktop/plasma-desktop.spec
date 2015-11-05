@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.2
-Release:        25
+Release:        26
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -54,6 +54,7 @@ Patch305: plasma-desktop-say-goodbye-to-crappy-and-buggy-locale-setting.patch
 
 Patch306: plasma-desktop-disable-kcm-mouse-and-touchpad.patch
 
+Patch307: plasma-desktop-kickoff-sync-url.patch
 
 ## upstreamable patches
 
@@ -305,6 +306,9 @@ fi
 
 
 %changelog
+* Thu Nov 05 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.4.2-26
+- sync favorites,add patch kickoff-sync-url.patch
+
 * Wed Nov 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix disable fontinst can not cancelable issue.
 - Port kauth for fontinst.

@@ -1,0 +1,50 @@
+diff -Nur plasma-desktop-5.4.2/applets/kickoff/core/favoritesmodel.cpp plasma-desktop-5.4.2n/applets/kickoff/core/favoritesmodel.cpp
+--- plasma-desktop-5.4.2/applets/kickoff/core/favoritesmodel.cpp	2015-11-05 14:07:06.030086773 +0800
++++ plasma-desktop-5.4.2n/applets/kickoff/core/favoritesmodel.cpp	2015-11-05 13:44:46.862146479 +0800
+@@ -204,6 +204,22 @@
+     Private::saveFavorites();
+ }
+ 
++void FavoritesModel::sync()
++{
++    KConfigGroup favoritesGroup = componentData().config()->group("Favorites");
++    QList<QString> favoriteList = favoritesGroup.readEntry("FavoriteURLs", QList<QString>());
++    if (favoriteList.isEmpty()) {
++        favoriteList = Private::defaultFavorites();
++    }
++
++    foreach (const QString &favorite, favoriteList) {
++        QFile favFile(favorite);
++        if (!favFile.exists()) {
++            remove(favorite);
++        }
++    }
++}
++
+ void FavoritesModel::load(const QString &url)
+ {
+     QString handledUrl;
+diff -Nur plasma-desktop-5.4.2/applets/kickoff/core/favoritesmodel.h plasma-desktop-5.4.2n/applets/kickoff/core/favoritesmodel.h
+--- plasma-desktop-5.4.2/applets/kickoff/core/favoritesmodel.h	2015-10-01 17:51:50.000000000 +0800
++++ plasma-desktop-5.4.2n/applets/kickoff/core/favoritesmodel.h	2015-11-05 13:33:57.732175420 +0800
+@@ -44,6 +44,9 @@
+     /** Add a new item for @p url to the user's favorites list and sync list. */
+     Q_INVOKABLE static void add(const QString& url);
+ 
++    /** Sync list,remove url that does not exist. */
++    Q_INVOKABLE static void sync();
++
+     /** Add a new item for @p url to the user's favorites list. */
+     static void load(const QString& url);
+ 
+diff -Nur plasma-desktop-5.4.2/applets/kickoff/package/contents/ui/FavoritesView.qml plasma-desktop-5.4.2n/applets/kickoff/package/contents/ui/FavoritesView.qml
+--- plasma-desktop-5.4.2/applets/kickoff/package/contents/ui/FavoritesView.qml	2015-10-01 17:51:50.000000000 +0800
++++ plasma-desktop-5.4.2n/applets/kickoff/package/contents/ui/FavoritesView.qml	2015-11-05 11:59:38.389427738 +0800
+@@ -195,6 +195,7 @@
+                     if (!expanded) {
+                         kickoffListView.currentIndex = -1;
+                     }
++                    favoritesModel.sync();
+                 }
+             }
+         }
