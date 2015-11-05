@@ -1,6 +1,6 @@
 Name:           sddm
 Version:        0.13.0
-Release:        2
+Release:        3
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -21,6 +21,8 @@ Source14:   sddm.conf
 
 #patch from leslie to enable accountservice face icon support.
 Patch0: 0001-greeter-accounts-service.patch
+#plymouth smooth translation
+Patch1: 0002-plymouth-smooth-transition.patch
 
 Provides: service(graphical-login) = sddm
 
@@ -54,6 +56,7 @@ designer the ability to create smooth, animated user interfaces.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -63,7 +66,7 @@ pushd %{_target_platform}
 	-DBUILD_MAN_PAGES=true \
 	-DENABLE_JOURNALD=true \
         -DENABLE_PAM=true \
-	-DENABLE_PLYMOUTH=OFF ..
+	-DENABLE_PLYMOUTH=ON ..
 popd
 
 make %{?_smp_mflags} -C %{_target_platform}
@@ -127,6 +130,9 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Thu Nov 05 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Plymouth smooth transition.
+
 * Thu Nov 05 2015 Cjacker <cjacker@foxmail.com> - 0.13.0-2
 - Update
 
