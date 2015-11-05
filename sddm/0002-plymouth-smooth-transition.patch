@@ -1,0 +1,553 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0f10f92..e527c3a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -31,6 +31,7 @@ add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
+ # Options
+ option(BUILD_MAN_PAGES "Build man pages" OFF)
+ option(ENABLE_JOURNALD "Enable logging to journald" ON)
++option(ENABLE_PLYMOUTH "Enable plymouth smooth transition" OFF)
+ option(ENABLE_PAM "Enable PAM support" ON)
+ 
+ # Definitions
+@@ -101,6 +102,10 @@
+     set(HAVE_QTACCOUNTSSERVICE TRUE)
+ endif()
+ 
++if (ENABLE_PLYMOUTH)
++    add_definitions(-DHAVE_PLYMOUTH)
++    set(HAVE_PLYMOUTH TRUE)
++endif()
+ 
+ # find qt5 imports dir
+ get_target_property(QMAKE_EXECUTABLE Qt5::qmake LOCATION)
+diff --git a/services/CMakeLists.txt b/services/CMakeLists.txt
+index e77e0e6..bb7c48e 100644
+--- a/services/CMakeLists.txt
++++ b/services/CMakeLists.txt
+@@ -1,6 +1,10 @@
+ if(SYSTEMD_FOUND)
+     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/sddm.service.in" "${CMAKE_CURRENT_BINARY_DIR}/sddm.service")
+     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/sddm.service" DESTINATION "${SYSTEMD_SYSTEM_UNIT_DIR}")
++    if(ENABLE_PLYMOUTH)
++        configure_file("${CMAKE_CURRENT_SOURCE_DIR}/sddm-plymouth.service.in" "${CMAKE_CURRENT_BINARY_DIR}/sddm-plymouth.service")
++        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/sddm-plymouth.service" DESTINATION "${SYSTEMD_SYSTEM_UNIT_DIR}")
++    endif()
+ endif()
+ 
+ install(FILES sddm.pam DESTINATION ${CMAKE_INSTALL_FULL_SYSCONFDIR}/pam.d RENAME sddm)
+diff --git a/services/sddm-plymouth.service.in b/services/sddm-plymouth.service.in
+new file mode 100644
+index 0000000..c1cb3a2
+--- /dev/null
++++ b/services/sddm-plymouth.service.in
+@@ -0,0 +1,14 @@
++[Unit]
++Description=Simple Desktop Display Manager
++Documentation=man:sddm(1) man:sddm.conf(5)
++Conflicts=getty@tty1.service plymouth-quit.service
++After=systemd-user-sessions.service getty@tty1.service plymouth-quit.service
++
++[Service]
++ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/sddm
++Restart=always
++IgnoreSIGPIPE=no
++BusName=org.freedesktop.DisplayManager
++
++[Install]
++Alias=display-manager.service
+diff --git a/src/daemon/CMakeLists.txt b/src/daemon/CMakeLists.txt
+index 07a0a3d..16aaa5a 100644
+--- a/src/daemon/CMakeLists.txt
++++ b/src/daemon/CMakeLists.txt
+@@ -4,28 +4,55 @@ include_directories(
+ )
+ include_directories("${CMAKE_BINARY_DIR}/src/common")
+ 
+-set(DAEMON_SOURCES
+-    ${CMAKE_SOURCE_DIR}/src/common/Configuration.cpp
+-    ${CMAKE_SOURCE_DIR}/src/common/SafeDataStream.cpp
+-    ${CMAKE_SOURCE_DIR}/src/common/ConfigReader.cpp
+-    ${CMAKE_SOURCE_DIR}/src/common/Session.cpp
+-    ${CMAKE_SOURCE_DIR}/src/common/SocketWriter.cpp
+-    ${CMAKE_SOURCE_DIR}/src/auth/Auth.cpp
+-    ${CMAKE_SOURCE_DIR}/src/auth/AuthPrompt.cpp
+-    ${CMAKE_SOURCE_DIR}/src/auth/AuthRequest.cpp
+-    DaemonApp.cpp
+-    Display.cpp
+-    DisplayManager.cpp
+-    DisplayServer.cpp
+-    XorgDisplayServer.cpp
+-    Greeter.cpp
+-    PowerManager.cpp
+-    Seat.cpp
+-    SeatManager.cpp
+-    SignalHandler.cpp
+-    SocketServer.cpp
+-    VirtualTerminal.cpp
+-)
++if(ENABLE_PLYMOUTH)
++    set(DAEMON_SOURCES
++        ${CMAKE_SOURCE_DIR}/src/common/Configuration.cpp
++        ${CMAKE_SOURCE_DIR}/src/common/SafeDataStream.cpp
++        ${CMAKE_SOURCE_DIR}/src/common/ConfigReader.cpp
++        ${CMAKE_SOURCE_DIR}/src/common/Session.cpp
++        ${CMAKE_SOURCE_DIR}/src/common/SocketWriter.cpp
++        ${CMAKE_SOURCE_DIR}/src/auth/Auth.cpp
++        ${CMAKE_SOURCE_DIR}/src/auth/AuthPrompt.cpp
++        ${CMAKE_SOURCE_DIR}/src/auth/AuthRequest.cpp
++        DaemonApp.cpp
++        Display.cpp
++        DisplayManager.cpp
++        DisplayServer.cpp
++        XorgDisplayServer.cpp
++        Greeter.cpp
++        PowerManager.cpp
++        Seat.cpp
++        SeatManager.cpp
++        SignalHandler.cpp
++        SocketServer.cpp
++        VirtualTerminal.cpp
++        Process.cpp
++        Plymouth.cpp
++    )
++else()
++    set(DAEMON_SOURCES
++        ${CMAKE_SOURCE_DIR}/src/common/Configuration.cpp
++        ${CMAKE_SOURCE_DIR}/src/common/SafeDataStream.cpp
++        ${CMAKE_SOURCE_DIR}/src/common/ConfigReader.cpp
++        ${CMAKE_SOURCE_DIR}/src/common/Session.cpp
++        ${CMAKE_SOURCE_DIR}/src/common/SocketWriter.cpp
++        ${CMAKE_SOURCE_DIR}/src/auth/Auth.cpp
++        ${CMAKE_SOURCE_DIR}/src/auth/AuthPrompt.cpp
++        ${CMAKE_SOURCE_DIR}/src/auth/AuthRequest.cpp
++        DaemonApp.cpp
++        Display.cpp
++        DisplayManager.cpp
++        DisplayServer.cpp
++        XorgDisplayServer.cpp
++        Greeter.cpp
++        PowerManager.cpp
++        Seat.cpp
++        SeatManager.cpp
++        SignalHandler.cpp
++        SocketServer.cpp
++        VirtualTerminal.cpp
++    )
++endif()
+ 
+ qt5_add_dbus_adaptor(DAEMON_SOURCES "${CMAKE_SOURCE_DIR}/data/interfaces/org.freedesktop.DisplayManager.xml"          "DisplayManager.h" SDDM::DisplayManager)
+ qt5_add_dbus_adaptor(DAEMON_SOURCES "${CMAKE_SOURCE_DIR}/data/interfaces/org.freedesktop.DisplayManager.Seat.xml"     "DisplayManager.h" SDDM::DisplayManagerSeat)
+diff --git a/src/daemon/Plymouth.cpp b/src/daemon/Plymouth.cpp
+new file mode 100644
+index 0000000..fa46f84
+--- /dev/null
++++ b/src/daemon/Plymouth.cpp
+@@ -0,0 +1,116 @@
++/***************************************************************************
++* Copyright (C) 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
++*
++* This program is free software; you can redistribute it and/or modify
++* it under the terms of the GNU General Public License as published by
++* the Free Software Foundation; either version 2 of the License, or
++* (at your option) any later version.
++*
++* This program is distributed in the hope that it will be useful,
++* but WITHOUT ANY WARRANTY; without even the implied warranty of
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++* GNU General Public License for more details.
++*
++* You should have received a copy of the GNU General Public License
++* along with this program; if not, write to the
++* Free Software Foundation, Inc.,
++* 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++***************************************************************************/
++
++#include "Plymouth.h"
++#include "Process.h"
++
++#include <QDir>
++#include <QFile>
++#include <QTextStream>
++#include <QDate>
++
++static bool m_havePinged = false;
++static bool m_haveCheckedActiveVt = false;
++static bool m_isRunning = false;
++static bool m_isActive = false;
++static bool m_hasActiveVt = false;
++static const QString plymouthBin = QString::fromUtf8("plymouth");
++
++Plymouth::Plymouth(QObject *parent)
++  : QObject(parent) 
++{
++}
++
++Plymouth::~Plymouth() 
++{
++}
++
++void Plymouth::log(QString str)
++{
++    QFile file(QString::fromUtf8("/var/log/sddm-plymouth.log"));
++    if (file.open(QIODevice::Append | QIODevice::Text)) {
++        QTextStream out(&file);
++        out << QDateTime::currentDateTime().toString(Qt::ISODate) + 
++            QString::fromUtf8(" ") + str << "\n";
++        file.close();
++    }
++}
++
++bool Plymouth::isRunning() 
++{
++    if (!m_havePinged) {
++        m_havePinged = true;
++        Process p;
++        p.setProgram(plymouthBin);
++        p.setArguments(QStringList() << QString::fromUtf8("--ping"));
++        connect(&p, &Process::finished, [=](int exitCode) {
++                m_isRunning = WIFEXITED (exitCode) && WEXITSTATUS (exitCode) == 0;
++                m_isActive = m_isRunning;
++            });
++        p.start();
++    }
++
++    return m_isRunning;
++}
++
++bool Plymouth::isActive() 
++{
++    return isRunning() && m_isActive;
++}
++
++bool Plymouth::hasActiveVt()
++{
++    if (!m_haveCheckedActiveVt) {
++        m_haveCheckedActiveVt = true;
++        Process p;
++        p.setProgram(plymouthBin);
++        p.setArguments(QStringList() << QString::fromUtf8("--has-active-vt"));
++        connect(&p, &Process::finished, [=](int exitCode) {
++                m_hasActiveVt = WIFEXITED (exitCode) && WEXITSTATUS (exitCode) == 0;
++            });
++        p.start();
++    }
++
++    return m_hasActiveVt;
++}
++
++void Plymouth::prepareForTransition() 
++{
++    Process p;
++    p.setProgram(plymouthBin);
++    p.setArguments(QStringList() << QString::fromUtf8("deactivate"));
++    p.start();
++}
++
++void Plymouth::quitWithoutTransition() 
++{
++    Process p;
++    p.setProgram(plymouthBin);
++    p.setArguments(QStringList() << QString::fromUtf8("quit"));
++    p.start();
++}
++
++void Plymouth::quitWithTransition() 
++{
++    Process p;
++    p.setProgram(plymouthBin);
++    p.setArguments(QStringList() << QString::fromUtf8("quit") 
++                                 << QString::fromUtf8("--retain-splash"));
++    p.start();
++}
+diff --git a/src/daemon/Plymouth.h b/src/daemon/Plymouth.h
+new file mode 100644
+index 0000000..7c8b777
+--- /dev/null
++++ b/src/daemon/Plymouth.h
+@@ -0,0 +1,42 @@
++/***************************************************************************
++* Copyright (C) 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
++*
++* This program is free software; you can redistribute it and/or modify
++* it under the terms of the GNU General Public License as published by
++* the Free Software Foundation; either version 2 of the License, or
++* (at your option) any later version.
++*
++* This program is distributed in the hope that it will be useful,
++* but WITHOUT ANY WARRANTY; without even the implied warranty of
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++* GNU General Public License for more details.
++*
++* You should have received a copy of the GNU General Public License
++* along with this program; if not, write to the
++* Free Software Foundation, Inc.,
++* 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++***************************************************************************/
++
++#ifndef __PLYMOUTH_H__
++#define __PLYMOUTH_H__
++
++#include <QtCore/QObject>
++
++class Plymouth : public QObject
++{
++    Q_OBJECT
++
++public:
++    explicit Plymouth(QObject *parent = nullptr);
++    ~Plymouth();
++
++    static bool isActive();
++    static bool isRunning();
++    static bool hasActiveVt();
++    static void prepareForTransition();
++    static void quitWithoutTransition();
++    static void quitWithTransition();
++    static void log(QString);
++};
++
++#endif // __PLYMOUTH_H__
+diff --git a/src/daemon/Process.cpp b/src/daemon/Process.cpp
+new file mode 100644
+index 0000000..0b4aae0
+--- /dev/null
++++ b/src/daemon/Process.cpp
+@@ -0,0 +1,116 @@
++/***************************************************************************
++* Copyright (C) 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
++*
++* This program is free software; you can redistribute it and/or modify
++* it under the terms of the GNU General Public License as published by
++* the Free Software Foundation; either version 2 of the License, or
++* (at your option) any later version.
++*
++* This program is distributed in the hope that it will be useful,
++* but WITHOUT ANY WARRANTY; without even the implied warranty of
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++* GNU General Public License for more details.
++*
++* You should have received a copy of the GNU General Public License
++* along with this program; if not, write to the
++* Free Software Foundation, Inc.,
++* 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++***************************************************************************/
++
++#include "Process.h"
++
++#include <QtCore/QProcess>
++
++class Process::Private : public QProcess
++{
++    Q_OBJECT
++public:
++    Private(Process *parent);
++
++    QString program;
++    QStringList arguments;
++    QString dir;
++private:
++    Process *q;
++};
++
++Process::Private::Private(Process *parent)
++    : QProcess(parent)
++    , q(parent)
++{
++    connect(this, SIGNAL(started()), q, SIGNAL(started()));
++    connect(this, SIGNAL(finished(int,QProcess::ExitStatus)), q, SIGNAL(finished(int)));
++    connect(this, SIGNAL(readyReadStandardOutput()), q, SIGNAL(readyReadStandardOutput()));
++    connect(this, SIGNAL(readyReadStandardError()), q, SIGNAL(readyReadStandardError()));
++}
++
++Process::Process(QObject *parent)
++    : QObject(parent)
++    , d(new Private(this))
++{
++}
++
++Process::~Process()
++{
++}
++
++const QString &Process::program() const
++{
++    return d->program;
++}
++
++void Process::setProgram(const QString &program)
++{
++    if (program == d->program) return;
++    d->program = program;
++    emit programChanged(d->program);
++}
++
++const QStringList &Process::arguments() const
++{
++    return d->arguments;
++}
++
++void Process::setArguments(const QStringList &arguments)
++{
++    if (arguments == d->arguments) return;
++    d->arguments = arguments;
++    emit argumentsChanged(d->arguments);
++}
++
++const QString &Process::dir() const { return d->dir; }
++
++void Process::setDir(const QString &dir) 
++{
++    if (dir == d->dir) return;
++    d->dir = dir;
++    d->setWorkingDirectory(d->dir);
++    emit dirChanged();
++}
++
++void Process::start()
++{
++    d->start(d->program, d->arguments);
++}
++
++void Process::terminate()
++{
++    d->terminate();
++}
++
++void Process::kill()
++{
++    d->kill();
++}
++
++QByteArray Process::readAllStandardError()
++{
++    return d->readAllStandardError();
++}
++
++QByteArray Process::readAllStandardOutput()
++{
++    return d->readAllStandardOutput();
++}
++
++#include "Process.moc"
+diff --git a/src/daemon/Process.h b/src/daemon/Process.h
+new file mode 100644
+index 0000000..6d8a1b6
+--- /dev/null
++++ b/src/daemon/Process.h
+@@ -0,0 +1,69 @@
++/***************************************************************************
++* Copyright (C) 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
++*
++* This program is free software; you can redistribute it and/or modify
++* it under the terms of the GNU General Public License as published by
++* the Free Software Foundation; either version 2 of the License, or
++* (at your option) any later version.
++*
++* This program is distributed in the hope that it will be useful,
++* but WITHOUT ANY WARRANTY; without even the implied warranty of
++* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++* GNU General Public License for more details.
++*
++* You should have received a copy of the GNU General Public License
++* along with this program; if not, write to the
++* Free Software Foundation, Inc.,
++* 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++***************************************************************************/
++
++#ifndef PROCESS_H
++#define PROCESS_H
++
++#include <QObject>
++#include <QStringList>
++
++class Process : public QObject
++{
++    Q_OBJECT
++    Q_DISABLE_COPY(Process)
++    Q_PROPERTY(QString program READ program WRITE setProgram NOTIFY programChanged)
++    Q_PROPERTY(QStringList arguments READ arguments WRITE setArguments NOTIFY argumentsChanged)
++    Q_PROPERTY(QString dir READ dir WRITE setDir NOTIFY dirChanged)
++
++public:
++    Process(QObject *parent = 0);
++    ~Process();
++
++    const QString &program() const;
++    const QStringList &arguments() const;
++    const QString &dir() const;
++
++    Q_INVOKABLE QByteArray readAllStandardError();
++    Q_INVOKABLE QByteArray readAllStandardOutput();
++
++public slots:
++    void setProgram(const QString &program);
++    void setArguments(const QStringList &arguments);
++    void setDir(const QString &dir);
++
++    void start();
++    void terminate();
++    void kill();
++
++signals:
++    void programChanged(const QString &program);
++    void argumentsChanged(const QStringList &arguments);
++    void dirChanged();
++
++    void finished(int exitCode);
++    void readyReadStandardError();
++    void readyReadStandardOutput();
++    void started();
++
++private:
++    class Private;
++    Private *d;
++};
++
++#endif // PROCESS_H
+--- a/src/daemon/Seat.cpp    2015-08-18 00:06:19.000000000 +0800
++++ b/src/daemon/Seat.cpp 2015-11-05 12:16:36.838414560 +0800
+@@ -54,7 +54,7 @@
+     void Seat::createDisplay(int terminalId) {
+         //reload config if needed
+         mainConfig.load();
+-        
++
+         if (terminalId == -1) {
+                 // find unused terminal
+             terminalId = findUnused(mainConfig.XDisplay.MinimumVT.get(), [&](const int number) {
+@@ -62,6 +62,10 @@
+             });
+         }
+ 
++#if HAVE_PLYMOUTH
++        terminalId = 2;
++#endif
++
+         // mark terminal as used
+         m_terminalIds << terminalId;
+
+--- a/src/daemon/XorgDisplayServer.cpp   2015-11-05 03:09:15.000000000 +0800
++++ b/src/daemon/XorgDisplayServer.cpp    2015-11-05 11:50:28.742878389 +0800
+@@ -24,6 +24,9 @@
+ #include "DaemonApp.h"
+ #include "Display.h"
+ #include "SignalHandler.h"
++#if HAVE_PLYMOUTH
++#include "Plymouth.h"
++#endif
+ 
+ #include <QDebug>
+ #include <QFile>
+@@ -152,7 +155,10 @@
+             if (pipe(pipeFds) != 0) {
+                 qCritical("Could not create pipe to start X server");
+             }
+-
++#if HAVE_PLYMOUTH
++            Plymouth::quitWithoutTransition();
++            system("pkill -9 plymouthd");
++#endif
+             // start display server
+             QStringList args = mainConfig.XDisplay.ServerArguments.get().split(QLatin1Char(' '), QString::SkipEmptyParts);
+             args << QStringLiteral("-auth") << m_authPath 

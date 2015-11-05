@@ -1,14 +1,12 @@
 Name:           sddm
-Version:        0.12.0
-Release:        13
+Version:        0.13.0
+Release:        3
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
 Url:            https://github.com/sddm/sddm
 
-#git@git.isoft.zhcn.cc:zhaixiang/sddm.git
-
-Source0:        https://github.com/sddm/sddm/releases/download/v0.12.0/sddm-%{version}.tar.xz
+Source0:        https://github.com/sddm/sddm/releases/download/v%{version}/sddm-%{version}.tar.xz
 
 # Shamelessly stolen from gdm
 Source11:       sddm.pam
@@ -23,6 +21,8 @@ Source14:   sddm.conf
 
 #patch from leslie to enable accountservice face icon support.
 Patch0: 0001-greeter-accounts-service.patch
+#plymouth smooth translation
+Patch1: 0002-plymouth-smooth-transition.patch
 
 Provides: service(graphical-login) = sddm
 
@@ -54,8 +54,9 @@ beautiful. It uses modern technologies like QtQuick, which in turn gives the
 designer the ability to create smooth, animated user interfaces.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -64,7 +65,8 @@ pushd %{_target_platform}
 	-DUSE_QT5=true \
 	-DBUILD_MAN_PAGES=true \
 	-DENABLE_JOURNALD=true \
-	-DENABLE_PLYMOUTH=OFF ..
+        -DENABLE_PAM=true \
+	-DENABLE_PLYMOUTH=ON ..
 popd
 
 make %{?_smp_mflags} -C %{_target_platform}
@@ -128,6 +130,12 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Thu Nov 05 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Plymouth smooth transition.
+
+* Thu Nov 05 2015 Cjacker <cjacker@foxmail.com> - 0.13.0-2
+- Update
+
 * Fri Oct 30 2015 Cjacker <cjacker@foxmail.com> - 0.12.0-13
 - Disable patch1 to fix PATH issue
 - Seems already fixed upstream

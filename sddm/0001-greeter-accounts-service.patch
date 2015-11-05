@@ -10,17 +10,18 @@ diff -Nur sddm-0.12.0/CMakeLists.txt sddm-0.12.0n/CMakeLists.txt
  # PKG-CONFIG
  find_package(PkgConfig)
  
-@@ -85,6 +87,20 @@
+@@ -85,6 +87,21 @@
  find_package(Qt5DBus REQUIRED)
  find_package(Qt5LinguistTools REQUIRED)
  
 +# AccountsService Qt5 binding
 +find_package(QtAccountsService)
-+set_package_properties(QtAccountsService PROPERTIES DESCRIPTION "Qt-style API to use freedesktop.org's AccountsService DBus service"
-+                    URL "https://github.com/AOSC-Dev/qtaccountsservice"
-+                    TYPE OPTIONAL
-+                    PURPOSE "Use AccountsService`s iconFileName"
-+                    )
++set_package_properties(QtAccountsService PROPERTIES 
++    DESCRIPTION "Qt-style API to use freedesktop.org's AccountsService DBus service"
++    URL "http://git.isoft.zhcn.cc/zhaixiang/qtaccountsservice"
++    TYPE OPTIONAL
++    PURPOSE "Use AccountsService`s iconFileName"
++)
 +set(HAVE_QTACCOUNTSSERVICE FALSE)
 +if (QtAccountsService_FOUND)
 +    add_definitions(-DHAVE_QTACCOUNTSSERVICE)
