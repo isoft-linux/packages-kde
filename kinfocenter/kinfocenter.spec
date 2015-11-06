@@ -1,6 +1,6 @@
 Name:           kinfocenter
 Version:        5.4.2
-Release:        5
+Release:        6
 Summary:        KDE Info Center
 
 License:        GPLv2+ and LGPLv2+
@@ -15,7 +15,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/kinfocenter
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 # about-distro isoft-logo
-Patch0: 0001-about-distro-isoft-logo.patch
+Patch1: 0001-about-distro-isoft-logo.patch
 
 
 BuildRequires:  qt5-qtbase-devel
@@ -64,6 +64,7 @@ Conflicts:      kde-workspace < 4.11.15-3
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch1 -p1 .isoft-logo
 
 
 %build
