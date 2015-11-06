@@ -1,0 +1,104 @@
+diff --git a/applets/kicker/package/contents/ui/MenuRepresentation.qml b/applets/kicker/package/contents/ui/MenuRepresentation.qml
+index 98ffa4a..8d34d08 100644
+--- a/applets/kicker/package/contents/ui/MenuRepresentation.qml
++++ b/applets/kicker/package/contents/ui/MenuRepresentation.qml
+@@ -1,5 +1,6 @@
+ /***************************************************************************
+  *   Copyright (C) 2013-2015 by Eike Hein <hein@kde.org>                   *
++ *   Copyright (C) 2015 by Leslie Zhai <xiang.zhai@i-soft.com.cn>          *
+  *                                                                         *
+  *   This program is free software; you can redistribute it and/or modify  *
+  *   it under the terms of the GNU General Public License as published by  *
+@@ -21,6 +22,10 @@ import QtQuick 2.2
+ import QtQuick.Layouts 1.1
+ import org.kde.plasma.core 2.0 as PlasmaCore
+ import org.kde.plasma.components 2.0 as PlasmaComponents
++import org.kde.plasma.extras 2.0 as PlasmaExtras
++import org.kde.kcoreaddons 1.0 as KCoreAddons
++import org.kde.kquickcontrolsaddons 2.0
++import QtAccountsService 1.0
+ 
+ FocusScope {
+     id: root
+@@ -52,10 +57,71 @@ FocusScope {
+         searchField.focus = true;
+     }
+ 
++    KCoreAddons.KUser {
++        id: kuser
++    }
++
++    UserAccount {
++        id: userAccount
++
++        Component.onCompleted: {
++            faceIcon.source = userAccount.iconFileName != "" ? userAccount.iconFileName : kuser.faceIconUrl;
++        }
++        onAccountChanged: {
++            faceIcon.source = userAccount.iconFileName != "" ? userAccount.iconFileName : kuser.faceIconUrl;
++        }
++    }
++
++    Image {
++        id: faceIcon
++        source: kuser.faceIconUrl
++        cache: false
++        visible: source !== ""
++
++        width: units.gridUnit * 3
++        height: width
++
++        anchors {
++            top: parent.top
++            left: parent.left
++            //topMargin: units.gridUnit
++            //leftMargin: units.gridUnit
++        }
++
++        MouseArea {
++            anchors.fill: parent
++            acceptedButtons: Qt.LeftButton
++            cursorShape: Qt.PointingHandCursor
++            onClicked: {
++                KCMShell.open("kcm_useraccount");
++            }
++        }
++    }
++
++    PlasmaExtras.Heading {
++        id: nameLabel
++
++        level: 2
++        text: kuser.fullName
++        elide: Text.ElideRight
++        verticalAlignment: Text.AlignTop
++        height: paintedHeight
++
++        anchors {
++            left: faceIcon.right
++            top: faceIcon.top
++            right: parent.right
++            leftMargin: units.gridUnit
++            rightMargin: units.gridUnit
++        }
++    }
++
+     Row {
+         id: mainRow
+ 
+-        height: parent.height
++        height: parent.height - faceIcon.height
++
++        anchors.top: faceIcon.bottom
+ 
+         spacing: units.smallSpacing
+ 
+@@ -172,7 +238,7 @@ FocusScope {
+ 
+             anchors.top: parent.top
+ 
+-            height: ((rootModel.count - rootModel.separatorCount) * itemHeight) + (rootModel.separatorCount * separatorHeight)
++            height: ((rootModel.count - rootModel.separatorCount) * itemHeight) + (rootModel.separatorCount * separatorHeight) - faceIcon.height
+ 
+             visible: (searchField.text == "")
+ 

@@ -1,6 +1,6 @@
 Name:           plasma-workspace-wallpapers
 Version:        5.4.2
-Release:        2
+Release:        4
 Summary:        Additional wallpapers for Plasma workspace
 License:        GPLv2+
 URL:            http://www.kde.org
@@ -51,6 +51,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Nov 06 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.2-4
+- Rebuilt for 5.4.2.4, remove changes on version 5.4.2-3.
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
