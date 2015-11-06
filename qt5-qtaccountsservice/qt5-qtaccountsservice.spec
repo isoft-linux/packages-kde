@@ -2,8 +2,8 @@
 
 Name:           qt5-%{qt_module}
 Summary:        Qt5 - AccountService addon
-Version:        0.6.0
-Release:        3 
+Version:        0.6.1
+Release:        1
 License:        LGPLv2+
 #URL:            https://github.com/hawaii-desktop/qt-accountsservice-addon
 #git@git.isoft.zhcn.cc:zhaixiang/qtaccountsservice.git
@@ -70,6 +70,9 @@ make install DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add oslogo path. 
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.6.0-3
 - Rebuild for new 4.0 release
 
