@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.15.0
-Release:        6
+Release:        7
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -20,6 +20,8 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 ## upstream patches
 #By default, unlock widget and add widget can not appear at the same time in the menu.
 Patch001: plasma-framework-plasma-reset-action.patch
+# Add file exists check for core datasource
+Patch002: 0001-datasource-add-file-exists.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -130,6 +132,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add file exists check for core datasource.
+
 * Wed Nov 04 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.15.0-6
 - add patch file
 

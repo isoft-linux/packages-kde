@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.2
-Release:        6
+Release:        7
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -41,6 +41,9 @@ Patch14:  plasma-workspace-protect-home-Desktop-dir.patch
 
 #Add CTRL+V for plasmashell desktopview
 Patch15:  0002-add-paste-for-desktopview.patch
+
+#Add isoft logo for splash
+Patch16: 0003-splash-isoft-logo.patch
 
 ## upstreamable Patches
 
@@ -343,6 +346,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add isoft logo for splash.
+
 * Thu Oct 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add CTRL+V for plasmashell desktopview.
 
