@@ -1,5 +1,5 @@
 diff --git a/Modules/about-distro/src/Module.cpp b/Modules/about-distro/src/Module.cpp
-index bec3a36..9013873 100644
+index 9e9dc9c..fd009f3 100644
 --- a/Modules/about-distro/src/Module.cpp
 +++ b/Modules/about-distro/src/Module.cpp
 @@ -23,6 +23,7 @@
@@ -14,8 +14,8 @@ index bec3a36..9013873 100644
      QString logoPath = cg.readEntry("LogoPath", QString());
      QPixmap logo;
      if (logoPath.isEmpty())
--        logo = QIcon::fromTheme(QStringLiteral("start-here-kde")).pixmap(128, 128);
-+        logo = QFile::exists("/usr/share/isoft-artwork/logo/128x128/isoft-logo.png") ? QPixmap("/usr/share/isoft-artwork/logo/128x128/isoft-logo.png") : QIcon::fromTheme(QStringLiteral("start-here-kde")).pixmap(128, 128);
+-        logo = QIcon::fromTheme("start-here-kde").pixmap(128, 128);
++        logo = QFile::exists("/usr/share/isoft-artwork/logo/128x128/isoft-logo.png") ? QPixmap("/usr/share/isoft-artwork/logo/128x128/isoft-logo.png") : QIcon::fromTheme("start-here-kde").pixmap(128, 128);
      else
          logo = QPixmap(logoPath);
      ui->logoLabel->setPixmap(logo);
