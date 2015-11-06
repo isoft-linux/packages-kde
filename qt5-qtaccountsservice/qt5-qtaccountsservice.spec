@@ -17,6 +17,7 @@ BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  cmake
+BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 
 %description
