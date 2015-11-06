@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.2
-Release:        7
+Release:        8
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -235,6 +235,7 @@ Documentation and user manuals for %{name}.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
