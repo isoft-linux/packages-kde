@@ -64,7 +64,7 @@ Conflicts:      kde-workspace < 4.11.15-3
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1 .isoft-logo
+%patch1 -p1
 
 
 %build
