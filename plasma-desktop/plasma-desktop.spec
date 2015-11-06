@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.2
-Release:        27
+Release:        28
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -33,6 +33,8 @@ Patch203: 0003-kfontinst-replace-trolltech.patch
 Patch204: 0004-kfontinst-port-kauth.patch
 # Add faceIcon for kicker
 Patch205: 0005-kicker-add-faceicon.patch
+# Kickoff isoft-logo
+Patch206: 0006-kickoff-isoft-logo.patch
 
 #default enable kimpanel by Cjacker.
 #Comment out by default, since we hope to support sogou pinyin.
@@ -310,6 +312,7 @@ fi
 %changelog
 * Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add faceIcon for kicker.
+- Kickoff isoft-logo
 
 * Thu Nov 05 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.4.2-26
 - sync favorites,add patch kickoff-sync-url.patch

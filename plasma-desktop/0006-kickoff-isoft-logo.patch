@@ -1,0 +1,13 @@
+diff --git a/applets/kickoff/package/contents/config/main.xml b/applets/kickoff/package/contents/config/main.xml
+index 00dfdf9..b5af8bc 100644
+--- a/applets/kickoff/package/contents/config/main.xml
++++ b/applets/kickoff/package/contents/config/main.xml
+@@ -16,7 +16,7 @@
+       <default>false</default>
+     </entry>
+     <entry name="icon" type="String">
+-      <default>start-here-kde</default>
++      <default>isoft-logo</default>
+     </entry>
+   </group>
+ 
