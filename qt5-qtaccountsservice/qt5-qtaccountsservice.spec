@@ -17,6 +17,7 @@ BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  cmake
+BuildRequires:  extra-cmake-modules
 
 %description
 Qt-style API for freedesktop.org's AccountsService DBus service (see 
