@@ -1,13 +1,46 @@
-diff --git a/applets/kickoff/package/contents/config/main.xml b/applets/kickoff/package/contents/config/main.xml
-index 00dfdf9..b5af8bc 100644
---- a/applets/kickoff/package/contents/config/main.xml
-+++ b/applets/kickoff/package/contents/config/main.xml
-@@ -16,7 +16,7 @@
-       <default>false</default>
-     </entry>
-     <entry name="icon" type="String">
--      <default>start-here-kde</default>
-+      <default>isoft-logo</default>
-     </entry>
-   </group>
+diff --git a/applets/kickoff/core/processrunner.cpp b/applets/kickoff/core/processrunner.cpp
+index 6572386..ae97717 100644
+--- a/applets/kickoff/core/processrunner.cpp
++++ b/applets/kickoff/core/processrunner.cpp
+@@ -20,6 +20,7 @@
+ #include "processrunner.h"
  
+ #include <KProcess>
++#include <QFile>
+ 
+ using namespace Kickoff;
+ 
+@@ -35,3 +36,8 @@ void ProcessRunner::runMenuEditor()
+ {
+     KProcess::startDetached(QStringLiteral("kmenuedit"));
+ }
++
++bool ProcessRunner::isFileExist(QString path)
++{
++    return QFile::exists(path);
++}
+diff --git a/applets/kickoff/core/processrunner.h b/applets/kickoff/core/processrunner.h
+index 5d836eb..939f874 100644
+--- a/applets/kickoff/core/processrunner.h
++++ b/applets/kickoff/core/processrunner.h
+@@ -33,6 +33,7 @@ class ProcessRunner : public QObject
+         ~ProcessRunner();
+ 
+         Q_INVOKABLE void runMenuEditor();
++        Q_INVOKABLE bool isFileExist(QString path);
+ };
+ 
+ }
+diff --git a/applets/kickoff/package/contents/ui/Kickoff.qml b/applets/kickoff/package/contents/ui/Kickoff.qml
+index 33b49eb..6fe5816 100644
+--- a/applets/kickoff/package/contents/ui/Kickoff.qml
++++ b/applets/kickoff/package/contents/ui/Kickoff.qml
+@@ -34,7 +34,7 @@ Item {
+ 
+     Plasmoid.fullRepresentation: FullRepresentation {}
+ 
+-    Plasmoid.icon: plasmoid.configuration.icon
++    Plasmoid.icon: processRunner.isFileExist("/usr/share/isoft-artwork/logo/scalable/isoft-logo-symbolic.svgz") ? "/usr/share/isoft-artwork/logo/scalable/isoft-logo-symbolic.svgz" : plasmoid.configuration.icon
+ 
+     Kickoff.ProcessRunner {
+         id: processRunner

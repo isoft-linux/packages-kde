@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.2
-Release:        28
+Release:        29
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -312,7 +312,8 @@ fi
 %changelog
 * Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add faceIcon for kicker.
-- Kickoff isoft-logo
+- Kickoff isoft-logo.
+- Use isFileExist to check isoft-logo.
 
 * Thu Nov 05 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.4.2-26
 - sync favorites,add patch kickoff-sync-url.patch
