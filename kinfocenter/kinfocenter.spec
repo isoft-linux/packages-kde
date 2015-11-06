@@ -1,6 +1,6 @@
 Name:           kinfocenter
 Version:        5.4.2
-Release:        3
+Release:        4
 Summary:        KDE Info Center
 
 License:        GPLv2+ and LGPLv2+
@@ -110,6 +110,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %changelog
 * Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add start-here-isoft 
+- Change start-here-isoft to isoft-logo
 
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
