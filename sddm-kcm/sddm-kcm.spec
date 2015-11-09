@@ -1,6 +1,6 @@
 Name:           sddm-kcm
-Version:        5.4.2
-Release:        3
+Version:        5.4.3
+Release:        2
 License:        GPLv2+
 Summary:        SDDM KDE configuration module
 
@@ -48,6 +48,8 @@ SDDM Display Manager
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
+%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -75,6 +77,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Thu Oct 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix KJob synchronous exec blocked issue.
 - Fix QQuickWidget embedded into QWidget issue.
