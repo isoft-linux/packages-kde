@@ -1,6 +1,6 @@
 Name:           bluedevil
 Summary:        Bluetooth stack for KDE
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 
 License:        GPLv2+
@@ -30,6 +30,7 @@ BuildRequires:  kf5-kio-devel
 # 5.11 is when kf5-bluez-qt became Framework and changed API
 BuildRequires:  kf5-bluez-qt-devel >= 5.11
 BuildRequires:  kf5-kded-devel
+BuildRequires:  kf5-kwindowsystem-devel
 
 BuildRequires:  shared-mime-info
 
@@ -107,6 +108,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
