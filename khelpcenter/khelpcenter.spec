@@ -1,6 +1,6 @@
 Name:           khelpcenter
-Version:        5.4.2
-Release:        2%{?dist}
+Version:        5.4.3
+Release:        1%{?dist}
 Summary:        Application to show KDE Application's documentation
 # Override khelpcenter subpackage from kde-runtime-15.04 (no longer built)
 Epoch:          1
@@ -19,15 +19,23 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtscript-devel
 
+BuildRequires:  cmake
+BuildRequires:  gettext
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
 
 BuildRequires:  kf5-kconfig-devel
+BuildRequires:  kf5-kcoreaddons-devel
+BuildRequires:  kf5-kdbusaddons-devel
 BuildRequires:  kf5-kinit-devel >= 5.10.0-3
+BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kcmutils-devel
 BuildRequires:  kf5-khtml-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-kdoctools-devel
+BuildRequires:  kf5-kservice-devel
+
+BuildRequires:  python
 
 BuildRequires:  desktop-file-utils
 
