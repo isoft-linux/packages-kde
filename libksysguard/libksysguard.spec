@@ -1,5 +1,5 @@
 Name:           libksysguard
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        Library for managing processes running on the system
 
@@ -14,22 +14,21 @@ URL:            https://projects.kde.org/projects/kde/workspace/libksysguard
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
-BuildRequires:  zlib-devel
-BuildRequires:  libXres-devel
-
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qttools-devel
-BuildRequires:  qt5-qtx11extras-devel
-BuildRequires:  qt5-qtwebkit-devel
-BuildRequires:  qt5-qtscript-devel
-
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-plasma-devel
 BuildRequires:  kf5-kconfig-devel
+BuildRequires:  kf5-kdelibs4support-devel
+BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-knewstuff-devel
+BuildRequires:  kf5-plasma-devel
+BuildRequires:  kf5-rpm-macros
+BuildRequires:  libXres-devel
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtscript-devel
+BuildRequires:  qt5-qttools-devel
+BuildRequires:  qt5-qtwebkit-devel
+BuildRequires:  qt5-qtx11extras-devel
+BuildRequires:  zlib-devel
 
 Requires:       kf5-filesystem
 
@@ -107,6 +106,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libdir}/cmake/KF5SysGuard
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
