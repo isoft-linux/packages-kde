@@ -46,6 +46,8 @@ BuildRequires:  kdecoration-devel
 
 #for kde4 macros
 BuildRequires:  kde-filesystem
+BuildRequires:  qt4-devel
+BuildRequires:  kdelibs-devel
 
 Requires:       kf5-filesystem
 

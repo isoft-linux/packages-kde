@@ -27,13 +27,9 @@ BuildRequires:  qt5-qtx11extras-devel
 
 BuildRequires:	kf5-kservice-devel
 BuildRequires:  kf5-kcmutils-devel
-
-# kde4breeze
 BuildRequires:  kf5-kcoreaddons-devel
 BuildRequires:  kf5-kconfig-devel
 BuildRequires:  kf5-kguiaddons-devel
-
-# kstyle
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kcompletion-devel
 BuildRequires:  kf5-frameworkintegration-devel
@@ -46,7 +42,9 @@ BuildRequires:  gettext
 
 #for kde4 macros
 %if 0%{?build_kde4:1}
-BuildRequires: kde-filesystem
+BuildRequires:  kde-filesystem
+BuildRequires:  qt4-devel
+BuildRequires:  kdelibs-devel
 %endif
 
 Requires:       kf5-filesystem
