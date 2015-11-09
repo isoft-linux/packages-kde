@@ -1,7 +1,7 @@
 %global         wayland 1
 
 Name:           kwin
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        KDE Window manager
 
@@ -20,8 +20,10 @@ URL:            https://projects.kde.org/projects/kde/workspace/kwin
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 # Base
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros
+
 
 # Qt
 BuildRequires:  qt5-qtbase-devel
@@ -32,6 +34,7 @@ BuildRequires:  qt5-qtx11extras-devel
 # X11/OpenGL
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libEGL-devel
+BuildRequires:  mesa-libgbm-devel
 BuildRequires:  libxkbcommon-devel
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -226,6 +229,9 @@ fi
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
