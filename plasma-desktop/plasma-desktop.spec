@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        3
+Release:        2
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -315,6 +315,9 @@ fi
 
 
 %changelog
+* Mon Nov 09 2015 sulit <sulitsrc@gmail.com>
+- do apt repo use 5.4.3-2.
+
 * Mon Nov 09 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Kicker use isoft-logo. 
 
