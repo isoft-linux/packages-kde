@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        2
+Release:        3
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -61,6 +61,9 @@ Patch307: plasma-desktop-kickoff-sync-url.patch
 
 # Kickoff isoft-logo
 Patch308: 0006-kickoff-isoft-logo.patch
+
+# Kicker isoft-logo
+Patch309: 0007-kicker-isoft-logo.patch
 
 ## upstreamable patches
 
@@ -312,6 +315,9 @@ fi
 
 
 %changelog
+* Mon Nov 09 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Kicker use isoft-logo. 
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
