@@ -1,7 +1,7 @@
 %global         base_name oxygen
 
 Name:           plasma-%{base_name}
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        Plasma and Qt widget style and window decorations for Plasma 5 and KDE 4
 
@@ -15,6 +15,8 @@ URL:            https://projects.kde.org/projects/kde/workspace/oxygen
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{base_name}-%{version}.tar.xz
+
+BuildRequires:  cmake
 
 # Qt 4 dependencies
 BuildRequires:  kdelibs-devel
@@ -38,6 +40,7 @@ BuildRequires:  kf5-kservice-devel
 BuildRequires:  kf5-kcompletion-devel
 BuildRequires:  kf5-frameworkintegration-devel
 BuildRequires:  kf5-kwindowsystem-devel
+BuildRequires:  kf5-kcmutils-devel
 
 BuildRequires:  kdecoration-devel
 
@@ -170,6 +173,9 @@ fi
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
