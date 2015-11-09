@@ -1,5 +1,5 @@
 Name:           plasma-sdk
-Version:        5.4.2
+Version:        5.4.3
 Release:        2%{?dist}
 Summary:        Development tools for Plasma 5
 
@@ -14,8 +14,10 @@ URL:            https://projects.kde.org/projects/extragear/sdk/plasma-sdk
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
+BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
+
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qtsvg-devel
@@ -94,6 +96,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/applications/org.kde.plasma.themeexplorer.desktop
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
