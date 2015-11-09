@@ -1,5 +1,5 @@
 Name:           kde-cli-tools
-Version:        5.4.2
+Version:        5.4.3
 Release:        2%{?dist}
 Summary:        Tools based on KDE Frameworks 5 to better interact with the system
 
@@ -14,6 +14,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/kde-cli-tools
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
+BuildRequires:  cmake
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtsvg-devel
 BuildRequires:  qt5-qtx11extras-devel
@@ -96,6 +97,9 @@ ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
