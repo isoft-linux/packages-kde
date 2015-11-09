@@ -44,6 +44,11 @@ BuildRequires:  libxcb-devel
 
 BuildRequires:  gettext
 
+#for kde4 macros
+%if 0%{?build_kde4:1}
+BuildRequires: kde-filesystem
+%endif
+
 Requires:       kf5-filesystem
 
 Requires:       %{name}-common = %{version}-%{release}
