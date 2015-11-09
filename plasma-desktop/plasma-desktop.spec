@@ -1,6 +1,6 @@
 Name:           plasma-desktop
-Version:        5.4.2
-Release:        29
+Version:        5.4.3
+Release:        2
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -30,15 +30,14 @@ Patch202: 0002-cancel-fontinst.patch
 # Replace trolltech for fontinst
 Patch203: 0003-kfontinst-replace-trolltech.patch
 # Port kauth for fontinst
-Patch204: 0004-kfontinst-port-kauth.patch
+##########Patch204: 0004-kfontinst-port-kauth.patch
 # Add faceIcon for kicker
+# TEMP disabled by Cjacker, please do not enable it until reviewed.
 Patch205: 0005-kicker-add-faceicon.patch
-# Kickoff isoft-logo
-Patch206: 0006-kickoff-isoft-logo.patch
 
-#default enable kimpanel by Cjacker.
-#Comment out by default, since we hope to support sogou pinyin.
-Patch300: plasma-desktop-default-enable-kimpanel.patch
+#add showdesktop to panel
+Patch300: plasma-desktop-add-showdesktop-to-panel-by-default.patch
+
 #By default, lock the panel.
 Patch301: plasma-desktop-default-locked.patch
 
@@ -59,6 +58,9 @@ Patch305: plasma-desktop-say-goodbye-to-crappy-and-buggy-locale-setting.patch
 Patch306: plasma-desktop-disable-kcm-mouse-and-touchpad.patch
 
 Patch307: plasma-desktop-kickoff-sync-url.patch
+
+# Kickoff isoft-logo
+Patch308: 0006-kickoff-isoft-logo.patch
 
 ## upstreamable patches
 
@@ -310,10 +312,11 @@ fi
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add faceIcon for kicker.
-- Kickoff isoft-logo.
-- Use isFileExist to check isoft-logo.
 
 * Thu Nov 05 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.4.2-26
 - sync favorites,add patch kickoff-sync-url.patch
