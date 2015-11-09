@@ -1,0 +1,152 @@
+# Chinese/Simplified translation of kscreen-osd.
+# Copyright (C) 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+# This file is distributed under the same license as the kscreen package.
+# Leslie Zhai <xiang.zhai@i-soft.com.cn>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 5.3.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-13 08:55+0800\n"
+"PO-Revision-Date: 2015-08-05 11:30+0800\n"
+"Last-Translator: Leslie Zhai <xiang.zhai@i-soft.com.cn>\n"
+"Language-Team: Leslie Zhai <xiang.zhai@i-soft.com.cn>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Unified Outputs"
+msgstr "统一输出"
+
+msgid "Laptop Screen"
+msgstr "笔记本屏幕"
+
+msgid "Scaling changes will come into effect after restart"
+msgstr "重启后缩放才能生效"
+
+msgid "Primary display:"
+msgstr "主显示："
+
+msgid "Active profile"
+msgstr "激活配置"
+
+msgid "Unify Outputs"
+msgstr "统一输出"
+
+msgid "Scale Display"
+msgstr "缩放显示"
+
+msgid "Automatically popup switch wizard when new monitor plugged in"
+msgstr "当插上显示器自动弹出向导"
+
+msgid "Hide osd when new monitor plugged in?"
+msgstr "当插上显示器隐藏设置向导?"
+
+msgid ""
+"You have disabled automatically popping up of monitor switch wizard, it can "
+"be triggered by Multimedia hotkey 'XF86Display'. If you have no hotkey "
+"supported, consider to setup the hotkey or keep the option unchanged"
+msgstr ""
+"你已经禁用自动弹出设置向导，但依然可以通过'XF86Display'热键唤出。如果不支持此"
+"热键，可以设置热键或不要禁用该设置向导"
+
+msgid "Break Unified Outputs"
+msgstr "取消统一输出"
+
+msgid "KCM Test App"
+msgstr "KCM测试程序"
+
+msgid "No Primary Output"
+msgstr "无主显示输出"
+
+msgid "Display Configuration"
+msgstr "显示配置"
+
+msgid "Configuration for displays"
+msgstr "显示配置"
+
+msgid "(c), 2012-2013 Daniel Vrátil"
+msgstr ""
+
+msgid "Daniel Vrátil"
+msgstr ""
+
+msgid "Maintainer"
+msgstr "维护者"
+
+msgid "No kscreen backend found. Please check your kscreen installation."
+msgstr "未找到kscreen后端。请检查您的kscreen安装。"
+
+msgid "Are you sure you want to disable all outputs?"
+msgstr "您确定想要禁用所有输出吗？"
+
+msgid "&Disable All Outputs"
+msgstr "禁用所有输出(&D)"
+
+msgid "&Reconfigure"
+msgstr "重新配置(&R)"
+
+msgid ""
+"Sorry, your configuration could not be applied.\n"
+"\n"
+"Common reasons are that the overall screen size is too big, or you enabled "
+"more displays than supported by your GPU."
+msgstr ""
+"抱歉，您的设置无法应用。\n"
+"\n"
+"通常的原因是整体屏幕大小太大了，或者您启用了比 GPU 支持更多的屏幕。"
+
+msgid "Resolution:"
+msgstr "分辨率："
+
+msgid "Normal"
+msgstr "普通"
+
+msgid "90° Clockwise"
+msgstr "90° 顺时针"
+
+msgid "Upside Down"
+msgstr "上下颠倒"
+
+msgid "90° Counterclockwise"
+msgstr "90° 逆时针"
+
+msgid "Orientation:"
+msgstr "方向："
+
+msgid "No available resolutions"
+msgstr "无可用分辨率"
+
+msgid "Enabled"
+msgstr "已启用"
+
+msgid "Display:"
+msgstr "显示："
+
+msgid "Advanced Settings"
+msgstr "高级设置"
+
+msgid "Auto"
+msgstr "自动"
+
+msgid "Refresh rate:"
+msgstr "刷新率："
+
+msgid "%1 Hz"
+msgstr "%1赫兹"
+
+msgid "PC"
+msgstr "电脑"
+
+msgid "Mirror"
+msgstr "镜像"
+
+msgid "Extend"
+msgstr "扩展"
+
+msgid "Second"
+msgstr "投影仪"
+
+msgid "<a href=\"#\">Disable automatically popping up?</a>"
+msgstr "<a href=\"#\">禁用自动弹出?</a>"
