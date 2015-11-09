@@ -44,6 +44,9 @@ BuildRequires:  kf5-kcmutils-devel
 
 BuildRequires:  kdecoration-devel
 
+#for kde4 macros
+BuildRequires:  kde-filesystem
+
 Requires:       kf5-filesystem
 
 Requires:       qt4-style-oxygen = %{version}-%{release}
