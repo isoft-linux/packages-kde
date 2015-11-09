@@ -1,6 +1,6 @@
 Name:           kdeplasma-addons
-Version:        5.4.2
-Release:        2
+Version:        5.4.3
+Release:        2 
 Summary:        Additional Plasmoids for Plasma 5.
 
 License:        GPLv2+
@@ -19,32 +19,28 @@ Provides:       kdeplasma-addons-libs = %{version}-%{release}
 Provides:       kdeplasma-addons-libs%{?dist} = %{version}-%{release}
 
 
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qtdeclarative-devel
-BuildRequires:  qt5-qtx11extras-devel
-
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
-
+BuildRequires:  kf5-rpm-macros
+BuildRequires:  ibus-devel
+BuildRequires:  kf5-kcmutils-devel
 BuildRequires:  kf5-kconfig-devel
 BuildRequires:  kf5-kconfigwidgets-devel
 BuildRequires:  kf5-kcoreaddons-devel
+BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kio-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-plasma-devel
+BuildRequires:  kf5-knewstuff-devel
+BuildRequires:  kf5-kross-devel
 BuildRequires:  kf5-krunner-devel
 BuildRequires:  kf5-kservice-devel
 BuildRequires:  kf5-kunitconversion-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-knewstuff-devel
-BuildRequires:  kf5-kross-devel
-
-
+BuildRequires:  kf5-plasma-devel
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtdeclarative-devel
+BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  libxcb-devel
 BuildRequires:  xcb-util-keysyms-devel
-
-BuildRequires:  ibus-devel
 
 Requires:       kf5-filesystem
 
@@ -95,6 +91,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
