@@ -79,6 +79,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+
+echo "NoDisplay=true" >> %{buildroot}%{_datadir}/applications/org.kde.plasma.themeexplorer.desktop
+echo "NoDisplay=true" >> %{buildroot}%{_datadir}/applications/cuttlefish.desktop
+
 %find_lang plasmasdk5 --with-qt --all-name
 
 %files -f plasmasdk5.lang
