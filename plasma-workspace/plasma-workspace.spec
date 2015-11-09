@@ -3,8 +3,8 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.4.2
-Release:        8
+Version:        5.4.3
+Release:        2
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -42,14 +42,11 @@ Patch14:  plasma-workspace-protect-home-Desktop-dir.patch
 #Add CTRL+V for plasmashell desktopview
 Patch15:  0002-add-paste-for-desktopview.patch
 
+Patch16: 0001-Proxy-Xembed-icons-to-SNI.patch
+
+
 #Add isoft logo for splash
-Patch16: 0003-splash-isoft-logo.patch
-
-## upstreamable Patches
-
-## upstream Patches
-
-## master branch Patches
+Patch17: 0003-splash-isoft-logo.patch
 
 # udev
 BuildRequires:  zlib-devel
@@ -236,6 +233,7 @@ Documentation and user manuals for %{name}.
 %patch14 -p1
 %patch15 -p1
 %patch16 -p1
+%patch17 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -347,6 +345,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add isoft logo for splash.
 
