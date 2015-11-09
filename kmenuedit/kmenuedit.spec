@@ -1,5 +1,5 @@
 Name:           kmenuedit
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        KDE menu editor
 
@@ -14,10 +14,9 @@ URL:            https://projects.kde.org/projects/kde/workspace/kmenuedit
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qtscript-devel
-
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
+BuildRequires:  desktop-file-utils
 BuildRequires:  extra-cmake-modules
 
 BuildRequires:  kf5-ki18n-devel
@@ -29,8 +28,12 @@ BuildRequires:  kf5-sonnet-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-kdoctools-devel
 BuildRequires:  kf5-kinit-devel >= 5.10.0-3
+BuildRequires:  khotkeys-devel
 
-BuildRequires:  desktop-file-utils
+
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtscript-devel
+
 
 Requires:       kf5-filesystem
 # libkdeinit5_*
@@ -96,6 +99,9 @@ fi
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 
