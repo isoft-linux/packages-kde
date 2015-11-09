@@ -18,10 +18,10 @@ index 56d1c7c..769e6ae 100644
 +        id: processRunner
 +    }
 +
-     onDashWindowChanged: {
-         if (dashWindow) {
-             dashWindow.visualParent = root;
-@@ -41,7 +46,7 @@ Item {
+     PlasmaCore.IconItem {
+         id: buttonIcon
+
+@@ -35,7 +40,7 @@ Item {
  
          visible: !(plasmoid.configuration.useCustomButtonImage && plasmoid.configuration.customButtonImage)
  
