@@ -1,0 +1,98 @@
+diff -Nur kdesu-5.15.0/src/suprocess.cpp kdesu-5.15.0n/src/suprocess.cpp
+--- kdesu-5.15.0/src/suprocess.cpp	2015-10-05 16:01:08.000000000 +0800
++++ kdesu-5.15.0n/src/suprocess.cpp	2015-11-10 21:45:28.599871284 +0800
+@@ -19,6 +19,7 @@
+ #include <QDebug>
+ #include <QStandardPaths>
+ #include <qplatformdefs.h>
++#include <QProcess>
+ 
+ #include <kconfig.h>
+ #include <kconfiggroup.h>
+@@ -55,14 +56,18 @@
+     m_user = user;
+     m_command = command;
+ 
++    if(currentUserIsSudoer())
++        d->superUserCommand = QLatin1String("sudo");
++    else
++        d->superUserCommand = QLatin1String("su");
++
++    //if user setup command in kdesurc, we respect it. 
+     KSharedConfig::Ptr config = KSharedConfig::openConfig();
+     KConfigGroup group(config, "super-user-command");
+-    d->superUserCommand = group.readEntry("super-user-command", DEFAULT_SUPER_USER_COMMAND);
+-
+-    if (d->superUserCommand != QLatin1String("sudo") && d->superUserCommand != QLatin1String("su")) {
+-        qWarning() << "unknown super user command.";
+-        d->superUserCommand = DEFAULT_SUPER_USER_COMMAND;
+-    }
++    QString superUserCommandinConfig = group.readEntry("super-user-command");
++    if(!superUserCommandinConfig.isEmpty() &&
++      (superUserCommandinConfig == QLatin1String("sudo") || superUserCommandinConfig == QLatin1String("su")))
++        d->superUserCommand = superUserCommandinConfig;
+ }
+ 
+ SuProcess::~SuProcess()
+@@ -70,6 +75,49 @@
+     delete d;
+ }
+ 
++bool SuProcess::currentUserIsSudoer()
++{
++    //sudo not exist, false.
++    QByteArray sudocommand = QFile::encodeName(QStandardPaths::findExecutable(QLatin1String("sudo")));
++    if (sudocommand.isEmpty()) {
++        return false;
++    }
++
++    KUser user;
++    //1.sudo use 'wheel' as sudoer group. 
++    //If user belong to group 'wheel', we can say user is sudoer and return immediatelly.
++    if(user.groupNames().contains(QLatin1String("wheel"))) {
++        return true;
++    }
++    return false;
++#if 0
++//We do not have a secure way to detect user is a sudoer or not if it don't belong to wheel group.
++    //If user added himself to /etc/sudoers, he is a sudoer but not in 'wheel' group.
++    //What we can do is run 'sudo -l' to detect. 
++    //If user is not a sudoer, 'sudo -l' will exit immediately.
++    //But if user is, 'sudo -l' may prompt to ask user password AND may not(if you just call 'sudo' recently)
++    //So, our logic is: 
++    //1, if need input, is sudoer, 
++    //2, if exit immediately, and the return value is 0, is sudoer.
++    //3, if exit immediately, and the return value is 1, we treat it as NOT sudoer.
++    //
++    //The output of sudo can not be used, since it can be customize when sudo compiled.
++    QString program = QLatin1String("sudo");
++    QStringList arguments;
++    arguments << QLatin1String("-l");
++    QProcess *testSudoProcess = new QProcess();
++    testSudoProcess->start(program, arguments);
++    //wait 2 sec, it's should be enough for 'sudo -l' to quit, if 'sudo -l' prompt for passwd, it will never exit.
++    if(testSudoProcess->waitForFinished(2000)) {
++        int ret = testSudoProcess->exitCode();
++        return (ret == 0);
++    } else {
++        testSudoProcess->kill();
++        return true;
++    }
++#endif
++}
++
+ QString SuProcess::superUserCommand()
+ {
+     return d->superUserCommand;
+@@ -111,6 +159,11 @@
+     }
+ 
+     QList<QByteArray> args;
++    //inherit all environments variables.
++    if (d->superUserCommand == QLatin1String("sudo")) {
++        args += "-E";
++    }
++
+     if (d->superUserCommand == QLatin1String("sudo")) {
+         args += "-u";
+     }

@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.15.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 integration with su
 
 License:        LGPLv2+
@@ -16,6 +16,9 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+#if user in wheel group, use sudo as default command, fix 'need root password' issue.
+#also add '-E' arg to sudo, fix gtk/qt/kde theme issue.
+Patch0: kdesu-if-user-in-wheel-default-to-sudo.patch
 
 BuildRequires:  libX11-devel
 
@@ -45,6 +48,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -78,6 +82,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Nov 10 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-4
+- If user in wheel group, use sudo as default
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 
