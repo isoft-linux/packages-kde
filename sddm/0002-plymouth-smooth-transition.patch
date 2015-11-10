@@ -63,17 +63,13 @@ index 0000000..c1cb3a2
 +Alias=display-manager.service
 --- a/src/daemon/DisplayManager.cpp       2015-11-04 17:23:33.202876011 +0800
 +++ b/src/daemon/DisplayManager.cpp      2015-11-10 15:28:08.541441324 +0800
-@@ -40,6 +40,13 @@
+@@ -40,6 +40,9 @@
          QDBusConnection connection = (daemonApp->testing()) ? QDBusConnection::sessionBus() : QDBusConnection::systemBus();
          connection.registerService(DISPLAYMANAGER_SERVICE);
          connection.registerObject(DISPLAYMANAGER_PATH, this);
 +#if HAVE_PLYMOUTH
 +        system("/bin/plymouth deactivate");
 +#endif
-+    }
-+
-+    DisplayManager::~DisplayManager() 
-+    {
      }
  
      QString DisplayManager::seatPath(const QString &seatName) {
