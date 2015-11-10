@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        3
+Release:        4
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -29,8 +29,8 @@ Patch201: plasma-desktop-kickoff-face-click-open-user_account.patch
 Patch202: 0002-cancel-fontinst.patch
 # Replace trolltech for fontinst
 Patch203: 0003-kfontinst-replace-trolltech.patch
-# Port kauth for fontinst
-##########Patch204: 0004-kfontinst-port-kauth.patch
+# Port kauth for fontinst and use asynchronous interface of KJob
+Patch204: 0004-kfontinst-port-kauth.patch
 # Add faceIcon for kicker
 # TEMP disabled by Cjacker, please do not enable it until reviewed.
 Patch205: 0005-kicker-add-faceicon.patch
@@ -317,6 +317,7 @@ fi
 %changelog
 * Tue Nov 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Rebuild kicker.
+- Port kauth for fontinst and use asynchronous interface of KJob.
 
 * Mon Nov 09 2015 sulit <sulitsrc@gmail.com>
 - do apt repo use 5.4.3-2.
