@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        4
+Release:        5
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -64,6 +64,9 @@ Patch308: 0006-kickoff-isoft-logo.patch
 
 # Kicker isoft-logo
 Patch309: 0007-kicker-isoft-logo.patch
+
+# uninstall kcm-kemail.desktop
+Patch310: plasma-desktop-uninstall-component-kcm-kemail.patch
 
 ## upstreamable patches
 
@@ -315,6 +318,9 @@ fi
 
 
 %changelog
+* Tue Nov 10 2015 Wang Ming <ming.wang@i-soft.com.cn> - 5.4.3-5
+- Uninstall component kcm-kemail.
+
 * Tue Nov 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Rebuild kicker.
 - Port kauth for fontinst and use asynchronous interface of KJob.
