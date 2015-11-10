@@ -333,6 +333,8 @@ kdeinit5_shutdown
 
 # just in case, by cjacker.
 killall kuiserver5 2>/dev/null 
+killall kwalletd5 2>/dev/null
+killall kglobalaccel5 2>/dev/null
 
 echo 'startkde: Running shutdown scripts...'  1>&2
 
