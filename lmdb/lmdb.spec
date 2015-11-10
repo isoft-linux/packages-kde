@@ -1,6 +1,6 @@
 Name:           lmdb
 Version:        0.9.14
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Memory-mapped key-value database
 
 License:        OpenLDAP
@@ -95,6 +95,9 @@ LD_LIBRARY_PATH=$PWD make test
 
 
 %changelog
+* Tue Nov 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix abort segfault issue. 
+
 * Wed Nov 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix env is NULL issue.
 
