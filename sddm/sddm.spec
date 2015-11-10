@@ -1,6 +1,6 @@
 Name:           sddm
 Version:        0.13.0
-Release:        3
+Release:        4
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -91,13 +91,13 @@ getent passwd sddm >/dev/null || \
 exit 0
 
 %post
-%systemd_post sddm.service
+%systemd_post sddm-plymouth.service
 
 %preun
-%systemd_preun sddm.service
+%systemd_preun sddm-plymouth.service
 
 %postun
-%systemd_postun sddm.service
+%systemd_postun sddm-plymouth.service
 
 %files
 %doc COPYING README.md CONTRIBUTORS
@@ -114,7 +114,7 @@ exit 0
 %attr(0711, root, sddm) %dir %{_localstatedir}/run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm
 %{_unitdir}/sddm.service
-#%{_unitdir}/sddm-plymouth.service
+%{_unitdir}/sddm-plymouth.service
 %{_qt5_archdatadir}/qml/SddmComponents/
 %dir %{_datadir}/sddm
 %{_datadir}/sddm/faces/
@@ -130,6 +130,9 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Tue Nov 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- By default use sddm-plymouth service.
+
 * Thu Nov 05 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Plymouth smooth transition.
 
