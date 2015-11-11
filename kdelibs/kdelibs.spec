@@ -103,8 +103,16 @@ Requires: oxygen-icon-theme
 
 BuildRequires: cmake gettext
 BuildRequires: kde-filesystem
-
+BuildRequires: media-player-info
+BuildRequires: bison flex
+BuildRequires: hunspell-devel
+BuildRequires: openssl-devel
+BuildRequires: docbook-dtds docbook-style-xsl
+BuildRequires: kde-settings
+BuildRequires: pkgconfig(avahi-core)
+BuildRequires: shared-mime-info
 BuildRequires: qt4-devel
+BuildRequires: qt4-doc
 BuildRequires: attica-devel
 BuildRequires: automoc4
 BuildRequires: dbusmenu-qt-devel
