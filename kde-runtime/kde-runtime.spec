@@ -116,6 +116,7 @@ BuildRequires: openslp-devel
 BuildRequires: libssh-devel >= 0.6
 BuildRequires: xorg-x11-font-utils
 BuildRequires: zlib-devel
+BuildRequires: docbook-dtds docbook-style-xsl
 
 # some items moved -workspace -> -runtime
 Conflicts: kdebase-workspace < 4.5.80
