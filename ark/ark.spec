@@ -45,7 +45,21 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
-
+BuildRequires: kf5-kauth-devel
+BuildRequires: kf5-kbookmarks-devel
+BuildRequires: kf5-kcodecs-devel
+BuildRequires: kf5-kcrash-devel
+BuildRequires: kf5-khtml-devel
+BuildRequires: kf5-kjs-devel
+BuildRequires: kf5-kparts-devel
+BuildRequires: kf5-kpty-devel
+BuildRequires: kf5-ktextwidgets-devel
+BuildRequires: kf5-kwidgetsaddons-devel
+BuildRequires: kf5-solid-devel
+BuildRequires: kf5-sonnet-devel
+BuildRequires: qt5-qtbase-devel
+BuildRequires: kf5-karchive-devel
+BuildRequires: libarchive-devel
 
 BuildRequires: bzip2-devel
 BuildRequires: appstream-glib
