@@ -101,6 +101,9 @@ Requires: polkit-qt
 Requires: phonon
 Requires: oxygen-icon-theme
 
+BuildRequires: cmake gettext
+BuildRequires: kde-filesystem
+
 BuildRequires: qt4-devel
 BuildRequires: attica-devel
 BuildRequires: automoc4
