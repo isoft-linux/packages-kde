@@ -2,8 +2,8 @@
 
 Name:    ark
 Summary: Archive manager
-Version: 15.08.2
-Release: 3
+Version: 15.08.3
+Release: 2
 
 License: GPLv2+
 URL:     http://utils.kde.org/projects/ark 
@@ -150,6 +150,9 @@ fi
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-3
 - Rebuild for new 4.0 release
 
