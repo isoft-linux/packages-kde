@@ -32,6 +32,8 @@ BuildRequires: kf5-ki18n-devel
 BuildRequires: kf5-knotifications-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
+BuildRequires: kf5-kdoctools-devel
+
 BuildRequires: qt5-qtbase-devel
 
 BuildRequires: pkgconfig(Qt5Widgets)
