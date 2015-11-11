@@ -3,8 +3,8 @@
 
 Name:    kde-l10n
 Summary: Internationalization support for KDE
-Version: 15.08.2
-Release: 5 
+Version: 15.08.3
+Release: 2
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -370,6 +370,9 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/ki18n5/
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-5
 - Rebuild for new 4.0 release
 
