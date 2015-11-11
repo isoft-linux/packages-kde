@@ -1,7 +1,7 @@
 Name:    dolphin 
 Summary: KDE File Manager
-Version: 15.08.2
-Release: 5 
+Version: 15.08.3
+Release: 2
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
@@ -45,6 +45,26 @@ BuildRequires: kf5-threadweaver-devel
 BuildRequires: kf5-kwallet-devel
 #for sidebar search
 BuildRequires: baloo-widgets-devel
+
+BuildRequires: kf5-attica-devel
+BuildRequires: kf5-baloo-devel
+BuildRequires: kf5-kactivities-devel
+BuildRequires: kf5-kauth-devel
+BuildRequires: kf5-kbookmarks-devel
+BuildRequires: kf5-kcmutils-devel
+BuildRequires: kf5-kcodecs-devel
+BuildRequires: kf5-kcompletion-devel
+BuildRequires: kf5-kconfigwidgets-devel
+BuildRequires: kf5-kcoreaddons-devel
+BuildRequires: kf5-kdbusaddons-devel
+BuildRequires: kf5-kfilemetadata-devel
+BuildRequires: kf5-kiconthemes-devel
+BuildRequires: kf5-kitemviews-devel
+BuildRequires: kf5-ktextwidgets-devel
+BuildRequires: kf5-kwidgetsaddons-devel
+BuildRequires: kf5-solid-devel
+BuildRequires: kf5-sonnet-devel
+BuildRequires: phonon-qt5-devel
 
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtscript-devel
@@ -123,6 +143,9 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-5
 - Rebuild for new 4.0 release
 
