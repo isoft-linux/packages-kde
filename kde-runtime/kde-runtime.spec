@@ -89,7 +89,7 @@ BuildRequires: chrpath
 BuildRequires: desktop-file-utils
 BuildRequires: kdelibs-devel >= 4.14.4
 # kdepimlibs' kxmlrpcclient used for drkonqi, ok to leave unversioned
-#BuildRequires: kdepimlibs-devel
+BuildRequires: kdepimlibs-devel
 BuildRequires: kactivities-devel
 BuildRequires: libgcrypt-devel >= 1.5.0
 BuildRequires: libjpeg-devel
