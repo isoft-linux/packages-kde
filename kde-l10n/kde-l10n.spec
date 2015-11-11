@@ -33,6 +33,8 @@ BuildRequires: findutils
 BuildRequires: gettext
 # kde4 bits
 BuildRequires: kdelibs-devel >= 4.14.4
+# for kde4 rpm macros
+BuildRequires: kde-filesystem
 # kf5 bits
 BuildRequires: extra-cmake-modules
 BuildRequires: kf5-rpm-macros
