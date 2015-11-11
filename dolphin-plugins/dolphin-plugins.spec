@@ -1,7 +1,7 @@
 Name:    dolphin-plugins
 Summary: Dolphin plugins for revision control systems
-Version: 15.08.2
-Release: 3%{?dist}
+Version: 15.08.3
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdesdk/dolphin-plugins
@@ -41,6 +41,15 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
+
+BuildRequires: dolphin-devel
+BuildRequires: kf5-kcrash-devel
+BuildRequires: kf5-kdelibs4support-devel
+BuildRequires: kf5-knotifications-devel
+BuildRequires: kf5-kparts-devel
+BuildRequires: kf5-ktextwidgets-devel
+BuildRequires: kf5-kunitconversion-devel
+BuildRequires: qt5-qtbase-devel
 
 
 Requires:       dolphin >= %{version}
@@ -85,6 +94,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/config.kcfg/fileviewsvnpluginsettings.kcfg
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-3
 - Rebuild for new 4.0 release
 
