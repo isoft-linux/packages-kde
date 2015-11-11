@@ -41,7 +41,7 @@ BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
 BuildRequires: kf5-kdoctools-devel
-BuildRequires: kf5-kwidgetaddons-devel
+BuildRequires: kf5-kwidgetsaddons-devel
 
 BuildRequires: pkgconfig(Qt5Widgets)
 BuildRequires: appstream-glib
