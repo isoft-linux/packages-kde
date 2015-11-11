@@ -1,8 +1,8 @@
 
 Name:    kpat
 Summary: A selection of solitaire card games
-Version: 15.08.2
-Release: 4%{?dist}
+Version: 15.08.3
+Release: 2%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -36,11 +36,13 @@ BuildRequires: kf5-knewstuff-devel
 BuildRequires: kf5-knotifyconfig-devel
 BuildRequires: kf5-knewstuff-devel
 BuildRequires: kf5-kservice-devel
+BuildRequires: kf5-ktextwidgets-devel
 BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
 BuildRequires: pkgconfig(phonon4qt5)
 BuildRequires: pkgconfig(Qt5Widgets) pkgconfig(Qt5Qml) pkgconfig(Qt5Quick) pkgconfig(Qt5QuickWidgets) pkgconfig(Qt5Svg) pkgconfig(Qt5Test)
+
 #BuildRequires: libappstream-glib
 BuildRequires: libkdegames-devel >= %{version}
 
@@ -120,6 +122,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-4
 - Rebuild for new 4.0 release
 
