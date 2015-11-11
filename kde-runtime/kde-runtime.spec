@@ -4,8 +4,8 @@
 
 Name:    kde-runtime
 Summary: KDE Runtime
-Version: 15.08.2
-Release: 4
+Version: 15.08.3
+Release: 2
 
 # http://techbase.kde.org/Policies/Licensing_Policy
 License: LGPLv2+ and GPLv2+
@@ -467,6 +467,9 @@ fi
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-4
 - Rebuild for new 4.0 release
 
