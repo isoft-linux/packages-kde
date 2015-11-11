@@ -2,7 +2,7 @@
 
 Name:           kwalletmanager
 Summary:        Manage KDE passwords
-Version:        15.08.2
+Version:        15.08.3
 Release:        2
 
 License:        GPLv2+
@@ -23,6 +23,8 @@ Source0:        http://download.kde.org/%{stable}/applications/%{version}/src/kw
 BuildRequires:  desktop-file-utils
 BuildRequires:  polkit-qt5-1-devel
 BuildRequires:  qt5-qtbase-devel
+
+BuildRequires:  cmake
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
@@ -90,6 +92,9 @@ fi
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-2
 - Rebuild for new 4.0 release
 
