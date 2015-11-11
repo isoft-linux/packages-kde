@@ -1,7 +1,7 @@
 Name:    kate
 Summary: Advanced Text Editor
-Version: 15.08.2
-Release: 3 
+Version: 15.08.3
+Release: 2
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/kate
 
@@ -23,7 +23,6 @@ BuildRequires: gettext
 BuildRequires: pkgconfig(libgit2)
 BuildRequires: pkgconfig(x11)
 BuildRequires: kf5-rpm-macros
-BuildRequires: kf5-kconfig-devel
 BuildRequires: kf5-kdoctools-devel
 BuildRequires: kf5-kguiaddons-devel
 BuildRequires: kf5-ki18n-devel
@@ -41,7 +40,20 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-plasma-devel
 BuildRequires: kf5-threadweaver-devel
 BuildRequires: kf5-kwallet-devel
-
+BuildRequires: kf5-kactivities-devel
+BuildRequires: kf5-kauth-devel
+BuildRequires: kf5-kbookmarks-devel
+BuildRequires: kf5-kcodecs-devel
+BuildRequires: kf5-kcompletion-devel
+BuildRequires: kf5-kconfig-devel
+BuildRequires: kf5-kconfigwidgets-devel
+BuildRequires: kf5-kcoreaddons-devel
+BuildRequires: kf5-kcrash-devel
+BuildRequires: kf5-kdbusaddons-devel
+BuildRequires: kf5-kguiaddons-devel
+BuildRequires: kf5-kiconthemes-devel
+BuildRequires: kf5-ktextwidgets-devel
+BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtscript-devel
 
@@ -169,6 +181,9 @@ update-desktop-database -q &> /dev/null || :
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-3
 - Rebuild for new 4.0 release
 
