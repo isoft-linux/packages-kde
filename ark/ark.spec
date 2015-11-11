@@ -57,10 +57,11 @@ BuildRequires: kf5-ktextwidgets-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-solid-devel
 BuildRequires: kf5-sonnet-devel
-BuildRequires: qt5-qtbase-devel
+BuildRequires: kf5-kdoctools-devel
 BuildRequires: kf5-karchive-devel
-BuildRequires: libarchive-devel
+BuildRequires: qt5-qtbase-devel
 
+BuildRequires: libarchive-devel
 BuildRequires: bzip2-devel
 BuildRequires: appstream-glib
 BuildRequires: pkgconfig(libarchive)
