@@ -1,8 +1,8 @@
 
 Name:    knetwalk
 Summary: Network construction game
-Version: 15.08.2
-Release: 4%{?dist}
+Version: 15.08.3
+Release: 2%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -101,6 +101,9 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-4
 - Rebuild for new 4.0 release
 
