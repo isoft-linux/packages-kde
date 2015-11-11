@@ -80,6 +80,10 @@ Requires: %{name}-flags = %{version}-%{release}
 # beware of bootstrapping, there be dragons
 Requires: oxygen-icon-theme 
 
+BuildRequires: cmake
+#for kde rpm macros
+BuildRequires: kde-filesystem
+
 BuildRequires: bzip2-devel
 BuildRequires: chrpath
 BuildRequires: desktop-file-utils
