@@ -2,8 +2,8 @@
 
 Name:    kmix 
 Summary: KDE volume control 
-Version: 15.08.2
-Release: 4 
+Version: 15.08.3
+Release: 2
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdemultimedia/%{name}
@@ -23,6 +23,7 @@ Patch1: kmix-4.11.97-autostart.patch
 BuildRequires: desktop-file-utils
 BuildRequires: pkgconfig(alsa)
 # FIXME/TODO: kf5 build seems to expects libcanberra cmake support, update? -- rex
+BuildRequires: glib2-devel
 BuildRequires: pkgconfig(libcanberra)
 BuildRequires: pkgconfig(libpulse) pkgconfig(libpulse-mainloop-glib)
 BuildRequires: pkgconfig(phonon)
@@ -103,6 +104,9 @@ fi
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-4
 - Rebuild for new 4.0 release
 
