@@ -1,6 +1,6 @@
 Name:           kio-extras
-Version:        15.08.2
-Release:        3 
+Version:        15.08.3
+Release:        2
 Summary:        Additional components to increase the functionality of KIO Framework
 
 License:        GPLv2+
@@ -15,13 +15,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/kio-extras
 %endif
 Source0:        http://download.kde.org/%{stable}/applications/%{version}/%{name}-%{version}.tar.xz
 
-## downstream patches
-# temporarily adjust translation catalog until kio_mtp updates hit stable
-Patch1: kio-extras-5.2.2-mtp_catalog.patch
-
-Patch2: kio-mtp-involk-kioclient5.patch
-
-Patch3: kio-extras-add-more-mime-for-imagethumb.patch
+Patch0: kio-extras-add-more-mime-for-imagethumb.patch
 
 BuildRequires:  kf5-rpm-macros
 
@@ -78,10 +72,7 @@ BuildArch:      noarch
 
 %prep
 %setup -q -n %{name}-%{version}
-# temporary
-%patch1 -p1 -b .mtp_catalog
-#%patch2 -p1
-%patch3 -p1
+%patch0 -p1
 
 
 %build
@@ -171,6 +162,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-3
 - Rebuild for new 4.0 release
 
