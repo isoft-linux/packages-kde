@@ -35,7 +35,7 @@ BuildRequires:  kf5-kiconthemes-devel >= %{version}
 BuildRequires:  kf5-knotifications-devel >= %{version}
 BuildRequires:  kf5-kservice-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
-
+BuildRequires:  libgcrypt-devel
 Obsoletes:      kf5-kwallet-runtime < 5.8.0-2
 Provides:       kf5-kwallet-runtime = %{version}-%{release}
 Provides:       kf5-kwallet-runtime%{?_isa} = %{version}-%{release}
