@@ -1,0 +1,74 @@
+diff --git a/editor/connectioneditor.h b/editor/connectioneditor.h
+index 5f68117..f3cc41e 100644
+--- a/editor/connectioneditor.h
++++ b/editor/connectioneditor.h
+@@ -48,6 +48,8 @@ public:
+     explicit ConnectionEditor(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+     virtual ~ConnectionEditor();
+ 
++    void importVpnAtPath(const QString &path);
++
+ public Q_SLOTS:
+     void activateAndRaise();
+ 
+diff --git a/editor/connectioneditor.cpp b/editor/connectioneditor.cpp
+index 0eaeafe..cfdeae4 100644
+--- a/editor/connectioneditor.cpp
++++ b/editor/connectioneditor.cpp
+@@ -627,18 +627,25 @@ void ConnectionEditor::importVpn()
+         }
+     }
+ 
+-    const QString filename = QFileDialog::getOpenFileName(this, i18n("Import VPN Connection"), QDir::homePath(), extensions.simplified());
+-    if (!filename.isEmpty()) {
+-        QFileInfo fi(filename);
++    const QString &filename = QFileDialog::getOpenFileName(this, i18n("Import VPN Connection"), QDir::homePath(), extensions.simplified());
++    importVpnAtPath(filename);
++}
++
++void ConnectionEditor::importVpnAtPath(const QString &path)
++{
++    if (!path.isEmpty()) {
++        const KService::List services = KServiceTypeTrader::self()->query("PlasmaNetworkManagement/VpnUiPlugin");
++
++        QFileInfo fi(path);
+         const QString ext = QStringLiteral("*.") % fi.suffix();
+-        qCDebug(PLASMA_NM) << "Importing VPN connection " << filename << "extension:" << ext;
++        qCDebug(PLASMA_NM) << "Importing VPN connection " << path << "extension:" << ext;
+ 
+         Q_FOREACH (const KService::Ptr &service, services) {
+             VpnUiPlugin * vpnPlugin = service->createInstance<VpnUiPlugin>(this);
+             if (vpnPlugin && vpnPlugin->supportedFileExtensions().contains(ext)) {
+                 qCDebug(PLASMA_NM) << "Found VPN plugin" << service->name() << ", type:" << service->property("X-NetworkManager-Services", QVariant::String).toString();
+ 
+-                NMVariantMapMap connection = vpnPlugin->importConnectionSettings(filename);
++                NMVariantMapMap connection = vpnPlugin->importConnectionSettings(path);
+ 
+                 // qCDebug(PLASMA_NM) << "Raw connection:" << connection;
+ 
+diff --git a/editor/main.cpp b/editor/main.cpp
+index a5ec1e2..333d628 100644
+--- a/editor/main.cpp
++++ b/editor/main.cpp
+@@ -52,7 +52,21 @@ int main(int argc, char *argv[])
+     KAboutData::setApplicationData(about);
+     KDBusService service(KDBusService::Unique);
+ 
++    QCommandLineParser parser;
++    QCommandLineOption importVpnOption(QStringLiteral("import-vpn"), i18n("Import VPN Connection"), QStringLiteral("path"));
++    parser.addOption(importVpnOption);
++    parser.addHelpOption();
++    parser.addVersionOption();
++    about.setupCommandLine(&parser);
++    parser.process(app);
++    about.processCommandLine(&parser);
++
+     ConnectionEditor * editor = new ConnectionEditor();
++
++    if (parser.isSet(importVpnOption)) {
++        editor->importVpnAtPath(parser.value(importVpnOption));
++    }
++
+     editor->show();
+ 
+     QObject::connect(&service, &KDBusService::activateRequested, editor, &ConnectionEditor::activateAndRaise);
