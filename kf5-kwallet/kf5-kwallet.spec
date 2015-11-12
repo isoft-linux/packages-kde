@@ -21,10 +21,13 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 #By Cjacker.
 Patch0: kwalletd-create-empty-password-wallet-first-time-run.patch
 
-BuildRequires:  libgcrypt-devel
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
+
+
+BuildRequires:  libgcrypt-devel
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
 BuildRequires:  kf5-kwindowsystem-devel >= %{version}
@@ -35,7 +38,8 @@ BuildRequires:  kf5-kiconthemes-devel >= %{version}
 BuildRequires:  kf5-knotifications-devel >= %{version}
 BuildRequires:  kf5-kservice-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
-BuildRequires:  libgcrypt-devel
+BuildRequires:  kf5-kdoctools-devel
+
 Obsoletes:      kf5-kwallet-runtime < 5.8.0-2
 Provides:       kf5-kwallet-runtime = %{version}-%{release}
 Provides:       kf5-kwallet-runtime%{?_isa} = %{version}-%{release}
