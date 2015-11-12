@@ -19,6 +19,7 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 #https://git.reviewboard.kde.org/r/125924
 Patch0: kf5-kjob-eventloopquit.patch
 
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
