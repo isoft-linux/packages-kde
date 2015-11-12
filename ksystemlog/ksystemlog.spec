@@ -1,7 +1,7 @@
 Name:    ksystemlog
 Summary: System Log Viewer for KDE
 Version: 15.08.3
-Release: 2.git%{?dist}
+Release: 3.git%{?dist}
 
 License: GPLv2+
 URL:     http://www.kde.org/applications/system/ksystemlog/
@@ -14,6 +14,9 @@ URL:     http://www.kde.org/applications/system/ksystemlog/
 
 #git
 Source0: ksystemlog.tar.gz
+
+#match isoft Desktop.
+Patch0: ksystemlog-isoft-customized.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -52,6 +55,7 @@ and less commands.
 
 %prep
 %setup -q -n %{name}
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -79,6 +83,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.ksystemlog.d
 
 
 %changelog
+* Thu Nov 12 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-3.git
+- Match iSoft Desktop log pathes
+
 * Thu Nov 12 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2.git
 - Update, enable systemd journald support. 
 

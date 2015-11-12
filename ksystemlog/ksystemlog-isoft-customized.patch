@@ -1,0 +1,230 @@
+diff -Nur ksystemlog/src/modes/apache/apacheConfiguration.h ksystemlogn/src/modes/apache/apacheConfiguration.h
+--- ksystemlog/src/modes/apache/apacheConfiguration.h	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/apache/apacheConfiguration.h	2015-11-12 15:46:28.891422413 +0800
+@@ -52,12 +52,12 @@
+         configuration->setCurrentGroup(QStringLiteral("ApacheLogMode"));
+ 
+         QStringList defaultApachePaths;
+-        defaultApachePaths << QStringLiteral("/var/log/apache2/error.log");
++        defaultApachePaths << QStringLiteral("/var/log/httpd/error.log");
+         configuration->addItemStringList(QStringLiteral("ApacheLogFilesPaths"), d->apachePaths,
+                                          defaultApachePaths, QStringLiteral("ApacheLogFilesPaths"));
+ 
+         QStringList defaultApacheAccessPaths;
+-        defaultApacheAccessPaths << QStringLiteral("/var/log/apache2/access.log");
++        defaultApacheAccessPaths << QStringLiteral("/var/log/httpd/access.log");
+         configuration->addItemStringList(QStringLiteral("ApacheAccessLogFilesPaths"), d->apacheAccessPaths,
+                                          defaultApacheAccessPaths,
+                                          QStringLiteral("ApacheAccessLogFilesPaths"));
+diff -Nur ksystemlog/src/modes/authentication/authenticationConfiguration.h ksystemlogn/src/modes/authentication/authenticationConfiguration.h
+--- ksystemlog/src/modes/authentication/authenticationConfiguration.h	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/authentication/authenticationConfiguration.h	2015-11-12 15:46:47.292422083 +0800
+@@ -52,7 +52,7 @@
+     {
+         configuration->setCurrentGroup(QStringLiteral("AuthenticationLogMode"));
+ 
+-        QString defaultAuthenticationPath(QStringLiteral("/var/log/auth.log"));
++        QString defaultAuthenticationPath(QStringLiteral("/var/log/secure"));
+         configuration->addItemString(QStringLiteral("LogFilePath"), d->authenticationPath,
+                                      defaultAuthenticationPath, QStringLiteral("LogFilePath"));
+ 
+diff -Nur ksystemlog/src/modes/cron/cronConfiguration.h ksystemlogn/src/modes/cron/cronConfiguration.h
+--- ksystemlog/src/modes/cron/cronConfiguration.h	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/cron/cronConfiguration.h	2015-11-12 15:47:10.035421676 +0800
+@@ -52,7 +52,7 @@
+         configuration->setCurrentGroup(QStringLiteral("CronLogMode"));
+ 
+         QStringList defaultCronPaths;
+-        defaultCronPaths << QStringLiteral("/var/log/syslog");
++        defaultCronPaths << QStringLiteral("/var/log/cron");
+         configuration->addItemStringList(QStringLiteral("LogFilesPaths"), d->cronPaths, defaultCronPaths,
+                                          QStringLiteral("LogFilesPaths"));
+ 
+diff -Nur ksystemlog/src/modes/cups/CMakeLists.txt ksystemlogn/src/modes/cups/CMakeLists.txt
+--- ksystemlog/src/modes/cups/CMakeLists.txt	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/cups/CMakeLists.txt	2015-11-12 15:47:36.874421195 +0800
+@@ -24,10 +24,6 @@
+ 	cupsPageItemBuilder.cpp
+ 	cupsPageLogMode.cpp
+ 	
+-	cupsPdfAnalyzer.cpp
+-	cupsPdfItemBuilder.cpp
+-	cupsPdfLogMode.cpp
+-	
+ 	cupsFactory.cpp
+ 	
+ )
+diff -Nur ksystemlog/src/modes/cups/cupsConfiguration.h ksystemlogn/src/modes/cups/cupsConfiguration.h
+--- ksystemlog/src/modes/cups/cupsConfiguration.h	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/cups/cupsConfiguration.h	2015-11-12 15:48:07.322420650 +0800
+@@ -70,10 +70,6 @@
+         configuration->addItemStringList(QStringLiteral("CupsPageLogFilesPaths"), d->cupsPagePaths,
+                                          defaultCupsPagePaths, QStringLiteral("CupsPageLogFilesPaths"));
+ 
+-        QStringList defaultCupsPdfPaths;
+-        defaultCupsPdfPaths << QStringLiteral("/var/log/cups/cups-pdf_log");
+-        configuration->addItemStringList(QStringLiteral("CupsPdfLogFilesPaths"), d->cupsPdfPaths,
+-                                         defaultCupsPdfPaths, QStringLiteral("CupsPdfLogFilesPaths"));
+     }
+ 
+     virtual ~CupsConfiguration() { delete d; }
+diff -Nur ksystemlog/src/modes/cups/cupsFactory.cpp ksystemlogn/src/modes/cups/cupsFactory.cpp
+--- ksystemlog/src/modes/cups/cupsFactory.cpp	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/cups/cupsFactory.cpp	2015-11-12 15:48:42.243420025 +0800
+@@ -30,7 +30,6 @@
+ #include "cupsLogMode.h"
+ #include "cupsAccessLogMode.h"
+ #include "cupsPageLogMode.h"
+-#include "cupsPdfLogMode.h"
+ 
+ #include "cupsConfigurationWidget.h"
+ #include "cupsConfiguration.h"
+@@ -45,7 +44,6 @@
+     logModes.append(new CupsLogMode(logModeConfiguration, logModeConfigurationWidget));
+     logModes.append(new CupsAccessLogMode(logModeConfiguration, logModeConfigurationWidget));
+     logModes.append(new CupsPageLogMode(logModeConfiguration, logModeConfigurationWidget));
+-    logModes.append(new CupsPdfLogMode(logModeConfiguration, logModeConfigurationWidget));
+ 
+     return logModes;
+ }
+@@ -55,7 +53,6 @@
+     LogMode *cupsLogMode = Globals::instance().findLogMode(QStringLiteral(CUPS_LOG_MODE_ID));
+     LogMode *cupsAccessLogMode = Globals::instance().findLogMode(QStringLiteral(CUPS_ACCESS_LOG_MODE_ID));
+     LogMode *cupsPageLogMode = Globals::instance().findLogMode(QStringLiteral(CUPS_PAGE_LOG_MODE_ID));
+-    LogMode *cupsPdfLogMode = Globals::instance().findLogMode(QStringLiteral(CUPS_PDF_LOG_MODE_ID));
+ 
+     bool cupsLogsExist = cupsLogMode->filesExist();
+     bool cupsAccessLogsExist = cupsAccessLogMode->filesExist();
+diff -Nur ksystemlog/src/modes/daemon/daemonConfiguration.h ksystemlogn/src/modes/daemon/daemonConfiguration.h
+--- ksystemlog/src/modes/daemon/daemonConfiguration.h	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/daemon/daemonConfiguration.h	2015-11-12 15:48:56.529419769 +0800
+@@ -48,7 +48,7 @@
+         configuration->setCurrentGroup(QStringLiteral("DaemonLogMode"));
+ 
+         QStringList defaultDaemonPaths;
+-        defaultDaemonPaths << QStringLiteral("/var/log/daemon.log");
++        defaultDaemonPaths << QStringLiteral("/var/log/boot.log");
+         configuration->addItemStringList(QStringLiteral("LogFilesPaths"), d->daemonPaths, defaultDaemonPaths,
+                                          QStringLiteral("LogFilesPaths"));
+     }
+diff -Nur ksystemlog/src/modes/postfix/postfixConfiguration.h ksystemlogn/src/modes/postfix/postfixConfiguration.h
+--- ksystemlog/src/modes/postfix/postfixConfiguration.h	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/postfix/postfixConfiguration.h	2015-11-12 15:49:41.627418961 +0800
+@@ -39,8 +39,7 @@
+     PostfixConfiguration()
+         : GenericLogModeConfiguration(
+               QStringLiteral(POSTFIX_LOG_MODE_ID),
+-              QStringList() << QStringLiteral("/var/log/mail.log") << QStringLiteral("/var/log/mail.info")
+-                            << QStringLiteral("/var/log/mail.warn") << QStringLiteral("/var/log/mail.err"),
++              QStringList() << QLatin1String( "/var/log/maillog" ),
+               QList<int>() << Globals::NOTICE_LOG_LEVEL_ID << Globals::INFORMATION_LOG_LEVEL_ID << Globals::WARNING_LOG_LEVEL_ID
+                            << Globals::ERROR_LOG_LEVEL_ID)
+     {
+diff -Nur ksystemlog/src/modes/samba/sambaConfiguration.h ksystemlogn/src/modes/samba/sambaConfiguration.h
+--- ksystemlog/src/modes/samba/sambaConfiguration.h	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/samba/sambaConfiguration.h	2015-11-12 15:50:14.465418373 +0800
+@@ -58,16 +58,6 @@
+         configuration->addItemStringList(QStringLiteral("SambaLogFilesPaths"), d->sambaPaths,
+                                          defaultSambaPaths, QStringLiteral("SambaLogFilesPaths"));
+ 
+-        QStringList defaultSambaAccessPaths;
+-        defaultSambaAccessPaths << QStringLiteral("/var/log/samba/log.localhost")
+-                                << QStringLiteral("/var/log/samba/log.127.0.0.1");
+-        configuration->addItemStringList(QStringLiteral("SambaAccessLogFilesPaths"), d->sambaAccessPaths,
+-                                         defaultSambaAccessPaths, QStringLiteral("SambaAccessLogFilesPaths"));
+-
+-        QStringList defaultNetbiosPaths;
+-        defaultNetbiosPaths << QStringLiteral("/var/log/samba/log.nmbd");
+-        configuration->addItemStringList(QStringLiteral("NetbiosLogFilesPaths"), d->netbiosPaths,
+-                                         defaultNetbiosPaths, QStringLiteral("NetbiosLogFilesPaths"));
+     }
+ 
+     virtual ~SambaConfiguration() { delete d; }
+diff -Nur ksystemlog/src/modes/system/systemConfiguration.h ksystemlogn/src/modes/system/systemConfiguration.h
+--- ksystemlog/src/modes/system/systemConfiguration.h	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/modes/system/systemConfiguration.h	2015-11-12 15:50:35.970417988 +0800
+@@ -38,7 +38,7 @@
+ public:
+     SystemConfiguration()
+         : GenericLogModeConfiguration(QStringLiteral(SYSTEM_LOG_MODE_ID),
+-                                      QStringList() << QStringLiteral("/var/log/syslog"),
++                                      QStringList() << QStringLiteral("/var/log/messages"),
+                                       QList<int>() << Globals::INFORMATION_LOG_LEVEL_ID)
+     {
+         /*
+diff -Nur ksystemlog/CMakeLists.txt ksystemlogn/CMakeLists.txt
+--- ksystemlog/CMakeLists.txt	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/CMakeLists.txt	2015-11-12 15:44:18.016424756 +0800
+@@ -93,7 +93,6 @@
+ add_subdirectory(src/modes/cron)
+ add_subdirectory(src/modes/authentication)
+ add_subdirectory(src/modes/daemon)
+-add_subdirectory(src/modes/acpid)
+ add_subdirectory(src/modes/xsession)
+ add_subdirectory(src/modes/apache)
+ add_subdirectory(src/modes/postfix)
+Binary files ksystemlog/.git/index and ksystemlogn/.git/index differ
+diff -Nur ksystemlog/src/CMakeLists.txt ksystemlogn/src/CMakeLists.txt
+--- ksystemlog/src/CMakeLists.txt	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/CMakeLists.txt	2015-11-12 15:44:24.354424643 +0800
+@@ -15,7 +15,6 @@
+     ${CMAKE_CURRENT_SOURCE_DIR}/modes/daemon
+     ${CMAKE_CURRENT_SOURCE_DIR}/modes/xorg
+     ${CMAKE_CURRENT_SOURCE_DIR}/modes/cron
+-    ${CMAKE_CURRENT_SOURCE_DIR}/modes/acpid
+     ${CMAKE_CURRENT_SOURCE_DIR}/modes/xsession
+     ${CMAKE_CURRENT_SOURCE_DIR}/modes/apache
+     ${CMAKE_CURRENT_SOURCE_DIR}/modes/cups
+@@ -57,7 +56,6 @@
+     ksystemlog_apache
+     ksystemlog_authentication
+     ksystemlog_daemon
+-    ksystemlog_acpid
+     ksystemlog_xsession
+     ksystemlog_postfix
+     ksystemlog_cups
+Binary files ksystemlog/.git/index and ksystemlogn/.git/index differ
+diff -Nur ksystemlog/src/logModePluginsLoader.cpp ksystemlogn/src/logModePluginsLoader.cpp
+--- ksystemlog/src/logModePluginsLoader.cpp	2015-11-12 15:00:13.000000000 +0800
++++ ksystemlogn/src/logModePluginsLoader.cpp	2015-11-12 15:45:17.497423691 +0800
+@@ -39,7 +39,6 @@
+ #include "apacheFactory.h"
+ #include "cupsFactory.h"
+ #include "postfixFactory.h"
+-#include "acpidFactory.h"
+ #include "xsessionFactory.h"
+ #include "sambaFactory.h"
+ #include "journaldFactory.h"
+@@ -88,9 +87,6 @@
+     // Samba
+     Globals::instance().registerLogModeFactory(new SambaLogModeFactory());
+ 
+-    // Acpid
+-    Globals::instance().registerLogModeFactory(new AcpidLogModeFactory());
+-
+     // XSession
+     Globals::instance().registerLogModeFactory(new XSessionLogModeFactory());
+ 
+--- ksystemlog/src/modes/cups/cupsFactory.cpp	2015-11-12 15:51:55.995416555 +0800
++++ ksystemlogn/src/modes/cups/cupsFactory.cpp	2015-11-12 15:54:17.755414016 +0800
+@@ -57,9 +57,8 @@
+     bool cupsLogsExist = cupsLogMode->filesExist();
+     bool cupsAccessLogsExist = cupsAccessLogMode->filesExist();
+     bool cupsPageLogsExist = cupsPageLogMode->filesExist();
+-    bool cupsPdfLogsExist = cupsPdfLogMode->filesExist();
+ 
+-    if (!cupsLogsExist && !cupsAccessLogsExist && !cupsPageLogsExist && !cupsPdfLogsExist)
++    if (!cupsLogsExist && !cupsAccessLogsExist && !cupsPageLogsExist)
+         return nullptr;
+ 
+     MultipleActions *multipleActions
+@@ -74,9 +73,6 @@
+     if (cupsPageLogsExist)
+         multipleActions->addInnerAction(cupsPageLogMode->action());
+ 
+-    if (cupsPdfLogsExist)
+-        multipleActions->addInnerAction(cupsPdfLogMode->action());
+-
+     multipleActions->setCategory(LogModeAction::ServicesCategory);
+ 
+     return multipleActions;
