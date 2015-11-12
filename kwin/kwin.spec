@@ -2,7 +2,7 @@
 
 Name:           kwin
 Version:        5.4.3
-Release:        2
+Release:        3
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -18,6 +18,14 @@ URL:            https://projects.kde.org/projects/kde/workspace/kwin
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+
+#https://git.reviewboard.kde.org/r/125659/
+#fix triple buffer re-detection and doublebuffer behavior (on nvidia at least)
+Patch0: kwin__fix_double_buffering.diff
+
+#https://git.reviewboard.kde.org/r/125228/
+#Desktop Grid overhaul
+Patch1: kwin-desktop-grid.patch
 
 # Base
 BuildRequires:  cmake
@@ -229,6 +237,10 @@ fi
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
+- fix triple buffer re-detection and doublebuffer behavior (on nvidia at least)
+- desktop grid overhaul
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
