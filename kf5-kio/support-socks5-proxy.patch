@@ -1,0 +1,73 @@
+diff --git a/src/core/ktcpsocket.h b/src/core/ktcpsocket.h
+index ffa3f0b..86cfd83 100644
+--- a/src/core/ktcpsocket.h
++++ b/src/core/ktcpsocket.h
+@@ -133,8 +133,6 @@ private:
+ 
+ //other TODO: limit possible error strings?, SSL key stuff
+ 
+-//TODO protocol (or maybe even application?) dependent automatic proxy choice
+-
+ class KTcpSocketPrivate;
+ class QHostAddress;
+ 
+diff --git a/src/core/ktcpsocket.cpp b/src/core/ktcpsocket.cpp
+index fde35a7..e85c2b9 100644
+--- a/src/core/ktcpsocket.cpp
++++ b/src/core/ktcpsocket.cpp
+@@ -19,6 +19,7 @@
+ 
+ #include "ktcpsocket.h"
+ #include "ktcpsocket_p.h"
++#include "kprotocolmanager.h"
+ 
+ #include <ksslcertificatemanager.h>
+ #include <klocalizedstring.h>
+@@ -112,6 +113,21 @@ static QString protocolString(QSsl::SslProtocol protocol)
+     }
+ }
+ 
++static void setProxyForHost(QSslSocket &sock, const QString &hostName, quint16 port)
++{
++    QUrl url;
++    url.setHost(hostName);
++    url.setPort(port);
++    const QString proxy = KProtocolManager::proxyForUrl(url);
++    if (proxy != QLatin1Literal("DIRECT")) {
++        const QUrl proxyUrl(proxy);
++        const int proxyPort = proxyUrl.port();
++        if (proxyUrl.scheme() == QLatin1Literal("socks")) {
++            sock.setProxy(QNetworkProxy(QNetworkProxy::Socks5Proxy, proxyUrl.host(), (proxyPort == -1 ? 0 : proxyPort)));
++        }
++    }
++}
++
+ //cipher class converter KSslCipher -> QSslCipher
+ class CipherCc
+ {
+@@ -503,7 +519,7 @@ void KTcpSocket::abort()
+ void KTcpSocket::connectToHost(const QString &hostName, quint16 port, ProxyPolicy policy)
+ {
+     if (policy == AutoProxy) {
+-        //###
++        setProxyForHost(d->sock, hostName, port);
+     }
+     d->sock.connectToHost(hostName, port);
+     // there are enough layers of buffers between us and the network, and there is a quirk
+@@ -518,7 +534,7 @@ void KTcpSocket::connectToHost(const QString &hostName, quint16 port, ProxyPolic
+ void KTcpSocket::connectToHost(const QHostAddress &hostAddress, quint16 port, ProxyPolicy policy)
+ {
+     if (policy == AutoProxy) {
+-        //###
++        setProxyForHost(d->sock, hostAddress.toString(), port);
+     }
+     d->sock.connectToHost(hostAddress, port);
+     setOpenMode(d->sock.openMode() | QIODevice::Unbuffered);
+@@ -672,6 +688,7 @@ QList<KSslCipher> KTcpSocket::ciphers() const
+ void KTcpSocket::connectToHostEncrypted(const QString &hostName, quint16 port, OpenMode openMode)
+ {
+     d->maybeLoadCertificates();
++    setProxyForHost(d->sock, hostName, port);
+     d->sock.setProtocol(qSslProtocolFromK(d->advertisedSslVersion));
+     d->sock.connectToHostEncrypted(hostName, port, openMode);
+     setOpenMode(d->sock.openMode() | QIODevice::Unbuffered);
