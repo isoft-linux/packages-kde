@@ -1,0 +1,12 @@
+diff -Nur plasma-workspace-5.4.3/libtaskmanager/taskitem.cpp plasma-workspace-5.4.3n/libtaskmanager/taskitem.cpp
+--- plasma-workspace-5.4.3/libtaskmanager/taskitem.cpp	2015-11-05 20:49:30.000000000 +0800
++++ plasma-workspace-5.4.3n/libtaskmanager/taskitem.cpp	2015-11-11 22:45:45.434445369 +0800
+@@ -638,7 +638,7 @@
+         // For KCModules, if we matched on window class, etc, we would end up matching to kcmshell4 - but we are more than likely
+         // interested in the actual control module. Therefore we obtain this via the commandline. This commandline may contain
+         // "kdeinit4:" or "[kdeinit]", so we remove these first.
+-        if ("Kcmshell4" == task->classClass()) {
++        if ("Kcmshell4" == task->classClass() || QLatin1String("kcmshell5") == task->classClass()) {
+             launcherUrl = getServiceLauncherUrl(task->pid(), "KCModule", QStringList() << "kdeinit4:" << "[kdeinit]");
+             if (!launcherUrl.isEmpty()) {
+                 return launcherUrl;

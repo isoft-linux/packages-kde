@@ -1,0 +1,51 @@
+diff --git a/ksmserver/shutdowndlg.h b/ksmserver/shutdowndlg.h
+index d534ff6..78c788f 100644
+--- a/ksmserver/shutdowndlg.h
++++ b/ksmserver/shutdowndlg.h
+@@ -71,6 +71,7 @@ Q_SIGNALS:
+ 
+ protected:
+     void resizeEvent(QResizeEvent *e);
++    void focusOutEvent(QFocusEvent *e);
+ 
+ private:
+     KSMShutdownDlg( QWindow* parent, bool maysd, bool choose, KWorkSpace::ShutdownType sdtype, const QString& theme );
+diff --git a/ksmserver/shutdowndlg.cpp b/ksmserver/shutdowndlg.cpp
+index 373c243..baf5a52 100644
+--- a/ksmserver/shutdowndlg.cpp
++++ b/ksmserver/shutdowndlg.cpp
+@@ -204,6 +204,34 @@ void KSMShutdownDlg::resizeEvent(QResizeEvent *e)
+                 screen()->geometry().center().y() - height() / 2);
+ }
+ 
++void KSMShutdownDlg::focusOutEvent(QFocusEvent *e)
++{
++    // logic to determin whether eg. a popup window has opened taken from plasma-framework dialog.cpp
++    bool parentHasFocus = false;
++
++    QWindow *parentWindow = transientParent();
++
++    while (parentWindow) {
++        if (parentWindow->isActive() &&
++            !(parentWindow->flags() & Qt::WindowDoesNotAcceptFocus)) {
++            parentHasFocus  = true;
++
++            break;
++        }
++
++        parentWindow = parentWindow->transientParent();
++    }
++
++    const QWindow *focusWindow = QGuiApplication::focusWindow();
++    bool childHasFocus = focusWindow && ((focusWindow->isActive() && isAncestorOf(focusWindow)) || focusWindow->type() & Qt::Popup);
++
++    if (!parentHasFocus && !childHasFocus) {
++        reject();
++    }
++
++    QQuickView::focusOutEvent(e);
++}
++
+ void KSMShutdownDlg::slotLogout()
+ {
+     m_shutdownType = KWorkSpace::ShutdownTypeNone;
