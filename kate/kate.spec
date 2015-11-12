@@ -1,7 +1,7 @@
 Name:    kate
 Summary: Advanced Text Editor
 Version: 15.08.3
-Release: 2
+Release: 3
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/kate
 
@@ -15,6 +15,9 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/kate-%{ve
 
 #use /usr/src/rust/src instead of /usr/local/src/rust/src
 Patch0: kate-rust-plugin-src-dir.patch
+
+#https://git.reviewboard.kde.org/r/125914/
+Patch1: kate-add-toml-highlight.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -86,6 +89,7 @@ License: LGPLv2+
 %prep
 %setup -q -n kate-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -181,6 +185,9 @@ update-desktop-database -q &> /dev/null || :
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-3
+- add toml highlight patch
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 
