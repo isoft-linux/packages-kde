@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.15.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A Tier 1 KDE Frameworks 5 module that wraps NetworkManager DBus API
 
 License:        LGPLv2+
@@ -17,6 +17,11 @@ URL:            https://projects.kde.org/projects/frameworks/networkmanager-qt
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
+#https://git.reviewboard.kde.org/r/126029/
+#Re-check connection state and other properties to be sure they are actual
+Patch0: nm-qt-fix.patch
+
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
@@ -43,6 +48,7 @@ that use NetworkManager.
 
 %prep
 %setup -qn %{framework}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -71,6 +77,9 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_archdatadir}/mkspecs/modules/qt_NetworkManagerQt.pri
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-4
+- Add some patches from kde reviewbord
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 
