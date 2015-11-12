@@ -2,7 +2,7 @@
 Summary:    The KDE libraries provide a powerful framework to make writing applications easier
 Name: kdelibs 
 Version: 4.14.14
-Release: 2
+Release: 3
 License: GPL
 Source0: %{name}-%{version}.tar.xz
 Source1: macros.kdelibs4
@@ -191,6 +191,7 @@ Requires: libpng-devel
 Requires: pcre-devel
 Requires: polkit-qt-devel
 Requires: phonon-devel
+Requires: docbook-dtds docbook-style-xsl
 
 Provides:   kdelibs4-devel = %{version}-%{release}
 
@@ -323,6 +324,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Nov 12 2015 Cjacker <cjacker@foxmail.com> - 4.14.14-3
+- Add docbook packages to kdelibs-devel requires
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 4.14.14-2
 - Update
 
