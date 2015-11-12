@@ -1,0 +1,157 @@
+diff --git a/applets/taskmanager/package/contents/ui/ToolTipDelegate.qml b/applets/taskmanager/package/contents/ui/ToolTipDelegate.qml
+index f7084c7..855a245 100644
+--- a/applets/taskmanager/package/contents/ui/ToolTipDelegate.qml
++++ b/applets/taskmanager/package/contents/ui/ToolTipDelegate.qml
+@@ -45,83 +45,97 @@ Column {
+     height: childrenRect.height
+     spacing: _s
+ 
+-    Row {
+-        id: windowRow
++    PlasmaExtras.ScrollArea {
++        id: scrollArea
+         anchors.horizontalCenter: parent.horizontalCenter
+-        width: childrenRect.width
+-        height: childrenRect.height
+-        spacing: units.largeSpacing
+-        Repeater {
+-            model: windows
+-
+-            PlasmaCore.WindowThumbnail {
+-                y: _s
++        width: Math.min(parent.width, windowRow.width)
++        height: windowRow.height
++        verticalScrollBarPolicy: Qt.ScrollBarAlwaysOff
++        horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
++
++        Component.onCompleted: {
++            flickableItem.interactive = Qt.binding(function() {
++                return contentItem.width > viewport.width;
++            });
++        }
+ 
+-                width: units.gridUnit * 15
+-                height: units.gridUnit * 10
++        Row {
++            id: windowRow
++            width: childrenRect.width
++            height: childrenRect.height
++            spacing: units.largeSpacing
++            Repeater {
++                model: windows
+ 
+-                winId: modelData
++                PlasmaCore.WindowThumbnail {
++                    y: _s
+ 
+-                MouseArea {
+-                    anchors.fill: parent
++                    width: units.gridUnit * 15
++                    height: units.gridUnit * 10
+ 
+-                    acceptedButtons: Qt.LeftButton
+-                    hoverEnabled: true
++                    winId: modelData
+ 
+-                    onClicked: {
+-                        tasks.activateWindow(modelData);
+-                        toolTip.hideToolTip();
+-                    }
++                    MouseArea {
++                        anchors.fill: parent
+ 
+-                    onContainsMouseChanged: {
+-                        tasks.windowHovered(modelData, containsMouse);
+-                    }
++                        acceptedButtons: Qt.LeftButton
++                        hoverEnabled: true
+ 
+-                    Rectangle {
+-                        id: closeButtonBackground
++                        onClicked: {
++                            tasks.activateWindow(modelData);
++                            toolTip.hideToolTip();
++                        }
+ 
+-                        anchors {
+-                            top: parent.top
+-                            right: parent.right
+-                            topMargin: units.smallSpacing
+-                            rightMargin: units.smallSpacing
++                        onContainsMouseChanged: {
++                            tasks.windowHovered(modelData, containsMouse);
+                         }
+ 
+-                        width: units.iconSizes.smallMedium
+-                        height: width
++                        Rectangle {
++                            id: closeButtonBackground
+ 
+-                        opacity: parent.containsMouse ? 0.4 : 0
++                            anchors {
++                                top: parent.top
++                                right: parent.right
++                                topMargin: units.smallSpacing
++                                rightMargin: units.smallSpacing
++                            }
+ 
+-                        Behavior on opacity {
+-                            NumberAnimation { duration: units.shortDuration * 2; }
+-                        }
++                            width: units.iconSizes.smallMedium
++                            height: width
+ 
+-                        color: theme.backgroundColor
+-                        radius: units.smallSpacing
+-                    }
++                            opacity: parent.containsMouse ? 0.4 : 0
+ 
+-                    PlasmaComponents.ToolButton {
+-                        id: closeButton
++                            Behavior on opacity {
++                                NumberAnimation { duration: units.shortDuration * 2; }
++                            }
+ 
+-                        anchors {
+-                            horizontalCenter: closeButtonBackground.horizontalCenter
+-                            verticalCenter: closeButtonBackground.verticalCenter
++                            color: theme.backgroundColor
++                            radius: units.smallSpacing
+                         }
+ 
+-                        opacity: parent.containsMouse ? 1.0 : 0
++                        PlasmaComponents.ToolButton {
++                            id: closeButton
+ 
+-                        Behavior on opacity {
+-                            NumberAnimation { duration: units.shortDuration * 2; }
+-                        }
++                            anchors {
++                                horizontalCenter: closeButtonBackground.horizontalCenter
++                                verticalCenter: closeButtonBackground.verticalCenter
++                            }
+ 
+-                        width: units.iconSizes.smallMedium
+-                        height: width
++                            opacity: parent.containsMouse ? 1.0 : 0
+ 
+-                        iconSource: "window-close"
++                            Behavior on opacity {
++                                NumberAnimation { duration: units.shortDuration * 2; }
++                            }
+ 
+-                        onClicked: {
+-                            tasks.closeByWinId(modelData);
+-                            toolTip.hideToolTip();
++                            width: units.iconSizes.smallMedium
++                            height: width
++
++                            iconSource: "window-close"
++
++                            onClicked: {
++                                tasks.closeByWinId(modelData);
++                                toolTip.hideToolTip();
++                            }
+                         }
+                     }
+                 }

@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        5
+Release:        6
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -67,6 +67,9 @@ Patch309: 0007-kicker-isoft-logo.patch
 
 # uninstall kcm-kemail.desktop
 Patch310: plasma-desktop-uninstall-component-kcm-kemail.patch
+
+#https://git.reviewboard.kde.org/r/125908/
+Patch311: plasmadesktop-scrollabletasktooltip.diff
 
 ## upstreamable patches
 
@@ -318,6 +321,9 @@ fi
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-6
+- Add some patches from reviewboard
+
 * Tue Nov 10 2015 Wang Ming <ming.wang@i-soft.com.cn> - 5.4.3-5
 - Uninstall component kcm-kemail.
 
