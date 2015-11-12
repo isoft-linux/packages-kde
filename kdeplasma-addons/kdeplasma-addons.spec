@@ -1,6 +1,6 @@
 Name:           kdeplasma-addons
 Version:        5.4.3
-Release:        2 
+Release:        3 
 Summary:        Additional Plasmoids for Plasma 5.
 
 License:        GPLv2+
@@ -13,6 +13,11 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+
+#backport from plasma-5.5
+
+#https://git.reviewboard.kde.org/r/124923/
+Patch0: colorpickerplasmoid3.patch
 
 Obsoletes:      kdeplasma-addons-libs < 5.0.0
 Provides:       kdeplasma-addons-libs = %{version}-%{release}
@@ -49,6 +54,7 @@ Requires:       kf5-filesystem
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -91,6 +97,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
+- Backport colorpicker plasmoid
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
