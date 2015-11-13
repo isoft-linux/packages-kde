@@ -1,0 +1,19 @@
+diff -Naur ark-15.08.2.old/app/ark_addtoservicemenu.desktop ark-15.08.2/app/ark_addtoservicemenu.desktop
+--- ark-15.08.2.old/app/ark_addtoservicemenu.desktop	2015-11-13 12:17:45.403735926 +0800
++++ ark-15.08.2/app/ark_addtoservicemenu.desktop	2015-11-13 12:27:53.432735854 +0800
+@@ -125,7 +125,6 @@
+ Exec=ark --changetofirstpath --add --autofilename zip %F
+ 
+ [Desktop Action compressHereAsRar]
+-Name=Here (as RAR)
+ Name[ca]=Aquí (com a RAR)
+ Name[cs]=Zde (jako RAR)
+ Name[da]=Her (som RAR)
+@@ -150,7 +149,6 @@
+ Name[sv]=Här (som RAR)
+ Name[uk]=Сюди (як RAR)
+ Name[x-test]=xxHere (as RAR)xx
+-Name[zh_CN]=此处 (作为 RAR)
+ Icon=ark
+ Exec=ark --changetofirstpath --add --autofilename rar %F
+ 
