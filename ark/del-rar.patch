@@ -1,19 +1,60 @@
-diff -Naur ark-15.08.2.old/app/ark_addtoservicemenu.desktop ark-15.08.2/app/ark_addtoservicemenu.desktop
---- ark-15.08.2.old/app/ark_addtoservicemenu.desktop	2015-11-13 12:17:45.403735926 +0800
-+++ ark-15.08.2/app/ark_addtoservicemenu.desktop	2015-11-13 12:27:53.432735854 +0800
-@@ -125,7 +125,6 @@
+diff -Naur ark-15.08.3.old/app/ark_addtoservicemenu.desktop ark-15.08.3/app/ark_addtoservicemenu.desktop
+--- ark-15.08.3.old/app/ark_addtoservicemenu.desktop	2015-11-13 13:05:12.021735587 +0800
++++ ark-15.08.3/app/ark_addtoservicemenu.desktop	2015-11-13 13:56:39.756735218 +0800
+@@ -2,7 +2,7 @@
+ Type=Service
+ ServiceTypes=KonqPopupMenu/Plugin
+ MimeType=all/all;
+-Actions=compressHereAsTar;compressHereAsZip;compressHereAsRar;compressTo;
++Actions=compressHereAsTar;compressHereAsZip;compressTo;
+ X-KDE-Submenu=Compress
+ X-KDE-Submenu[ar]=اضغط
+ X-KDE-Submenu[ast]=Comprimir
+@@ -126,36 +126,6 @@
+ Icon=ark
  Exec=ark --changetofirstpath --add --autofilename zip %F
  
- [Desktop Action compressHereAsRar]
+-[Desktop Action compressHereAsRar]
 -Name=Here (as RAR)
- Name[ca]=Aquí (com a RAR)
- Name[cs]=Zde (jako RAR)
- Name[da]=Her (som RAR)
-@@ -150,7 +149,6 @@
- Name[sv]=Här (som RAR)
- Name[uk]=Сюди (як RAR)
- Name[x-test]=xxHere (as RAR)xx
+-Name[ca]=Aquí (com a RAR)
+-Name[ca@valencia]=Ací (com a RAR)
+-Name[cs]=Zde (jako RAR)
+-Name[da]=Her (som RAR)
+-Name[de]=Hier (Als RAR-Archiv)
+-Name[en_GB]=Here (as RAR)
+-Name[es]=Aquí (como RAR)
+-Name[fi]=Tähän (RAR-paketiksi)
+-Name[fr]=Ici (en rar)
+-Name[gl]=Aquí (como RAR)
+-Name[it]=Qui (come RAR)
+-Name[ko]=여기(RAR로)
+-Name[nl]=Hier (als RAR)
+-Name[pl]=Tutaj (jako RAR)
+-Name[pt]=Aqui (Como RAR)
+-Name[pt_BR]=Aqui (como RAR)
+-Name[sk]=Sem (ako RAR)
+-Name[sl]=Sem (kot RAR)
+-Name[sr]=овде (као РАР)
+-Name[sr@ijekavian]=овде (као РАР)
+-Name[sr@ijekavianlatin]=ovde (kao RAR)
+-Name[sr@latin]=ovde (kao RAR)
+-Name[sv]=Här (som RAR)
+-Name[uk]=Сюди (як RAR)
+-Name[x-test]=xxHere (as RAR)xx
 -Name[zh_CN]=此处 (作为 RAR)
- Icon=ark
- Exec=ark --changetofirstpath --add --autofilename rar %F
+-Icon=ark
+-Exec=ark --changetofirstpath --add --autofilename rar %F
+ 
+ [Desktop Action compressTo]
+ Name=Compress to...
+diff -Naur ark-15.08.3.old/plugins/clirarplugin/CMakeLists.txt ark-15.08.3/plugins/clirarplugin/CMakeLists.txt
+--- ark-15.08.3.old/plugins/clirarplugin/CMakeLists.txt	2015-11-13 13:05:12.027735587 +0800
++++ ark-15.08.3/plugins/clirarplugin/CMakeLists.txt	2015-11-13 13:56:02.764735223 +0800
+@@ -1,6 +1,6 @@
+ ########### next target ###############
+ 
+-set(SUPPORTED_CLIRAR_MIMETYPES "application/x-rar;")
++#set(SUPPORTED_CLIRAR_MIMETYPES "application/x-rar;")
+ 
+ set(kerfuffle_clirar_SRCS cliplugin.cpp)
  
