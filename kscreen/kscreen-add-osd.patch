@@ -88,7 +88,7 @@ diff -Nur kscreen-5.4.3/kcm/src/widget.cpp kscreen-5.4.3n/kcm/src/widget.cpp
      mOutputTimer = new QTimer(this);
      connect(mOutputTimer, &QTimer::timeout,
              this, &Widget::clearOutputIdentifiers);
-@@ -139,6 +149,64 @@
+@@ -139,6 +149,65 @@
      clearOutputIdentifiers();
  }
  
@@ -100,6 +100,7 @@ diff -Nur kscreen-5.4.3/kcm/src/widget.cpp kscreen-5.4.3n/kcm/src/widget.cpp
 +        i18n("You have disabled automatically popping up of monitor switch wizard, it can be triggered by Multimedia hotkey 'XF86Display'. If you have no hotkey supported, consider to setup the hotkey or keep the option unchanged"),
 +        QMessageBox::Cancel | QMessageBox::Ok);
 +
++    msgBox.setToolTip(i18n("System Settings -> Shortcuts -> Global Keyboard Shortcuts -> KDE Daemon -> Switch Display"));
 +    msgBox.setDefaultButton(QMessageBox::Cancel);
 +
 +    int state = mShowOsd->checkState();

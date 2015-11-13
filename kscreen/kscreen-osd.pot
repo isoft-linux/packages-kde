@@ -50,6 +50,11 @@ msgid ""
 "supported, consider to setup the hotkey or keep the option unchanged"
 msgstr ""
 
+msgid ""
+"System Settings -> Shortcuts -> Global Keyboard Shortcuts -> KDE Daemon -> "
+"Switch Display"
+msgstr ""
+
 msgid "Break Unified Outputs"
 msgstr ""
 

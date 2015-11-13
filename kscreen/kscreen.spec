@@ -4,7 +4,7 @@
 Name:           kscreen
 Epoch:          1
 Version:        5.4.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        KDE Display Management software
 
 License:        GPLv2 or GPLv3
@@ -103,6 +103,9 @@ fi
 
 
 %changelog
+* Fri Nov 13 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add ToolTip for XF86Display shortcut setting. 
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 1:5.4.3-2
 - Update, drop private git codes with kscreen-osd support
 - Now we use patch and extra source to add osd support to original kscreen codes.
