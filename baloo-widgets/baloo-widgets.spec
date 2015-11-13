@@ -1,7 +1,7 @@
 Name:    baloo-widgets
 Summary: Widgets for Baloo
-Version: 15.08.2
-Release: 4%{?dist}
+Version: 15.08.3
+Release: 1%{?dist}
 
 # # KDE e.V. may determine that future LGPL versions are accepted
 License: LGPLv2 or LGPLv3
@@ -29,6 +29,11 @@ BuildRequires:  kf5-kservice-devel
 BuildRequires:  kf5-kfilemetadata-devel
 BuildRequires:  kf5-baloo-devel
 BuildRequires:  kf5-kdelibs4support-devel
+BuildRequires:  kf5-kcompletion-devel
+BuildRequires:  kf5-kcoreaddons-devel
+BuildRequires:  kf5-kfilemetadata-devel
+BuildRequires:  kf5-kwidgetsaddons-devel
+BuildRequires:  qt5-qtbase-devel
 
 %description
 %{summary}.

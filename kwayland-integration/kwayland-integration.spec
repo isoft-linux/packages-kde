@@ -1,5 +1,5 @@
 Name:           kwayland-integration 
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        KDE wayland integration
 
@@ -16,11 +16,14 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 BuildRequires:  qt5-qtbase-devel
 
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros
+
 BuildRequires:  kf5-kidletime-devel
 BuildRequires:  kf5-kwindowsystem-devel
 BuildRequires:  kf5-kwayland-devel
+BuildRequires:  qt5-qtbase-devel
 
 Requires:       kf5-filesystem
 
@@ -48,6 +51,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_plugindir}/org.kde.kwindowsystem.platforms/KF5WindowSystemKWaylandPlugin.so
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 

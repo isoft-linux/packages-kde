@@ -1,6 +1,6 @@
 Name:           ksshaskpass
-Version:        5.4.2
-Release:        3 
+Version:        5.4.3
+Release:        2
 Summary:        A ssh-add helper that uses kwallet and kpassworddialog
 
 License:        GPLv2
@@ -12,6 +12,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/ksshaskpass
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+
 
 BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
@@ -66,6 +67,9 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.ksshaskpa
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-3
 - Rebuild for new 4.0 release
 

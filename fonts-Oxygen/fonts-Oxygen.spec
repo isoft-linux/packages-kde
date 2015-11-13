@@ -2,8 +2,8 @@
 %global fontconf 61-%{fontname}
 
 Name:           fonts-Oxygen
-Version:        5.4.2
-Release:        3
+Version:        5.4.3
+Release:        2
 Summary:        Oxygen fonts created by the KDE Community
 
 License:        OFL or GPLv3 with exceptions
@@ -73,6 +73,9 @@ ln -s %{_datadir}/fontconfig/conf.avail/61-oxygen-sans.conf \
 %{_libdir}/cmake/OxygenFont/
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-3
 - Rebuild for new 4.0 release
 

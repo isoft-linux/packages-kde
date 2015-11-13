@@ -1,6 +1,6 @@
 Name:           powerdevil
-Version:        5.4.2
-Release:        3
+Version:        5.4.3
+Release:        2
 Summary:        Manages the power consumption settings of a Plasma Shell
 
 License:        GPLv2+
@@ -18,6 +18,8 @@ Patch0:         powerdevil-enable-upower.patch
 
 BuildRequires:  libxcb-devel
 BuildRequires:  xcb-util-keysyms-devel
+BuildRequires:  xcb-util-image-devel
+BuildRequires:  xcb-util-wm-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  systemd-devel
 
@@ -92,6 +94,9 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-3
 - Rebuild for new 4.0 release
 

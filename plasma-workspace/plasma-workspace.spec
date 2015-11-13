@@ -3,8 +3,8 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.4.2
-Release:        6
+Version:        5.4.3
+Release:        4
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -42,11 +42,27 @@ Patch14:  plasma-workspace-protect-home-Desktop-dir.patch
 #Add CTRL+V for plasmashell desktopview
 Patch15:  0002-add-paste-for-desktopview.patch
 
-## upstreamable Patches
+Patch16: 0001-Proxy-Xembed-icons-to-SNI.patch
 
-## upstream Patches
 
-## master branch Patches
+#Add isoft logo for splash
+Patch17: 0003-splash-isoft-logo.patch
+
+#https://git.reviewboard.kde.org/r/125898/
+#fadeout text where buttons are. 
+Patch18: klippergradient3.patch
+
+#https://git.reviewboard.kde.org/r/124980/
+#Click outside of logout dialog, cancel logout dialog.
+Patch19: dismissonclickoutside3.patch 
+
+#https://git.reviewboard.kde.org/r/126016/
+#fix: properly recognise Plasma 5 KCM modules (wmClass=kcmshell5)
+Patch20: kcmshell5-show-correct-icon-in-taskbar.patch
+
+#https://git.reviewboard.kde.org/r/125997/
+#Catch other openGL error gracefully
+Patch21: catch-other-opengl-errors.patch 
 
 # udev
 BuildRequires:  zlib-devel
@@ -232,6 +248,13 @@ Documentation and user manuals for %{name}.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p1
+%patch17 -p1
+
+%patch18 -p1
+%patch19 -p1
+%patch20 -p1
+%patch21 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -343,6 +366,18 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-4
+- Add some patches from kde reviewboard.
+
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
+- Add more killall to startkde, bad, bad, bad
+
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
+* Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add isoft logo for splash.
+
 * Thu Oct 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add CTRL+V for plasmashell desktopview.
 

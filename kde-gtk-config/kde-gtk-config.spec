@@ -1,6 +1,6 @@
 Name:           kde-gtk-config
 Summary:        Configure the appearance of GTK apps in KDE
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 
 # KDE e.V. may determine that future GPL versions are accepted
@@ -22,6 +22,8 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/kde-gtk-conf
 #here 'breeze' icon theme contains 'apps' folder.
 #triditional icon theme always contains '32x32' folder 
 Patch0:	kde-gtk-fix-wrong-icontheme-condition.patch
+
+BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  qt5-qtbase-devel
@@ -87,6 +89,9 @@ fi
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 

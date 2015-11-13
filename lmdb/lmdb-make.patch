@@ -1,18 +1,18 @@
-# Update main Makefile in oprder to build and install follow guidelines
+# Patch the main Makefile to allow for a build that complies to packaging guidelines.
 
-diff -up liblmdb/Makefile.orig liblmdb/Makefile
---- liblmdb/Makefile.orig	2014-12-11 10:04:10.271450725 +0100
-+++ liblmdb/Makefile	2014-12-11 10:09:11.898187497 +0100
-@@ -23,25 +23,30 @@ OPT = -O2 -g
+diff -up lmdb-LMDB_0.9.16/libraries/liblmdb/Makefile.upstream lmdb-LMDB_0.9.16/libraries/liblmdb/Makefile
+--- lmdb-LMDB_0.9.16/libraries/liblmdb/Makefile.upstream	2015-08-14 10:59:31.179144608 +0200
++++ lmdb-LMDB_0.9.16/libraries/liblmdb/Makefile	2015-08-14 11:05:57.763026045 +0200
+@@ -24,25 +24,30 @@ OPT = -O2 -g
  CFLAGS	= $(THREADS) $(OPT) $(W) $(XCFLAGS)
  LDLIBS	=
  SOLIBS	=
 +SOVERSION = 0.0.0
  prefix	= /usr/local
 +binprefix = $(prefix)/bin                                                                     
-+libprefix = $(prefix)/lib                                                                     
-+includeprefix = $(prefix)/include                                                             
-+manprefix = $(prefix)/man                                                                     
++libprefix = $(prefix)/lib              
++includeprefix = $(prefix)/include
++manprefix = $(prefix)/man
  
  ########################################################################
  
@@ -35,24 +35,24 @@ diff -up liblmdb/Makefile.orig liblmdb/Makefile
 +	for f in $(IDOCS); do cp $$f $(DESTDIR)$(manprefix)/man1; done
  
  clean:
--	rm -rf $(PROGS) *.[ao] *.so *~ testdb
-+	rm -rf $(PROGS) *.[ao] *.so* *~ testdb
+-	rm -rf $(PROGS) *.[ao] *.[ls]o *~ testdb
++	rm -rf $(PROGS) *.[ao] *.[ls]o* *~ testdb
  
  test:	all
- 	mkdir testdb
-@@ -50,20 +55,24 @@ test:	all
+ 	rm -rf testdb && mkdir testdb
+@@ -51,20 +56,24 @@ test:	all
  liblmdb.a:	mdb.o midl.o
  	ar rs $@ mdb.o midl.o
  
--liblmdb.so:	mdb.o midl.o
-+liblmdb.so: liblmdb.so.$(SOVERSION)
+-liblmdb.so:	mdb.lo midl.lo
++liblmdb.so:	liblmdb.so.$(SOVERSION)
 +	rm -f $@
 +	ln -s $< $@
 +
-+liblmdb.so.$(SOVERSION):	mdb.o midl.o
++liblmdb.so.$(SOVERSION):	mdb.lo midl.lo
  #	$(CC) $(LDFLAGS) -pthread -shared -Wl,-Bsymbolic -o $@ mdb.o midl.o $(SOLIBS)
--	$(CC) $(LDFLAGS) -pthread -shared -o $@ mdb.o midl.o $(SOLIBS)
-+	$(CC) $(LDFLAGS) -pthread -shared -Wl,-soname,$@ -o $@ mdb.o midl.o $(SOLIBS)
+-	$(CC) $(LDFLAGS) -pthread -shared -o $@ mdb.lo midl.lo $(SOLIBS)
++	$(CC) $(LDFLAGS) -pthread -shared -Wl,-soname,$@ -o $@ mdb.lo midl.lo $(SOLIBS)
  
 -mdb_stat: mdb_stat.o liblmdb.a
 -mdb_copy: mdb_copy.o liblmdb.a
@@ -76,4 +76,4 @@ diff -up liblmdb/Makefile.orig liblmdb/Makefile
 +mtest6:	mtest6.o liblmdb.so
  
  mdb.o: mdb.c lmdb.h midl.h
- 	$(CC) $(CFLAGS) -fPIC $(CPPFLAGS) -c mdb.c
+ 	$(CC) $(CFLAGS) $(CPPFLAGS) -c mdb.c

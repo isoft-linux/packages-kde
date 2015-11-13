@@ -1,8 +1,8 @@
 %define         base_name systemsettings
 
 Name:           plasma-%{base_name}
-Version:        5.4.2
-Release:        5 
+Version:        5.4.3
+Release:        2
 Summary:        KDE's System Settings application
 
 License:        GPLv2+
@@ -28,11 +28,10 @@ Source3: settings-system-administration.desktop
 
 Patch0: systemsettings-fine-icon-mode-size.patch
 
-BuildRequires:  qt5-qtbase-devel
-
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  cmake
+BuildRequires:  desktop-file-utils
 BuildRequires:  extra-cmake-modules
-
+BuildRequires:  kf5-rpm-macros
 BuildRequires:  kf5-kitemviews-devel
 BuildRequires:  kf5-kcmutils-devel
 BuildRequires:  kf5-ki18n-devel
@@ -46,8 +45,7 @@ BuildRequires:  kf5-kconfig-devel
 BuildRequires:  kf5-khtml-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-kdoctools-devel
-
-BuildRequires:  desktop-file-utils
+BuildRequires:  qt5-qtbase-devel
 
 Requires:       kf5-filesystem
 
@@ -116,6 +114,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/systemsettings.deskto
 %{_libdir}/libsystemsettingsview.so
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-5
 - Rebuild for new 4.0 release
 

@@ -1,0 +1,79 @@
+diff --git a/autotests/ksycocatest.cpp b/autotests/ksycocatest.cpp
+index f0df0b2a0fa4cb8e1bbba641db99e576a0399b4b..4af759c058f6a976e41405f61c50be600c1d958b 100644
+--- a/autotests/ksycocatest.cpp
++++ b/autotests/ksycocatest.cpp
+@@ -65,6 +65,9 @@ private Q_SLOTS:
+ 
+ #ifdef Q_XDG_PLATFORM
+         qputenv("XDG_DATA_DIRS", QFile::encodeName(m_tempDir.path()));
++
++        // so that vfolder_menu doesn't go look into /etc and /usr
++        qputenv("XDG_CONFIG_DIRS", QFile::encodeName(m_tempDir.path()));
+ #else
+         // We need to make changes to a global dir without messing up the system
+         QSKIP("This test requires XDG_DATA_DIRS");
+diff --git a/src/sycoca/kbuildsycoca.cpp b/src/sycoca/kbuildsycoca.cpp
+index 1deae14b8546d87b2f8d94510ae0d7077f377fb0..650526bea7dbbe7310acb9314ccd5cc9c6a32557 100644
+--- a/src/sycoca/kbuildsycoca.cpp
++++ b/src/sycoca/kbuildsycoca.cpp
+@@ -197,7 +197,6 @@ bool KBuildSycoca::build()
+     }
+ 
+     m_ctimeFactory = new KCTimeFactory(this); // This is a build factory too, don't delete!!
+-    bool uptodate = true;
+     for (QMap<QString, QByteArray>::ConstIterator it1 = allResourcesSubDirs.constBegin();
+             it1 != allResourcesSubDirs.constEnd();
+             ++it1) {
+@@ -255,18 +254,16 @@ bool KBuildSycoca::build()
+             }
+         }
+         if (m_changed || !m_allEntries) {
+-            uptodate = false;
+-            //qDebug() << "CHANGED:" << resource;
++            //qDebug() << "CHANGED:" << m_resource;
+             m_changedResources.append(m_resource);
+         }
+     }
+ 
+-    bool result = !uptodate || (m_ctimeDict && !m_ctimeDict->isEmpty());
+     if (m_ctimeDict && !m_ctimeDict->isEmpty()) {
+         //qDebug() << "Still in time dict:";
+         //m_ctimeDict->dump();
+         // ## It seems entries filtered out by vfolder are still in there,
+-        // so we end up always saving ksycoca, i.e. this method never returns false
++        // so on a real system we end up always adding "apps" to m_changedResources
+ 
+         // Get the list of resources from which some files were deleted
+         const QStringList resources = m_ctimeDict->remainingResourceList();
+@@ -274,7 +271,9 @@ bool KBuildSycoca::build()
+         m_changedResources += resources;
+     }
+ 
+-    if (result || m_menuTest) {
++    bool result = true;
++    const bool createVFolder = !m_changedResources.isEmpty() || (m_ctimeDict && !m_ctimeDict->isEmpty());
++    if (createVFolder || m_menuTest) {
+         m_resource = "apps";
+         m_resourceSubdir = QStringLiteral("applications");
+         m_currentFactory = d->m_serviceFactory;
+@@ -309,7 +308,6 @@ bool KBuildSycoca::build()
+         }
+ 
+         if (m_changed || !m_allEntries) {
+-            uptodate = false;
+             //qDebug() << "CHANGED:" << m_resource;
+             m_changedResources.append(m_resource);
+         }
+diff --git a/src/sycoca/ksycoca.cpp b/src/sycoca/ksycoca.cpp
+index a692bc87ca1ca4bc1885e9ace3454470a0205ac4..5744e957f43a893a58a46f4422da72135a120281 100644
+--- a/src/sycoca/ksycoca.cpp
++++ b/src/sycoca/ksycoca.cpp
+@@ -635,7 +635,7 @@ public:
+                     if (mtime > m_now) {
+                         qCDebug(SYCOCA) << fi.filePath() << "has a modification time in the future" << mtime;
+                     }
+-                    qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << mtime << ">" << lastStamp;
++                    qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << mtime << ">" << QDateTime::fromMSecsSinceEpoch(lastStamp);
+                     // no need to continue search
+                     return false;
+                 }

@@ -1,8 +1,8 @@
 #kdelibs also need HUPNP optional
 Summary:    The KDE libraries provide a powerful framework to make writing applications easier
 Name: kdelibs 
-Version: 4.14.12
-Release: 3	
+Version: 4.14.14
+Release: 3
 License: GPL
 Source0: %{name}-%{version}.tar.xz
 Source1: macros.kdelibs4
@@ -29,10 +29,6 @@ Patch20: kdelibs-4.10.0-cmake.patch
 # paths (like /usr/lib64) already! With this, we can drop
 # -DCMAKE_SKIP_RPATH:BOOL=ON (finally)
 Patch27: kdelibs-4.10.0-no_rpath.patch
-
-# reduce stderr spamming about invalid mimetypes (kWarning->kDebug)
-# workaround for http://bugzilla.redhat.com/1184918
-Patch43: kdelibs-4.14.4-unknown_mimetype_spam.patch
 
 ## upstreamable
 # knewstuff2 variant of:
@@ -105,7 +101,18 @@ Requires: polkit-qt
 Requires: phonon
 Requires: oxygen-icon-theme
 
+BuildRequires: cmake gettext
+BuildRequires: kde-filesystem
+BuildRequires: media-player-info
+BuildRequires: bison flex
+BuildRequires: hunspell-devel
+BuildRequires: openssl-devel
+BuildRequires: docbook-dtds docbook-style-xsl
+BuildRequires: kde-settings
+BuildRequires: pkgconfig(avahi-core)
+BuildRequires: shared-mime-info
 BuildRequires: qt4-devel
+BuildRequires: qt4-doc
 BuildRequires: attica-devel
 BuildRequires: automoc4
 BuildRequires: dbusmenu-qt-devel
@@ -117,6 +124,36 @@ BuildRequires: pcre-devel
 BuildRequires: polkit-qt-devel
 BuildRequires: phonon-devel
 BuildRequires: strigi-devel
+BuildRequires: aspell-devel
+BuildRequires: bzip2-devel
+BuildRequires: enchant-devel
+BuildRequires: giflib-devel
+BuildRequires: ilmbase-devel
+BuildRequires: jasper-devel
+BuildRequires: krb5-devel
+BuildRequires: libacl-devel
+BuildRequires: libattr-devel
+BuildRequires: libICE-devel
+BuildRequires: libjpeg-turbo-devel
+BuildRequires: libSM-devel
+BuildRequires: libX11-devel
+BuildRequires: libXau-devel
+BuildRequires: libXcursor-devel
+BuildRequires: libXdmcp-devel
+BuildRequires: libXext-devel
+BuildRequires: libXfixes-devel
+BuildRequires: libXft-devel
+BuildRequires: libXpm-devel
+BuildRequires: libXrender-devel
+BuildRequires: libXScrnSaver-devel
+BuildRequires: libXtst-devel
+BuildRequires: OpenEXR-devel
+BuildRequires: qca-devel
+BuildRequires: qt4-devel
+BuildRequires: strigi-devel
+BuildRequires: systemd-devel
+BuildRequires: xz-devel
+BuildRequires: zlib-devel
 
 Provides:   kdelibs4 = %{version}-%{release}
 
@@ -154,6 +191,7 @@ Requires: libpng-devel
 Requires: pcre-devel
 Requires: polkit-qt-devel
 Requires: phonon-devel
+Requires: docbook-dtds docbook-style-xsl
 
 Provides:   kdelibs4-devel = %{version}-%{release}
 
@@ -172,8 +210,6 @@ developing applications that use %{name}.
 %patch20 -p1 -b .xxcmake
 
 %patch27 -p1 -b .no_rpath
-
-%patch43 -p1 -b .unknown_mimetype_spam
 
 # upstreamable patches
 %patch50 -p1 -b .knewstuff2_gpg2
@@ -288,6 +324,12 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Nov 12 2015 Cjacker <cjacker@foxmail.com> - 4.14.14-3
+- Add docbook packages to kdelibs-devel requires
+
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 4.14.14-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 4.14.12-3
 - Rebuild for new 4.0 release
 

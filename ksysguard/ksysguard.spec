@@ -1,5 +1,5 @@
 Name:           ksysguard
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        KDE Process Management application
 
@@ -14,9 +14,11 @@ URL:            https://projects.kde.org/projects/kde/workspace/ksysguard
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
+
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtscript-devel
 
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 
@@ -95,6 +97,9 @@ fi
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 

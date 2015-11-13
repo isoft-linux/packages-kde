@@ -2,8 +2,13 @@
 
 Name:    ark
 Summary: Archive manager
+<<<<<<< HEAD
 Version: 15.08.4
 Release: 4
+=======
+Version: 15.08.3
+Release: 2
+>>>>>>> 5914de1b0904b782fb89786e09e5dc094945ddf3
 
 License: GPLv2+
 URL:     http://utils.kde.org/projects/ark 
@@ -46,8 +51,23 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
+BuildRequires: kf5-kauth-devel
+BuildRequires: kf5-kbookmarks-devel
+BuildRequires: kf5-kcodecs-devel
+BuildRequires: kf5-kcrash-devel
+BuildRequires: kf5-khtml-devel
+BuildRequires: kf5-kjs-devel
+BuildRequires: kf5-kparts-devel
+BuildRequires: kf5-kpty-devel
+BuildRequires: kf5-ktextwidgets-devel
+BuildRequires: kf5-kwidgetsaddons-devel
+BuildRequires: kf5-solid-devel
+BuildRequires: kf5-sonnet-devel
+BuildRequires: kf5-kdoctools-devel
+BuildRequires: kf5-karchive-devel
+BuildRequires: qt5-qtbase-devel
 
-
+BuildRequires: libarchive-devel
 BuildRequires: bzip2-devel
 BuildRequires: appstream-glib
 BuildRequires: pkgconfig(libarchive)
@@ -152,8 +172,13 @@ fi
 
 
 %changelog
+<<<<<<< HEAD
 * Fri Nov 13 2015 kun.li@i-soft.com.cn - 15.08.4-4
 - delete  Name=Here (as RAR) 
+=======
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+>>>>>>> 5914de1b0904b782fb89786e09e5dc094945ddf3
 
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-3
 - Rebuild for new 4.0 release

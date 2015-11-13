@@ -1,0 +1,87 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0f10f92..e527c3a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -31,6 +31,7 @@ add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
+ # Options
+ option(BUILD_MAN_PAGES "Build man pages" OFF)
+ option(ENABLE_JOURNALD "Enable logging to journald" ON)
++option(ENABLE_PLYMOUTH "Enable plymouth smooth transition" OFF)
+ option(ENABLE_PAM "Enable PAM support" ON)
+ 
+ # Definitions
+@@ -101,6 +102,10 @@
+     set(HAVE_QTACCOUNTSSERVICE TRUE)
+ endif()
+ 
++if (ENABLE_PLYMOUTH)
++    add_definitions(-DHAVE_PLYMOUTH)
++    set(HAVE_PLYMOUTH TRUE)
++endif()
+ 
+ # find qt5 imports dir
+ get_target_property(QMAKE_EXECUTABLE Qt5::qmake LOCATION)
+diff --git a/services/CMakeLists.txt b/services/CMakeLists.txt
+index e77e0e6..bb7c48e 100644
+--- a/services/CMakeLists.txt
++++ b/services/CMakeLists.txt
+@@ -1,6 +1,10 @@
+ if(SYSTEMD_FOUND)
+     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/sddm.service.in" "${CMAKE_CURRENT_BINARY_DIR}/sddm.service")
+     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/sddm.service" DESTINATION "${SYSTEMD_SYSTEM_UNIT_DIR}")
++    if(ENABLE_PLYMOUTH)
++        configure_file("${CMAKE_CURRENT_SOURCE_DIR}/sddm-plymouth.service.in" "${CMAKE_CURRENT_BINARY_DIR}/sddm-plymouth.service")
++        install(FILES "${CMAKE_CURRENT_BINARY_DIR}/sddm-plymouth.service" DESTINATION "${SYSTEMD_SYSTEM_UNIT_DIR}")
++    endif()
+ endif()
+ 
+ install(FILES sddm.pam DESTINATION ${CMAKE_INSTALL_FULL_SYSCONFDIR}/pam.d RENAME sddm)
+diff --git a/services/sddm-plymouth.service.in b/services/sddm-plymouth.service.in
+new file mode 100644
+index 0000000..c1cb3a2
+--- /dev/null
++++ b/services/sddm-plymouth.service.in
+@@ -0,0 +1,19 @@
++[Unit]
++Description=Simple Desktop Display Manager
++Documentation=man:sddm(1) man:sddm.conf(5)
++Conflicts=getty@tty1.service
++After=getty@tty1.service
++
++Conflicts=plymouth-quit.service
++After=plymouth-quit.service
++
++After=rc-local.service plymouth-start.service systemd-user-sessions.service
++
++OnFailure=plymouth-quit.service
++
++[Service]
++ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/sddm
++Restart=always
++
++[Install]
++Alias=display-manager.service
+--- a/src/daemon/DisplayManager.cpp       2015-11-04 17:23:33.202876011 +0800
++++ b/src/daemon/DisplayManager.cpp      2015-11-10 15:28:08.541441324 +0800
+@@ -40,6 +40,9 @@
+         QDBusConnection connection = (daemonApp->testing()) ? QDBusConnection::sessionBus() : QDBusConnection::systemBus();
+         connection.registerService(DISPLAYMANAGER_SERVICE);
+         connection.registerObject(DISPLAYMANAGER_PATH, this);
++#if HAVE_PLYMOUTH
++        system("/bin/plymouth deactivate");
++#endif
+     }
+ 
+     QString DisplayManager::seatPath(const QString &seatName) {
+--- a/src/daemon/Greeter.cpp      2015-10-19 13:25:26.998538431 +0800
++++ b/src/daemon/Greeter.cpp     2015-11-10 15:48:27.573351080 +0800
+@@ -153,6 +153,9 @@
+ 
+             // log message
+             qDebug() << "Greeter starting...";
++#if HAVE_PLYMOUTH
++            system("/bin/plymouth quit --retain-splash");
++#endif
+ 
+             // start greeter
+             m_auth->setUser(QStringLiteral("sddm"));

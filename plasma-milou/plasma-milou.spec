@@ -1,7 +1,7 @@
 %define         base_name milou
 
 Name:           plasma-%{base_name}
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        A dedicated KDE search application built on top of Baloo
 
@@ -16,6 +16,7 @@ URL:            https://projects.kde.org/kde/workspace/milou
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{base_name}-%{version}.tar.xz
 
+BuildRequires:  cmake
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtxmlpatterns-devel
 BuildRequires:  qt5-qtwebkit-devel
@@ -68,6 +69,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 

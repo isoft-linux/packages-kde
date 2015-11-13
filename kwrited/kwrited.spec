@@ -1,5 +1,5 @@
 Name:           kwrited
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        KDE Write Daemon
 
@@ -16,14 +16,13 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 Patch0:         kwrited-call-setgroups.patch
 
+BuildRequires:  cmake
+BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros
+BuildRequires:  kf5-kpty-devel >= 5.13.0
+BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
-
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
-
-BuildRequires:  kf5-kpty-devel
-BuildRequires:  kf5-kdelibs4support-devel
 
 Requires:       kf5-filesystem
 
@@ -60,6 +59,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 

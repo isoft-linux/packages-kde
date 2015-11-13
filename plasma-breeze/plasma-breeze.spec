@@ -3,7 +3,7 @@
 %global         build_kde4  1
 
 Name:           plasma-breeze
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        Artwork, styles and assets for the Breeze visual style for the Plasma Desktop
 
@@ -17,7 +17,9 @@ URL:            https://projects.kde.org/projects/kde/workspace/breeze
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{base_name}-%{version}.tar.xz
+Patch0: fix-breeze-dark-inheritance.patch
 
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
@@ -25,13 +27,9 @@ BuildRequires:  qt5-qtx11extras-devel
 
 BuildRequires:	kf5-kservice-devel
 BuildRequires:  kf5-kcmutils-devel
-
-# kde4breeze
 BuildRequires:  kf5-kcoreaddons-devel
 BuildRequires:  kf5-kconfig-devel
 BuildRequires:  kf5-kguiaddons-devel
-
-# kstyle
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kcompletion-devel
 BuildRequires:  kf5-frameworkintegration-devel
@@ -41,6 +39,13 @@ BuildRequires:  kdecoration-devel
 BuildRequires:  libxcb-devel
 
 BuildRequires:  gettext
+
+#for kde4 macros
+%if 0%{?build_kde4:1}
+BuildRequires:  kde-filesystem
+BuildRequires:  qt4-devel
+BuildRequires:  kdelibs-devel
+%endif
 
 Requires:       kf5-filesystem
 
@@ -165,6 +170,9 @@ fi
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 

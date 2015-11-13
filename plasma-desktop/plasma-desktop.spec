@@ -1,6 +1,6 @@
 Name:           plasma-desktop
-Version:        5.4.2
-Release:        25
+Version:        5.4.3
+Release:        6
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -29,12 +29,15 @@ Patch201: plasma-desktop-kickoff-face-click-open-user_account.patch
 Patch202: 0002-cancel-fontinst.patch
 # Replace trolltech for fontinst
 Patch203: 0003-kfontinst-replace-trolltech.patch
-# Port kauth for fontinst
+# Port kauth for fontinst and use asynchronous interface of KJob
 Patch204: 0004-kfontinst-port-kauth.patch
+# Add faceIcon for kicker
+# TEMP disabled by Cjacker, please do not enable it until reviewed.
+Patch205: 0005-kicker-add-faceicon.patch
 
-#default enable kimpanel by Cjacker.
-#Comment out by default, since we hope to support sogou pinyin.
-Patch300: plasma-desktop-default-enable-kimpanel.patch
+#add showdesktop to panel
+Patch300: plasma-desktop-add-showdesktop-to-panel-by-default.patch
+
 #By default, lock the panel.
 Patch301: plasma-desktop-default-locked.patch
 
@@ -54,6 +57,19 @@ Patch305: plasma-desktop-say-goodbye-to-crappy-and-buggy-locale-setting.patch
 
 Patch306: plasma-desktop-disable-kcm-mouse-and-touchpad.patch
 
+Patch307: plasma-desktop-kickoff-sync-url.patch
+
+# Kickoff isoft-logo
+Patch308: 0006-kickoff-isoft-logo.patch
+
+# Kicker isoft-logo
+Patch309: 0007-kicker-isoft-logo.patch
+
+# uninstall kcm-kemail.desktop
+Patch310: plasma-desktop-uninstall-component-kcm-kemail.patch
+
+#https://git.reviewboard.kde.org/r/125908/
+Patch311: plasmadesktop-scrollabletasktooltip.diff
 
 ## upstreamable patches
 
@@ -305,6 +321,31 @@ fi
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-6
+- Add some patches from reviewboard
+
+* Tue Nov 10 2015 Wang Ming <ming.wang@i-soft.com.cn> - 5.4.3-5
+- Uninstall component kcm-kemail.
+
+* Tue Nov 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Rebuild kicker.
+- Port kauth for fontinst and use asynchronous interface of KJob.
+
+* Mon Nov 09 2015 sulit <sulitsrc@gmail.com>
+- do apt repo use 5.4.3-2.
+
+* Mon Nov 09 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Kicker use isoft-logo. 
+
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
+* Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add faceIcon for kicker.
+
+* Thu Nov 05 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.4.2-26
+- sync favorites,add patch kickoff-sync-url.patch
+
 * Wed Nov 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix disable fontinst can not cancelable issue.
 - Port kauth for fontinst.

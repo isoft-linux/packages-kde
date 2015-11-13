@@ -1,0 +1,58 @@
+diff --git a/src/service/Application.h b/src/service/Application.h
+index 387d4d7..c63a96e 100644
+--- a/src/service/Application.h
++++ b/src/service/Application.h
+@@ -21,7 +21,7 @@
+ #define APPLICATION_H
+ 
+ // Qt
+-#include <QGuiApplication>
++#include <QApplication>
+ 
+ // Utils
+ #include <utils/d_ptr.h>
+@@ -33,10 +33,10 @@ class Features;
+ 
+ /**
+  * Main application object
+- * This can *not* be a QCoreApplication because
+- * we need KWindowSystem events.
++ * This can *not* be a QGuiApplication because
++ * we need KWindowSystem widgets.
+  */
+-class Application : public QGuiApplication {
++class Application : public QApplication {
+     Q_OBJECT
+ 
+ public:
+diff --git a/src/service/Application.cpp b/src/service/Application.cpp
+index ec74daa..682606a 100644
+--- a/src/service/Application.cpp
++++ b/src/service/Application.cpp
+@@ -139,7 +139,7 @@ public:
+ Application *Application::Private::s_instance = Q_NULLPTR;
+ 
+ Application::Application(int &argc, char **argv)
+-    : QGuiApplication(argc, argv)
++    : QApplication(argc, argv)
+ {
+ }
+ 
+@@ -205,7 +205,7 @@ void Application::loadPlugins()
+     using namespace std::placeholders;
+ 
+     const auto pluginsDir(QLatin1String(KAMD_PLUGIN_DIR));
+-    QGuiApplication::addLibraryPath(pluginsDir);
++    QApplication::addLibraryPath(pluginsDir);
+ 
+     const auto config
+         = KSharedConfig::openConfig(QStringLiteral("kactivitymanagerdrc"))
+@@ -271,7 +271,7 @@ Resources &Application::resources() const
+ 
+ void Application::quit()
+ {
+-    QGuiApplication::quit();
++    QApplication::quit();
+ }
+ 
+ #include "../lib/core/version.h"

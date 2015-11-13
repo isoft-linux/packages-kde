@@ -1,7 +1,7 @@
 Name: kcalc 
 Summary: Scientific Calculator 
-Version: 15.08.2
-Release: 3%{?dist}
+Version: 15.08.3
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdeutils/kcalc
@@ -22,28 +22,21 @@ BuildRequires: desktop-file-utils
 BuildRequires: extra-cmake-modules
 BuildRequires: gmp-devel
 BuildRequires: kf5-rpm-macros
-BuildRequires: kf5-kcompletion-devel
+BuildRequires: kf5-kauth-devel
+BuildRequires: kf5-kcodecs-devel
 BuildRequires: kf5-kconfig-devel
 BuildRequires: kf5-kconfigwidgets-devel
 BuildRequires: kf5-kcoreaddons-devel
-BuildRequires: kf5-kdbusaddons-devel
-BuildRequires: kf5-kdeclarative-devel
-BuildRequires: kf5-kdoctools-devel
 BuildRequires: kf5-kguiaddons-devel
 BuildRequires: kf5-ki18n-devel
-BuildRequires: kf5-kiconthemes-devel
-BuildRequires: kf5-kinit-devel >= 5.10.0-3
-BuildRequires: kf5-kitemviews-devel
-BuildRequires: kf5-kio-devel
-BuildRequires: kf5-kjobwidgets-devel
-BuildRequires: kf5-knewstuff-devel
 BuildRequires: kf5-knotifications-devel
-BuildRequires: kf5-knotifyconfig-devel
-BuildRequires: kf5-knewstuff-devel
-BuildRequires: kf5-kservice-devel
-BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
+BuildRequires: kf5-kdoctools-devel
+BuildRequires: kf5-kinit-devel
+
+BuildRequires: qt5-qtbase-devel
+
 BuildRequires: pkgconfig(Qt5Widgets)
 
 %{?kf5_kinit_requires}
@@ -101,6 +94,9 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.%{name}.d
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-3
 - Rebuild for new 4.0 release
 

@@ -4,8 +4,8 @@
 
 Name:    kde-runtime
 Summary: KDE Runtime
-Version: 15.08.2
-Release: 4
+Version: 15.08.3
+Release: 2
 
 # http://techbase.kde.org/Policies/Licensing_Policy
 License: LGPLv2+ and GPLv2+
@@ -80,12 +80,16 @@ Requires: %{name}-flags = %{version}-%{release}
 # beware of bootstrapping, there be dragons
 Requires: oxygen-icon-theme 
 
+BuildRequires: cmake
+#for kde rpm macros
+BuildRequires: kde-filesystem
+
 BuildRequires: bzip2-devel
 BuildRequires: chrpath
 BuildRequires: desktop-file-utils
 BuildRequires: kdelibs-devel >= 4.14.4
 # kdepimlibs' kxmlrpcclient used for drkonqi, ok to leave unversioned
-#BuildRequires: kdepimlibs-devel
+BuildRequires: kdepimlibs-devel
 BuildRequires: kactivities-devel
 BuildRequires: libgcrypt-devel >= 1.5.0
 BuildRequires: libjpeg-devel
@@ -112,6 +116,7 @@ BuildRequires: openslp-devel
 BuildRequires: libssh-devel >= 0.6
 BuildRequires: xorg-x11-font-utils
 BuildRequires: zlib-devel
+BuildRequires: docbook-dtds docbook-style-xsl
 
 # some items moved -workspace -> -runtime
 Conflicts: kdebase-workspace < 4.5.80
@@ -467,6 +472,9 @@ fi
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-4
 - Rebuild for new 4.0 release
 

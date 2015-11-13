@@ -1,5 +1,5 @@
 Name:           libkscreen
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        KDE display configuration library
 
@@ -18,15 +18,14 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 ## upstreamable patches
 ## upstream patches
 
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qtx11extras-devel
-
+BuildRequires:  cmake
+BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
 BuildRequires:  libXrandr-devel
-
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtx11extras-devel
 
 Requires:       kf5-filesystem
 
@@ -87,6 +86,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 

@@ -1,6 +1,6 @@
 Name:           khotkeys
-Version:        5.4.2
-Release:        4%{?dist}
+Version:        5.4.3
+Release:        2%{?dist}
 Summary:        Application to configure hotkeys in KDE
 
 License:        GPLv2+
@@ -14,25 +14,26 @@ URL:            https://projects.kde.org/projects/kde/workspace/khotkeys
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qtx11extras-devel
-
-BuildRequires:  kf5-rpm-macros
+Patch0: khotkeys-5.4.2-qdbusviewer-qt5.patch
+ 
+BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros
 
+BuildRequires:  kf5-kcmutils-devel
+BuildRequires:  kf5-kdbusaddons-devel
+BuildRequires:  kf5-kdelibs4support-devel
+BuildRequires:  kf5-kdoctools-devel
 BuildRequires:  kf5-kglobalaccel-devel
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kio-devel
 BuildRequires:  kf5-kxmlgui-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-kdbusaddons-devel
-BuildRequires:  kf5-kcmutils-devel
 BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-kdoctools-devel
-
-BuildRequires:  plasma-workspace-devel
-
 BuildRequires:  libX11-devel
+BuildRequires:  plasma-workspace-devel
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtx11extras-devel
+
 
 Requires:       kf5-filesystem
 
@@ -58,11 +59,10 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 
 %build
-
-
 mkdir %{_target_platform}
 pushd %{_target_platform}
 %{cmake_kf5} ..
@@ -96,6 +96,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-4
 - Rebuild for new 4.0 release
 

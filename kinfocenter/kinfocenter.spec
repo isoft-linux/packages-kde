@@ -1,5 +1,5 @@
 Name:           kinfocenter
-Version:        5.4.2
+Version:        5.4.3
 Release:        2
 Summary:        KDE Info Center
 
@@ -14,10 +14,12 @@ URL:            https://projects.kde.org/projects/kde/workspace/kinfocenter
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
+Patch0:  0001-about-distro-isoft-logo.patch
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtscript-devel
 
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 
@@ -45,9 +47,7 @@ BuildRequires:  mesa-libGLES-devel
 BuildRequires:  mesa-libEGL-devel
 BuildRequires:  libX11-devel
 BuildRequires:  pciutils-devel
-%ifnarch s390 s390x
 BuildRequires:  libraw1394-devel
-%endif
 
 BuildRequires:  kf5-kwayland-devel
 
@@ -61,6 +61,7 @@ Conflicts:      kde-workspace < 4.11.15-3
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 
 %build
@@ -105,6 +106,13 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
+- Update
+
+* Fri Nov 06 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add start-here-isoft
+- Change start-here-isoft to isoft-logo.
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.2-2
 - Rebuild for new 4.0 release
 

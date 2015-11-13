@@ -1,0 +1,32 @@
+diff --git a/lookandfeel/contents/splash/Splash.qml b/lookandfeel/contents/splash/Splash.qml
+index fdeb1ea..db67b8b 100644
+--- a/lookandfeel/contents/splash/Splash.qml
++++ b/lookandfeel/contents/splash/Splash.qml
+@@ -18,6 +18,7 @@
+  */
+ 
+ import QtQuick 2.2
++import QtAccountsService 1.0
+ 
+ Image {
+     id: root
+@@ -30,6 +31,10 @@ Image {
+             introAnimation.running = true
+         }
+     }
++
++    UserAccount {
++        id: userAccount
++    }
+     Rectangle {
+         id: topRect
+         width: parent.width
+@@ -37,7 +42,7 @@ Image {
+         y: root.height
+         color: "#4C000000"
+         Image {
+-            source: "images/kde.svgz"
++            source: userAccount.oslogo != "" ? userAccount.oslogo : "images/kde.svgz"
+             anchors.centerIn: parent
+             sourceSize.height: 128
+             sourceSize.width: 128

@@ -1,7 +1,7 @@
 Name:    kde-print-manager
 Summary: Printer management for KDE
-Version: 15.08.2
-Release: 4
+Version: 15.08.3
+Release: 2
 
 License: GPLv2+ and LGPLv2+
 URL:     https://projects.kde.org/projects/kde/kdeutils/print-manager
@@ -102,6 +102,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-4
 - Rebuild for new 4.0 release
 
