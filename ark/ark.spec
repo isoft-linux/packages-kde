@@ -2,13 +2,8 @@
 
 Name:    ark
 Summary: Archive manager
-<<<<<<< HEAD
-Version: 15.08.4
-Release: 4
-=======
 Version: 15.08.3
 Release: 2
->>>>>>> 5914de1b0904b782fb89786e09e5dc094945ddf3
 
 License: GPLv2+
 URL:     http://utils.kde.org/projects/ark 
@@ -20,7 +15,6 @@ URL:     http://utils.kde.org/projects/ark
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
-Patch0: del-rar.patch
 #git clone git://anongit.kde.org/ark
 #git checkout frameworks
 #Source0: ark.tar.gz
@@ -106,7 +100,6 @@ Requires: %{name} = %{version}-%{release}
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -172,13 +165,8 @@ fi
 
 
 %changelog
-<<<<<<< HEAD
-* Fri Nov 13 2015 kun.li@i-soft.com.cn - 15.08.4-4
-- delete  Name=Here (as RAR) 
-=======
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
->>>>>>> 5914de1b0904b782fb89786e09e5dc094945ddf3
 
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.2-3
 - Rebuild for new 4.0 release
