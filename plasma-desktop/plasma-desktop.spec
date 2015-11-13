@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        6
+Release:        7
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -13,6 +13,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/plasma-desktop
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+Source1:        startup-desktop-link.sh
 
 ## downstream patches
 # adjust default kickoff favorites: -preferred_browser(buggy) +konqueror +konsole +apper
@@ -70,6 +71,9 @@ Patch310: plasma-desktop-uninstall-component-kcm-kemail.patch
 
 #https://git.reviewboard.kde.org/r/125908/
 Patch311: plasmadesktop-scrollabletasktooltip.diff
+
+# Open history documents with bash script
+Patch312: plasma-desktop-startup-history-documents.patch
 
 ## upstreamable patches
 
@@ -201,6 +205,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+install -Dpm 644 %{SOURCE1} /usr/bin
 %find_lang plasmadesktop5 --with-qt --all-name
 
 # No -devel
@@ -321,6 +326,9 @@ fi
 
 
 %changelog
+* Fri Nov 13 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-7
+- Patch for open desktop file with Type=Link.
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-6
 - Add some patches from reviewboard
 
