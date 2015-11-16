@@ -192,6 +192,15 @@ BuildArch: noarch
 
 %prep
 %autosetup -p1
+#The implementation of Patch 312 is not well.
+#There is another startup menu 'kicker' implement the "Open recent documents" and "Clean recent documents".
+#But still have a bug the "Open rencent documents" hang the entire desktop.
+#We need:
+#1, fix kicker bugs.
+#2, implement as kicker in kickoff.
+#You can talk with zhaixiang to find the better way to implement this.
+#By Cjacker
+exit 1
 
 
 %build
