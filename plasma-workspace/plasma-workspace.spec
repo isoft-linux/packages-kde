@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        4
+Release:        5
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -63,6 +63,11 @@ Patch20: kcmshell5-show-correct-icon-in-taskbar.patch
 #https://git.reviewboard.kde.org/r/125997/
 #Catch other openGL error gracefully
 Patch21: catch-other-opengl-errors.patch 
+
+#fix always segfault of xembedsniproxy
+Patch30: xembedsniproxy-fix-always-segfault.patch 
+#there is two special window in isoftdesktop when every cold bootup.HACK!
+Patch31: xembedsniproxy-dirty-fix-for-isoft-startup.patch
 
 # udev
 BuildRequires:  zlib-devel
@@ -256,6 +261,9 @@ Documentation and user manuals for %{name}.
 %patch20 -p1
 %patch21 -p1
 
+%patch30 -p1
+%patch31 -p1
+
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
 
@@ -366,6 +374,10 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Nov 16 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-5
+- Fix xembedsniproxy always segfault issue, Dirty hack for isoft to not handle
+  the cold bootup embed window
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-4
 - Add some patches from kde reviewboard.
 

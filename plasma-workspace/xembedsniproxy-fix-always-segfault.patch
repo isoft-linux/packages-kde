@@ -1,0 +1,75 @@
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp plasma-workspace-5.4.3fix/xembed-sni-proxy/fdoselectionmanager.cpp
+--- plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp	2015-11-16 23:59:22.692089787 +0800
++++ plasma-workspace-5.4.3fix/xembed-sni-proxy/fdoselectionmanager.cpp	2015-11-17 00:01:46.079096269 +0800
+@@ -146,9 +146,15 @@
+     if (m_proxies.contains(winId)) {
+         return;
+     }
++    //detect winId clientGeomary to avoid segfault in SNIProxy
++    xcb_connection_t *c = QX11Info::connection();
++    auto cookie = xcb_get_geometry(c, winId);
++    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
+ 
+-    addDamageWatch(winId);
+-    m_proxies[winId] = new SNIProxy(winId, this);
++    if(clientGeom) {
++        addDamageWatch(winId);
++        m_proxies[winId] = new SNIProxy(winId, this);
++    }
+ }
+ 
+ void FdoSelectionManager::undock(xcb_window_t winId)
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-5.4.3fix/xembed-sni-proxy/sniproxy.cpp
+--- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp	2015-11-16 23:59:22.715089788 +0800
++++ plasma-workspace-5.4.3fix/xembed-sni-proxy/sniproxy.cpp	2015-11-17 00:04:42.674104252 +0800
+@@ -74,6 +74,13 @@
+     m_dbus(QDBusConnection::connectToBus(QDBusConnection::SessionBus, QStringLiteral("XembedSniProxy%1").arg(s_serviceCount++))),
+     m_windowId(wid)
+ {
++    auto c = QX11Info::connection();
++
++    auto cookie = xcb_get_geometry(c, m_windowId);
++    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
++
++    if (clientGeom && clientGeom->width > 0) {
++
+     //create new SNI
+     new StatusNotifierItemAdaptor(this);
+     m_dbus.registerObject(QStringLiteral("/StatusNotifierItem"), this);
+@@ -85,10 +92,6 @@
+         qCWarning(SNIPROXY) << "could not register SNI:" << reply.error().message();
+     }
+ 
+-    auto c = QX11Info::connection();
+-
+-    auto cookie = xcb_get_geometry(c, m_windowId);
+-    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
+ 
+     //create a container window
+     auto screen = xcb_setup_roots_iterator (xcb_get_setup (c)).data;
+@@ -181,6 +184,7 @@
+     //not ideal, but it works better than nothing
+     //test with xchat before changing
+     QTimer::singleShot(500, this, &SNIProxy::update);
++    }
+ }
+ 
+ SNIProxy::~SNIProxy()
+@@ -228,11 +232,12 @@
+     auto c = QX11Info::connection();
+     auto cookie = xcb_get_geometry(c, m_windowId);
+     QScopedPointer<xcb_get_geometry_reply_t> geom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
+-
+-    xcb_image_t *image = xcb_image_get(c, m_windowId, 0, 0, geom->width, geom->height, 0xFFFFFF, XCB_IMAGE_FORMAT_Z_PIXMAP);
+-
+-    QImage qimage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
+-
++    QImage qimage;
++    if(geom) {
++        xcb_image_t *image = xcb_image_get(c, m_windowId, 0, 0, geom->width, geom->height, 0xFFFFFF, XCB_IMAGE_FORMAT_Z_PIXMAP);
++        if(image)
++            qimage = QImage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
++    }
+     return qimage;
+ }
+ 

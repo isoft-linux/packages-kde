@@ -1,0 +1,20 @@
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-5.4.3fix/xembed-sni-proxy/sniproxy.cpp
+--- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp	2015-11-17 00:05:45.407107088 +0800
++++ plasma-workspace-5.4.3fix/xembed-sni-proxy/sniproxy.cpp	2015-11-17 00:07:39.962112267 +0800
+@@ -78,8 +78,14 @@
+ 
+     auto cookie = xcb_get_geometry(c, m_windowId);
+     QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
+-
+-    if (clientGeom && clientGeom->width > 0) {
++    //here we had a very dirty hack, because:
++    //1, there is a special window width=1, height=1 when startup(we do not know what app it belongs to, seems kmix)
++    //2, there is also fcitx tray that will hide later by fcitx since it will use statusitem under KDE.
++    //we had no way to detect them, here we use width and height.
++    //dirty, but at least works for us, otherwise there will be an empty item in the tray area everytime when cold bootup.
++    //
++    //Here the image is null or not can not detected since it even NOT draw at this time.
++    if (clientGeom && clientGeom->width > 0 && !(clientGeom->width==683 && clientGeom->height==307) && !(clientGeom->width==1 && clientGeom->height==1)) {
+ 
+     //create new SNI
+     new StatusNotifierItemAdaptor(this);
