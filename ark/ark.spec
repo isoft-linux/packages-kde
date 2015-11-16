@@ -3,7 +3,7 @@
 Name:    ark
 Summary: Archive manager
 Version: 15.08.3
-Release: 4
+Release: 5
 
 License: GPLv2+
 URL:     http://utils.kde.org/projects/ark 
@@ -14,7 +14,6 @@ URL:     http://utils.kde.org/projects/ark
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
-Patch0:  del-rar.patch
 
 
 #git clone git://anongit.kde.org/ark
@@ -102,7 +101,6 @@ Requires: %{name} = %{version}-%{release}
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -168,6 +166,11 @@ fi
 
 
 %changelog
+* Mon Nov 16 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-5
+- DO NOT disable rar support, Otherwise dolphin can not unrar archives, 
+- we already provide the opensource unrar in framework.
+- to solve the problem, we should provide rar command in app.
+
 * Fri Nov 13 2015 kun.li@i-soft.com.cn - 15.08.3-5
 - Add del-rar.patch 
 
