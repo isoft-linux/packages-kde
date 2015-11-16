@@ -215,7 +215,6 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-install -Dpm 644 %{SOURCE1} /usr/bin
 %find_lang plasmadesktop5 --with-qt --all-name
 
 # No -devel
