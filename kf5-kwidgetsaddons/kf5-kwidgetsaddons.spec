@@ -1,8 +1,8 @@
 %global framework kwidgetsaddons
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        3%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with various classes on top of QtWidgets
 
 License:        GPLv2+ and LGPLv2+
@@ -71,6 +71,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 

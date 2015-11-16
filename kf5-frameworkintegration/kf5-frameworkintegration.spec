@@ -1,8 +1,8 @@
 %global framework frameworkintegration
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        3%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 workspace and cross-framework integration plugins
 License:        LGPLv2+
 URL:            http://www.kde.org
@@ -25,7 +25,6 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  qt5-qtdeclarative-devel
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
@@ -35,9 +34,8 @@ BuildRequires:  kf5-kiconthemes-devel >= %{version}
 BuildRequires:  kf5-kio-devel >= %{version}
 BuildRequires:  kf5-knotifications-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
-BuildRequires:  oxygen-fonts-devel
 
-BuildRequires:  libXcursor-devel
+BuildRequires:  oxygen-fonts-devel
 
 Requires:       kf5-filesystem
 Requires:       oxygen-fonts
@@ -90,6 +88,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/knotifications5/plasma_workspace.notifyrc
 %{_kf5_plugindir}/FrameworkIntegrationPlugin.so
 %{_kf5_qtplugindir}/platformthemes/KDEPlatformTheme.so
+%{_kf5_datadir}/kconf_update/frameworksintegration-5.16-font.sh
+%{_kf5_datadir}/kconf_update/frameworksintegration-5.16-font.upd
 
 %post libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
@@ -105,6 +105,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 

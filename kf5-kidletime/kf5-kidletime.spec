@@ -1,8 +1,8 @@
 %global framework kidletime
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        3%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 integration module for idle time detection
 
 License:        GPLv2+ and LGPLv2+
@@ -19,6 +19,8 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
+#BuildRequires:  libXScrnSaver-devel
+#BuildRequires:  libXext-devel
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -74,6 +76,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 

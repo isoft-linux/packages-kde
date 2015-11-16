@@ -1,21 +1,21 @@
 %global framework bluez-qt
-%global plasma_version 5.3.0
 
 Name:           kf5-%{framework}
 Summary:        A Qt wrapper for Bluez
-Version:        5.15.0
-Release:        3%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/bluez-qt
 
+%global versiondir %(echo %{version} | cut -d. -f1-2)
 %global revision %(echo %{version} | cut -d. -f3)
 %if %{revision} >= 50
 %global stable unstable
 %else
 %global stable stable
 %endif
-Source0: http://download.kde.org/%{stable}/plasma/%{plasma_version}/%{framework}-%{version}.tar.xz
+Source0: http://download.kde.org/stable/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
@@ -76,6 +76,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 

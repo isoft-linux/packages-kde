@@ -1,8 +1,8 @@
 %global framework kglobalaccel
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        3%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 integration module for global shortcuts
 
 License:        LGPLv2+
@@ -19,28 +19,21 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 
 ## upstream patches
 
-BuildRequires:  libX11-devel
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  qt5-qttools-devel
-BuildRequires:  kf5-kconfig-devel >= %{version}
-BuildRequires:  kf5-kcrash-devel >= %{version}
-BuildRequires:  kf5-kwindowsystem-devel >= %{version}
-BuildRequires:  kf5-kdbusaddons-devel >= %{version}
-BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
 BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kcrash-devel >= %{version}
 BuildRequires:  kf5-kdbusaddons-devel >= %{version}
-BuildRequires:  kf5-ki18n-devel >= %{version}
 BuildRequires:  kf5-kwindowsystem-devel >= %{version}
 
-BuildRequires:  libxcb-devel
-BuildRequires:  xcb-util-keysyms-devel
+BuildRequires:  libX11-devel
+BuildRequires:  pkgconfig(xcb) pkgconfig(xcb-keysyms)
 
 Requires:       kf5-filesystem
 
@@ -108,6 +101,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 

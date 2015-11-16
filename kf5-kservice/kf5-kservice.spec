@@ -1,8 +1,8 @@
 %global framework kservice
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        6%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for advanced plugin and service introspection
 
 License:        GPLv2+ and LGPLv2+
@@ -16,10 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-#https://git.reviewboard.kde.org/r/125803/
-#KBuildSycoca: always save, even if no change in .desktop file was noticed.
-Patch0: kbuildsycoca-always-save.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -52,7 +48,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -95,6 +90,9 @@ mkdir -p %{buildroot}%{_kf5_datadir}/kservicetypes5
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-6
 - Add some patches from reviewboard
 

@@ -1,8 +1,8 @@
 %global framework kdelibs4support
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        5%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 module with porting aid from KDELibs 4
 License:        GPLv2+ and LGPLv2+ and BSD
 URL:            https://projects.kde.org/projects/frameworks/kdelibs4support
@@ -183,6 +183,9 @@ rm -rf %{buildroot}%{_sysconfdir}/xdg/kdebugrc
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-5
 - Rebuild for new 4.0 release
 

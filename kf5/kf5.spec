@@ -1,6 +1,6 @@
 Name:           kf5
-Version:        5.15.0
-Release:        4
+Version:        5.16.0
+Release:        2
 Summary:        Filesystem and RPM macros for KDE Frameworks 5
 License:        BSD
 URL:            http://www.kde.org
@@ -48,6 +48,9 @@ install -Dpm644 %{_sourcedir}/macros.kf5 %{buildroot}%{_rpmconfigdir}/macros.d/m
 %{_rpmconfigdir}/macros.d/macros.kf5
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-4
 - Rebuild for new 4.0 release
 

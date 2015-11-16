@@ -1,7 +1,7 @@
 Name:    kde-baseapps
 Summary: KDE Core Applications 
 Version: 5.11.0
-Release: 4.git
+Release: 5.git
 
 License: GPLv2 and GFDL
 URL:     https://projects.kde.org/projects/kde/kde-baseapps 
@@ -19,6 +19,42 @@ BuildRequires: pkgconfig
 BuildRequires: pkgconfig(glib-2.0)
 BuildRequires: pkgconfig(xrender)
 BuildRequires: pkgconfig(zlib)
+
+BuildRequires: cmake 
+BuildRequires: kf5-rpm-macros
+BuildRequires: extra-cmake-modules
+BuildRequires: gettext
+
+BuildRequires: kf5-kauth-devel
+BuildRequires: kf5-kbookmarks-devel
+BuildRequires: kf5-kcodecs-devel
+BuildRequires: kf5-kcompletion-devel
+BuildRequires: kf5-kconfig-devel
+BuildRequires: kf5-kconfigwidgets-devel
+BuildRequires: kf5-kcoreaddons-devel
+BuildRequires: kf5-kcrash-devel
+BuildRequires: kf5-kdbusaddons-devel
+BuildRequires: kf5-kdelibs4support-devel
+BuildRequires: kf5-kdesu-devel
+BuildRequires: kf5-kguiaddons-devel
+BuildRequires: kf5-ki18n-devel
+BuildRequires: kf5-kiconthemes-devel
+BuildRequires: kf5-kio-devel
+BuildRequires: kf5-kitemviews-devel
+BuildRequires: kf5-kjobwidgets-devel
+BuildRequires: kf5-knotifications-devel
+BuildRequires: kf5-kparts-devel
+BuildRequires: kf5-kpty-devel
+BuildRequires: kf5-kservice-devel
+BuildRequires: kf5-ktextwidgets-devel
+BuildRequires: kf5-kunitconversion-devel
+BuildRequires: kf5-kwidgetsaddons-devel
+BuildRequires: kf5-kwindowsystem-devel
+BuildRequires: kf5-kxmlgui-devel
+BuildRequires: kf5-solid-devel
+BuildRequires: kf5-sonnet-devel
+BuildRequires: libX11-devel
+BuildRequires: qt5-qtbase-devel
 
 %description
 Core applications of KF5, including:
@@ -73,6 +109,8 @@ rm -rf %{buildroot}%{_datadir}/templates/.source/MO-Device.desktop
 rm -rf %{buildroot}%{_datadir}/templates/.source/NFS.desktop
 rm -rf %{buildroot}%{_datadir}/templates/.source/ZIP-Device.desktop
 
+#already in kio
+rm -rf %{buildroot}%{_datadir}/kservicetypes5/konqpopupmenuplugin.desktop
 
 %check
 for f in %{buildroot}%{_kde4_datadir}/applications/*.desktop ; do
@@ -105,7 +143,7 @@ fi
 %{_kf5_bindir}/kdepasswd
 %{_kf5_bindir}/kdialog
 %{_kf5_libdir}/libKF5Konq.so.*
-%{_kf5_qtplugindir}/kf5/kded/kded_favicons.so
+%{_kf5_qtplugindir}/kf5/kded/favicons.so
 %{_kf5_datadir}/applications/org.kde.kdepasswd.desktop
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.FavIcon.xml
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.kdialog.ProgressDialog.xml
@@ -122,6 +160,9 @@ fi
 %{_kf5_libdir}/libKF5Konq.so
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.11.0-5.git
+- Update to latest git, remove confliction file with kio
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.11.0-4.git
 - Rebuild for new 4.0 release
 

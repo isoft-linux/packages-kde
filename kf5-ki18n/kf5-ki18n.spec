@@ -1,8 +1,8 @@
 %global framework ki18n
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        5%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon for localization
 
 License:        LGPLv2+
@@ -23,13 +23,12 @@ Source1: ki18n5.js
 
 Patch0:         ki18n-less-warning-to-stdout.patch
 
-BuildRequires:  perl
-
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
+BuildRequires:  gettext
+BuildRequires:  perl
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtscript-devel
-BuildRequires:  gettext
 
 Requires:       kf5-filesystem
 
@@ -115,6 +114,9 @@ popd
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-5
 - Rebuild for new 4.0 release
 

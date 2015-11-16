@@ -1,8 +1,8 @@
 %global framework kxmlgui
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        3%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for user-configurable main windows
 
 License:        GPLv2+ and LGPLv2+
@@ -24,12 +24,10 @@ BuildRequires:  libX11-devel
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
-BuildRequires:  kf5-kconfig-devel >= %{version}
 
+BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kitemviews-devel >= %{version}
-# session mangement patch needs new api
 BuildRequires:  kf5-kconfig-devel >= %{version}
-Requires:       kf5-kconfig-core >= %{version}
 BuildRequires:  kf5-kglobalaccel-devel >= %{version}
 BuildRequires:  kf5-kconfigwidgets-devel >= %{version}
 BuildRequires:  kf5-ki18n-devel >= %{version}
@@ -82,7 +80,6 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %config %{_kf5_sysconfdir}/xdg/ui/ui_standards.rc
 %{_kf5_libdir}/libKF5XmlGui.so.*
 %{_kf5_libexecdir}/ksendbugmail
-%{_kf5_datadir}/kf5/kxmlgui/
 
 %files devel
 %{_kf5_includedir}/kxmlgui_version.h
@@ -93,6 +90,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-3
 - Rebuild for new 4.0 release
 

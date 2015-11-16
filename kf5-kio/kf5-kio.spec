@@ -1,8 +1,8 @@
 %global framework kio
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        7%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -24,9 +24,6 @@ Patch1: kio-hide-unwanted-systemsettings-entries.patch
 
 #https://git.reviewboard.kde.org/r/125885/
 Patch2: support-socks5-proxy.patch
-
-#https://git.reviewboard.kde.org/r/125904/
-Patch3: save-proxy-with-correct-scheme.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -258,6 +255,7 @@ fi
 %{_kf5_libdir}/libKF5KIONTLM.so.*
 
 %files devel
+%{_kf5_bindir}/protocoltojson
 %{_kf5_includedir}/*
 %{_kf5_libdir}/*.so
 %{_kf5_libdir}/cmake/KF5KIO/
@@ -275,6 +273,9 @@ fi
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-7
 - Add Socks5 support for KTcpSocket
 

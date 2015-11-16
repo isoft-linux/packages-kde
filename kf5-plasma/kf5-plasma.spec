@@ -1,8 +1,8 @@
 %global framework plasma
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        9
+Version:        5.16.0
+Release:        2
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -17,19 +17,12 @@ URL:            http://www.kde.org
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-framework-%{version}.tar.xz
 
-## upstream patches
+#plasma-5.16.0 changed the theme, it change the look and feel of entire desktop
+#we choose to use themes from 5.15.0
+Source1:        desktoptheme-from-plasma-5.15.0.tar.gz
+ 
 #By default, unlock widget and add widget can not appear at the same time in the menu.
 Patch001: plasma-framework-plasma-reset-action.patch
-
-#https://git.reviewboard.kde.org/r/125939
-#Workaround self-destructing menu
-Patch002: selfdestructingmenu.patch
-
-#https://git.reviewboard.kde.org/r/125978/
-#[TabBarLayout] Layout sooner
-Patch003: optimizetablayout.patch
-#https://git.reviewboard.kde.org/r/125889/
-Patch004: plasmaframework-scrollview-wheelscrolllines.diff
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -95,6 +88,10 @@ developing applications that use %{name}.
 %prep
 %autosetup -n %{framework}-framework-%{version}  -p1
 
+#we remove all theme provided by plasma-5.16.0, 
+#and use theme from 5.15.0
+rm -rf src/desktoptheme
+tar zxf %{SOURCE1} -C src
 
 %build
 mkdir %{_target_platform}
@@ -144,6 +141,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-9
 - Import some patches from kde reviewboard
 

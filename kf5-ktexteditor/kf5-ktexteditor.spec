@@ -1,8 +1,8 @@
 %global framework ktexteditor
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        4%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 with advanced embeddable text editor
 
 License:        LGPLv2+
@@ -80,13 +80,11 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %files -f ktexteditor5_qt.lang
 %doc README.md
 %license COPYING.LIB
-%config %{_sysconfdir}/xdg/kate*
 %{_kf5_libdir}/libKF5TextEditor.so.*
 %{_kf5_plugindir}/parts/katepart.so
 %{_kf5_datadir}/kservices5/katepart.desktop
 %{_kf5_datadir}/kservicetypes5/*.desktop
 %{_kf5_datadir}/katepart5/
-%{_kf5_datadir}/kxmlgui5/katepart/
 
 %files devel
 %{_kf5_libdir}/libKF5TextEditor.so
@@ -97,6 +95,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-4
 - Rebuild for new 4.0 release
 

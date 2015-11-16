@@ -1,8 +1,8 @@
 %global framework threadweaver
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        2 
+Version:        5.16.0
+Release:        2
 Summary:        KDE Frameworks 5 Tier 1 addon for advanced thread management
 
 License:        LGPLv2+
@@ -17,6 +17,7 @@ URL:            http://www.kde.org
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
@@ -67,6 +68,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-2
 - Rebuild for new 4.0 release
 

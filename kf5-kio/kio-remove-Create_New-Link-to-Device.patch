@@ -1,6 +1,6 @@
-diff -Nur kio-5.15.0/src/filewidgets/knewfilemenu.cpp kio-5.15.0n/src/filewidgets/knewfilemenu.cpp
---- kio-5.15.0/src/filewidgets/knewfilemenu.cpp	2015-10-05 16:11:41.000000000 +0800
-+++ kio-5.15.0n/src/filewidgets/knewfilemenu.cpp	2015-10-14 18:57:46.224633173 +0800
+diff -Nur kio-5.16.0/src/filewidgets/knewfilemenu.cpp kio-5.16.0n/src/filewidgets/knewfilemenu.cpp
+--- kio-5.16.0/src/filewidgets/knewfilemenu.cpp	2015-11-08 20:26:59.000000000 +0800
++++ kio-5.16.0n/src/filewidgets/knewfilemenu.cpp	2015-11-14 22:16:28.484198425 +0800
 @@ -344,7 +344,6 @@
      KActionCollection *m_actionCollection;
      QDialog *m_fileDialog;
@@ -9,7 +9,7 @@ diff -Nur kio-5.15.0/src/filewidgets/knewfilemenu.cpp kio-5.15.0n/src/filewidget
      int m_menuItemsVersion;
      bool m_modal;
      QAction *m_newDirAction;
-@@ -601,7 +600,6 @@
+@@ -609,7 +608,6 @@
  {
      QMenu *menu = q->menu();
      menu->clear();
@@ -17,16 +17,16 @@ diff -Nur kio-5.15.0/src/filewidgets/knewfilemenu.cpp kio-5.15.0n/src/filewidget
      m_newDirAction = 0;
  
      QSet<QString> seenTexts;
-@@ -695,7 +693,7 @@
+@@ -703,7 +701,7 @@
                      } else if (KDesktopFile::isDesktopFile(templatePath)) {
                          KDesktopFile df(templatePath);
-                         if (df.readType() == "FSDevice") {
+                         if (df.readType() == QLatin1String("FSDevice")) {
 -                            m_menuDev->menu()->addAction(act);
 +                            //m_menuDev->menu()->addAction(act);
                          } else {
                              menu->addAction(act);
                          }
-@@ -726,8 +724,6 @@
+@@ -734,8 +732,6 @@
          if (linkApp) {
              menu->addAction(linkApp);
          }
@@ -35,11 +35,12 @@ diff -Nur kio-5.15.0/src/filewidgets/knewfilemenu.cpp kio-5.15.0n/src/filewidget
      }
  }
  
-@@ -1033,7 +1029,6 @@
+@@ -1042,8 +1038,6 @@
+     if (d->m_actionCollection) {
          d->m_actionCollection->addAction(name, this);
      }
- 
--    d->m_menuDev = new KActionMenu(QIcon::fromTheme("drive-removable-media"), i18n("Link to Device"), this);
+-
+-    d->m_menuDev = new KActionMenu(QIcon::fromTheme(QStringLiteral("drive-removable-media")), i18n("Link to Device"), this);
  }
  
  KNewFileMenu::~KNewFileMenu()

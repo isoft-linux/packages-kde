@@ -4,7 +4,7 @@
 
 Name:           plasma-breeze
 Version:        5.4.3
-Release:        2
+Release:        3
 Summary:        Artwork, styles and assets for the Breeze visual style for the Plasma Desktop
 
 License:        GPLv2+
@@ -27,9 +27,13 @@ BuildRequires:  qt5-qtx11extras-devel
 
 BuildRequires:	kf5-kservice-devel
 BuildRequires:  kf5-kcmutils-devel
+
+# kde4breeze
 BuildRequires:  kf5-kcoreaddons-devel
 BuildRequires:  kf5-kconfig-devel
 BuildRequires:  kf5-kguiaddons-devel
+
+# kstyle
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kcompletion-devel
 BuildRequires:  kf5-frameworkintegration-devel
@@ -42,9 +46,7 @@ BuildRequires:  gettext
 
 #for kde4 macros
 %if 0%{?build_kde4:1}
-BuildRequires:  kde-filesystem
-BuildRequires:  qt4-devel
-BuildRequires:  kdelibs-devel
+BuildRequires: kde-filesystem
 %endif
 
 Requires:       kf5-filesystem
@@ -60,10 +62,10 @@ BuildArch:      noarch
 %description    common
 %{summary}.
 
-%package -n     breeze-icon-theme
-Summary:        Breeze icon theme
+%package -n     breeze-cursor-theme
+Summary:        Breeze cursor theme
 BuildArch:      noarch
-%description -n breeze-icon-theme
+%description -n breeze-cursor-theme
 %{summary}.
 
 %if 0%{?build_kde4:1}
@@ -110,6 +112,10 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}_kde4
 %endif
 
+#already provided by breeze-icons in framework.
+rm -rf %{buildroot}%{_datadir}/icons/breeze
+rm -rf %{buildroot}%{_datadir}/icons/breeze-dark
+
 %post
 touch --no-create %{_datadir}/icons/hicolor &> /dev/null || :
 
@@ -143,22 +149,10 @@ fi
 %{_datadir}/QtCurve/Breeze.qtcurve
 %{_datadir}/wallpapers/Next
 
-%post -n breeze-icon-theme
-touch --no-create %{_datadir}/icons/{breeze_cursors,breeze,breeze-dark,Breeze_Snow} &> /dev/null || :
-
-%posttrans -n breeze-icon-theme
-gtk-update-icon-cache %{_datadir}/icons/{breeze_cursors,breeze,breeze-dark,Breeze_Snow} &> /dev/null || :
-
-%postun -n breeze-icon-theme
-if [ $1 -eq 0 ] ; then
-touch --no-create %{_datadir}/icons/{breeze_cursors,breeze,breeze-dark,Breeze_Snow} &> /dev/null || :
-gtk-update-icon-cache %{_datadir}/icons/{breeze_cursors,breeze,breeze-dark,Breeze_Snow} &> /dev/null || :
-fi
-
-%files -n breeze-icon-theme
+%files -n breeze-cursor-theme
 %{_datadir}/icons/breeze_cursors
-%{_datadir}/icons/breeze
-%{_datadir}/icons/breeze-dark
+#%{_datadir}/icons/breeze
+#%{_datadir}/icons/breeze-dark
 %{_datadir}/icons/Breeze_Snow
 
 %if 0%{?build_kde4:1}
@@ -170,6 +164,9 @@ fi
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
+- Update
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 

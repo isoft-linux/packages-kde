@@ -5,7 +5,7 @@
 
 Name:           kf5-%{framework}
 Summary:        A Tier 2 KDE Framework for extracting file metadata
-Version:        5.15.0
+Version:        5.16.0
 Release:        2
 
 # # KDE e.V. may determine that future LGPL versions are accepted
@@ -35,6 +35,10 @@ BuildRequires:  ffmpeg-devel
 %endif
 
 BuildRequires:  libattr-devel
+#runtime require.
+BuildRequires:  catdoc
+
+Requires: catdoc
 
 %description
 %{summary}.
@@ -81,6 +85,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/KFileMetaData
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-2
 - Rebuild for new 4.0 release
 

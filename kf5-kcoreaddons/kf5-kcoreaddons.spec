@@ -1,8 +1,8 @@
 %global framework kcoreaddons
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        4%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with various classes on top of QtCore
 
 License:        GPLv2+ and GPLv2+
@@ -16,14 +16,13 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-#https://git.reviewboard.kde.org/r/125924
-Patch0: kf5-kjob-eventloopquit.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qttools-devel
+BuildRequires:  shared-mime-info
 
 Requires:       kf5-filesystem
 
@@ -45,7 +44,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -89,6 +87,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-4
 - Add some patches from reviewboard
 

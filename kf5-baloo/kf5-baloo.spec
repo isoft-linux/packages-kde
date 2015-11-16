@@ -2,7 +2,7 @@
 %define         plasma_version 5.3.0
 
 Name:           kf5-%{framework}
-Version:        5.15.0
+Version:        5.16.0
 Release:        2
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
@@ -19,22 +19,26 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{plasma_version}/%{fra
 
 Source1: 97-kde-baloo-filewatch-inotify.conf
 
-BuildRequires:  qt5-qtbase-devel
-BuildRequires:  qt5-qtdeclarative-devel
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
+BuildRequires:  gettext
 
-BuildRequires:  kf5-ki18n-devel >= %{version}
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtdeclarative-devel
+
+BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kconfig-devel >= %{version}
+BuildRequires:  kf5-kdbusaddons-devel >= %{version}
+BuildRequires:  kf5-ki18n-devel >= %{version}
 BuildRequires:  kf5-kidletime-devel >= %{version}
-BuildRequires:  kf5-kcmutils-devel >= %{version}
-BuildRequires:  kf5-kauth-devel >= %{version}
-BuildRequires:  kf5-kcrash-devel >= %{version}
 BuildRequires:  kf5-solid-devel >= %{version}
-BuildRequires:  kf5-kio-devel >= %{version}
 BuildRequires:  kf5-kfilemetadata-devel >= %{version} 
+BuildRequires:  kf5-kcrash-devel >= %{version}
+BuildRequires:  kf5-kio-devel >= %{version}
 
 BuildRequires:  lmdb-devel 
+
 Requires:       kf5-filesystem
 
 Obsoletes:      kf5-baloo-tools < 5.5.95-1
@@ -165,6 +169,9 @@ fi
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-2
 - Rebuild for new 4.0 release
 

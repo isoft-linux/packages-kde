@@ -1,26 +1,34 @@
+%define framework oxygen-icons5
+
 Name:    oxygen-icon-theme
-Summary: Oxygen icon theme
-Version: 15.04.3
+Summary: Oxygen icon theme for KF5
+Version: 5.16.0
+EPoch: 2 
 Release: 3
 License: LGPLv3+ 
 
 URL:     http://www.kde.org/
+%global versiondir %(echo %{version} | cut -d. -f1-2)
 %global revision %(echo %{version} | cut -d. -f3)
 %if %{revision} >= 50
 %global stable unstable
 %else
 %global stable stable
 %endif
+Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/portingAids/%{framework}-%{version}.tar.xz
 
-Source0: http://download.kde.org/%{stable}/applications/%{version}/src/oxygen-icons-%{version}.tar.xz
 BuildArch: noarch
 
 BuildRequires: cmake
+BuildRequires: kf5-rpm-macros
+BuildRequires: extra-cmake-modules >= %{version}
+
 BuildRequires: hardlink
 BuildRequires: kde-filesystem
 
 # upstream name
 Provides: oxygen-icons = %{version}-%{release}
+Provides: oxygen-icons5 = %{version}-%{release}
 Provides: system-kde-icon-theme = %{version}-%{release}
 
 %description
@@ -28,13 +36,13 @@ Provides: system-kde-icon-theme = %{version}-%{release}
 
 
 %prep
-%setup -q -n oxygen-icons-%{version}
+%setup -q -n %{framework}-%{version}
 
 
 %build
 mkdir %{_target_platform}
 pushd %{_target_platform}
-%{cmake_kde4} ..
+%{cmake_kf5} ..
 popd
 
 make %{?_smp_mflags} -C %{_target_platform} 
@@ -51,34 +59,34 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 #Comparisons 902
 #Linked 902
 #saved 8339456
-/usr/sbin/hardlink -c -v %{buildroot}%{_kde4_iconsdir}/oxygen
+/usr/sbin/hardlink -c -v %{buildroot}%{_datadir}/icons/oxygen
 
 # create/own all potential dirs
-mkdir -p %{buildroot}%{_kde4_iconsdir}/oxygen/{16x16,22x22,24x24,32x32,36x36,48x48,64x64,96x96,128x128,512x512,scalable}/{actions,apps,devices,mimetypes,places}
+mkdir -p %{buildroot}%{_datadir}/icons/oxygen/{16x16,22x22,24x24,32x32,36x36,48x48,64x64,96x96,128x128,512x512,scalable}/{actions,apps,devices,mimetypes,places}
 
 # %%ghost icon.cache
-touch  %{buildroot}%{_kde4_iconsdir}/oxygen/icon-theme.cache
+touch  %{buildroot}%{_datadir}/icons/oxygen/icon-theme.cache
 
 
 %post 
-touch --no-create %{_kde4_iconsdir}/oxygen &> /dev/null || :
+touch --no-create %{_datadir}/icons/oxygen &> /dev/null || :
 
 %posttrans 
-gtk-update-icon-cache %{_kde4_iconsdir}/oxygen &> /dev/null || :
+gtk-update-icon-cache %{_datadir}/icons/oxygen &> /dev/null || :
 
 %postun 
 if [ $1 -eq 0 ] ; then
-touch --no-create %{_kde4_iconsdir}/oxygen &> /dev/null || :
-gtk-update-icon-cache %{_kde4_iconsdir}/oxygen &> /dev/null || :
+touch --no-create %{_datadir}/icons/oxygen &> /dev/null || :
+gtk-update-icon-cache %{_datadir}/icons/oxygen &> /dev/null || :
 fi
 
 %files 
 %doc AUTHORS CONTRIBUTING COPYING
-%dir %{_kde4_iconsdir}/oxygen/
-%ghost %{_kde4_iconsdir}/oxygen/icon-theme.cache
-%{_kde4_iconsdir}/oxygen/index.theme
-%{_kde4_iconsdir}/oxygen/*x*/
-%{_kde4_iconsdir}/oxygen/scalable/
+%dir %{_datadir}/icons/oxygen/
+%ghost %{_datadir}/icons/oxygen/icon-theme.cache
+%{_datadir}/icons/oxygen/index.theme
+%{_datadir}/icons/oxygen/*x*/
+%{_datadir}/icons/oxygen/scalable/
 
 
 %changelog

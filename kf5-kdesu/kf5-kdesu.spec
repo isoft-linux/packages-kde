@@ -1,8 +1,8 @@
 %global framework kdesu
 
 Name:           kf5-%{framework}
-Version:        5.15.0
-Release:        4%{?dist}
+Version:        5.16.0
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 integration with su
 
 License:        LGPLv2+
@@ -20,13 +20,14 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 #also add '-E' arg to sudo, fix gtk/qt/kde theme issue.
 Patch0: kdesu-if-user-in-wheel-default-to-sudo.patch
 
-BuildRequires:  libX11-devel
-
+BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
-BuildRequires:  kf5-ki18n-devel
 
+BuildRequires:  libX11-devel
+
+BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kservice-devel >= %{version}
 BuildRequires:  kf5-kpty-devel >= %{version}
@@ -82,6 +83,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
+- Update
+
 * Tue Nov 10 2015 Cjacker <cjacker@foxmail.com> - 5.15.0-4
 - If user in wheel group, use sudo as default
 
