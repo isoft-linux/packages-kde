@@ -1,0 +1,1019 @@
+From a5d4cafb344dc4386b38cdbd81a0ed3d8c5690ac Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20L=C3=BCbking?= <thomas.luebking@gmail.com>
+Date: Fri, 13 Nov 2015 00:37:01 +0100
+Subject: [PATCH] Add rule to protect the focus on a window
+
+This allows to pin the focus on certain window as well
+as to more easily give it away on others (typically launchers)
+
+BUG: 185060
+BUG: 337798
+---
+ activation.cpp                       |  15 +-
+ kcmkwin/kwinrules/ruleswidget.cpp    |   5 +
+ kcmkwin/kwinrules/ruleswidget.h      |   1 +
+ kcmkwin/kwinrules/ruleswidgetbase.ui | 518 ++++++++++++++++++++---------------
+ rules.cpp                            |   7 +
+ rules.h                              |   4 +
+ 6 files changed, 322 insertions(+), 228 deletions(-)
+
+diff --git a/activation.cpp b/activation.cpp
+index 45b9176..478a97c 100644
+--- a/activation.cpp
++++ b/activation.cpp
+@@ -572,26 +572,29 @@ bool Workspace::allowClientActivation(const KWin::AbstractClient *c, xcb_timesta
+         if (!c->rules()->checkAcceptFocus(false))
+             return false;
+     }
+-    if (level == 0)   // none
++    int protection = ac ? ac->rules()->checkFPP(2) : 0;
++    if (level == 0 && protection < 4)   // none
+         return true;
+-    if (level == 4)   // extreme
++    if (level == 4 && protection > 0)   // extreme
++        return false;
++    if (protection == 4)
+         return false;
+     if (!ignore_desktop && !c->isOnCurrentDesktop())
+         return false; // allow only with level == 0
+-    if (ac == NULL || ac->isDesktop()) {
++    if (ac == NULL || ac->isDesktop() || protection == 0) {
+         qCDebug(KWIN_CORE) << "Activation: No client active, allowing";
+         return true; // no active client -> always allow
+     }
+     // TODO window urgency  -> return true?
+-    if (AbstractClient::belongToSameApplication(c, ac, true)) {
++    if (AbstractClient::belongToSameApplication(c, ac, true) && protection < 3) {
+         qCDebug(KWIN_CORE) << "Activation: Belongs to active application";
+         return true;
+     }
+-    if (level == 3)   // high
++    if (level > 2 && protection > 1)   // high
+         return false;
+     if (time == -1U) {  // no time known
+         qCDebug(KWIN_CORE) << "Activation: No timestamp at all";
+-        if (level == 1)   // low
++        if (level < 2 && protection < 3)   // low
+             return true;
+         // no timestamp at all, don't activate - because there's also creation timestamp
+         // done on CreateNotify, this case should happen only in case application
+diff --git a/kcmkwin/kwinrules/ruleswidget.h b/kcmkwin/kwinrules/ruleswidget.h
+index 6961b6a..a95428e 100644
+--- a/kcmkwin/kwinrules/ruleswidget.h
++++ b/kcmkwin/kwinrules/ruleswidget.h
+@@ -92,6 +92,7 @@ private Q_SLOTS:
+     void updateEnableopacityinactive();
+     // workarounds tab
+     void updateEnablefsplevel();
++    void updateEnablefpplevel();
+     void updateEnabletype();
+     void updateEnableignoregeometry();
+     void updateEnableminsize();
+diff --git a/kcmkwin/kwinrules/ruleswidget.cpp b/kcmkwin/kwinrules/ruleswidget.cpp
+index 30db8bc..56ab4ae 100644
+--- a/kcmkwin/kwinrules/ruleswidget.cpp
++++ b/kcmkwin/kwinrules/ruleswidget.cpp
+@@ -121,6 +121,7 @@ RulesWidget::RulesWidget(QWidget* parent)
+     SETUP(shortcut, force);
+     // workarounds tab
+     SETUP(fsplevel, force);
++    SETUP(fpplevel, force);
+     SETUP(type, force);
+     SETUP(ignoregeometry, set);
+     SETUP(minsize, force);
+@@ -206,6 +207,7 @@ void RulesWidget::updateEnableshortcut()
+ }
+ // workarounds tab
+ UPDATE_ENABLE_SLOT(fsplevel)
++UPDATE_ENABLE_SLOT(fpplevel)
+ UPDATE_ENABLE_SLOT(type)
+ UPDATE_ENABLE_SLOT(ignoregeometry)
+ UPDATE_ENABLE_SLOT(minsize)
+@@ -508,6 +510,7 @@ void RulesWidget::setRules(Rules* rules)
+     SPINBOX_FORCE_RULE(opacityinactive,);
+     LINEEDIT_SET_RULE(shortcut,);
+     COMBOBOX_FORCE_RULE(fsplevel,);
++    COMBOBOX_FORCE_RULE(fpplevel,);
+     COMBOBOX_FORCE_RULE(type, typeToCombo);
+     CHECKBOX_SET_RULE(ignoregeometry,);
+     LINEEDIT_FORCE_RULE(minsize, sizeToStr);
+@@ -611,6 +614,7 @@ Rules* RulesWidget::rules() const
+     SPINBOX_FORCE_RULE(opacityinactive,);
+     LINEEDIT_SET_RULE(shortcut,);
+     COMBOBOX_FORCE_RULE(fsplevel,);
++    COMBOBOX_FORCE_RULE(fpplevel,);
+     COMBOBOX_FORCE_RULE(type, comboToType);
+     CHECKBOX_SET_RULE(ignoregeometry,);
+     LINEEDIT_FORCE_RULE(minsize, strToSize);
+@@ -731,6 +735,7 @@ void RulesWidget::prefillUnusedValues(const KWindowInfo& info)
+     SPINBOX_PREFILL(opacityinactive, , 100 /*get the actual opacity somehow*/);
+     //LINEEDIT_PREFILL( shortcut, );
+     //COMBOBOX_PREFILL( fsplevel, );
++    //COMBOBOX_PREFILL( fpplevel, );
+     COMBOBOX_PREFILL(type, typeToCombo, info.windowType(SUPPORTED_MANAGED_WINDOW_TYPES_MASK));
+     //CHECKBOX_PREFILL( ignoregeometry, );
+     LINEEDIT_PREFILL(minsize, sizeToStr, info.frameGeometry().size());
+diff --git a/kcmkwin/kwinrules/ruleswidgetbase.ui b/kcmkwin/kwinrules/ruleswidgetbase.ui
+index 7c208e8..80d1672 100644
+--- a/kcmkwin/kwinrules/ruleswidgetbase.ui
++++ b/kcmkwin/kwinrules/ruleswidgetbase.ui
+@@ -1902,15 +1902,15 @@ like your complete screen area.</string>
+        <string>Appearance &amp;&amp; &amp;Fixes</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+-       <item row="11" column="5" rowspan="2" colspan="2">
+-        <widget class="YesNoBox" name="acceptfocus" native="true">
+-         <property name="enabled">
+-          <bool>false</bool>
++       <item row="0" column="1">
++        <widget class="QCheckBox" name="enable_noborder">
++         <property name="text">
++          <string>&amp;No titlebar and frame</string>
+          </property>
+         </widget>
+        </item>
+-       <item row="3" column="2" rowspan="2" colspan="3">
+-        <widget class="QComboBox" name="rule_opacityactive">
++       <item row="0" column="2" colspan="3">
++        <widget class="QComboBox" name="rule_noborder">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+@@ -1921,32 +1921,47 @@ like your complete screen area.</string>
+          </item>
+          <item>
+           <property name="text">
++           <string>Apply Initially</string>
++          </property>
++         </item>
++         <item>
++          <property name="text">
++           <string>Remember</string>
++          </property>
++         </item>
++         <item>
++          <property name="text">
+            <string>Force</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
++           <string>Apply Now</string>
++          </property>
++         </item>
++         <item>
++          <property name="text">
+            <string>Force Temporarily</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+-       <item row="23" column="1" rowspan="2">
+-        <widget class="QCheckBox" name="enable_blockcompositing">
+-         <property name="text">
+-          <string>Block compositing</string>
++       <item row="0" column="5">
++        <widget class="YesNoBox" name="noborder" native="true">
++         <property name="enabled">
++          <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+-       <item row="0" column="1">
+-        <widget class="QCheckBox" name="enable_noborder">
++       <item row="1" column="1">
++        <widget class="QCheckBox" name="enable_decocolor">
+          <property name="text">
+-          <string>&amp;No titlebar and frame</string>
++          <string>Titlebar color &amp;scheme</string>
+          </property>
+         </widget>
+        </item>
+-       <item row="0" column="2" colspan="3">
+-        <widget class="QComboBox" name="rule_noborder">
++       <item row="1" column="2" colspan="3">
++        <widget class="QComboBox" name="rule_decocolor">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+@@ -1957,22 +1972,43 @@ like your complete screen area.</string>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Apply Initially</string>
++           <string>Force</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Remember</string>
++           <string>Force Temporarily</string>
+           </property>
+          </item>
++        </widget>
++       </item>
++       <item row="1" column="5">
++        <widget class="QComboBox" name="decocolor">
++         <property name="enabled">
++          <bool>false</bool>
++         </property>
++        </widget>
++       </item>
++       <item row="2" column="1" rowspan="2" colspan="5">
++        <widget class="Line" name="line_9">
++         <property name="orientation">
++          <enum>Qt::Horizontal</enum>
++         </property>
++        </widget>
++       </item>
++       <item row="3" column="2" rowspan="2" colspan="3">
++        <widget class="QComboBox" name="rule_opacityactive">
++         <property name="enabled">
++          <bool>false</bool>
++         </property>
+          <item>
+           <property name="text">
+-           <string>Force</string>
++           <string>Do Not Affect</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Apply Now</string>
++           <string>Force</string>
+           </property>
+          </item>
+          <item>
+@@ -1982,13 +2018,6 @@ like your complete screen area.</string>
+          </item>
+         </widget>
+        </item>
+-       <item row="2" column="1" rowspan="2" colspan="6">
+-        <widget class="Line" name="line_9">
+-         <property name="orientation">
+-          <enum>Qt::Horizontal</enum>
+-         </property>
+-        </widget>
+-       </item>
+        <item row="4" column="1">
+         <widget class="QCheckBox" name="enable_opacityactive">
+          <property name="text">
+@@ -1996,20 +2025,7 @@ like your complete screen area.</string>
+          </property>
+         </widget>
+        </item>
+-       <item row="10" column="0" rowspan="3">
+-        <spacer name="horizontalSpacer_10">
+-         <property name="orientation">
+-          <enum>Qt::Horizontal</enum>
+-         </property>
+-         <property name="sizeHint" stdset="0">
+-          <size>
+-           <width>40</width>
+-           <height>20</height>
+-          </size>
+-         </property>
+-        </spacer>
+-       </item>
+-       <item row="4" column="5" colspan="2">
++       <item row="4" column="5">
+         <widget class="QSpinBox" name="opacityactive">
+          <property name="enabled">
+           <bool>false</bool>
+@@ -2054,7 +2070,7 @@ like your complete screen area.</string>
+          </item>
+         </widget>
+        </item>
+-       <item row="5" column="5" colspan="2">
++       <item row="5" column="5">
+         <widget class="QSpinBox" name="opacityinactive">
+          <property name="enabled">
+           <bool>false</bool>
+@@ -2070,7 +2086,30 @@ like your complete screen area.</string>
+          </property>
+         </widget>
+        </item>
+-       <item row="9" column="3">
++       <item row="6" column="0" rowspan="2" colspan="3">
++        <widget class="Line" name="line_15">
++         <property name="orientation">
++          <enum>Qt::Horizontal</enum>
++         </property>
++        </widget>
++       </item>
++       <item row="6" column="3">
++        <spacer name="verticalSpacer_4">
++         <property name="orientation">
++          <enum>Qt::Vertical</enum>
++         </property>
++         <property name="sizeType">
++          <enum>QSizePolicy::Fixed</enum>
++         </property>
++         <property name="sizeHint" stdset="0">
++          <size>
++           <width>20</width>
++           <height>8</height>
++          </size>
++         </property>
++        </spacer>
++       </item>
++       <item row="7" column="3">
+         <spacer name="verticalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+@@ -2086,20 +2125,35 @@ like your complete screen area.</string>
+          </property>
+         </spacer>
+        </item>
+-       <item row="11" column="1" rowspan="2">
+-        <widget class="QCheckBox" name="enable_acceptfocus">
++       <item row="8" column="0">
++        <spacer name="horizontalSpacer_10">
++         <property name="orientation">
++          <enum>Qt::Horizontal</enum>
++         </property>
++         <property name="sizeHint" stdset="0">
++          <size>
++           <width>40</width>
++           <height>20</height>
++          </size>
++         </property>
++        </spacer>
++       </item>
++       <item row="8" column="1">
++        <widget class="QCheckBox" name="enable_fsplevel">
+          <property name="toolTip">
+-          <string>Windows may prevent to get the focus (activate) when being clicked.
+-On the other hand you might wish to prevent a window
+-from getting focused on a mouse click.</string>
++          <string>KWin tries to prevent windows from taking the focus
++(&quot;activate&quot;) while you're working in another window,
++but this may sometimes fail or superact.
++&quot;None&quot; will unconditionally allow this window to get the focus while
++&quot;Extreme&quot; will completely prevent it from taking the focus.</string>
+          </property>
+          <property name="text">
+-          <string>Accept &amp;focus</string>
++          <string>&amp;Focus stealing prevention</string>
+          </property>
+         </widget>
+        </item>
+-       <item row="11" column="2" rowspan="2" colspan="3">
+-        <widget class="QComboBox" name="rule_acceptfocus">
++       <item row="8" column="2" colspan="3">
++        <widget class="QComboBox" name="rule_fsplevel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+@@ -2120,85 +2174,67 @@ from getting focused on a mouse click.</string>
+          </item>
+         </widget>
+        </item>
+-       <item row="14" column="1" rowspan="3" colspan="6">
+-        <widget class="Line" name="line_6">
+-         <property name="orientation">
+-          <enum>Qt::Horizontal</enum>
+-         </property>
+-        </widget>
+-       </item>
+-       <item row="13" column="1">
+-        <widget class="QCheckBox" name="enable_disableglobalshortcuts">
+-         <property name="toolTip">
+-          <string>When used, a window will receive
+-all keyboard inputs while it is active, including Alt+Tab etc.
+-This is especially interesting for emulators or virtual machines.
+-
+-Be warned:
+-you won't be able to Alt+Tab out of the window
+-nor use any other global shortcut (such as Alt+F2 to show KRunner)
+-while it's active!</string>
+-         </property>
+-         <property name="text">
+-          <string>Ignore global shortcuts</string>
+-         </property>
+-         <property name="shortcut">
+-          <string/>
+-         </property>
+-        </widget>
+-       </item>
+-       <item row="13" column="2" colspan="3">
+-        <widget class="QComboBox" name="rule_disableglobalshortcuts">
++       <item row="8" column="5">
++        <widget class="KComboBox" name="fsplevel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <item>
+           <property name="text">
+-           <string>Do Not Affect</string>
++           <string comment="no focus stealing prevention">None</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Force</string>
++           <string>Low</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Force Temporarily</string>
++           <string>Normal</string>
++          </property>
++         </item>
++         <item>
++          <property name="text">
++           <string>High</string>
++          </property>
++         </item>
++         <item>
++          <property name="text">
++           <string>Extreme</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+-       <item row="17" column="1" rowspan="2">
+-        <widget class="QCheckBox" name="enable_closeable">
+-         <property name="text">
+-          <string>&amp;Closeable</string>
++       <item row="8" column="6">
++        <spacer name="horizontalSpacer_4">
++         <property name="orientation">
++          <enum>Qt::Horizontal</enum>
+          </property>
+-        </widget>
+-       </item>
+-       <item row="19" column="1">
+-        <widget class="QCheckBox" name="enable_type">
+-         <property name="text">
+-          <string>Window &amp;type</string>
++         <property name="sizeHint" stdset="0">
++          <size>
++           <width>40</width>
++           <height>20</height>
++          </size>
+          </property>
+-        </widget>
++        </spacer>
+        </item>
+-       <item row="17" column="5" rowspan="2" colspan="2">
+-        <widget class="YesNoBox" name="closeable" native="true">
+-         <property name="enabled">
+-          <bool>false</bool>
++       <item row="9" column="1">
++        <widget class="QCheckBox" name="enable_fpplevel">
++         <property name="toolTip">
++          <string>This controls the focus protection of the currenly active window.
++None will always give the focus away,
++Extreme will keep it.
++Otherwise it's interleaved with the stealing prevention
++assigned to the window that wants the focus.</string>
+          </property>
+-        </widget>
+-       </item>
+-       <item row="20" column="1" rowspan="3" colspan="6">
+-        <widget class="Line" name="line_7">
+-         <property name="orientation">
+-          <enum>Qt::Horizontal</enum>
++         <property name="text">
++          <string>Focus protection</string>
+          </property>
+         </widget>
+        </item>
+-       <item row="19" column="2" colspan="3">
+-        <widget class="QComboBox" name="rule_type">
++       <item row="9" column="2" colspan="3">
++        <widget class="QComboBox" name="rule_fpplevel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+@@ -2219,129 +2255,143 @@ while it's active!</string>
+          </item>
+         </widget>
+        </item>
+-       <item row="19" column="5" colspan="2">
+-        <widget class="QComboBox" name="type">
++       <item row="9" column="5">
++        <widget class="KComboBox" name="fpplevel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <item>
+           <property name="text">
+-           <string>Normal Window</string>
+-          </property>
+-         </item>
+-         <item>
+-          <property name="text">
+-           <string>Dialog Window</string>
++           <string comment="no focus stealing prevention">None</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Utility Window</string>
++           <string>Low</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Dock (panel)</string>
++           <string>Normal</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Toolbar</string>
++           <string>High</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Torn-Off Menu</string>
++           <string>Extreme</string>
+           </property>
+          </item>
++        </widget>
++       </item>
++       <item row="10" column="1">
++        <widget class="QCheckBox" name="enable_acceptfocus">
++         <property name="toolTip">
++          <string>Windows may prevent to get the focus (activate) when being clicked.
++On the other hand you might wish to prevent a window
++from getting focused on a mouse click.</string>
++         </property>
++         <property name="text">
++          <string>Accept &amp;focus</string>
++         </property>
++        </widget>
++       </item>
++       <item row="10" column="2" colspan="3">
++        <widget class="QComboBox" name="rule_acceptfocus">
++         <property name="enabled">
++          <bool>false</bool>
++         </property>
+          <item>
+           <property name="text">
+-           <string>Splash Screen</string>
++           <string>Do Not Affect</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Desktop</string>
++           <string>Force</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Standalone Menubar</string>
++           <string>Force Temporarily</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+-       <item row="7" column="3">
+-        <spacer name="verticalSpacer_4">
+-         <property name="orientation">
+-          <enum>Qt::Vertical</enum>
++       <item row="10" column="5">
++        <widget class="YesNoBox" name="acceptfocus" native="true">
++         <property name="enabled">
++          <bool>false</bool>
+          </property>
+-         <property name="sizeType">
+-          <enum>QSizePolicy::Fixed</enum>
++        </widget>
++       </item>
++       <item row="11" column="1">
++        <widget class="QCheckBox" name="enable_disableglobalshortcuts">
++         <property name="toolTip">
++          <string>When used, a window will receive
++all keyboard inputs while it is active, including Alt+Tab etc.
++This is especially interesting for emulators or virtual machines.
++
++Be warned:
++you won't be able to Alt+Tab out of the window
++nor use any other global shortcut (such as Alt+F2 to show KRunner)
++while it's active!</string>
+          </property>
+-         <property name="sizeHint" stdset="0">
+-          <size>
+-           <width>20</width>
+-           <height>8</height>
+-          </size>
++         <property name="text">
++          <string>Ignore global shortcuts</string>
+          </property>
+-        </spacer>
+-       </item>
+-       <item row="8" column="0" colspan="8">
+-        <widget class="Line" name="line_15">
+-         <property name="orientation">
+-          <enum>Qt::Horizontal</enum>
++         <property name="shortcut">
++          <string/>
+          </property>
+         </widget>
+        </item>
+-       <item row="23" column="5" rowspan="2" colspan="2">
+-        <widget class="YesNoBox" name="blockcompositing" native="true">
++       <item row="11" column="2" colspan="3">
++        <widget class="QComboBox" name="rule_disableglobalshortcuts">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
++         <item>
++          <property name="text">
++           <string>Do Not Affect</string>
++          </property>
++         </item>
++         <item>
++          <property name="text">
++           <string>Force</string>
++          </property>
++         </item>
++         <item>
++          <property name="text">
++           <string>Force Temporarily</string>
++          </property>
++         </item>
+         </widget>
+        </item>
+-       <item row="25" column="2" colspan="2">
+-        <spacer name="verticalSpacer_5">
+-         <property name="orientation">
+-          <enum>Qt::Vertical</enum>
+-         </property>
+-         <property name="sizeHint" stdset="0">
+-          <size>
+-           <width>20</width>
+-           <height>40</height>
+-          </size>
+-         </property>
+-        </spacer>
+-       </item>
+-       <item row="13" column="5" colspan="2">
++       <item row="11" column="5">
+         <widget class="YesNoBox" name="disableglobalshortcuts" native="true">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+-       <item row="10" column="7" rowspan="3">
+-        <spacer name="horizontalSpacer_4">
++       <item row="12" column="1" colspan="5">
++        <widget class="Line" name="line_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+-         <property name="sizeHint" stdset="0">
+-          <size>
+-           <width>40</width>
+-           <height>20</height>
+-          </size>
+-         </property>
+-        </spacer>
++        </widget>
+        </item>
+-       <item row="0" column="5" colspan="2">
+-        <widget class="YesNoBox" name="noborder" native="true">
+-         <property name="enabled">
+-          <bool>false</bool>
++       <item row="13" column="1">
++        <widget class="QCheckBox" name="enable_closeable">
++         <property name="text">
++          <string>&amp;Closeable</string>
+          </property>
+         </widget>
+        </item>
+-       <item row="17" column="2" rowspan="2" colspan="3">
++       <item row="13" column="2" colspan="3">
+         <widget class="QComboBox" name="rule_closeable">
+          <property name="enabled">
+           <bool>false</bool>
+@@ -2363,112 +2413,110 @@ while it's active!</string>
+          </item>
+         </widget>
+        </item>
+-       <item row="10" column="5" colspan="2">
+-        <widget class="KComboBox" name="fsplevel">
++       <item row="13" column="5">
++        <widget class="YesNoBox" name="closeable" native="true">
++         <property name="enabled">
++          <bool>false</bool>
++         </property>
++        </widget>
++       </item>
++       <item row="14" column="1">
++        <widget class="QCheckBox" name="enable_type">
++         <property name="text">
++          <string>Window &amp;type</string>
++         </property>
++        </widget>
++       </item>
++       <item row="14" column="2" colspan="3">
++        <widget class="QComboBox" name="rule_type">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <item>
+           <property name="text">
+-           <string comment="no focus stealing prevention">None</string>
++           <string>Do Not Affect</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Low</string>
++           <string>Force</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Normal</string>
++           <string>Force Temporarily</string>
+           </property>
+          </item>
++        </widget>
++       </item>
++       <item row="14" column="5">
++        <widget class="QComboBox" name="type">
++         <property name="enabled">
++          <bool>false</bool>
++         </property>
+          <item>
+           <property name="text">
+-           <string>High</string>
++           <string>Normal Window</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Extreme</string>
++           <string>Dialog Window</string>
+           </property>
+          </item>
+-        </widget>
+-       </item>
+-       <item row="23" column="2" rowspan="2" colspan="3">
+-        <widget class="QComboBox" name="rule_blockcompositing">
+-         <property name="enabled">
+-          <bool>false</bool>
+-         </property>
+          <item>
+           <property name="text">
+-           <string>Do Not Affect</string>
++           <string>Utility Window</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Force</string>
++           <string>Dock (panel)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Force Temporarily</string>
++           <string>Toolbar</string>
+           </property>
+          </item>
+-        </widget>
+-       </item>
+-       <item row="10" column="2" colspan="3">
+-        <widget class="QComboBox" name="rule_fsplevel">
+-         <property name="enabled">
+-          <bool>false</bool>
+-         </property>
+          <item>
+           <property name="text">
+-           <string>Do Not Affect</string>
++           <string>Torn-Off Menu</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Force</string>
++           <string>Splash Screen</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+-           <string>Force Temporarily</string>
++           <string>Desktop</string>
++          </property>
++         </item>
++         <item>
++          <property name="text">
++           <string>Standalone Menubar</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+-       <item row="10" column="1">
+-        <widget class="QCheckBox" name="enable_fsplevel">
+-         <property name="toolTip">
+-          <string>KWin tries to prevent windows from taking the focus
+-(&quot;activate&quot;) while you're working in another window,
+-but this may sometimes fail or superact.
+-&quot;None&quot; will unconditionally allow this window to get the focus while
+-&quot;Extreme&quot; will completely prevent it from taking the focus.</string>
+-         </property>
+-         <property name="text">
+-          <string>&amp;Focus stealing prevention</string>
++       <item row="15" column="1" colspan="5">
++        <widget class="Line" name="line_7">
++         <property name="orientation">
++          <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+-       <item row="1" column="1">
+-        <widget class="QCheckBox" name="enable_decocolor">
++       <item row="16" column="1">
++        <widget class="QCheckBox" name="enable_blockcompositing">
+          <property name="text">
+-          <string>Titlebar color &amp;scheme</string>
+-         </property>
+-        </widget>
+-       </item>
+-       <item row="1" column="5" colspan="2">
+-        <widget class="QComboBox" name="decocolor">
+-         <property name="enabled">
+-          <bool>false</bool>
++          <string>Block compositing</string>
+          </property>
+         </widget>
+        </item>
+-       <item row="1" column="2" colspan="3">
+-        <widget class="QComboBox" name="rule_decocolor">
++       <item row="16" column="2" colspan="3">
++        <widget class="QComboBox" name="rule_blockcompositing">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+@@ -2489,6 +2537,26 @@ but this may sometimes fail or superact.
+          </item>
+         </widget>
+        </item>
++       <item row="16" column="5">
++        <widget class="YesNoBox" name="blockcompositing" native="true">
++         <property name="enabled">
++          <bool>false</bool>
++         </property>
++        </widget>
++       </item>
++       <item row="17" column="2">
++        <spacer name="verticalSpacer_5">
++         <property name="orientation">
++          <enum>Qt::Vertical</enum>
++         </property>
++         <property name="sizeHint" stdset="0">
++          <size>
++           <width>20</width>
++           <height>40</height>
++          </size>
++         </property>
++        </spacer>
++       </item>
+       </layout>
+      </widget>
+     </widget>
+@@ -2497,16 +2565,16 @@ but this may sometimes fail or superact.
+  </widget>
+  <customwidgets>
+   <customwidget>
+-   <class>KComboBox</class>
+-   <extends>QComboBox</extends>
+-   <header>kcombobox.h</header>
+-  </customwidget>
+-  <customwidget>
+    <class>KLineEdit</class>
+    <extends>QLineEdit</extends>
+    <header>klineedit.h</header>
+   </customwidget>
+   <customwidget>
++   <class>KComboBox</class>
++   <extends>QComboBox</extends>
++   <header>kcombobox.h</header>
++  </customwidget>
++  <customwidget>
+    <class>YesNoBox</class>
+    <extends>QWidget</extends>
+    <header>yesnobox.h</header>
+@@ -2592,6 +2660,9 @@ but this may sometimes fail or superact.
+   <tabstop>shortcut_edit</tabstop>
+   <tabstop>enable_noborder</tabstop>
+   <tabstop>rule_noborder</tabstop>
++  <tabstop>enable_decocolor</tabstop>
++  <tabstop>rule_decocolor</tabstop>
++  <tabstop>decocolor</tabstop>
+   <tabstop>enable_opacityactive</tabstop>
+   <tabstop>rule_opacityactive</tabstop>
+   <tabstop>opacityactive</tabstop>
+@@ -2601,6 +2672,9 @@ but this may sometimes fail or superact.
+   <tabstop>enable_fsplevel</tabstop>
+   <tabstop>rule_fsplevel</tabstop>
+   <tabstop>fsplevel</tabstop>
++  <tabstop>enable_fpplevel</tabstop>
++  <tabstop>rule_fpplevel</tabstop>
++  <tabstop>fpplevel</tabstop>
+   <tabstop>enable_acceptfocus</tabstop>
+   <tabstop>rule_acceptfocus</tabstop>
+   <tabstop>enable_disableglobalshortcuts</tabstop>
+diff --git a/rules.h b/rules.h
+index b6c2d3f..adcf606 100644
+--- a/rules.h
++++ b/rules.h
+@@ -80,6 +80,7 @@ public:
+     QString checkDecoColor(QString schemeFile) const;
+     bool checkBlockCompositing(bool block) const;
+     int checkFSP(int fsp) const;
++    int checkFPP(int fpp) const;
+     bool checkAcceptFocus(bool focus) const;
+     bool checkCloseable(bool closeable) const;
+     bool checkAutogrouping(bool autogroup) const;
+@@ -147,6 +148,7 @@ public:
+     bool applyDecoColor(QString &schemeFile) const;
+     bool applyBlockCompositing(bool& block) const;
+     bool applyFSP(int& fsp) const;
++    bool applyFPP(int& fpp) const;
+     bool applyAcceptFocus(bool& focus) const;
+     bool applyCloseable(bool& closeable) const;
+     bool applyAutogrouping(bool& autogroup) const;
+@@ -262,7 +264,9 @@ private:
+     bool blockcompositing;
+     ForceRule blockcompositingrule;
+     int fsplevel;
++    int fpplevel;
+     ForceRule fsplevelrule;
++    ForceRule fpplevelrule;
+     bool acceptfocus;
+     ForceRule acceptfocusrule;
+     bool closeable;
+-- 
+2.6.2
+
+diff --git a/rules.cpp b/rules.cpp
+index b12109b..79fa1df 100644
+--- a/rules.cpp
++++ b/rules.cpp
+@@ -73,6 +73,7 @@ Rules::Rules()
+     , decocolorrule(UnusedForceRule)
+     , blockcompositingrule(UnusedForceRule)
+     , fsplevelrule(UnusedForceRule)
++    , fpplevelrule(UnusedForceRule)
+     , acceptfocusrule(UnusedForceRule)
+     , closeablerule(UnusedForceRule)
+     , autogrouprule(UnusedForceRule)
+@@ -182,6 +183,7 @@ void Rules::readFromCfg(const KConfigGroup& cfg)
+     decocolorrule = decocolor.isEmpty() ? UnusedForceRule : readForceRule(cfg, QStringLiteral("decocolorrule"));
+     READ_FORCE_RULE(blockcompositing, , false);
+     READ_FORCE_RULE(fsplevel, limit0to4, 0); // fsp is 0-4
++    READ_FORCE_RULE(fpplevel, limit0to4, 0); // fpp is 0-4
+     READ_FORCE_RULE(acceptfocus, , false);
+     READ_FORCE_RULE(closeable, , false);
+     READ_FORCE_RULE(autogroup, , false);
+@@ -279,6 +281,7 @@ void Rules::write(KConfigGroup& cfg) const
+     WRITE_FORCE_RULE(decocolor, colorToString);
+     WRITE_FORCE_RULE(blockcompositing,);
+     WRITE_FORCE_RULE(fsplevel,);
++    WRITE_FORCE_RULE(fpplevel,);
+     WRITE_FORCE_RULE(acceptfocus,);
+     WRITE_FORCE_RULE(closeable,);
+     WRITE_FORCE_RULE(autogroup,);
+@@ -322,6 +325,7 @@ bool Rules::isEmpty() const
+            && decocolorrule == UnusedForceRule
+            && blockcompositingrule == UnusedForceRule
+            && fsplevelrule == UnusedForceRule
++           && fpplevelrule == UnusedForceRule
+            && acceptfocusrule == UnusedForceRule
+            && closeablerule == UnusedForceRule
+            && autogrouprule == UnusedForceRule
+@@ -650,6 +654,7 @@ APPLY_RULE(noborder, NoBorder, bool)
+ APPLY_FORCE_RULE(decocolor, DecoColor, QString)
+ APPLY_FORCE_RULE(blockcompositing, BlockCompositing, bool)
+ APPLY_FORCE_RULE(fsplevel, FSP, int)
++APPLY_FORCE_RULE(fpplevel, FPP, int)
+ APPLY_FORCE_RULE(acceptfocus, AcceptFocus, bool)
+ APPLY_FORCE_RULE(closeable, Closeable, bool)
+ APPLY_FORCE_RULE(autogroup, Autogrouping, bool)
+@@ -718,6 +723,7 @@ void Rules::discardUsed(bool withdrawn)
+     DISCARD_USED_FORCE_RULE(decocolor);
+     DISCARD_USED_FORCE_RULE(blockcompositing);
+     DISCARD_USED_FORCE_RULE(fsplevel);
++    DISCARD_USED_FORCE_RULE(fpplevel);
+     DISCARD_USED_FORCE_RULE(acceptfocus);
+     DISCARD_USED_FORCE_RULE(closeable);
+     DISCARD_USED_FORCE_RULE(autogroup);
+@@ -851,6 +857,7 @@ CHECK_RULE(NoBorder, bool)
+ CHECK_FORCE_RULE(DecoColor, QString)
+ CHECK_FORCE_RULE(BlockCompositing, bool)
+ CHECK_FORCE_RULE(FSP, int)
++CHECK_FORCE_RULE(FPP, int)
+ CHECK_FORCE_RULE(AcceptFocus, bool)
+ CHECK_FORCE_RULE(Closeable, bool)
+ CHECK_FORCE_RULE(Autogrouping, bool)

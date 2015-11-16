@@ -2,7 +2,7 @@
 
 Name:           kwin
 Version:        5.4.3
-Release:        3
+Release:        4
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -26,6 +26,10 @@ Patch0: kwin__fix_double_buffering.diff
 #https://git.reviewboard.kde.org/r/125228/
 #Desktop Grid overhaul
 Patch1: kwin-desktop-grid.patch
+
+#https://git.reviewboard.kde.org/r/126059/
+#Add rule to protect the focus on a window
+Patch2: 0001-Add-rule-to-protect-the-focus-on-a-window.patch
 
 # Base
 BuildRequires:  cmake
@@ -237,6 +241,9 @@ fi
 
 
 %changelog
+* Sun Nov 15 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-4
+- Add patch to protect focus
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
 - fix triple buffer re-detection and doublebuffer behavior (on nvidia at least)
 - desktop grid overhaul
