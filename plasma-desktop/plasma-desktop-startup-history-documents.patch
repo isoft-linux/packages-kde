@@ -1,46 +1,33 @@
-#! /bin/bash
-
-FILE=$1
-TYPE=""
-URLPATH=""
-EXECAPP=""
-
-while read LINE; do
-    RESULT=$(echo $LINE | /bin/grep 'Type=Link')
-    if [[ ${RESULT} != "" ]]; then
-        TYPE="Link"
-        continue
-    fi
-    
-    RESULT=$(echo $LINE | /bin/grep 'URL\[$e\]=file://')
-    if [[ ${RESULT} != "" ]]; then
-        URLPATH=$LINE
-        continue
-    fi
-
-    RESULT=$(echo $LINE | /bin/grep 'X-KDE-LastOpenedWith=')
-    if [[ ${RESULT} != "" ]]; then
-        EXECAPP=$LINE
-        continue
-    fi
-done < ${FILE}
-
-URLPATH=${URLPATH/'URL[$e]'/'URLXXX'}
-URLVAR=${URLPATH%\=*}
-eval "${URLPATH}"
-URLPATH=${!URLVAR}
-URLPATH=${URLPATH#*file://}
-
-EXECAPP=${EXECAPP/'X-KDE-LastOpenedWith'/'XKDEOPENWIDTH'}
-APPVAR=${EXECAPP%\=*}
-eval "${EXECAPP}"
-EXECAPP=${!APPVAR}
-
-if [[ ${TYPE} == "Link" ]]; then
-    which /bin/${EXECAPP} > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        /bin/${EXECAPP} ${URLPATH}
-    else
-        /bin/xdg-open ${URLPATH}
-    fi
-fi
+diff -Nur plasma-desktop-5.4.3/applets/kickoff/core/itemhandlers.cpp plasma-desktop-5.4.3/applets/kickoff1/core/itemhandlers.cpp
+--- plasma-desktop-5.4.3/applets/kickoff/core/itemhandlers.cpp	2015-11-05 20:44:49.000000000 +0800
++++ plasma-desktop-5.4.3/applets/kickoff1/core/itemhandlers.cpp	2015-11-16 11:41:28.616707089 +0800
+@@ -44,6 +44,7 @@
+ #include "ksmserver_interface.h"
+ #include <QtDBus/QDBusConnection>
+ #include <QtDBus/QDBusConnectionInterface>
++#include <KRun>
+ 
+ using namespace Kickoff;
+ 
+@@ -56,7 +57,7 @@
+ 
+         if (service) {
+             RecentApplications::self()->add(service);
+-        } else {
++        } else if (!KRun::runUrl(url, "application/x-desktop", 0)) {
+             qWarning() << "Failed to find service for" << url;
+             return false;
+         }
+diff -Nur plasma-desktop-5.4.3/applets/kickoff/package/contents/ui/RecentlyUsedView.qml plasma-desktop-5.4.3/applets/kickoff1/package/contents/ui/RecentlyUsedView.qml
+--- plasma-desktop-5.4.3/applets/kickoff/package/contents/ui/RecentlyUsedView.qml	2015-11-05 20:44:49.000000000 +0800
++++ plasma-desktop-5.4.3/applets/kickoff1/package/contents/ui/RecentlyUsedView.qml	2015-11-16 11:46:22.304702056 +0800
+@@ -45,7 +45,8 @@
+             text: i18n("Clear Recent Documents")
+             icon: "edit-clear-history"
+             onClicked: recentlyUsedModel.clearRecentDocuments();
+-            visible: !contextMenu.isApp
++//            visible: !contextMenu.isApp
++            visible: true
+         }
+     }
+ }

@@ -13,7 +13,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/plasma-desktop
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-Source1:        startup-desktop-link.sh
 
 ## downstream patches
 # adjust default kickoff favorites: -preferred_browser(buggy) +konqueror +konsole +apper
@@ -200,7 +199,9 @@ BuildArch: noarch
 #2, implement as kicker in kickoff.
 #You can talk with zhaixiang to find the better way to implement this.
 #By Cjacker
-exit 1
+#exit 1
+#>
+# yes, I see. It is implemented here.
 
 
 %build
@@ -335,7 +336,7 @@ fi
 
 
 %changelog
-* Fri Nov 13 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-7
+* Fri Nov 15 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-7
 - Patch for open desktop file with Type=Link.
 
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-6
