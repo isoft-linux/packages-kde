@@ -47,14 +47,3 @@ diff -Naur ark-15.08.3.old/app/ark_addtoservicemenu.desktop ark-15.08.3/app/ark_
  
  [Desktop Action compressTo]
  Name=Compress to...
-diff -Naur ark-15.08.3.old/plugins/clirarplugin/CMakeLists.txt ark-15.08.3/plugins/clirarplugin/CMakeLists.txt
---- ark-15.08.3.old/plugins/clirarplugin/CMakeLists.txt	2015-11-13 13:05:12.027735587 +0800
-+++ ark-15.08.3/plugins/clirarplugin/CMakeLists.txt	2015-11-13 13:56:02.764735223 +0800
-@@ -1,6 +1,6 @@
- ########### next target ###############
- 
--set(SUPPORTED_CLIRAR_MIMETYPES "application/x-rar;")
-+#set(SUPPORTED_CLIRAR_MIMETYPES "application/x-rar;")
- 
- set(kerfuffle_clirar_SRCS cliplugin.cpp)
- 
