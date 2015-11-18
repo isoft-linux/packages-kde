@@ -27,6 +27,7 @@ BuildRequires: pkgconfig(nss)
 BuildRequires: pkgconfig(libpkcs11-helper-1)
 BuildRequires: pkgconfig(libsasl2)
 BuildRequires: pkgconfig(QtCore)
+BuildRequires: gnutls-devel
 # apidocs
 # may need to add some tex-related ones too -- rex
 BuildRequires: doxygen
