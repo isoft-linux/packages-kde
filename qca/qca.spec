@@ -4,43 +4,20 @@
 
 Name:    qca
 Summary: Qt Cryptographic Architecture
-Version: 2.1.0
-Release: 14%{?dist}
+Version: 2.1.1
+Release: 2.git%{?dist}
 
 License: LGPLv2+
 URL:     http://delta.affinix.com/qca
-Source0: http://delta.affinix.com/download/qca/2.0/qca-%{version}.tar.gz
-
-## upstream patches
-Patch1: 0001-dropped-unused-include.patch
-Patch2: 0002-cmake-pkg-config-is-not-REQUIRED.patch
-Patch3: 0003-qca-ossl-fixed-compilation-warnings.patch
-Patch4: 0004-cmake-dropped-dead-variable.patch
-Patch5: 0005-Fix-build-with-libressl.patch
-Patch6: 0006-increased-minimum-cmake-version.patch
-Patch7: 0007-cmake-warn-user-when-QCA_SUFFIX-is-not-set.patch
-Patch8: 0008-cmake-apply-QCA_SUFFIX-for-cmake-config-module-names.patch
-Patch9: 0009-cmake-build-for-android.patch
-Patch10: 0010-fixed-compilation-on-android.patch
-Patch11: 0011-simplified-md5_state_t-and-SHA1_CONTEXT-internal-str.patch
-Patch12: 0012-cmake-fixed-warnings-on-android.patch
-Patch13: 0013-docs-fixed-no-images-in-docs-when-build-out-of-sourc.patch
-Patch14: 0014-cmake-fixed-cmake-config-module-when-used-QCA_SUFFIX.patch
-Patch15: 0015-fix-library-name-in-prf-file-to-use-the-lib-name-var.patch
-Patch16: 0016-move-QCA_CONFIG_NAME_BASE-definition-in-the-regular-.patch
-Patch17: 0017-fixed-array-size-checking.patch
-Patch18: 0018-add-a-reviewboardrc.patch
-Patch19: 0019-prevent-filewatches-from-emitting-changes-when-there.patch
-Patch20: 0020-put-headers-of-a-suffixed-build-in-a-suffixed-direct.patch
-# qt5 branch
-Patch21: 0021-properly-support-co-existing-qt4-and-qt5-versions.patch
-Patch22: 0022-initialize-QCA_SUFFIX-cache-with-the-possibly-previo.patch
+#Source0: http://delta.affinix.com/download/qca/2.0/qca-%{version}.tar.gz
+#git://anongit.kde.org/qca.git
+Source0: qca.tar.gz
 
 Patch23: qca-add-missing-header.patch
 Patch24: qca-disable-bsd-source-warning.patch
 
 #dirty, qca test take too much time to run.
-Patch30: qca-disable-qca-test.patch
+#Patch30: qca-disable-qca-test.patch
 
 BuildRequires: cmake >= 2.8.12
 BuildRequires: libgcrypt-devel
@@ -220,7 +197,7 @@ Requires: %{name}-qt5%{?_isa} = %{version}-%{release}
 
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}
 
 
 %build
@@ -392,6 +369,9 @@ make test ARGS="--timeout 600 --output-on-failure" -C %{_target_platform}-qt5
 
 
 %changelog
+* Tue Nov 17 2015 Cjacker <cjacker@foxmail.com> - 2.1.1-2.git
+- Update to 2.1.1 git, prepare for plasma-5.5
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 2.1.0-14
 - Rebuild for new 4.0 release
 
