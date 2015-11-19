@@ -1,0 +1,26 @@
+Binary files libqpsd/.git/index and libqpsdn/.git/index differ
+diff -Nur libqpsd/QPsdPlugin.pro libqpsdn/QPsdPlugin.pro
+--- libqpsd/QPsdPlugin.pro	2015-11-19 17:16:05.233843228 +0800
++++ libqpsdn/QPsdPlugin.pro	2015-11-19 17:17:51.279848996 +0800
+@@ -18,8 +18,6 @@
+ 
+ TEMPLATE = lib
+ 
+-DESTDIR = $$[QT_INSTALL_PLUGINS]/imageformats
+-
+ SOURCES += qpsdplugin.cpp \
+     qpsdhandler.cpp
+ 
+@@ -29,12 +27,3 @@
+     QPsdPlugin.json \
+     LICENSE.LGPL \
+     README.md
+-
+-unix:!symbian {
+-    maemo5 {
+-        target.path = /opt/usr/lib
+-    } else {
+-        target.path = /usr/lib
+-    }
+-    INSTALLS += target
+-}
