@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        7
+Release:        8
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -73,6 +73,9 @@ Patch311: plasmadesktop-scrollabletasktooltip.diff
 
 # Open history documents with bash script
 Patch312: plasma-desktop-startup-history-documents.patch
+
+# kcm_splashscreen use isoft logo
+Patch313: 0008-preview-splash-isoft-logo.patch
 
 ## upstreamable patches
 
@@ -335,6 +338,9 @@ fi
 
 
 %changelog
+* Thu Nov 19 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- kcm_splashscreen use isoft logo.
+
 * Fri Nov 15 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-7
 - Patch for open desktop file with Type=Link.
 
