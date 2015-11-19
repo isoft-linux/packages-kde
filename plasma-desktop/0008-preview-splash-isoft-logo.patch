@@ -1,0 +1,20 @@
+diff --git a/kcms/ksplash/kcm.cpp b/kcms/ksplash/kcm.cpp
+index be8e0fa..21a4b36 100644
+--- a/kcms/ksplash/kcm.cpp
++++ b/kcms/ksplash/kcm.cpp
+@@ -130,7 +130,14 @@ void KCMSplashScreen::load()
+     for (const Plasma::Package &pkg : pkgs) {
+         QStandardItem* row = new QStandardItem(pkg.metadata().name());
+         row->setData(pkg.metadata().pluginName(), PluginNameRole);
+-        row->setData(pkg.filePath("previews", "splash.png"), ScreenhotRole);
++        QString splashPath = pkg.filePath("previews", "splash.png");
++        if (pkg.metadata().name() != "Oxygen") {
++            splashPath = QFile::exists(
++                "/usr/share/isoft-artwork/splash.png") ?
++                "/usr/share/isoft-artwork/splash.png" :
++                pkg.filePath("previews", "splash.png");
++        }
++        row->setData(splashPath, ScreenhotRole);
+         m_model->appendRow(row);
+     }
+ }
