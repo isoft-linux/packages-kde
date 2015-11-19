@@ -58,9 +58,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 %make_install -C %{_target_platform}
 
-install -m0755 libqpsd/libqpsd.so %{_kf5_qtplugindir}/imageformats/
-
-rm -rf  %{_kf5_qtplugindir}/imageformats/kimg_psd.so
+#use psd plugin from libqpsd
+install -m0755 libqpsd/libqpsd.so %{buildroot}%{_kf5_qtplugindir}/imageformats/
+#drop kimg_psd provided by kimageformats.
+rm -rf  %{buildroot}%{_kf5_qtplugindir}/imageformats/kimg_psd.so
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
