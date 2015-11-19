@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        5
+Release:        6
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -38,9 +38,6 @@ Patch13:  0001-kscreenlocker-accounts-service.patch
 #if it get deleted or Home.desktop/trash.desktop get deleted.
 #when desktop started, all will be restored.
 Patch14:  plasma-workspace-protect-home-Desktop-dir.patch
-
-#Add CTRL+V for plasmashell desktopview
-Patch15:  0002-add-paste-for-desktopview.patch
 
 Patch16: 0001-Proxy-Xembed-icons-to-SNI.patch
 
@@ -252,7 +249,6 @@ Documentation and user manuals for %{name}.
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
-%patch15 -p1
 %patch16 -p1
 %patch17 -p1
 
@@ -374,6 +370,10 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Nov 19 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Drop 0002-add-paste-for-desktopview.patch, CTRL+V also need to consider other
+  items for example plasmoid.
+
 * Mon Nov 16 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-5
 - Fix xembedsniproxy always segfault issue, Dirty hack for isoft to not handle
   the cold bootup embed window
