@@ -1,6 +1,6 @@
 Name:           plasma-workspace-wallpapers
 Version:        5.4.3
-Release:        2
+Release:        3
 Summary:        Additional wallpapers for Plasma workspace
 License:        GPLv2+
 URL:            http://www.kde.org
@@ -12,6 +12,9 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+#some wallpapaers from plasma-5.5
+Source1:        wallpaper-from-5.5.tar.xz
+
 BuildArch:      noarch
 
 BuildRequires:  kf5-rpm-macros
@@ -44,6 +47,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
+tar Jxf %{SOURCE1} -C %{buildroot}%{_datadir}/wallpapers
 
 %files
 %doc COPYING
@@ -51,6 +55,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Nov 20 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
+- Merge some wallpapers from plasma-5.5
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
