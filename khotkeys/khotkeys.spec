@@ -1,6 +1,6 @@
 Name:           khotkeys
 Version:        5.4.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Application to configure hotkeys in KDE
 
 License:        GPLv2+
@@ -15,6 +15,16 @@ URL:            https://projects.kde.org/projects/kde/workspace/khotkeys
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 Patch0: khotkeys-5.4.2-qdbusviewer-qt5.patch
+
+#backport patches and fixes from plasma-5.5
+#https://git.reviewboard.kde.org/r/125630/
+Patch1: 0001-do-not-write-back-dated-settings-from-daemon.patch
+#https://git.reviewboard.kde.org/r/125680/
+Patch2: 0001-unselect-current-item-on-clicking-into-empty-space.patch
+#https://quickgit.kde.org/?p=khotkeys.git&a=commit&h=4747599badf67389530483ea62b6f54bc36ac9c3
+Patch3: schedule-saving-to-next-event-cycle.patch
+#https://git.reviewboard.kde.org/r/125769/
+Patch4: use-dbus-mutex-to-prevent-write-back-outdated-configs.patch
  
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
@@ -60,6 +70,10 @@ developing applications that use %{name}.
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 
 %build
@@ -96,6 +110,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Nov 20 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
+- Backport some fixes from plasma-5.5
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 

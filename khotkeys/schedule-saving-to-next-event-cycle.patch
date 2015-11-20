@@ -1,0 +1,79 @@
+From: Thomas Lübking <thomas.luebking@gmail.com>
+Date: Mon, 12 Oct 2015 13:44:48 +0000
+Subject: schedule saving to the next event cycle
+X-Git-Tag: v5.4.95
+X-Git-Url: http://quickgit.kde.org/?p=khotkeys.git&a=commitdiff&h=4747599badf67389530483ea62b6f54bc36ac9c3
+---
+schedule saving to the next event cycle
+
+notably since writing reading and applying
+settings can cause a shortcut update which
+itself triggers a save (of the partial-only
+database)
+
+But also since several changes can occur in
+a row, so we don't write for everyone
+
+BUG: 343891
+FIXED-IN: 5.5
+---
+
+
+--- a/app/kded.cpp
++++ b/app/kded.cpp
+@@ -39,6 +39,7 @@
+ KHotKeysModule::KHotKeysModule(QObject* parent, const QList<QVariant>&)
+     : KDEDModule(parent)
+     , actions_root(NULL)
++    , _settingsDirty(false)
+     , _settings()
+     ,_initialized(false)
+     {
+@@ -64,7 +65,7 @@
+     // If a shortcut was changed (global shortcuts kcm), save
+     connect(
+             keyboard_handler.data(), SIGNAL(shortcutChanged()),
+-            this, SLOT(save()));
++            this, SLOT(scheduleSave()));
+ 
+     // Read the configuration from file khotkeysrc
+     reread_configuration();
+@@ -239,9 +240,18 @@
+     deleteLater();
+     }
+ 
++void KHotKeysModule::scheduleSave()
++    {
++    if (!_settingsDirty)
++        {
++        _settingsDirty = true;
++        QMetaObject::invokeMethod(this, "save", Qt::QueuedConnection);
++        }
++    }
+ 
+ void KHotKeysModule::save()
+     {
++    _settingsDirty = false;
+     KHotKeys::khotkeys_set_active( false );
+     _settings.write();
+     KHotKeys::khotkeys_set_active( true );
+
+--- a/app/kded.h
++++ b/app/kded.h
+@@ -62,6 +62,7 @@
+     private Q_SLOTS:
+ 
+         //! Save
++        void scheduleSave();
+         void save();
+ 
+         //! Initialize the module. Delayed initialization.
+@@ -79,6 +80,7 @@
+ 
+         //! The current settings
+         KHotKeys::Settings _settings;
++        bool _settingsDirty;
+ 
+         //! Is the module initialized
+         bool _initialized;
+
