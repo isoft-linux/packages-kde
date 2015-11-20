@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        2
+Release:        3
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -24,6 +24,9 @@ Source1:        desktoptheme-from-plasma-5.15.0.tar.gz
 #By default, unlock widget and add widget can not appear at the same time in the menu.
 Patch001: plasma-framework-plasma-reset-action.patch
 
+# add lunar tip on calendar
+Patch002: plasma-framework-add-lunar-tip.patch
+
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
 BuildRequires:  libXrender-devel
@@ -34,6 +37,7 @@ BuildRequires:  openssl-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libEGL-devel
 BuildRequires:  mesa-libgbm-devel
+BuildRequires:  lunar-date-devel
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
@@ -69,6 +73,7 @@ BuildRequires:  kf5-kconfig-devel >= %{version}
 
 
 Requires:       kf5-filesystem
+Requires:       lunar-date
 
 %description
 %{summary}.
@@ -141,6 +146,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Nov 20 2015 WangMing <ming.wang@i-soft.com.cn> 5.16.0-3
+- Add lunar tip on calendar.
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
