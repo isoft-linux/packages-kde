@@ -3,7 +3,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        2
+Release:        3
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -18,6 +18,9 @@ URL:            https://projects.kde.org/projects/kde/workspace/baloo
 Source0:        http://download.kde.org/%{stable}/plasma/%{plasma_version}/%{framework}-%{version}.tar.xz
 
 Source1: 97-kde-baloo-filewatch-inotify.conf
+
+#simple chinese support for baloo filename index/search.
+Patch0: baloo-rude-chinese-support.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -74,7 +77,7 @@ Summary:        Runtime libraries for %{name}
 
 %prep
 %setup -qn %{framework}-%{version}
-
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -169,6 +172,9 @@ fi
 
 
 %changelog
+* Fri Nov 20 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
+- simple Chinese support
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
