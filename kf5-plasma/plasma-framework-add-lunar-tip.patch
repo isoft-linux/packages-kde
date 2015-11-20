@@ -1,0 +1,343 @@
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/po/zh_CN/libplasma5.po plasma-framework-5.16.0/po/zh_CN/libplasma5.po
+--- plasma-framework-clean/plasma-framework-5.16.0/po/zh_CN/libplasma5.po	2015-11-08 20:40:46.000000000 +0800
++++ plasma-framework-5.16.0/po/zh_CN/libplasma5.po	2015-11-19 18:14:15.253245751 +0800
+@@ -909,3 +909,7 @@
+ msgctxt "%1 is the name of the containment"
+ msgid "%1 Options"
+ msgstr "%1的选项"
++
++#: declarativeimports/calendar/lunar.cpp:90
++msgid "Lunar: %(nian)Y %(yue)M %(ri)"
++msgstr "农历: %(nian)年%(yue)月%(ri)"
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/po/zh_TW/libplasma5.po plasma-framework-5.16.0/po/zh_TW/libplasma5.po
+--- plasma-framework-clean/plasma-framework-5.16.0/po/zh_TW/libplasma5.po	2015-11-08 20:40:46.000000000 +0800
++++ plasma-framework-5.16.0/po/zh_TW/libplasma5.po	2015-11-19 18:27:53.131203896 +0800
+@@ -909,3 +909,7 @@
+ msgctxt "%1 is the name of the containment"
+ msgid "%1 Options"
+ msgstr "%1 選項"
++
++#: declarativeimports/calendar/lunar.cpp:90
++msgid "Lunar: %(nian)Y %(yue)M %(ri)"
++msgstr "農歷: %(nian)年%(yue)月%(ri)"
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp
+--- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2015-11-08 20:40:46.000000000 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2015-11-19 11:26:12.131498679 +0800
+@@ -20,6 +20,7 @@
+ #include "calendarplugin.h"
+ #include "calendardata.h"
+ #include "calendar.h"
++#include "lunar.h"
+ #include <QtQml>
+ #include <QAbstractItemModel>
+ #include <QAbstractListModel>
+@@ -31,6 +32,7 @@
+     qmlRegisterType<Calendar>(uri, 2, 0, "Calendar");
+ //   qmlRegisterType<CalendarData>(uri, 1, 0, "CalendarData");
+ //    qmlRegisterType<CalendarData>(uri, 1, 0, "Calendar");
++    qmlRegisterType<Lunar>(uri, 2, 0, "Lunar");
+     qmlRegisterType<QAbstractItemModel>();
+     qmlRegisterType<QAbstractListModel>();
+ }
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt
+--- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt	2015-11-08 20:40:46.000000000 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt	2015-11-20 16:28:17.996958446 +0800
+@@ -7,8 +7,13 @@
+     #calendarroleproxymodel.cpp
+     #datetimerangefiltermodel.cpp
+     daysmodel.cpp
++    lunar.cpp
+ )
+ 
++pkg_search_module(LUNARDATA REQUIRED lunar-date-2.0)
++
++include_directories(${LUNARDATA_INCLUDE_DIRS})
++
+ add_library(calendarplugin SHARED ${calendar_SRCS})
+ 
+ target_link_libraries(calendarplugin
+@@ -16,9 +21,11 @@
+     Qt5::Quick
+     Qt5::Qml
+     Qt5::Gui
++    KF5::I18n
+     ${KDEPIMLIBS_AKONADI_LIBS}
+     ${KDEPIMLIBS_KCALCORE_LIBS}
+     ${KDEPIMLIBS_AKONADI_CALENDAR_LIBS}
++    ${LUNARDATA_LIBRARIES}
+ )
+ 
+ install(TARGETS calendarplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/plasma/calendar)
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp
+--- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp	1970-01-01 08:00:00.000000000 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp	2015-11-20 16:24:04.343958476 +0800
+@@ -0,0 +1,96 @@
++#include <lunar-date/lunar-date.h>
++#include <stdio.h>
++#include <locale.h>
++#include <lunar.h>
++#include <QVariant>
++#include <klocalizedstring.h>
++
++Lunar::Lunar(QObject *parent)
++    : QObject(parent), m_year(-1), m_month(-1), m_day(-1)
++{}
++
++Lunar::~Lunar()
++{}
++
++void Lunar::setYear(int y)
++{
++    m_year = y;
++    emit yearChanged();
++    get();
++    m_text = "okokok";
++}
++
++void Lunar::setMonth(int m)
++{
++    m_month = m + 1;
++    emit monthChanged();
++    get();
++}
++
++void Lunar::setDay(int d)
++{
++    m_day = d;
++    emit dayChanged();
++    get();
++}
++
++void Lunar::setFestival(const QString &fest)
++{
++    m_festival = fest;
++    emit festivalChanged();
++}
++
++void Lunar::setText(const QString &text)
++{
++    m_text = text;
++    emit textChanged();
++}
++
++QString Lunar::festival() const
++{
++    return m_festival;
++}
++
++QString Lunar::text() const
++{
++    return m_text;
++}
++
++int Lunar::year() const
++{
++    return m_year;
++}
++
++int Lunar::month() const
++{
++    return m_month;
++}
++
++int Lunar::day() const
++{
++    return m_day;
++}
++
++void Lunar::get()
++{
++    if (m_year < 0 || m_month < 0 || m_day < 0)
++    {
++        m_festival.clear();
++        m_text.clear();
++        return;
++    }
++
++    GError *err = NULL;
++    LunarDate *date = lunar_date_new();
++    lunar_date_set_solar_date(date, m_year, (GDateMonth)m_month, m_day, 0, &err);
++
++    m_festival = lunar_date_get_jieri(date, "\n");
++    QString format = i18n("Lunar: %(nian)Y %(yue)M %(ri)");
++    format += "\n" + m_festival;
++    m_text = lunar_date_strftime(date, format.toStdString().c_str());
++
++    emit festivalChanged();
++    emit textChanged();
++
++    lunar_date_free(date);
++}
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h
+--- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h	1970-01-01 08:00:00.000000000 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h	2015-11-19 15:18:32.555785275 +0800
+@@ -0,0 +1,49 @@
++#ifndef LUNAR_H
++#define LUNAR_H
++
++#include <QObject>
++#include <QString>
++
++class Lunar : public QObject
++{
++    Q_OBJECT
++    Q_PROPERTY(int year READ year WRITE setYear NOTIFY yearChanged)
++    Q_PROPERTY(int month READ month WRITE setMonth NOTIFY monthChanged)
++    Q_PROPERTY(int day READ day WRITE setDay NOTIFY dayChanged)
++    Q_PROPERTY(QString festival READ festival WRITE setFestival NOTIFY festivalChanged)
++    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
++
++public:
++    Lunar(QObject *parent = 0);
++    ~Lunar();
++
++    void setYear(int y);
++    void setMonth(int m);
++    void setDay(int d);
++    void setFestival(const QString &fest);
++    void setText(const QString &text);
++
++    int year() const;
++    int month() const;
++    int day() const;
++    QString festival() const;
++    QString text() const;
++
++Q_SIGNALS:
++    void yearChanged();
++    void monthChanged();
++    void dayChanged();
++    void festivalChanged();
++    void textChanged();
++
++private:
++    void get();
++
++private:
++    QString m_festival;
++    QString m_text;
++    int m_year;
++    int m_month;
++    int m_day;
++};
++#endif
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml
+--- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2015-11-08 20:40:46.000000000 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2015-11-20 15:14:48.832958972 +0800
+@@ -121,4 +121,33 @@
+             root.date = model
+         }
+     }
++
++    Lunar {
++        id: lunar
++        year: thisDate.getFullYear()
++        month: thisDate.getMonth()
++        day: model.label || dayNumber
++    }
++
++    ToolTip {
++        id: tooltip
++        width: 160
++        opacity: 0.6
++        backgroundColor: theme.textColor
++        textColor: theme.backgroundColor
++        target: dateMatchingPrecision >= Calendar.MatchYearMonthAndDay ? dayStyle : null
++        text: lunar.text
++    }
++
++    Rectangle {
++         width: 5
++         height: width
++         x: 5
++         y: 5
++         color: theme.highlightColor
++         border.color: theme.highlightColor
++         border.width: 1
++         radius: width * 0.5
++         visible: lunar.festival.length > 0 && dateMatchingPrecision >= Calendar.MatchYearMonthAndDay
++    }
+ }
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml
+--- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml	1970-01-01 08:00:00.000000000 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml	2015-11-20 14:57:55.456959093 +0800
+@@ -0,0 +1,79 @@
++import QtQuick 2.0
++import QtQuick.Controls 1.1
++import QtGraphicalEffects 1.0
++
++Item {
++    id: toolTipRoot
++    width: toolTip.contentWidth
++    height: toolTipContainer.height
++    visible: false
++    clip: false
++    z: 999999999
++
++    property alias text: toolTip.text
++    property alias radius: content.radius
++    property alias backgroundColor: content.color
++    property alias textColor: toolTip.color
++    property alias font: toolTip.font
++    property var target: null
++
++    function onMouseHover(x, y)
++    {
++        var obj = toolTipRoot.target.mapToItem(toolTipRoot.parent, x, y);
++        toolTipRoot.x = obj.x;
++        toolTipRoot.y = obj.y + 5;
++    }
++
++    function onVisibleStatus(flag)
++    {
++        toolTipRoot.visible = flag;
++    }
++
++    Component.onCompleted: {
++        if (toolTipRoot.target != null) {
++            var itemParent = toolTipRoot.target;
++
++            var newObject = Qt.createQmlObject('import QtQuick 2.0; MouseArea {signal mouserHover(int x, int y); signal showChanged(bool flag); anchors.fill:parent; hoverEnabled: true; onPositionChanged: {mouserHover(mouseX, mouseY)} onEntered: {showChanged(true)} onExited:{showChanged(false)} onClicked:{parent.focus = true}}',
++                itemParent, "mouseItem");
++            newObject.mouserHover.connect(onMouseHover);
++            newObject.showChanged.connect(onVisibleStatus);
++        }
++    }
++
++    Item {
++        id: toolTipContainer
++        z: toolTipRoot.z + 1
++        width: content.width + (2*toolTipShadow.radius)
++        height: content.height + (2*toolTipShadow.radius)
++
++        Rectangle {
++            id: content
++            anchors.centerIn: parent
++            width: toolTipRoot.width
++            height: toolTip.contentHeight + 10
++            radius: 3
++
++            Text {
++                id: toolTip
++                anchors {fill: parent; margins: 5}
++                wrapMode: Text.WrapAnywhere
++            }
++        }
++    }
++
++    DropShadow {
++        id: toolTipShadow
++        z: toolTipRoot.z + 1
++        anchors.fill: source
++        cached: true
++        horizontalOffset: 4
++        verticalOffset: 4
++        radius: 8.0
++        samples: 16
++        color: "#80000000"
++        smooth: true
++        source: toolTipContainer
++    }
++
++    Behavior on visible { NumberAnimation { duration: 200 }}
++}
