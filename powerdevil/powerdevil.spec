@@ -1,6 +1,6 @@
 Name:           powerdevil
 Version:        5.4.3
-Release:        2
+Release:        3
 Summary:        Manages the power consumption settings of a Plasma Shell
 
 License:        GPLv2+
@@ -16,6 +16,12 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 Patch0:         powerdevil-enable-upower.patch
 
+#https://git.reviewboard.kde.org/r/125182/
+Patch1:         do-not-ignore-brightness-key-during-animation.patch
+#https://quickgit.kde.org/?p=powerdevil.git&a=commit&h=4c66646761834236f6b14789162fe71f6179f472
+Patch2:         show-full-charged-msg-instead-of-not-charging-when-full.patch
+
+ 
 BuildRequires:  libxcb-devel
 BuildRequires:  xcb-util-keysyms-devel
 BuildRequires:  xcb-util-image-devel
@@ -55,6 +61,8 @@ of a daemon (a KDED module) and a KCModule for its configuration.
 %setup -q -n %{name}-%{version}
 
 %patch0 -p1 -b .enable-upower
+%patch1 -p1
+%patch2 -p1
 
 %build
 
@@ -94,6 +102,9 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Fri Nov 20 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
+- Backport patches from 5.5
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
