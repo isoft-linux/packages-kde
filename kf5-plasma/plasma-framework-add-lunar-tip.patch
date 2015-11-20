@@ -22,7 +22,7 @@ diff -Nur plasma-framework-clean/plasma-framework-5.16.0/po/zh_TW/libplasma5.po 
 +msgstr "農歷: %(nian)年%(yue)月%(ri)"
 diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp
 --- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2015-11-08 20:40:46.000000000 +0800
-+++ plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2015-11-19 11:26:12.131498679 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2015-11-20 17:17:02.327958097 +0800
 @@ -20,6 +20,7 @@
  #include "calendarplugin.h"
  #include "calendardata.h"
@@ -223,8 +223,8 @@ diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/
 +#endif
 diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml
 --- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2015-11-08 20:40:46.000000000 +0800
-+++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2015-11-20 15:14:48.832958972 +0800
-@@ -121,4 +121,33 @@
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2015-11-20 20:12:07.745956843 +0800
+@@ -121,4 +121,32 @@
              root.date = model
          }
      }
@@ -236,14 +236,13 @@ diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/
 +        day: model.label || dayNumber
 +    }
 +
-+    ToolTip {
-+        id: tooltip
-+        width: 160
-+        opacity: 0.6
-+        backgroundColor: theme.textColor
-+        textColor: theme.backgroundColor
-+        target: dateMatchingPrecision >= Calendar.MatchYearMonthAndDay ? dayStyle : null
++    ToolTipArea {
 +        text: lunar.text
++        tip.color: theme.textColor
++        tip.textColor: theme.backgroundColor
++        tip.x: index % 7 == 5 ? 0 - daysCalendar.cellWidth : index % 7 == 6 ? 0 - daysCalendar.cellWidth * 2 : 0;
++        hideDelay: 100
++        visible: dateMatchingPrecision >= Calendar.MatchYearMonthAndDay ? true : false
 +    }
 +
 +    Rectangle {
@@ -258,86 +257,97 @@ diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/
 +         visible: lunar.festival.length > 0 && dateMatchingPrecision >= Calendar.MatchYearMonthAndDay
 +    }
  }
+diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTipArea.qml plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTipArea.qml
+--- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTipArea.qml	1970-01-01 08:00:00.000000000 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTipArea.qml	2015-11-20 20:20:51.107956781 +0800
+@@ -0,0 +1,35 @@
++ 
++import QtQuick 2.0
++
++MouseArea {
++    property alias tip: tip
++    property alias text: tip.text
++    property alias hideDelay: hideTimer.interval //this makes it easy to have custom hide delays
++                                                 //for different tools
++    property alias showDelay: showTimer.interval
++    id: mouseArea
++    anchors.fill: parent
++    hoverEnabled: true
++    
++    onClicked: tip.hide()
++
++    Timer {
++        id:showTimer
++        interval: 1000
++        running: (mouseArea.containsMouse && !tip.visible)
++        onTriggered: tip.show();
++    }
++    //this is the important part!
++    Timer {
++        id:hideTimer
++        interval: 100 //ms before the tip is hidden
++        running: !mouseArea.containsMouse && tip.visible
++        onTriggered: tip.hide(); //this is the js code that hides the tip.
++                                 //you could also use visible=false; if you
++                                 //don't need animations
++    }
++    
++    ToolTip{
++        id:tip
++    }
++}
 diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml
 --- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml	2015-11-20 14:57:55.456959093 +0800
-@@ -0,0 +1,79 @@
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml	2015-11-20 19:30:17.504957143 +0800
+@@ -0,0 +1,51 @@
 +import QtQuick 2.0
-+import QtQuick.Controls 1.1
-+import QtGraphicalEffects 1.0
 +
-+Item {
-+    id: toolTipRoot
-+    width: toolTip.contentWidth
-+    height: toolTipContainer.height
-+    visible: false
-+    clip: false
-+    z: 999999999
-+
-+    property alias text: toolTip.text
-+    property alias radius: content.radius
-+    property alias backgroundColor: content.color
-+    property alias textColor: toolTip.color
-+    property alias font: toolTip.font
-+    property var target: null
-+
-+    function onMouseHover(x, y)
-+    {
-+        var obj = toolTipRoot.target.mapToItem(toolTipRoot.parent, x, y);
-+        toolTipRoot.x = obj.x;
-+        toolTipRoot.y = obj.y + 5;
++Rectangle {
++    id:tooltip
++    property alias textColor: textContainer.color
++    property alias text: textContainer.text
++    property int verticalPadding: 4
++    property int horizontalPadding: 5
++    width: textContainer.width + horizontalPadding * 2
++    height: textContainer.height + verticalPadding * 2
++    color: "#aa999999"
++    
++    Text {
++        anchors.centerIn: parent
++        id:textContainer
++        text: "Gering geding ding ding!"
++        color: "black"
 +    }
-+
-+    function onVisibleStatus(flag)
-+    {
-+        toolTipRoot.visible = flag;
++    
++    NumberAnimation {
++        id: fadein
++        target: tooltip
++        property: "opacity"
++        easing.type: Easing.InOutQuad
++        duration: 300
++        from: 0
++        to: 1
 +    }
-+
-+    Component.onCompleted: {
-+        if (toolTipRoot.target != null) {
-+            var itemParent = toolTipRoot.target;
-+
-+            var newObject = Qt.createQmlObject('import QtQuick 2.0; MouseArea {signal mouserHover(int x, int y); signal showChanged(bool flag); anchors.fill:parent; hoverEnabled: true; onPositionChanged: {mouserHover(mouseX, mouseY)} onEntered: {showChanged(true)} onExited:{showChanged(false)} onClicked:{parent.focus = true}}',
-+                itemParent, "mouseItem");
-+            newObject.mouserHover.connect(onMouseHover);
-+            newObject.showChanged.connect(onVisibleStatus);
-+        }
++    
++    NumberAnimation {
++        id: fadeout
++        target: tooltip
++        property: "opacity"
++        easing.type: Easing.InOutQuad
++        from: 1
++        to: 0
++        onStopped: visible = false
 +    }
-+
-+    Item {
-+        id: toolTipContainer
-+        z: toolTipRoot.z + 1
-+        width: content.width + (2*toolTipShadow.radius)
-+        height: content.height + (2*toolTipShadow.radius)
-+
-+        Rectangle {
-+            id: content
-+            anchors.centerIn: parent
-+            width: toolTipRoot.width
-+            height: toolTip.contentHeight + 10
-+            radius: 3
-+
-+            Text {
-+                id: toolTip
-+                anchors {fill: parent; margins: 5}
-+                wrapMode: Text.WrapAnywhere
-+            }
-+        }
++    
++    visible:false
++    onVisibleChanged: if(visible) fadein.start();
++    
++    function show(){
++        visible = true;
++        fadein.start();
 +    }
-+
-+    DropShadow {
-+        id: toolTipShadow
-+        z: toolTipRoot.z + 1
-+        anchors.fill: source
-+        cached: true
-+        horizontalOffset: 4
-+        verticalOffset: 4
-+        radius: 8.0
-+        samples: 16
-+        color: "#80000000"
-+        smooth: true
-+        source: toolTipContainer
++    
++    function hide(){
++        fadeout.start();
 +    }
-+
-+    Behavior on visible { NumberAnimation { duration: 200 }}
-+}
++} 
