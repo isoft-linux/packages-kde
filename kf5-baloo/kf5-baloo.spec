@@ -1,9 +1,8 @@
 %define         framework baloo
-%define         plasma_version 5.3.0
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        4
+Release:        5
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -15,7 +14,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/baloo
 %else
 %global stable stable
 %endif
-Source0:        http://download.kde.org/%{stable}/plasma/%{plasma_version}/%{framework}-%{version}.tar.xz
+Source0: http://download.kde.org/%{stable}/frameworks/5.16/%{framework}-%{version}.tar.xz
 
 Source1: 97-kde-baloo-filewatch-inotify.conf
 
@@ -24,6 +23,10 @@ Patch0: baloo-rude-chinese-support.patch
 #extend to support all CJKV
 Patch1: baloo-extend-to-support-all-CJKV.patch
 
+Patch2: baloo-disable-cow-on-btrfs-and-fix-db-open-fail-if-not-exist.patch
+
+#already upstreamed.
+ 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
@@ -81,6 +84,7 @@ Summary:        Runtime libraries for %{name}
 %setup -qn %{framework}-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 mkdir %{_target_platform}
@@ -143,7 +147,6 @@ fi
 %{_kf5_datadir}/kservices5/baloosearch.protocol
 %{_kf5_datadir}/kservices5/tags.protocol
 %{_kf5_datadir}/kservices5/timeline.protocol
-#%{_kf5_datadir}/kservices5/kded/baloosearchfolderupdater.desktop
 %{_kf5_datadir}/icons/hicolor/*/apps/baloo.png
 
 %files file -f %{name}-file.lang
@@ -151,14 +154,10 @@ fi
 %{_kf5_bindir}/baloo_file
 %{_kf5_bindir}/baloo_file_extractor
 %{_kf5_sysconfdir}/xdg/autostart/baloo_file.desktop
-#%{_kf5_sysconfdir}/dbus-1/system.d/org.kde.baloo.filewatch.conf
-#%{_kf5_libexecdir}/kauth/kde_baloo_filewatch_raiselimit
-#%{_kf5_datadir}/dbus-1/system-services/org.kde.baloo.filewatch.service
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.file.indexer.xml
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.fileindexer.xml
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.main.xml
 %{_kf5_datadir}/dbus-1/interfaces/org.kde.baloo.scheduler.xml
-#%{_datadir}/polkit-1/actions/org.kde.baloo.filewatch.policy
 
 
 %files libs -f %{name}-libs.lang
@@ -167,7 +166,6 @@ fi
 
 %files devel
 %{_kf5_libdir}/libKF5Baloo.so
-#%{_kf5_libdir}/libKF5BalooEngine.so
 %{_kf5_libdir}/cmake/KF5Baloo
 %{_kf5_libdir}/pkgconfig/Baloo.pc
 %{_kf5_includedir}/Baloo
@@ -175,6 +173,9 @@ fi
 
 
 %changelog
+* Sun Nov 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-5
+- Merge git patch back
+
 * Fri Nov 20 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
 - Extend to support all CJKV
 

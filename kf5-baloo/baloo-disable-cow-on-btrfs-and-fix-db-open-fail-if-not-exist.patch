@@ -1,0 +1,219 @@
+diff -Nur baloo-5.16.0/src/engine/CMakeLists.txt baloo-5.16.0n/src/engine/CMakeLists.txt
+--- baloo-5.16.0/src/engine/CMakeLists.txt	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.16.0n/src/engine/CMakeLists.txt	2015-11-22 19:37:44.666245282 +0800
+@@ -23,6 +23,7 @@
+     vectorpositioninfoiterator.cpp
+     writetransaction.cpp
+     global.cpp
++    fsutils.cpp
+ )
+ 
+ add_library(KF5BalooEngine ${BALOO_ENGINE_SRCS})
+diff -Nur baloo-5.16.0/src/engine/database.cpp baloo-5.16.0n/src/engine/database.cpp
+--- baloo-5.16.0/src/engine/database.cpp	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.16.0n/src/engine/database.cpp	2015-11-22 19:37:26.945244480 +0800
+@@ -38,6 +38,7 @@
+ 
+ #include "writetransaction.h"
+ #include "idutils.h"
++#include "fsutils.h"
+ 
+ #include <QFile>
+ #include <QFileInfo>
+@@ -67,9 +68,19 @@
+         QDir().mkdir(m_path);
+         dirInfo.refresh();
+     }
+-    if (mode == CreateDatabase && !dirInfo.permission(QFile::WriteOwner)) {
+-        qCritical() << m_path << "does not have write permissions. Aborting";
+-        return false;
++    if (mode == CreateDatabase) {
++        if (!dirInfo.permission(QFile::WriteOwner)) {
++            qCritical() << m_path << "does not have write permissions. Aborting";
++            return false;
++        }
++
++        const QString dbFilePath = m_path + "/index";
++        QFileInfo info(dbFilePath);
++        if (!info.exists()) {
++            if (FSUtils::getDirectoryFileSystem(m_path) == QStringLiteral("btrfs")) {
++                FSUtils::disableCoW(m_path);
++            }
++        }
+     }
+ 
+     int rc = mdb_env_create(&m_env);
+@@ -163,3 +174,4 @@
+ {
+     return m_path;
+ }
++
+diff -Nur baloo-5.16.0/src/engine/fsutils.cpp baloo-5.16.0n/src/engine/fsutils.cpp
+--- baloo-5.16.0/src/engine/fsutils.cpp	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.16.0n/src/engine/fsutils.cpp	2015-11-22 19:36:22.673241575 +0800
+@@ -0,0 +1,109 @@
++/*
++ * Copyright (C) 2010 Tobias Koenig <tokoe@kde.org>
++ * Copyright (C) 2014 Daniel Vrátil <dvratil@redhat.com>
++ * Copyright (C) 2015 Vishesh Handa <vhanda@kde.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Library General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Library General Public License for more details.
++ *
++ * You should have received a copy of the GNU Library General Public License
++ * along with this library; see the file COPYING.LIB.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++ * Boston, MA 02110-1301, USA.
++ *
++ */
++
++#include "fsutils.h"
++
++#include <QDebug>
++
++#ifdef Q_OS_LINUX
++#include <unistd.h>
++#include <mntent.h>
++#include <sys/ioctl.h>
++#include <fcntl.h>
++#endif
++
++using namespace Baloo;
++
++QString FSUtils::getDirectoryFileSystem(const QString &directory)
++{
++#ifndef Q_OS_LINUX
++    return QString();
++#else
++    QString bestMatchPath;
++    QString bestMatchFS;
++
++    FILE *mtab = setmntent("/etc/mtab", "r");
++    if (!mtab) {
++        return QString();
++    }
++    while (mntent *mnt = getmntent(mtab)) {
++        if (qstrcmp(mnt->mnt_type, MNTTYPE_IGNORE) == 0) {
++            continue;
++        }
++
++        const QString dir = QString::fromLocal8Bit(mnt->mnt_dir);
++        if (!directory.startsWith(dir) || dir.length() < bestMatchPath.length()) {
++            continue;
++        }
++
++        bestMatchPath = dir;
++        bestMatchFS = QString::fromLocal8Bit(mnt->mnt_type);
++    }
++
++    endmntent(mtab);
++
++    return bestMatchFS;
++#endif
++}
++
++void FSUtils::disableCoW(const QString &path)
++{
++#ifndef Q_OS_LINUX
++    Q_UNUSED(path);
++#else
++    // from linux/fs.h, so that Baloo does not depend on Linux header files
++#ifndef FS_IOC_GETFLAGS
++#define FS_IOC_GETFLAGS     _IOR('f', 1, long)
++#endif
++#ifndef FS_IOC_SETFLAGS
++#define FS_IOC_SETFLAGS     _IOW('f', 2, long)
++#endif
++
++    // Disable COW on file
++#ifndef FS_NOCOW_FL
++#define FS_NOCOW_FL         0x00800000
++#endif
++
++    ulong flags = 0;
++    const int fd = open(qPrintable(path), O_RDONLY);
++    if (fd == -1) {
++        qWarning() << "Failed to open" << path << "to modify flags (" << errno << ")";
++        return;
++    }
++
++    if (ioctl(fd, FS_IOC_GETFLAGS, &flags) == -1) {
++        qWarning() << "ioctl error: failed to get file flags (" << errno << ")";
++        close(fd);
++        return;
++    }
++    if (!(flags & FS_NOCOW_FL)) {
++        flags |= FS_NOCOW_FL;
++        if (ioctl(fd, FS_IOC_SETFLAGS, &flags) == -1) {
++            qWarning() << "ioctl error: failed to set file flags (" << errno << ")";
++            close(fd);
++            return;
++        }
++    }
++    close(fd);
++#endif
++}
++
+diff -Nur baloo-5.16.0/src/engine/fsutils.h baloo-5.16.0n/src/engine/fsutils.h
+--- baloo-5.16.0/src/engine/fsutils.h	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.16.0n/src/engine/fsutils.h	2015-11-22 19:36:42.016242449 +0800
+@@ -0,0 +1,52 @@
++/*
++ * This file is part of the KDE Baloo Project
++ * Copyright (C) 2015  Vishesh Handa <me@vhanda.in>
++ * Copyright (C) 2010  Tobias Koenig <tokoe@kde.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) version 3, or any
++ * later version accepted by the membership of KDE e.V. (or its
++ * successor approved by the membership of KDE e.V.), which shall
++ * act as a proxy defined in Section 6 of version 3 of the license.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#ifndef BALOO_ENGINE_FSUTILS_H
++#define BALOO_ENGINE_FSUTILS_H
++
++#include <QString>
++
++namespace Baloo {
++namespace FSUtils {
++
++/**
++ * Returns name of filesystem that @p directory is stored on. This
++ * only works on Linux and returns empty string on other platforms or when it's
++ * unable to detect the filesystem.
++ */
++QString getDirectoryFileSystem(const QString &directory);
++
++/**
++ * Disables filesystem copy-on-write feature on given file or directory.
++ * Only works on Linux and does nothing on other platforms.
++ *
++ * It was tested only with Btrfs but in theory can be called on any FS that
++ * supports NOCOW.
++ */
++void disableCoW(const QString &path);
++
++}
++
++}
++#endif
++
