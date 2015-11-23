@@ -1,6 +1,6 @@
 Name:           sddm
 Version:        0.13.0
-Release:        4
+Release:        5
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -130,6 +130,9 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Mon Nov 23 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Plymouth quit without retain splash. 
+
 * Tue Nov 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - By default use sddm-plymouth service.
 
