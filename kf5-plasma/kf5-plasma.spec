@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        4
+Release:        5
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -146,6 +146,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Nov 23 2015 x - 5.16.0-5
+- Modify patch, set tip alignment the gird cell. Set transparent.
+
 * Fri Nov 20 2015 WangMing <ming.wang@i-soft.com.cn> - 5.16.0-4
 - Modify patch, fixed high CPU utilization.
 

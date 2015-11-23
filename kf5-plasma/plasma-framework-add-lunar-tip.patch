@@ -223,8 +223,8 @@ diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/
 +#endif
 diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml
 --- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2015-11-08 20:40:46.000000000 +0800
-+++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2015-11-20 20:12:07.745956843 +0800
-@@ -121,4 +121,32 @@
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2015-11-23 11:25:16.849587637 +0800
+@@ -121,4 +121,33 @@
              root.date = model
          }
      }
@@ -240,9 +240,10 @@ diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/
 +        text: lunar.text
 +        tip.color: theme.textColor
 +        tip.textColor: theme.backgroundColor
-+        tip.x: index % 7 == 5 ? 0 - daysCalendar.cellWidth : index % 7 == 6 ? 0 - daysCalendar.cellWidth * 2 : 0;
++        tip.x: index % 7 == 5 ? 0 - root.borderWidth - daysCalendar.cellWidth : index % 7 == 6 ? 0 - root.borderWidth * 2 - daysCalendar.cellWidth * 2 : 0;
 +        hideDelay: 100
 +        visible: dateMatchingPrecision >= Calendar.MatchYearMonthAndDay ? true : false
++        opacity: 0.8
 +    }
 +
 +    Rectangle {
