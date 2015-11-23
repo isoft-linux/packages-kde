@@ -6,7 +6,7 @@
 Name:    okular 
 Summary: A document viewer
 Version: 1.0.0 
-Release: 7.git%{?dist}
+Release: 8.git%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -216,6 +216,9 @@ fi
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 1.0.0-8.git
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.0.0-7.git
 - Rebuild for new 4.0 release
 

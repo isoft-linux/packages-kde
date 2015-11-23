@@ -1,7 +1,7 @@
 Name:    kate
 Summary: Advanced Text Editor
-Version: 15.08.3
-Release: 3
+Version: 15.11.80
+Release: 2 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/kate
 
@@ -15,9 +15,6 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/kate-%{ve
 
 #use /usr/src/rust/src instead of /usr/local/src/rust/src
 Patch0: kate-rust-plugin-src-dir.patch
-
-#https://git.reviewboard.kde.org/r/125914/
-Patch1: kate-add-toml-highlight.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -89,7 +86,6 @@ License: LGPLv2+
 %prep
 %setup -q -n kate-%{version}
 %patch0 -p1
-%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -135,56 +131,36 @@ update-desktop-database -q &> /dev/null || :
 %files
 %doc COPYING.LIB
 %doc AUTHORS
-%config(noreplace) %{_sysconfdir}/xdg/katerc
 %{_kf5_bindir}/kate
-%{_kf5_libdir}/libkdeinit5_kate.so
 %{_kf5_datadir}/applications/org.kde.kate.desktop
 %{_datadir}/appdata/org.kde.kate.appdata.xml
 %{_kf5_datadir}/icons/hicolor/*/*
 %{_mandir}/man1/kate.1*
 %{_kf5_docdir}/HTML/en/kate/
 %{_kf5_docdir}/HTML/en/katepart/
-%{_kf5_datadir}/kxmlgui5/kate/
 %{_kf5_datadir}/plasma/plasmoids/org.kde.plasma.katesessions/
 %{_kf5_datadir}/kservices5/plasma-applet-org.kde.plasma.katesessions.desktop
 %{_kf5_datadir}/kservices5/plasma-dataengine-katesessions.desktop
 %{_kf5_datadir}/plasma/services/org.kde.plasma.katesessions.operations
 
 %files plugins
-%config(noreplace) %{_sysconfdir}/xdg/ktexteditor_codesnippets_core.knsrc
 %{_kf5_qtplugindir}/ktexteditor/*.so
 %{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_katesessions.so
 %{_kf5_datadir}/kateproject/
 %{_kf5_datadir}/katexmltools/
-%{_kf5_datadir}/kservices5/katesymbolviewerplugin.desktop
-%{_kf5_datadir}/kxmlgui5/katebuild/
-%{_kf5_datadir}/kxmlgui5/katecloseexceptplugin/
-%{_kf5_datadir}/kxmlgui5/katectags/
-%{_kf5_datadir}/kxmlgui5/katefiletree/
-%{_kf5_datadir}/kxmlgui5/kategdb/
-%{_kf5_datadir}/kxmlgui5/katekonsole/
-%{_kf5_datadir}/kxmlgui5/kateopenheaderplugin/
-%{_kf5_datadir}/kxmlgui5/kateproject/
-%{_kf5_datadir}/kxmlgui5/katesearch/
-%{_kf5_datadir}/kxmlgui5/katesnippets/
-%{_kf5_datadir}/kxmlgui5/katesql/
-%{_kf5_datadir}/kxmlgui5/katesymbolviewer/
-%{_kf5_datadir}/kxmlgui5/katexmltools/
-%{_kf5_datadir}/kxmlgui5/tabswitcher/
-%{_kf5_datadir}/kxmlgui5/katereplicodeplugin
-%{_kf5_datadir}/kxmlgui5/kterustcompletion
-
+%{_kf5_datadir}/kxmlgui5/katexmltools
 
 %files -n kwrite
 %{_kf5_bindir}/kwrite
-%{_kf5_libdir}/libkdeinit5_kwrite.so
 %{_kf5_datadir}/applications/org.kde.kwrite.desktop
 %{_datadir}/appdata/org.kde.kwrite.appdata.xml
-%{_kf5_datadir}/kxmlgui5/kwrite/
 %{_kf5_docdir}/HTML/en/kwrite/
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-3
 - add toml highlight patch
 

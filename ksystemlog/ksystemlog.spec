@@ -1,7 +1,7 @@
 Name:    ksystemlog
 Summary: System Log Viewer for KDE
-Version: 15.08.3
-Release: 3.git%{?dist}
+Version: 15.11.80
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     http://www.kde.org/applications/system/ksystemlog/
@@ -12,8 +12,7 @@ URL:     http://www.kde.org/applications/system/ksystemlog/
 %global stable stable
 %endif
 
-#git
-Source0: ksystemlog.tar.gz
+Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
 #match isoft Desktop.
 Patch0: ksystemlog-isoft-customized.patch
@@ -54,7 +53,7 @@ and less commands.
 
 
 %prep
-%setup -q -n %{name}
+%setup -q 
 %patch0 -p1
 
 %build
@@ -83,6 +82,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.ksystemlog.d
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Thu Nov 12 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-3.git
 - Match iSoft Desktop log pathes
 

@@ -2,8 +2,8 @@
 
 Name:    ark
 Summary: Archive manager
-Version: 15.08.3
-Release: 6
+Version: 15.11.80
+Release: 7
 
 License: GPLv2+
 URL:     http://utils.kde.org/projects/ark 
@@ -118,7 +118,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 rm -rf %{buildroot}%{_libdir}/libkerfuffle.so
 
 %check
-appstream-util validate-relax --nonet %{buildroot}%{_kf5_datadir}/appdata/%{name}.appdata.xml ||:
+appstream-util validate-relax --nonet %{buildroot}%{_kf5_datadir}/appdata/*.appdata.xml ||:
 desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.ark.desktop
 
 
@@ -146,7 +146,7 @@ fi
 %{_kf5_datadir}/kxmlgui5/ark/arkui.rc
 
 %{_kf5_datadir}/config.kcfg/ark.kcfg
-%{_kf5_datadir}/appdata/%{name}.appdata.xml
+%{_kf5_datadir}/appdata/*.appdata.xml
 %{_kf5_datadir}/applications/org.kde.ark.desktop
 %{_kf5_datadir}/icons/hicolor/*/apps/ark.*
 %{_kf5_datadir}/kservices5/ServiceMenus/ark_addtoservicemenu.desktop
@@ -167,6 +167,9 @@ fi
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-7
+- Update
+
 * Mon Nov 16 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-6
 - Only disable rar support in popup menu
 

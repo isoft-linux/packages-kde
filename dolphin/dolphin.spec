@@ -1,7 +1,7 @@
 Name:    dolphin 
 Summary: KDE File Manager
-Version: 15.08.3
-Release: 2
+Version: 15.11.80
+Release: 2 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
@@ -17,6 +17,17 @@ Source0:        http://download.kde.org/%{stable}/applications/%{version}/%{name
 Patch0: dolphin-fix-no-icon.patch
 
 Patch1: dolphin-enable-more-thumbnail-by-default.patch
+
+#fix Images/Videos/Audios/Documents searching panel item.
+Patch2: fix-panel-item-with-new-baloo.patch
+
+#disable some roles, will disable some menu items in 'Sort By'/'Show' menu.
+Patch3: dolphin-disable-some-sort-show-roles.patch
+
+#when press Image/Video/Document/Audio search from panel, do not show searchbox.
+Patch4: dolphin-do-not-show-searchbox-when-use-panel-type-search.patch
+#when press Image/Video/Document/Audio search from panel, add file scheme to url to allow searchbox use baloosearch instead of filename search.
+Patch5: dolphin-fix-path-no-url-scheme.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -87,6 +98,10 @@ developing applications that use %{name}.
 %setup -q 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 mkdir %{_target_platform}
@@ -125,7 +140,7 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so.*
 %{_kf5_libdir}/libkdeinit5_dolphin.so
 %{_kf5_qtplugindir}/*.so
-%{_datadir}/appdata/dolphin.appdata.xml
+%{_datadir}/appdata/*.appdata.xml
 %{_datadir}/applications/org.kde.dolphin.desktop
 %{_kf5_datadir}/config.kcfg/*
 %{_datadir}/dbus-1/interfaces/org.freedesktop.FileManager1.xml
@@ -143,6 +158,9 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 

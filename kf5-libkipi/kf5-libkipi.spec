@@ -1,7 +1,9 @@
+%define realname libkipi
+
 Name:    kf5-libkipi
 Summary: Common plugin infrastructure for KDE image applications
-Version: 5.0.0
-Release: 4.git%{?dist}
+Version: 15.11.80
+Release: 1%{?dist}
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/libs/libkexiv2
@@ -11,35 +13,16 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/libs/libkexiv2
 %else
 %global stable stable
 %endif
-#Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
-
-#git clone git://anongit.kde.org/libkipi
-#git checkout frameworks 
-Source0: libkipi.tar.gz
+Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{realname}-%{version}.tar.xz
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
 BuildRequires: extra-cmake-modules
 BuildRequires: gettext
 BuildRequires: kf5-rpm-macros
-BuildRequires: kf5-kcompletion-devel
 BuildRequires: kf5-kconfig-devel
-BuildRequires: kf5-kconfigwidgets-devel
-BuildRequires: kf5-kcoreaddons-devel
-BuildRequires: kf5-kdbusaddons-devel
-BuildRequires: kf5-kdeclarative-devel
-BuildRequires: kf5-kguiaddons-devel
 BuildRequires: kf5-ki18n-devel
-BuildRequires: kf5-kiconthemes-devel
-BuildRequires: kf5-kitemviews-devel
-BuildRequires: kf5-kio-devel
-BuildRequires: kf5-kjobwidgets-devel
-BuildRequires: kf5-knewstuff-devel
-BuildRequires: kf5-knotifyconfig-devel
-BuildRequires: kf5-knewstuff-devel
 BuildRequires: kf5-kservice-devel
-BuildRequires: kf5-kwindowsystem-devel
-BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
 
 %description
@@ -54,7 +37,7 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 
 %prep
-%autosetup -n libkipi
+%autosetup -n %{realname}-%{version}
 
 %build
 mkdir -p %{_target_platform}
@@ -77,9 +60,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files
 %{_kf5_libdir}/libKF5Kipi.so.*
-%{_kf5_datadir}/kipi/
 %{_kf5_datadir}/kservicetypes5/kipiplugin.desktop
 %{_kf5_datadir}/icons/hicolor/*/apps/kipi.*
+%{_kf5_datadir}/kf5/kipi
 
 %files devel
 %{_kf5_libdir}/libKF5Kipi.so

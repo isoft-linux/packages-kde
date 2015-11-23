@@ -1,7 +1,7 @@
 Name:    ffmpegthumbs 
 Summary: Video thumbnailer for KDE5
-Version: 5.11.0
-Release: 3.git%{?dist}
+Version: 15.11.80 
+Release: 2%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -11,11 +11,7 @@ URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
 %else
 %global stable stable
 %endif
-#Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
-
-#git clone git://anongit.kde.org/ffmpegthumbs
-#git checkout frameworks
-Source0: ffmpegthumbs.tar.gz
+Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -49,7 +45,7 @@ BuildRequires: pkgconfig(Qt5Widgets)
 %{summary}
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 
 %build
@@ -88,6 +84,9 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.11.0-3.git
 - Rebuild for new 4.0 release
 

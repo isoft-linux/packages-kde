@@ -2,7 +2,7 @@
 
 Name:    kmix 
 Summary: KDE volume control 
-Version: 15.08.3
+Version: 15.11.80
 Release: 2
 
 License: GPLv2+ and GFDL
@@ -16,9 +16,6 @@ URL:     https://projects.kde.org/projects/kde/kdemultimedia/%{name}
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
 ## upstream patches
-
-# try to ensure kmix autostart is after pulseaudio
-Patch1: kmix-4.11.97-autostart.patch
 
 BuildRequires: desktop-file-utils
 BuildRequires: pkgconfig(alsa)
@@ -47,8 +44,6 @@ BuildRequires: pkgconfig(Qt5Gui)
 
 %prep
 %setup -q
-
-%patch1 -p1 -b .autostart
 
 
 %build
@@ -101,9 +96,15 @@ fi
 %{_sysconfdir}/xdg/autostart/kmix_autostart.desktop
 %{_kf5_datadir}/kservices5/kded/kmixd.desktop
 %{_kf5_datadir}/kservices5/kmixctrl_restore.desktop
+%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_mixer.so
+%{_kf5_datadir}/kservices5/plasma-dataengine-mixer.desktop
+%{_kf5_datadir}/plasma/services/mixer.operations
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 

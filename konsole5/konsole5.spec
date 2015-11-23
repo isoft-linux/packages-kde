@@ -1,6 +1,6 @@
 Name:    konsole5
 Summary: KDE Terminal emulator
-Version: 15.08.3
+Version: 15.11.80
 Release: 2%{?dist}
 
 # sources: MIT and LGPLv2 and LGPLv2+ and GPLv2+
@@ -14,12 +14,8 @@ URL:     http://konsole.kde.org/
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/konsole-%{version}.tar.xz
 
-## upstreamable patches
-# https://bugs.kde.org/show_bug.cgi?id=173283
-Patch1: konsole-15.04.0-history_cache_instead_of_tmp.patch
-
 #set default font size to 11.
-Patch2: konsole-set-default-font.patch
+Patch0: konsole-set-default-font.patch
 
 Obsoletes: konsole < 14.12
 Provides:  konsole = %{version}-%{release}
@@ -72,9 +68,7 @@ Summary: Konsole5 kpart plugin
 
 %prep
 %setup -q -n konsole-%{version}
-
-%patch1 -p1 -b .history_cache_instead_of_tmp
-%patch2 -p1
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -121,6 +115,9 @@ desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.konsole.d
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 

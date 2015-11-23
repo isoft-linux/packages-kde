@@ -1,7 +1,6 @@
-
 Name:    kpat
 Summary: A selection of solitaire card games
-Version: 15.08.3
+Version: 15.11.80
 Release: 2%{?dist}
 
 License: GPLv2+ and GFDL
@@ -122,6 +121,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 

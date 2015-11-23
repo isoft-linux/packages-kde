@@ -1,6 +1,6 @@
 Name:           kio-extras
-Version:        15.08.3
-Release:        2
+Version:        15.11.80
+Release:        2 
 Summary:        Additional components to increase the functionality of KIO Framework
 
 License:        GPLv2+
@@ -127,8 +127,8 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 %{_kf5_qtplugindir}/comicbookthumbnail.so
 %{_kf5_qtplugindir}/imagethumbnail.so
 %{_kf5_qtplugindir}/jpegthumbnail.so
-%{_kf5_qtplugindir}/kded_networkwatcher.so
-%{_kf5_qtplugindir}/kded_recentdocumentsnotifier.so
+%{_kf5_qtplugindir}/kf5/kded/networkwatcher.so
+%{_kf5_qtplugindir}/kf5/kded/recentdocumentsnotifier.so
 %{_kf5_qtplugindir}/libkmanpart.so
 %{_kf5_qtplugindir}/svgthumbnail.so
 %{_kf5_qtplugindir}/textthumbnail.so
@@ -148,7 +148,6 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 %{_kf5_datadir}/solid/actions/solid_mtp.desktop
 %{_kf5_datadir}/kservices5/*.protocol
 %{_kf5_datadir}/kservices5/*.desktop
-%{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservicetypes5/thumbcreator.desktop
 %{_datadir}/dbus-1/interfaces/kf5_org.kde.network.kioslavenotifier.xml
 %{_datadir}/mime/packages/kf5_network.xml
@@ -162,6 +161,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 

@@ -1,7 +1,7 @@
 Name: zeroconf-ioslave
 Summary: Network Monitor for DNS-SD services (Zeroconf)
 Version: 15.08.0
-Release: 4.kf5.git%{?dist}
+Release: 5.kf5.git%{?dist}
 
 License: GPLv2+
 #URL:     https://projects.kde.org
@@ -60,6 +60,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/dbus-1/interfaces/org.kde.kdnssd.xml
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.08.0-5.kf5.git
+- Rebuild
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.0-4.kf5.git
 - Rebuild for new 4.0 release
 

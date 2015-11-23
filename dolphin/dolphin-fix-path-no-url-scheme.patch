@@ -1,0 +1,12 @@
+--- dolphin-15.11.80n/src/search/dolphinsearchbox.cpp	2015-11-18 07:39:00.000000000 +0800
++++ dolphin-15.11.80/src/search/dolphinsearchbox.cpp	2015-11-21 22:10:15.992971694 +0800
+@@ -85,6 +85,9 @@
+ {
+     m_searchPath = url;
+ 
++    if(url.scheme().isEmpty())
++       m_searchPath.setScheme("file");
++
+     QFontMetrics metrics(m_fromHereButton->font());
+     const int maxWidth = metrics.height() * 8;
+ 

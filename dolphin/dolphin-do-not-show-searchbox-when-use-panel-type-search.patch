@@ -1,0 +1,40 @@
+--- dolphin-15.11.80n/src/dolphinviewcontainer.cpp	2015-11-18 07:39:00.000000000 +0800
++++ dolphin-15.11.80/src/dolphinviewcontainer.cpp	2015-11-21 21:39:54.018889327 +0800
+@@ -36,6 +36,11 @@
+ #include <KUrlNavigator>
+ #include <KRun>
+ 
++#ifdef HAVE_BALOO
++    #include <Baloo/Query>
++    #include <Baloo/IndexerConfig>
++#endif
++
+ #ifdef KActivities_FOUND
+ #endif
+ 
+@@ -682,6 +687,25 @@
+ 
+ bool DolphinViewContainer::isSearchUrl(const QUrl& url) const
+ {
++    //filter out Image/Documents/Audio/Video url
++    //We will not treat them as searchUrl, then do not show searchbox.
++    Baloo::Query queryImage;
++    queryImage.addType("Image");
++    QUrl imageUrl = queryImage.toSearchUrl();
++
++    Baloo::Query queryAudio;
++    queryAudio.addType("Audio");
++    QUrl audioUrl = queryAudio.toSearchUrl();
++
++    Baloo::Query queryVideo;
++    queryVideo.addType("Video");
++    QUrl videoUrl = queryVideo.toSearchUrl();
++
++    Baloo::Query queryDoc;
++    queryDoc.addType("Document");
++    QUrl docUrl = queryDoc.toSearchUrl();
++    if(url == imageUrl || url == audioUrl || url == videoUrl || url == docUrl)
++        return false;
+     return url.scheme().contains("search");
+ }
+ 

@@ -1,7 +1,7 @@
 Name:    kdegraphics-thumbnailers
 Summary: Thumbnailers for various graphic types 
-Version: 15.08.0
-Release: 3.kf5.git%{?dist}
+Version: 15.11.80
+Release: 2%{?dist}
 
 # most sources GPLv2+, dscparse.* GPL, gscreator.* LGPLv2+, 
 License: GPLv2+
@@ -12,11 +12,7 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/kdegraphics-thumbnail
 %else
 %global stable stable
 %endif
-#Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
-
-#git clone git://anongit.kde.org/kdegraphics-thumbnailers
-#git checkout frameworks
-Source0: kdegraphics-thumbnailers.tar.xz
+Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -32,7 +28,7 @@ BuildRequires: kf5-libkdcraw-devel
 
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 
 %build
@@ -57,6 +53,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/rawthumbnail.desktop
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.08.0-3.kf5.git
 - Rebuild for new 4.0 release
 

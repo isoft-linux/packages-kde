@@ -1,6 +1,6 @@
 Name:    libkdegames
 Summary: Common code and data for many KDE games
-Version: 15.08.3
+Version: 15.11.80
 Release: 2
 
 # libKF5KDEGames is LGPLv2, libKF5KDEGamesPrivate is GPLv2+
@@ -93,7 +93,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %postun -p /sbin/ldconfig
 
 %files
-%{_kf5_libdir}/libKF5KDEGames.so.6*
+%{_kf5_libdir}/libKF5KDEGames.so.*
 %{_kf5_libdir}/libKF5KDEGamesPrivate.so.*
 %{_qt5_archdatadir}/qml/org/kde/games/
 %{_kf5_datadir}/kconf_update/kgthemeprovider-migration.upd
@@ -108,6 +108,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 

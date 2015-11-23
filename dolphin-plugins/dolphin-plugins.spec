@@ -1,6 +1,6 @@
 Name:    dolphin-plugins
 Summary: Dolphin plugins for revision control systems
-Version: 15.08.3
+Version: 15.11.80
 Release: 2%{?dist}
 
 License: GPLv2+
@@ -13,9 +13,6 @@ URL:     https://projects.kde.org/projects/kde/kdesdk/dolphin-plugins
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
-#git://anongit.kde.org/dolphin-plugins
-#git checkout frameworks
-#Source0: %{name}.tar.gz
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -85,15 +82,22 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_qtplugindir}/fileviewgitplugin.so
 %{_kf5_qtplugindir}/fileviewsvnplugin.so
 %{_kf5_qtplugindir}/fileviewbazaarplugin.so
+%{_kf5_qtplugindir}/fileviewhgplugin.so
 
 %{_kf5_datadir}/kservices5/fileviewdropboxplugin.desktop
 %{_kf5_datadir}/kservices5/fileviewgitplugin.desktop
 %{_kf5_datadir}/kservices5/fileviewsvnplugin.desktop
 %{_kf5_datadir}/kservices5/fileviewbazaarplugin.desktop
+%{_kf5_datadir}/kservices5/fileviewhgplugin.desktop
+%{_kf5_datadir}/config.kcfg/fileviewhgpluginsettings.kcfg
 %{_kf5_datadir}/config.kcfg/fileviewgitpluginsettings.kcfg
 %{_kf5_datadir}/config.kcfg/fileviewsvnpluginsettings.kcfg
 
+
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 

@@ -1,0 +1,390 @@
+# Translation of ksnapshot to Korean
+# Copyright (C) 2007 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kdegraphics package.
+# Shinjo Park <kde@peremen.name>, 2007, 2008, 2009, 2010.
+# Shinjo Park <kde@peremen.name>, 2011, 2013, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ksnapshot\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-01-30 01:33+0000\n"
+"PO-Revision-Date: 2015-01-18 00:05+0900\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"Language-Team: Korean <kde@peremen.name>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Shinjo Park"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde@peremen.name"
+
+#: freeregiongrabber.cpp:122 regiongrabber.cpp:117
+msgid ""
+"Select a region using the mouse. To take the snapshot, press the Enter key "
+"or double click. Press Esc to quit."
+msgstr ""
+"마우스로 영역을 선택하십시오. Enter 키를 누르거나 마우스를 두 번 누르면 스냅"
+"샷을 찍으며, Esc 키를 누르면 종료합니다."
+
+#: kbackgroundsnapshot.cpp:92 ksnapshot.cpp:283
+msgid "snapshot"
+msgstr "스냅샷"
+
+#: kbackgroundsnapshot.cpp:174
+msgid "KDE Background Screenshot Utility"
+msgstr "KDE 배경 스크린샷 프로그램"
+
+#: kbackgroundsnapshot.cpp:178
+msgid "KBackgroundSnapshot"
+msgstr "KBackgroundSnapshot"
+
+#: kbackgroundsnapshot.cpp:180
+msgid "(c) 2007, Montel Laurent"
+msgstr "(c) 2007, Montel Laurent"
+
+#: kipiimagecollectionselector.cpp:52
+#, kde-format
+msgctxt "%1 is collection name, %2 is image count in collection"
+msgid "%1 (%2 image)"
+msgid_plural "%1 (%2 images)"
+msgstr[0] "%1 (그림 %2개)"
+
+#: ksnapshot.cpp:102
+msgid "untitled"
+msgstr "제목 없음"
+
+#: ksnapshot.cpp:108
+msgid "Copy"
+msgstr "복사"
+
+#: ksnapshot.cpp:109
+msgid "Send To..."
+msgstr "다음으로 보내기..."
+
+#: ksnapshot.cpp:161
+msgid " second"
+msgid_plural " seconds"
+msgstr[0] " 초"
+
+#: ksnapshot.cpp:292
+msgid "Quick Save Snapshot &As..."
+msgstr "빠른 스냅샷 저장(&A)..."
+
+#: ksnapshot.cpp:293
+msgid ""
+"Save the snapshot to the file specified by the user without showing the file "
+"dialog."
+msgstr ""
+"파일 저장 대화 상자를 표시하지 않고 사용자가 지정한 경로에 스냅샷을 파일로 저"
+"장합니다."
+
+#: ksnapshot.cpp:295
+msgid "Save Snapshot &As..."
+msgstr "다른 이름으로 스냅샷 저장(&A)..."
+
+#: ksnapshot.cpp:296
+msgid "Save the snapshot to the file specified by the user."
+msgstr "사용자가 지정한 곳에 스냅샷을 저장합니다."
+
+#: ksnapshot.cpp:357
+msgid "Save As"
+msgstr "다른 이름으로 저장"
+
+#: ksnapshot.cpp:579
+msgid "Other Application..."
+msgstr "다른 프로그램..."
+
+#: ksnapshot.cpp:703
+msgid "The screen has been successfully grabbed."
+msgstr "이 화면이 성공적으로 캡처되었습니다."
+
+#: ksnapshot.cpp:876
+#, kde-format
+msgid "Preview of the snapshot image (%1 x %2)"
+msgstr "스냅샷 그림 미리 보기 (%1 x %2)"
+
+#: ksnapshot_options.h:30
+msgid "Captures the window under the mouse on startup (instead of the desktop)"
+msgstr "전체 데스크톱 대신 마우스 아래에 있는 창 캡처"
+
+#: ksnapshot_options.h:31
+msgid "Captures the desktop"
+msgstr "데스크톱 캡처"
+
+#: ksnapshot_options.h:32
+msgid "Captures a region"
+msgstr "영역 캡처"
+
+#: ksnapshot_options.h:33
+msgid "Captures a free region (not rectangular)"
+msgstr "자유 영역 캡처 (직사각형 아님)"
+
+#: ksnapshot_options.h:34
+msgid "Captures a part of windows"
+msgstr "창의 일부분을 찍습니다"
+
+#: ksnapshotobject.cpp:118
+msgid "File Exists"
+msgstr "파일이 존재함"
+
+#: ksnapshotobject.cpp:119
+#, kde-format
+msgid "<qt>Do you really want to overwrite <b>%1</b>?</qt>"
+msgstr "<qt><b>%1</b>에 덮어쓰시겠습니까?</qt>"
+
+#: ksnapshotobject.cpp:120
+msgid "Overwrite"
+msgstr "덮어쓰기"
+
+#: ksnapshotobject.cpp:156
+msgid "Unable to Save Image"
+msgstr "그림을 저장할 수 없습니다"
+
+#: ksnapshotobject.cpp:157
+#, kde-format
+msgid ""
+"KSnapshot was unable to save the image to\n"
+"%1."
+msgstr ""
+"KSnapshot에서 다음으로 그림을 저장할 수 없었습니다:\n"
+"%1."
+
+#: ksnapshotobject.cpp:179
+msgid "Title"
+msgstr "제목"
+
+#: ksnapshotobject.cpp:181
+msgid "Window Class"
+msgstr "창 클래스"
+
+#. i18n: ectx: property (whatsThis), widget (KSnapshotPreview, lblImage)
+#: ksnapshotwidget.ui:33
+msgid ""
+"This is a preview of the current snapshot.\n"
+"\n"
+"The image can be dragged to another application or document to copy the full "
+"screenshot there. Try it with the file manager.\n"
+"\n"
+"You can also copy the image to the clipboard by pressing Ctrl+C."
+msgstr ""
+"이것은 현재 스냅샷의 미리보기입니다.\n"
+"\n"
+"이 이미지를 다른 문서나 프로그램에 끌어다 놓으면 전체 스크린샷이 복사됩니다. "
+"파일 관리자로 시도해 보십시오.\n"
+"\n"
+"또한 Ctrl+C 키를 눌러서 클립보드로 복사할 수 있습니다."
+
+#. i18n: ectx: property (whatsThis), widget (KPushButton, btnNew)
+#: ksnapshotwidget.ui:55
+msgid "Click this button to take a new snapshot."
+msgstr "새 스냅샷을 찍으려면 이 단추를 누르십시오."
+
+#. i18n: ectx: property (text), widget (KPushButton, btnNew)
+#: ksnapshotwidget.ui:58
+msgid "Take a &New Snapshot"
+msgstr "새 스냅샷 찍기(&N)"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: ksnapshotwidget.ui:95
+msgid "Cap&ture mode:"
+msgstr "캡처 모드(&T):"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:116
+msgid ""
+"<qt>Using this menu, you can select from the six following snapshot modes:\n"
+"<p>\n"
+"<b>Full Screen</b> - captures the entire desktop.<br/>\n"
+"<b>Window Under Cursor</b> - captures only the window (or menu) that is "
+"under the mouse cursor when the snapshot is taken.<br/>\n"
+"<b>Rectangular Region</b> - captures only the rectangular region of the "
+"desktop that you specify. When taking a new snapshot in this mode you will "
+"be able to select any area of the screen by clicking and dragging the mouse."
+"<br/>\n"
+"<b>Freehand Region</b> - captures arbitrary shapes that you specify. When "
+"taking a new snapshot in this mode you will be able to select any shape by "
+"dragging the mouse.<br/>\n"
+"<b>Section of Window</b> - captures only a section of the window. When "
+"taking a new snapshot in this mode you will be able to select any child "
+"window by moving the mouse over it.<br/>\n"
+"<b>Current Screen</b> - if you have multiple screens, this captures the "
+"screen containing the mouse cursor when the snapshot is taken.\n"
+"</p></qt>"
+msgstr ""
+"<qt>이 메뉴를 사용하면 다음 중 하나의 스냅샷 모드를 선택할 수 있습니다:\n"
+"<p>\n"
+"<b>전체 화면</b> - 전체 화면을 캡처합니다.<br />\n"
+"<b>커서 아래 창</b> - 스냅샷을 찍을 때의 마우스 커서 아래에 있는 창이나 메뉴"
+"를 캡처합니다.<br />\n"
+"<b>사각형 영역</b> - 데스크톱에서 지정한 영역만 캡처합니다. 이 모드에서 새 스"
+"냅샷을 찍을 때에는 마우스 단추를 누른 다음 드래그해서 영역을 지정할 수 있습니"
+"다<br />\n"
+"<b>자유형 영역</b> - 데스크톱에서 지정한 영역만 캡처합니다. 이 모드에서 새 스"
+"냅샷을 찍을 때에는 마우스를 드래그해서 임의의 영역을 지정할 수 있습니다<br /"
+">\n"
+"<b>창의 일부분</b> - 창의 일부분을 캡처합니다. 이 모드에서 새 스냅샷을 찍을 "
+"때에는 마우스를 위에 갖다 대어서 임의의 자식 창을 선택할 수 있습니다.<br />\n"
+"<b>현재 화면</b> - 다중 화면을 사용한다면 마우스 커서가 포함된 화면만 스냅샷"
+"을 찍을 수 있습니다.\n"
+"</p></qt>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:120
+msgid "Full Screen"
+msgstr "전체 화면"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:125
+msgid "Window Under Cursor"
+msgstr "커서 아래 창"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:130
+msgid "Rectangular Region"
+msgstr "직사각형 영역"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:135
+msgid "Freehand Region"
+msgstr "자유 영역"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:140
+msgid "Section of Window"
+msgstr "창의 일부분"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:145
+msgid "Current Screen"
+msgstr "현재 화면"
+
+#. i18n: ectx: property (text), widget (QLabel, lblDelay)
+#: ksnapshotwidget.ui:153
+msgid "Snapshot &delay:"
+msgstr "지연 시간(&D):"
+
+#. i18n: ectx: property (toolTip), widget (KIntSpinBox, spinDelay)
+#: ksnapshotwidget.ui:172
+msgid "Snapshot delay in seconds"
+msgstr "초 단위의 찍기까지 기다릴 시간입니다."
+
+#. i18n: ectx: property (whatsThis), widget (KIntSpinBox, spinDelay)
+#: ksnapshotwidget.ui:182
+msgid ""
+"<qt><p>\n"
+"This is the number of seconds to wait after clicking the <i>New Snapshot</i> "
+"button before taking the snapshot.\n"
+"</p><p>\n"
+"This is very useful for getting windows, menus and other items on the screen "
+"set up just the way you want.\n"
+"</p><p>\n"
+"If <i>no delay</i> is set, the program will wait for a mouse click before "
+"taking a snapshot.\n"
+"</p>\n"
+"</qt>"
+msgstr ""
+"<qt><p>\n"
+"이것은 <i>새 스냅샷</i> 단추를 누르고 나서 찍기까지 기다릴 초 단위의 시간입니"
+"다.\n"
+"</p><p>\n"
+"이것은 화면에 있는 창이나 메뉴, 다른 항목들을 배치할 수 있도록 시간을 줍니"
+"다.\n"
+"</p><p>\n"
+"만약 <i>지연 없음</i>이 설정되어 있으면 프로그램은 스냅샷을 찍기 전에 마우스 "
+"누르기만 기다릴 것입니다.\n"
+"</p>\n"
+"</qt>"
+
+#. i18n: ectx: property (specialValueText), widget (KIntSpinBox, spinDelay)
+#: ksnapshotwidget.ui:185
+msgid "No delay"
+msgstr "지연 없음"
+
+#. i18n: ectx: property (text), widget (QLabel, lblIncludeDecorations)
+#: ksnapshotwidget.ui:195
+msgid "Include &window decorations:"
+msgstr "창 장식 포함하기(&W):"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, cbIncludeDecorations)
+#: ksnapshotwidget.ui:208
+msgid ""
+"When enabled, snapshot of a window will also include the window decorations"
+msgstr "활성화되면 창 스냅샷에 창 장식이 들어갑니다."
+
+#. i18n: ectx: property (text), widget (QLabel, lblIncludePointer)
+#: ksnapshotwidget.ui:221
+msgid "Include mouse &pointer:"
+msgstr "마우스 포인터 포함하기(&P):"
+
+#: main.cpp:34
+msgid "KDE Screenshot Utility"
+msgstr "KDE 스크린샷 프로그램"
+
+#: main.cpp:38
+msgid "KSnapshot"
+msgstr "KSnapshot"
+
+#: main.cpp:40
+msgid ""
+"(c) 1997-2008, Richard J. Moore,\n"
+"(c) 2000, Matthias Ettrich,\n"
+"(c) 2002-2003 Aaron J. Seigo"
+msgstr ""
+"(c) 1997-2008, Richard J. Moore,\n"
+"(c) 2000, Matthias Ettrich,\n"
+"(c) 2002-2003 Aaron J. Seigo"
+
+#: main.cpp:41
+msgid "Richard J. Moore"
+msgstr "Richard J. Moore"
+
+#: main.cpp:42
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:43
+msgid "Aaron J. Seigo"
+msgstr "Aaron J. Seigo"
+
+#: main.cpp:44
+msgid "Nadeem Hasan"
+msgstr "Nadeem Hasan"
+
+#: main.cpp:44
+msgid ""
+"Region Grabbing\n"
+"Reworked GUI"
+msgstr ""
+"구역 지정 찍기\n"
+"GUI 재작업"
+
+#: main.cpp:46
+msgid "Marcus Hufgard"
+msgstr "Marcus Hufgard"
+
+#: main.cpp:46
+msgid "\"Open With\" function"
+msgstr "\"다음으로 열기\" 기능"
+
+#: main.cpp:48
+msgid "Pau Garcia i Quiles"
+msgstr "Pau Garcia i Quiles"
+
+#: main.cpp:48
+msgid "Free region grabbing, KIPI plugins support, port to Windows"
+msgstr "자유 영역 캡처, KIPI 플러그인 지원, Windows 포팅"
+
+#: snapshottimer.cpp:36 snapshottimer.cpp:111
+#, kde-format
+msgid "Snapshot will be taken in 1 second"
+msgid_plural "Snapshot will be taken in %1 seconds"
+msgstr[0] "%1초 후 찍습니다"

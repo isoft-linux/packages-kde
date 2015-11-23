@@ -3,8 +3,8 @@
 
 Name:    kde-l10n
 Summary: Internationalization support for KDE
-Version: 15.08.3
-Release: 2
+Version: 15.11.80
+Release: 2 
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -26,6 +26,15 @@ Source7: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/
 #Source8: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-ru-%{version}.tar.xz
 Source9: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-zh_CN-%{version}.tar.xz
 Source10: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-zh_TW-%{version}.tar.xz
+
+#ksnapshot removed from applications 15.11.80
+#and a new screenshot utility named spectacle introduced.
+#But we still use ksnapshot now.
+Source20: ksnapshot.po.ja 
+Source21: ksnapshot.po.ko 
+Source22: ksnapshot.po.zh_CN 
+Source23: ksnapshot.po.zh_TW
+
 Source1000: subdirs-kde-l10n
 
 BuildRequires: cmake
@@ -137,6 +146,12 @@ for i in $(cat %{SOURCE1000}) ; do
   echo $i | grep -v '^#' && \
   %{__xz} --decompress --stdout %{_sourcedir}/%{name}-$i-%{version}.tar.xz | %{__tar} -xf -
 done
+
+#restore ksnapshot
+cp %{SOURCE20} %{name}-ja-%{version}/4/ja/messages/kdegraphics/ksnapshot.po
+cp %{SOURCE21} %{name}-ko-%{version}/4/ko/messages/kdegraphics/ksnapshot.po
+cp %{SOURCE22} %{name}-zh_CN-%{version}/4/zh_CN/messages/kdegraphics/ksnapshot.po
+cp %{SOURCE23} %{name}-zh_TW-%{version}/4/zh_TW/messages/kdegraphics/ksnapshot.po
 
 
 %build
@@ -372,6 +387,9 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/ki18n5/
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 15.08.3-2
 - Update
 

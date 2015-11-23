@@ -1,6 +1,6 @@
 Name:           skanlite
 Version:        1.1
-Release:        7.git
+Release:        8.git
 Summary:        Lightweight scanning program
 # Actually: GPLv2 or GPLv3 or any later Version approved by KDE e.V.
 License:        GPLv2 or GPLv3
@@ -37,7 +37,7 @@ BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
 
 BuildRequires: libpng-devel
-BuildRequires: pkgconfig(libksane) 
+BuildRequires: libksane5-devel
 
 %description
 Skanlite is a light-weight scanning application based on libksane.
@@ -65,6 +65,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.skanlite.desk
 %{_docdir}/HTML/*/skanlite
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 1.1-8.git
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 1.1-7.git
 - Rebuild for new 4.0 release
 

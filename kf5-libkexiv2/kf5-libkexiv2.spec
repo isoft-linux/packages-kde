@@ -1,7 +1,9 @@
+%define realname libkexiv2
+
 Name:    kf5-libkexiv2
 Summary: An Exiv2 wrapper library
-Version: 5.0.0
-Release: 4.git%{?dist}
+Version: 15.11.80 
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/libs/libkexiv2
@@ -11,37 +13,13 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/libs/libkexiv2
 %else
 %global stable stable
 %endif
-#Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
-
-#git clone git://anongit.kde.org/libkexiv2
-#git checkout frameworks
-Source0: libkexiv2.tar.gz
+Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{realname}-%{version}.tar.xz
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
 BuildRequires: extra-cmake-modules
 BuildRequires: gettext
 BuildRequires: kf5-rpm-macros
-BuildRequires: kf5-kcompletion-devel
-BuildRequires: kf5-kconfig-devel
-BuildRequires: kf5-kconfigwidgets-devel
-BuildRequires: kf5-kcoreaddons-devel
-BuildRequires: kf5-kdbusaddons-devel
-BuildRequires: kf5-kdeclarative-devel
-BuildRequires: kf5-kguiaddons-devel
-BuildRequires: kf5-ki18n-devel
-BuildRequires: kf5-kiconthemes-devel
-BuildRequires: kf5-kitemviews-devel
-BuildRequires: kf5-kio-devel
-BuildRequires: kf5-kjobwidgets-devel
-BuildRequires: kf5-knewstuff-devel
-BuildRequires: kf5-knotifyconfig-devel
-BuildRequires: kf5-knewstuff-devel
-BuildRequires: kf5-kservice-devel
-BuildRequires: kf5-kwindowsystem-devel
-BuildRequires: kf5-kwidgetsaddons-devel
-BuildRequires: kf5-kxmlgui-devel
-
 BuildRequires: pkgconfig(exiv2)
 
 %description
@@ -57,7 +35,7 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 
 %prep
-%autosetup -n libkexiv2
+%autosetup -n %{realname}-%{version} 
 
 %build
 mkdir -p %{_target_platform}
@@ -80,7 +58,6 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files
 %{_kf5_libdir}/libKF5KExiv2.so.*
-%{_kf5_datadir}/libkexiv2
 
 
 %files devel
@@ -91,6 +68,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.0.0-4.git
 - Rebuild for new 4.0 release
 

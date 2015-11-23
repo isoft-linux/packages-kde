@@ -1,0 +1,24 @@
+diff -Nur dolphin-15.11.80/src/kitemviews/kfileitemmodel.cpp dolphin-15.11.80n/src/kitemviews/kfileitemmodel.cpp
+--- dolphin-15.11.80/src/kitemviews/kfileitemmodel.cpp	2015-11-21 21:15:47.649823940 +0800
++++ dolphin-15.11.80n/src/kitemviews/kfileitemmodel.cpp	2015-11-21 21:15:35.834823405 +0800
+@@ -2189,20 +2189,8 @@
+         { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             0, 0,                                     false, false },
+         { "date",        DateRole,        I18N_NOOP2_NOSTRIP("@label", "Date"),             0, 0,                                     false, false },
+         { "type",        TypeRole,        I18N_NOOP2_NOSTRIP("@label", "Type"),             0, 0,                                     false, false },
+-        { "rating",      RatingRole,      I18N_NOOP2_NOSTRIP("@label", "Rating"),           0, 0,                                     true,  false },
+-        { "tags",        TagsRole,        I18N_NOOP2_NOSTRIP("@label", "Tags"),             0, 0,                                     true,  false },
+-        { "comment",     CommentRole,     I18N_NOOP2_NOSTRIP("@label", "Comment"),          0, 0,                                     true,  false },
+-        { "wordCount",   WordCountRole,   I18N_NOOP2_NOSTRIP("@label", "Word Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
+-        { "lineCount",   LineCountRole,   I18N_NOOP2_NOSTRIP("@label", "Line Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
+-        { "imageSize",   ImageSizeRole,   I18N_NOOP2_NOSTRIP("@label", "Image Size"),       I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
+-        { "orientation", OrientationRole, I18N_NOOP2_NOSTRIP("@label", "Orientation"),      I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
+-        { "artist",      ArtistRole,      I18N_NOOP2_NOSTRIP("@label", "Artist"),           I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
+-        { "album",       AlbumRole,       I18N_NOOP2_NOSTRIP("@label", "Album"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
+-        { "duration",    DurationRole,    I18N_NOOP2_NOSTRIP("@label", "Duration"),         I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
+-        { "track",       TrackRole,       I18N_NOOP2_NOSTRIP("@label", "Track"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
+         { "path",        PathRole,        I18N_NOOP2_NOSTRIP("@label", "Path"),             I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+         { "destination", DestinationRole, I18N_NOOP2_NOSTRIP("@label", "Link Destination"), I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+-        { "copiedFrom",  CopiedFromRole,  I18N_NOOP2_NOSTRIP("@label", "Copied From"),      I18N_NOOP2_NOSTRIP("@label", "Other"),    true,  false },
+         { "permissions", PermissionsRole, I18N_NOOP2_NOSTRIP("@label", "Permissions"),      I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+         { "owner",       OwnerRole,       I18N_NOOP2_NOSTRIP("@label", "Owner"),            I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+         { "group",       GroupRole,       I18N_NOOP2_NOSTRIP("@label", "User Group"),       I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },

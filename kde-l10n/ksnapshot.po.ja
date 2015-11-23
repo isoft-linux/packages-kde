@@ -1,0 +1,409 @@
+# Translation of ksnapshot into Japanese.
+# This file is distributed under the same license as the kdegraphics package.
+# Taiki Komoda <kom@kde.gr.jp>, 2002.
+# Ikuya AWASHIRO <ikuya@oooug.jp>, 2004.
+# AWASHIRO Ikuya <ikuya@oooug.jp>, 2004.
+# Awashiro Ikuya <ikuya@oooug.jp>, 2005.
+# Yukiko Bando <ybando@k6.dion.ne.jp>, 2006, 2007, 2008.
+# Fuminobu TAKEYAMA <ftake@geeko.jp>, 2015.
+# Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2010, 2011, 2014, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: ksnapshot\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-01-30 01:33+0000\n"
+"PO-Revision-Date: 2015-05-02 14:50-0700\n"
+"Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
+"Language-Team: Japanese <kde-jp@kde.org>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Ikuya Awashiro,Kimiyasu Tomiyama,Noboru Sinohara"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "ikuya@good-day.co.jp,tomy@truga.com,shinobo@leo.bekkoame.ne.jp"
+
+#: freeregiongrabber.cpp:122 regiongrabber.cpp:117
+msgid ""
+"Select a region using the mouse. To take the snapshot, press the Enter key "
+"or double click. Press Esc to quit."
+msgstr ""
+"マウスを使って領域を選択してください。Enter キーを押してスナップショットを撮"
+"影します。Esc キーで終了します。"
+
+#: kbackgroundsnapshot.cpp:92 ksnapshot.cpp:283
+msgid "snapshot"
+msgstr "スナップショット"
+
+#: kbackgroundsnapshot.cpp:174
+msgid "KDE Background Screenshot Utility"
+msgstr "KDE スクリーンショットユーティリティ"
+
+#: kbackgroundsnapshot.cpp:178
+msgid "KBackgroundSnapshot"
+msgstr "KBackgroundSnapshot"
+
+#: kbackgroundsnapshot.cpp:180
+msgid "(c) 2007, Montel Laurent"
+msgstr "(c) 2007, Montel Laurent"
+
+#: kipiimagecollectionselector.cpp:52
+#, kde-format
+msgctxt "%1 is collection name, %2 is image count in collection"
+msgid "%1 (%2 image)"
+msgid_plural "%1 (%2 images)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ksnapshot.cpp:102
+msgid "untitled"
+msgstr "タイトルなし"
+
+#: ksnapshot.cpp:108
+msgid "Copy"
+msgstr "コピー"
+
+#: ksnapshot.cpp:109
+msgid "Send To..."
+msgstr "送る..."
+
+#: ksnapshot.cpp:161
+msgid " second"
+msgid_plural " seconds"
+msgstr[0] " 秒"
+msgstr[1] " 秒"
+
+#: ksnapshot.cpp:292
+msgid "Quick Save Snapshot &As..."
+msgstr "素早くスナップショットを保存(&S)..."
+
+#: ksnapshot.cpp:293
+msgid ""
+"Save the snapshot to the file specified by the user without showing the file "
+"dialog."
+msgstr ""
+"ファイル選択ダイアログを表示せずにユーザによって指定されたファイルにスナップ"
+"ショットを保存します。"
+
+#: ksnapshot.cpp:295
+msgid "Save Snapshot &As..."
+msgstr "スナップショットを保存(&A)..."
+
+#: ksnapshot.cpp:296
+msgid "Save the snapshot to the file specified by the user."
+msgstr "ユーザによって指定されたファイルにスナップショットを保存します。"
+
+#: ksnapshot.cpp:357
+msgid "Save As"
+msgstr "名前を付けて保存"
+
+#: ksnapshot.cpp:579
+msgid "Other Application..."
+msgstr "その他のアプリケーション..."
+
+#: ksnapshot.cpp:703
+msgid "The screen has been successfully grabbed."
+msgstr "スクリーンショットを撮影しました。"
+
+#: ksnapshot.cpp:876
+#, kde-format
+msgid "Preview of the snapshot image (%1 x %2)"
+msgstr "スナップショットのプレビュー (%1 x %2)"
+
+#: ksnapshot_options.h:30
+msgid "Captures the window under the mouse on startup (instead of the desktop)"
+msgstr "起動時にマウス下のウィンドウをキャプチャ (デスクトップではなく)"
+
+#: ksnapshot_options.h:31
+msgid "Captures the desktop"
+msgstr "デスクトップをキャプチャ"
+
+#: ksnapshot_options.h:32
+msgid "Captures a region"
+msgstr "領域をキャプチャ"
+
+#: ksnapshot_options.h:33
+msgid "Captures a free region (not rectangular)"
+msgstr "矩形ではなく自由な領域をキャプチャ"
+
+#: ksnapshot_options.h:34
+msgid "Captures a part of windows"
+msgstr "ウィンドウの一部分をキャプチャ"
+
+#: ksnapshotobject.cpp:118
+msgid "File Exists"
+msgstr "ファイルは存在します"
+
+#: ksnapshotobject.cpp:119
+#, kde-format
+msgid "<qt>Do you really want to overwrite <b>%1</b>?</qt>"
+msgstr "<qt>本当に <b>%1</b> を上書きしますか？</qt>"
+
+#: ksnapshotobject.cpp:120
+msgid "Overwrite"
+msgstr "上書き"
+
+#: ksnapshotobject.cpp:156
+msgid "Unable to Save Image"
+msgstr "画像を保存できません"
+
+#: ksnapshotobject.cpp:157
+#, kde-format
+msgid ""
+"KSnapshot was unable to save the image to\n"
+"%1."
+msgstr ""
+"KSnapshot は以下に画像を保存できませんでした\n"
+"%1"
+
+#: ksnapshotobject.cpp:179
+msgid "Title"
+msgstr "タイトル"
+
+#: ksnapshotobject.cpp:181
+msgid "Window Class"
+msgstr "ウィンドウクラス"
+
+#. i18n: ectx: property (whatsThis), widget (KSnapshotPreview, lblImage)
+#: ksnapshotwidget.ui:33
+msgid ""
+"This is a preview of the current snapshot.\n"
+"\n"
+"The image can be dragged to another application or document to copy the full "
+"screenshot there. Try it with the file manager.\n"
+"\n"
+"You can also copy the image to the clipboard by pressing Ctrl+C."
+msgstr ""
+"これは現在のスナップショットのサムネイルです。\n"
+"\n"
+"この画像を他のアプリケーションや文書にドラッグすると、完全なスクリーンショッ"
+"トをそこにコピーすることができます。ファイルマネージャで試してみてくださ"
+"い。\n"
+"\n"
+"Ctrl+C を押すことでクリップボードにコピーすることもできます。"
+
+#. i18n: ectx: property (whatsThis), widget (KPushButton, btnNew)
+#: ksnapshotwidget.ui:55
+msgid "Click this button to take a new snapshot."
+msgstr "このボタンをクリックして新しいスナップショットを撮影します。"
+
+#. i18n: ectx: property (text), widget (KPushButton, btnNew)
+#: ksnapshotwidget.ui:58
+msgid "Take a &New Snapshot"
+msgstr "新しいスナップショットをとる(&N)"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: ksnapshotwidget.ui:95
+msgid "Cap&ture mode:"
+msgstr "キャプチャモード(&T):"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:116
+#, fuzzy
+#| msgid ""
+#| "<qt>Using this menu, you can select from the five following snapshot "
+#| "modes:\n"
+#| "<p>\n"
+#| "<b>Full Screen</b> - captures the entire desktop.<br/>\n"
+#| "<b>Window Under Cursor</b> - captures only the window (or menu) that is "
+#| "under the mouse cursor when the snapshot is taken.<br/>\n"
+#| "<b>Region</b> - captures only the region of the desktop that you specify. "
+#| "When taking a new snapshot in this mode you will be able to select any "
+#| "area of the screen by clicking and dragging the mouse.<br/>\n"
+#| "<b>Section of Window</b> - captures only a section of the window. When "
+#| "taking a new snapshot in this mode you will be able to select any child "
+#| "window by moving the mouse over it.<br/>\n"
+#| "<b>Current Screen</b> - if you have multiple screens, this captures the "
+#| "screen containing the mouse cursor when the snapshot is taken.\n"
+#| "</p></qt>"
+msgid ""
+"<qt>Using this menu, you can select from the six following snapshot modes:\n"
+"<p>\n"
+"<b>Full Screen</b> - captures the entire desktop.<br/>\n"
+"<b>Window Under Cursor</b> - captures only the window (or menu) that is "
+"under the mouse cursor when the snapshot is taken.<br/>\n"
+"<b>Rectangular Region</b> - captures only the rectangular region of the "
+"desktop that you specify. When taking a new snapshot in this mode you will "
+"be able to select any area of the screen by clicking and dragging the mouse."
+"<br/>\n"
+"<b>Freehand Region</b> - captures arbitrary shapes that you specify. When "
+"taking a new snapshot in this mode you will be able to select any shape by "
+"dragging the mouse.<br/>\n"
+"<b>Section of Window</b> - captures only a section of the window. When "
+"taking a new snapshot in this mode you will be able to select any child "
+"window by moving the mouse over it.<br/>\n"
+"<b>Current Screen</b> - if you have multiple screens, this captures the "
+"screen containing the mouse cursor when the snapshot is taken.\n"
+"</p></qt>"
+msgstr ""
+"<qt>このメニューを使って以下の 5 つの中からキャプチャモードを選択できます。"
+"<ul><li>スクリーン全体: デスクトップ全体をキャプチャします。</li>\n"
+"<li>カーソルの下のウィンドウ: マウスカーソルの下にあるウィンドウまたはメ"
+"ニューのみをキャプチャします。</li>\n"
+"<li>領域: 指定されたデスクトップの領域のみをキャプチャします。このモードで"
+"は、マウスのクリックとドラッグでスクリーンの領域を指定できます。</li>\n"
+"<li>ウィンドウの一部分: ウィンドウの一部分のみをキャプチャします。このモード"
+"では、マウスを移動させて子ウィンドウのいずれかを選択できます。</li><li>現在の"
+"スクリーン: スクリーンが複数ある場合、スナップショットの撮影時にマウスカーソ"
+"ルがあるスクリーンをキャプチャします。</li>\n"
+"</ul></qt>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:120
+msgid "Full Screen"
+msgstr "スクリーン全体"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:125
+msgid "Window Under Cursor"
+msgstr "カーソルの下のウィンドウ"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:130
+msgid "Rectangular Region"
+msgstr "矩形領域"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:135
+msgid "Freehand Region"
+msgstr "フリーハンド領域"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:140
+msgid "Section of Window"
+msgstr "ウィンドウのセクション"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, comboMode)
+#: ksnapshotwidget.ui:145
+msgid "Current Screen"
+msgstr "現在のスクリーン"
+
+#. i18n: ectx: property (text), widget (QLabel, lblDelay)
+#: ksnapshotwidget.ui:153
+msgid "Snapshot &delay:"
+msgstr "スナップショットの遅延(&D):"
+
+#. i18n: ectx: property (toolTip), widget (KIntSpinBox, spinDelay)
+#: ksnapshotwidget.ui:172
+msgid "Snapshot delay in seconds"
+msgstr "スナップショットを撮影するまでの遅延秒数"
+
+#. i18n: ectx: property (whatsThis), widget (KIntSpinBox, spinDelay)
+#: ksnapshotwidget.ui:182
+msgid ""
+"<qt><p>\n"
+"This is the number of seconds to wait after clicking the <i>New Snapshot</i> "
+"button before taking the snapshot.\n"
+"</p><p>\n"
+"This is very useful for getting windows, menus and other items on the screen "
+"set up just the way you want.\n"
+"</p><p>\n"
+"If <i>no delay</i> is set, the program will wait for a mouse click before "
+"taking a snapshot.\n"
+"</p>\n"
+"</qt>"
+msgstr ""
+"<qt>\n"
+"<p><interface>新しいスナップショット</interface>ボタンをクリックしてから実際"
+"にスナップショットを撮影するまでの遅延秒数です。</p>\n"
+"<p>これは、ウィンドウ、メニュー、その他のスクリーン上のアイテムを好みの状態に"
+"整えるときに役立ちます。</p>\n"
+"<p><interface>遅延なし</interface>の場合は、マウスのクリックを合図にスナップ"
+"ショットを撮影します。</p>\n"
+"</qt>"
+
+#. i18n: ectx: property (specialValueText), widget (KIntSpinBox, spinDelay)
+#: ksnapshotwidget.ui:185
+msgid "No delay"
+msgstr "遅延なし"
+
+#. i18n: ectx: property (text), widget (QLabel, lblIncludeDecorations)
+#: ksnapshotwidget.ui:195
+msgid "Include &window decorations:"
+msgstr "ウィンドウの装飾を含める(&W):"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, cbIncludeDecorations)
+#: ksnapshotwidget.ui:208
+msgid ""
+"When enabled, snapshot of a window will also include the window decorations"
+msgstr ""
+"このオプションを有効にすると、スナップショットにウィンドウの装飾も含めます。"
+
+#. i18n: ectx: property (text), widget (QLabel, lblIncludePointer)
+#: ksnapshotwidget.ui:221
+msgid "Include mouse &pointer:"
+msgstr "マウスポインタを含む(&P):"
+
+#: main.cpp:34
+msgid "KDE Screenshot Utility"
+msgstr "スクリーンショットを撮影するための KDE ユーティリティ"
+
+#: main.cpp:38
+msgid "KSnapshot"
+msgstr "KSnapshot"
+
+#: main.cpp:40
+msgid ""
+"(c) 1997-2008, Richard J. Moore,\n"
+"(c) 2000, Matthias Ettrich,\n"
+"(c) 2002-2003 Aaron J. Seigo"
+msgstr ""
+"(c) 1997-2008, Richard J. Moore,\n"
+"(c) 2000, Matthias Ettrich,\n"
+"(c) 2002-2003 Aaron J. Seigo"
+
+#: main.cpp:41
+msgid "Richard J. Moore"
+msgstr "Richard J. Moore"
+
+#: main.cpp:42
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:43
+msgid "Aaron J. Seigo"
+msgstr "Aaron J. Seigo"
+
+#: main.cpp:44
+msgid "Nadeem Hasan"
+msgstr "Nadeem Hasan"
+
+#: main.cpp:44
+msgid ""
+"Region Grabbing\n"
+"Reworked GUI"
+msgstr ""
+"領域キャプチャモード\n"
+"GUI の作り直し"
+
+#: main.cpp:46
+msgid "Marcus Hufgard"
+msgstr "Marcus Hufgard"
+
+#: main.cpp:46
+msgid "\"Open With\" function"
+msgstr "「アプリケーションで開く」機能"
+
+#: main.cpp:48
+msgid "Pau Garcia i Quiles"
+msgstr "Pau Garcia i Quiles"
+
+#: main.cpp:48
+msgid "Free region grabbing, KIPI plugins support, port to Windows"
+msgstr ""
+
+#: snapshottimer.cpp:36 snapshottimer.cpp:111
+#, kde-format
+msgid "Snapshot will be taken in 1 second"
+msgid_plural "Snapshot will be taken in %1 seconds"
+msgstr[0] "1 秒後にスナップショットを撮影します"
+msgstr[1] "%1 秒後にスナップショットを撮影します"

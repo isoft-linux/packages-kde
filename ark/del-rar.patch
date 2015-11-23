@@ -1,6 +1,6 @@
-diff -Naur ark-15.08.3.old/app/ark_addtoservicemenu.desktop ark-15.08.3/app/ark_addtoservicemenu.desktop
---- ark-15.08.3.old/app/ark_addtoservicemenu.desktop	2015-11-13 13:05:12.021735587 +0800
-+++ ark-15.08.3/app/ark_addtoservicemenu.desktop	2015-11-13 13:56:39.756735218 +0800
+diff -Nur ark-15.11.80/app/ark_addtoservicemenu.desktop ark-15.11.80n/app/ark_addtoservicemenu.desktop
+--- ark-15.11.80/app/ark_addtoservicemenu.desktop	2015-11-19 04:21:31.000000000 +0800
++++ ark-15.11.80n/app/ark_addtoservicemenu.desktop	2015-11-21 17:51:01.222268499 +0800
 @@ -2,7 +2,7 @@
  Type=Service
  ServiceTypes=KonqPopupMenu/Plugin
@@ -10,12 +10,13 @@ diff -Naur ark-15.08.3.old/app/ark_addtoservicemenu.desktop ark-15.08.3/app/ark_
  X-KDE-Submenu=Compress
  X-KDE-Submenu[ar]=اضغط
  X-KDE-Submenu[ast]=Comprimir
-@@ -126,36 +126,6 @@
+@@ -132,40 +132,6 @@
  Icon=ark
  Exec=ark --changetofirstpath --add --autofilename zip %F
  
 -[Desktop Action compressHereAsRar]
 -Name=Here (as RAR)
+-Name[ast]=Equí (como RAR)
 -Name[ca]=Aquí (com a RAR)
 -Name[ca@valencia]=Ací (com a RAR)
 -Name[cs]=Zde (jako RAR)
@@ -26,11 +27,12 @@ diff -Naur ark-15.08.3.old/app/ark_addtoservicemenu.desktop ark-15.08.3/app/ark_
 -Name[fi]=Tähän (RAR-paketiksi)
 -Name[fr]=Ici (en rar)
 -Name[gl]=Aquí (como RAR)
+-Name[hu]=Ide (rar-ként)
 -Name[it]=Qui (come RAR)
 -Name[ko]=여기(RAR로)
 -Name[nl]=Hier (als RAR)
 -Name[pl]=Tutaj (jako RAR)
--Name[pt]=Aqui (Como RAR)
+-Name[pt]=Aqui (como RAR)
 -Name[pt_BR]=Aqui (como RAR)
 -Name[sk]=Sem (ako RAR)
 -Name[sl]=Sem (kot RAR)
@@ -39,11 +41,13 @@ diff -Naur ark-15.08.3.old/app/ark_addtoservicemenu.desktop ark-15.08.3/app/ark_
 -Name[sr@ijekavianlatin]=ovde (kao RAR)
 -Name[sr@latin]=ovde (kao RAR)
 -Name[sv]=Här (som RAR)
+-Name[tr]=Buraya (RAR olarak)
 -Name[uk]=Сюди (як RAR)
 -Name[x-test]=xxHere (as RAR)xx
 -Name[zh_CN]=此处 (作为 RAR)
 -Icon=ark
 -Exec=ark --changetofirstpath --add --autofilename rar %F
- 
+-
  [Desktop Action compressTo]
  Name=Compress to...
+ Name[ast]=Comprimir en...
