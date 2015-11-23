@@ -3,18 +3,15 @@
 
 Name:           lmdb
 Version:        0.9.16
-Release:        2%{?dist}
+Release:        3.git%{?dist}
 Summary:        Memory-mapped key-value database
 
 License:        OpenLDAP
 URL:            http://symas.com/mdb/
-Source:         https://github.com/LMDB/lmdb/archive/LMDB_%{version}.tar.gz
+#https://github.com/LMDB/lmdb
+Source: lmdb.tar.gz
 # Patch description in the corresponding file
 Patch0: lmdb-make.patch
-Patch1: lmdb-s390-check.patch
-
-#from ZhaiXiang, rebased and refined.
-Patch2: 0001-fix-env-is-null.patch
 
 BuildRequires: make
 BuildRequires: doxygen
@@ -50,10 +47,8 @@ The %{name}-doc package contains automatically generated documentation for %{nam
 
 
 %prep
-%setup -q -n %{name}-LMDB_%{version}
+%setup -q -n %{name}
 %patch0 -p1 -b .make
-%patch1 -p1 -b .s390-check
-%patch2 -p1
 
 %build
 pushd %{archive_path}
@@ -91,7 +86,6 @@ popd
 
 %files libs
 %doc %{archive_path}/COPYRIGHT
-%doc %{archive_path}/CHANGES
 %license %{archive_path}/LICENSE
 %{_libdir}/*.so.*
 
@@ -102,11 +96,13 @@ popd
 %files doc
 %doc %{archive_path}/html
 %doc %{archive_path}/COPYRIGHT
-%doc %{archive_path}/CHANGES
 %license %{archive_path}/LICENSE
 
 
 %changelog
+* Sun Nov 22 2015 Cjacker <cjacker@foxmail.com> - 0.9.16-3.git
+- Update to latest git
+
 * Thu Nov 12 2015 Cjacker <cjacker@foxmail.com> - 0.9.16-2
 - Update
 
