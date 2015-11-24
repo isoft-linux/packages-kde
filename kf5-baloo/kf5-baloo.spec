@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        5
+Release:        6
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -18,15 +18,16 @@ Source0: http://download.kde.org/%{stable}/frameworks/5.16/%{framework}-%{versio
 
 Source1: 97-kde-baloo-filewatch-inotify.conf
 
+#backport from git
+Patch0: baloo-disable-cow-on-btrfs-and-fix-db-open-fail-if-not-exist.patch
+
 #simple chinese support for baloo filename index/search.
-Patch0: baloo-rude-chinese-support.patch
+Patch10: baloo-rude-chinese-support.patch
 #extend to support all CJKV
-Patch1: baloo-extend-to-support-all-CJKV.patch
+Patch11: baloo-extend-to-support-all-CJKV.patch
+#use kjieba to segment Chinese
+Patch12: baloo-enable-kjieba.patch 
 
-Patch2: baloo-disable-cow-on-btrfs-and-fix-db-open-fail-if-not-exist.patch
-
-#already upstreamed.
- 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
@@ -45,9 +46,12 @@ BuildRequires:  kf5-kfilemetadata-devel >= %{version}
 BuildRequires:  kf5-kcrash-devel >= %{version}
 BuildRequires:  kf5-kio-devel >= %{version}
 
+BuildRequires:  kjieba-devel
+
 BuildRequires:  lmdb-devel 
 
 Requires:       kf5-filesystem
+Requires:       kjieba
 
 Obsoletes:      kf5-baloo-tools < 5.5.95-1
 Obsoletes:      baloo < 5
@@ -83,8 +87,9 @@ Summary:        Runtime libraries for %{name}
 %prep
 %setup -qn %{framework}-%{version}
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
 
 %build
 mkdir %{_target_platform}
@@ -173,6 +178,9 @@ fi
 
 
 %changelog
+* Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-6
+- Use kjieba to segment Chinese
+
 * Sun Nov 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-5
 - Merge git patch back
 

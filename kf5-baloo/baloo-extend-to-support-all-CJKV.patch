@@ -20,7 +20,7 @@ diff -Nur baloo-5.16.0/src/engine/queryparser.cpp baloo-5.16.0n/src/engine/query
      for(int i = 0 ; i < nCount ; i++)
      {
          QChar cha = text.at(i);
-         ushort uni = cha.unicode();
+         uint uni = cha.unicode();
 -        if(uni >= 0x4E00 && uni <= 0x9FA5)
 +        if((uni >= 0x4E00 && uni <= 0x9FFF) ||
 +           (uni >= 0x3400 && uni <= 0x4DFF) ||
@@ -52,7 +52,7 @@ diff -Nur baloo-5.16.0/src/engine/termgenerator.cpp baloo-5.16.0n/src/engine/ter
      for(int i = 0 ; i < nCount ; i++)  
      {  
          QChar cha = text.at(i);  
-         ushort uni = cha.unicode();  
+         uint uni = cha.unicode();  
 -        if(uni >= 0x4E00 && uni <= 0x9FA5)  
 +        if((uni >= 0x4E00 && uni <= 0x9FFF) ||
 +           (uni >= 0x3400 && uni <= 0x4DFF) ||
