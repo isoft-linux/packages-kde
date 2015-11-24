@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        6
+Release:        7
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -61,10 +61,16 @@ Patch20: kcmshell5-show-correct-icon-in-taskbar.patch
 #Catch other openGL error gracefully
 Patch21: catch-other-opengl-errors.patch 
 
+Patch29: 0001-xembed-sni-proxy-Fix-quit-if-we-fail-to-claim.patch
 #fix always segfault of xembedsniproxy
-Patch30: xembedsniproxy-fix-always-segfault.patch 
+Patch30: xembedsniproxy-fix-always-segfault.patch
+ 
+#fix java system tray icon(tray icon need double left click to activate and right click need traywindow had focus)
+#partial fix https://bugs.kde.org/show_bug.cgi?id=355504
+Patch31: xembed-fix-java2.patch
+ 
 #there is two special window in isoftdesktop when every cold bootup.HACK!
-Patch31: xembedsniproxy-dirty-fix-for-isoft-startup.patch
+Patch32: xembedsniproxy-dirty-fix-for-isoft-startup.patch
 
 # udev
 BuildRequires:  zlib-devel
@@ -257,8 +263,10 @@ Documentation and user manuals for %{name}.
 %patch20 -p1
 %patch21 -p1
 
+%patch29 -p1
 %patch30 -p1
 %patch31 -p1
+%patch32 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -370,6 +378,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Nov 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-7
+- Fix kde bug 355504
+
 * Thu Nov 19 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Drop 0002-add-paste-for-desktopview.patch, CTRL+V also need to consider other
   items for example plasmoid.
