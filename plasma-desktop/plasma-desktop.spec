@@ -80,6 +80,8 @@ Patch313: 0008-preview-splash-isoft-logo.patch
 # https://git.reviewboard.kde.org/r/126079/
 Patch314: fix-kde-bug-355365.patch
 
+# https://git.reviewboard.kde.org/r/124675/
+Patch315: fix-kde-bug-311991.patch
 ## upstreamable patches
 
 BuildRequires:  libusb-devel
@@ -342,7 +344,7 @@ fi
 
 %changelog
 * Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-9
-- Fix KDE BUG 355365
+- Fix KDE BUG 355365, 311991
 
 * Thu Nov 19 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - kcm_splashscreen use isoft logo.
