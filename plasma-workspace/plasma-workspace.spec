@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        7
+Release:        8
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -60,6 +60,9 @@ Patch20: kcmshell5-show-correct-icon-in-taskbar.patch
 #https://git.reviewboard.kde.org/r/125997/
 #Catch other openGL error gracefully
 Patch21: catch-other-opengl-errors.patch 
+
+#http://git.reviewboard.kde.org/r/126042/
+Patch22: avoid-qmenu-exec-in-plasmoid-context-menu.patch
 
 Patch29: 0001-xembed-sni-proxy-Fix-quit-if-we-fail-to-claim.patch
 #fix always segfault of xembedsniproxy
@@ -262,6 +265,7 @@ Documentation and user manuals for %{name}.
 %patch19 -p1
 %patch20 -p1
 %patch21 -p1
+%patch22 -p1
 
 %patch29 -p1
 %patch30 -p1
@@ -378,6 +382,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-8
+- Fix KDE bug 354903
+
 * Mon Nov 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-7
 - Fix kde bug 355504
 
