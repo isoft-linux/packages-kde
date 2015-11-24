@@ -1,0 +1,23 @@
+https://git.reviewboard.kde.org/r/126085/
+When updating save-as mimetype update suggested default name before updating show list
+
+Otherwise KDirOperator will signal that we have gone from having an
+existing item selected to having no item selected and will then select
+the first file that matches the new mime filter criteria.
+diff --git a/src/filewidgets/kfilewidget.cpp b/src/filewidgets/kfilewidget.cpp
+index 918a49941ce1610d1b2bb7764b07fc4f81238313..868928b3f6511c7890e4cf4ba09edc68048649e7 100644
+--- a/src/filewidgets/kfilewidget.cpp
++++ b/src/filewidgets/kfilewidget.cpp
+@@ -1446,10 +1446,10 @@ void KFileWidgetPrivate::_k_slotFilterChanged()
+         ops->setNameFilter('*' + filter.replace(' ', '*') + '*');
+     }
+ 
+-    ops->updateDir();
+-
+     updateAutoSelectExtension();
+ 
++    ops->updateDir();
++
+     emit q->filterChanged(filter);
+ }
+ 
