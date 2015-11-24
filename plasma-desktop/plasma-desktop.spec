@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        8
+Release:        9
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -76,6 +76,9 @@ Patch312: plasma-desktop-startup-history-documents.patch
 
 # kcm_splashscreen use isoft logo
 Patch313: 0008-preview-splash-isoft-logo.patch
+
+# https://git.reviewboard.kde.org/r/126079/
+Patch314: fix-kde-bug-355365.patch
 
 ## upstreamable patches
 
@@ -338,10 +341,13 @@ fi
 
 
 %changelog
+* Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-9
+- Fix KDE BUG 355365
+
 * Thu Nov 19 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - kcm_splashscreen use isoft logo.
 
-* Fri Nov 15 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-7
+* Sun Nov 15 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-7
 - Patch for open desktop file with Type=Link.
 
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-6
