@@ -1,0 +1,16 @@
+diff -Naur kscreen-5.4.3.old/po/zh_CN/kcm_displayconfiguration.po kscreen-5.4.3/po/zh_CN/kcm_displayconfiguration.po
+--- kscreen-5.4.3.old/po/zh_CN/kcm_displayconfiguration.po	2015-11-24 09:28:06.185291351 +0800
++++ kscreen-5.4.3/po/zh_CN/kcm_displayconfiguration.po	2015-11-24 09:27:28.289292000 +0800
+@@ -184,6 +184,12 @@
+ msgid "Unify Outputs"
+ msgstr "统一输出"
+ 
++msgid "Scale:"
++msgstr "缩放" 
++
++msgid "Screen Scaling"
++msgstr "缩放显示"
++
+ #: src/widget.cpp:120
+ msgid "Scale Display"
+ msgstr "缩放显示"

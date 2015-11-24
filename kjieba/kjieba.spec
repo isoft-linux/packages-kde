@@ -1,5 +1,5 @@
 Name: kjieba
-Version: 0.1.0
+Version: 0.2.0
 Release: 1%{?dist}
 Summary: DBus interface of libcppjieba for KDE5
 
@@ -65,4 +65,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %changelog
 * Mon Nov 23 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Autostart kjieba dbus service when qdbus call.
+- Add query sync API with CutMethod parameter and install example.
+- Release kjieba 0.2.0
 - Release kjieba 0.1.0
