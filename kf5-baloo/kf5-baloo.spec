@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        6
+Release:        7
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -19,7 +19,7 @@ Source0: http://download.kde.org/%{stable}/frameworks/5.16/%{framework}-%{versio
 Source1: 97-kde-baloo-filewatch-inotify.conf
 
 #backport from git
-Patch0: baloo-disable-cow-on-btrfs-and-fix-db-open-fail-if-not-exist.patch
+Patch0: baloo-to-git.patch
 
 #simple chinese support for baloo filename index/search.
 Patch10: baloo-rude-chinese-support.patch
@@ -178,6 +178,9 @@ fi
 
 
 %changelog
+* Wed Nov 25 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-7
+- Update to git master
+
 * Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-6
 - Use kjieba to segment Chinese
 
