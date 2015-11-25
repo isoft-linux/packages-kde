@@ -1,7 +1,7 @@
 Name:    baloo-widgets
 Summary: Widgets for Baloo
 Version: 15.11.80
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 # # KDE e.V. may determine that future LGPL versions are accepted
 License: LGPLv2 or LGPLv3
@@ -14,6 +14,9 @@ URL:     https://projects.kde.org/projects/kde/kdelibs/baloo-widgets
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+
+#https://git.reviewboard.kde.org/r/126132/
+Patch0: beautiful-bitrate.patch
 
 Provides: kf5-baloo-widgets = %{version}-%{release}
 Provides: kf5-baloo-widgets%{?_isa} = %{version}-%{release}
@@ -52,7 +55,7 @@ Requires: kf5-kio-devel
 
 %prep
 %setup -q
-
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -82,6 +85,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Nov 25 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-3
+- Backport patch from git reviewboard
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 
