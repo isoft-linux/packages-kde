@@ -2,7 +2,7 @@
 
 Name:           kwin
 Version:        5.4.3
-Release:        4
+Release:        5
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -30,6 +30,14 @@ Patch1: kwin-desktop-grid.patch
 #https://git.reviewboard.kde.org/r/126059/
 #Add rule to protect the focus on a window
 Patch2: 0001-Add-rule-to-protect-the-focus-on-a-window.patch
+
+#this is a partial fix of 'right click popup menu' not gain focus.
+#It's actually a critical issue, but very difficult to fix.
+#this patch only handle mouse click event on decoration.
+#But it 'right click menu popup', and click in the main window.
+#The menu will still there.
+
+Patch3: kwin-close-windowmenu-rightclick-popup.patch
 
 # Base
 BuildRequires:  cmake
@@ -241,6 +249,9 @@ fi
 
 
 %changelog
+* Wed Nov 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-5
+- Partial fix right-click popup menu issue
+
 * Sun Nov 15 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-4
 - Add patch to protect focus
 
