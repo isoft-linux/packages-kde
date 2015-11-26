@@ -1,0 +1,62 @@
+diff -Nur plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp plasma-workspace/xembed-sni-proxy/sniproxy.cpp
+--- plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:46:02.116985373 +0800
++++ plasma-workspace/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:48:06.142983152 +0800
+@@ -238,6 +238,32 @@
+     xcb_image_destroy(static_cast<xcb_image_t*>(data));
+ }
+ 
++QRect findImageTransparentBounding(QImage p)
++{
++    int l =p.width(), r = 0, t = p.height(), b = 0;
++    for (int y = 0; y < p.height(); ++y) {
++        QRgb *row = (QRgb*)p.scanLine(y);
++        bool rowFilled = false;
++        for (int x = 0; x < p.width(); ++x) {
++            if (qAlpha(row[x])) {
++                rowFilled = true;
++                r = std::max(r, x);
++                if (l > x) {
++                    l = x;
++                    x = r; // shortcut to only search for new right bound from here
++                }
++            }
++        }
++        if (rowFilled) {
++            t = std::min(t, y);
++            b = y;
++        }
++    }
++    //NOTE, it may not be a square.
++    //And it's may 'Empty' if it's totally transparent.
++    return QRect(QPoint(l, t), QPoint(r, b));
++}
++
+ QImage SNIProxy::getImageNonComposite()
+ {
+     auto c = QX11Info::connection();
+@@ -246,8 +272,23 @@
+     QImage qimage;
+     if(geom) {
+         xcb_image_t *image = xcb_image_get(c, m_windowId, 0, 0, geom->width, geom->height, 0xFFFFFF, XCB_IMAGE_FORMAT_Z_PIXMAP);
+-        if(image)
+-            qimage = QImage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
++        if(image){
++            QImage ximage = QImage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
++            QRect rect = findImageTransparentBounding(ximage); 
++            ximage = ximage.copy(rect);
++            //get max of widht/height.
++            int sq = qMax(ximage.width(),ximage.height());
++            //create a transparent square image
++            qimage = QImage(sq, sq, QImage::Format_ARGB32);
++            qimage.fill(qRgba(0,0,0,0));
++            //paint the real icon centered.
++            QPainter painter(&qimage);
++            if(ximage.width() > ximage.height())
++                painter.drawImage(0, (ximage.width() - ximage.height())/2, ximage);
++            else 
++                painter.drawImage((ximage.width() - ximage.height())/2, 0, ximage);
++            painter.end();
++        }
+     }
+     return qimage;
+ }

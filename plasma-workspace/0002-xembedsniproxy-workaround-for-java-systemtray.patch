@@ -1,7 +1,7 @@
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.cpp
---- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp	2015-11-23 21:41:31.870060993 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.cpp	2015-11-23 21:41:19.785060877 +0800
-@@ -196,6 +196,8 @@
+diff -Nur plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp plasma-workspace/xembed-sni-proxy/sniproxy.cpp
+--- plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:43:42.289987877 +0800
++++ plasma-workspace/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:45:04.039986413 +0800
+@@ -190,6 +190,8 @@
  SNIProxy::~SNIProxy()
  {
      QDBusConnection::disconnectFromBus(m_dbus.name());
@@ -10,31 +10,25 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-
  }
  
  void SNIProxy::update()
-@@ -375,13 +378,13 @@
+@@ -401,9 +403,13 @@
          xcb_send_event(c, false, m_windowId, XCB_EVENT_MASK_BUTTON_RELEASE, (char *) event);
          free(event);
      }
--#ifndef VISUAL_DEBUG
 +    //Do not move window down imediately, sometimes, tray requires double click.
 +    QTimer::singleShot(1000, this, &SNIProxy::downContainer);
 +}
-+
+ 
+-#ifndef VISUAL_DEBUG
 +void SNIProxy::downContainer()
 +{
      const uint32_t stackBelowData[] = {XCB_STACK_MODE_BELOW};
 +    auto c = QX11Info::connection();
      xcb_configure_window(c, m_containerWid, XCB_CONFIG_WINDOW_STACK_MODE, stackBelowData);
 -#endif
--    }
--
--
--
--
--//
-+}
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.h
---- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h	2015-11-23 21:41:31.861060993 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.h	2015-11-23 21:26:28.630052291 +0800
+ }
+diff -Nur plasma-workspace.git/xembed-sni-proxy/sniproxy.h plasma-workspace/xembed-sni-proxy/sniproxy.h
+--- plasma-workspace.git/xembed-sni-proxy/sniproxy.h	2015-11-26 16:42:02.109989671 +0800
++++ plasma-workspace/xembed-sni-proxy/sniproxy.h	2015-11-26 16:43:56.382987625 +0800
 @@ -46,6 +46,7 @@
      SNIProxy(xcb_window_t wid, QObject *parent=0);
      ~SNIProxy();

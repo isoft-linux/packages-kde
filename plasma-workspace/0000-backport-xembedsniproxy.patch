@@ -1,54 +1,7 @@
-From 2fc947526df5d7f62db79e7f224cc13b1aa15493 Mon Sep 17 00:00:00 2001
-From: David Edmundson <kde@davidedmundson.co.uk>
-Date: Wed, 28 Oct 2015 13:17:49 +0000
-Subject: [PATCH] Proxy Xembed icons to SNI
-
-The goal of this project is to make xembed system trays available in
-Plasma.
-
-This is to allow legacy apps (xchat, pidgin, tuxguitar) etc. system
-trays[1] available in Plasma which only supports StatusNotifierItem [2].
-
-Ideally we also want this to work in an xwayland session, making X
-system tray icons available even when plasmashell only has a wayland
-connection.
-
-REVIEW: 125655
----
- CMakeLists.txt                                     |   3 +
- xembed-sni-proxy/CMakeLists.txt                    |  67 ++++
- xembed-sni-proxy/Readme.md                         |  30 ++
- xembed-sni-proxy/fdoselectionmanager.cpp           | 182 ++++++++++
- xembed-sni-proxy/fdoselectionmanager.h             |  62 ++++
- xembed-sni-proxy/main.cpp                          |  72 ++++
- xembed-sni-proxy/org.kde.StatusNotifierItem.xml    |  96 ++++++
- xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml |  42 +++
- xembed-sni-proxy/snidbus.cpp                       | 148 ++++++++
- xembed-sni-proxy/snidbus.h                         |  65 ++++
- xembed-sni-proxy/sniproxy.cpp                      | 376 +++++++++++++++++++++
- xembed-sni-proxy/sniproxy.h                        | 152 +++++++++
- xembed-sni-proxy/xcbutils.h                        | 126 +++++++
- xembed-sni-proxy/xembedsniproxy.desktop            |   7 +
- 14 files changed, 1428 insertions(+)
- create mode 100644 xembed-sni-proxy/CMakeLists.txt
- create mode 100644 xembed-sni-proxy/Readme.md
- create mode 100644 xembed-sni-proxy/fdoselectionmanager.cpp
- create mode 100644 xembed-sni-proxy/fdoselectionmanager.h
- create mode 100644 xembed-sni-proxy/main.cpp
- create mode 100644 xembed-sni-proxy/org.kde.StatusNotifierItem.xml
- create mode 100644 xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml
- create mode 100644 xembed-sni-proxy/snidbus.cpp
- create mode 100644 xembed-sni-proxy/snidbus.h
- create mode 100644 xembed-sni-proxy/sniproxy.cpp
- create mode 100644 xembed-sni-proxy/sniproxy.h
- create mode 100644 xembed-sni-proxy/xcbutils.h
- create mode 100644 xembed-sni-proxy/xembedsniproxy.desktop
-
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 86d1531..5aacfb8 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -44,6 +44,7 @@
+diff -Nur plasma-workspace-5.4.3/CMakeLists.txt plasma-workspace-5.4.3new/CMakeLists.txt
+--- plasma-workspace-5.4.3/CMakeLists.txt	2015-11-26 16:56:01.725974635 +0800
++++ plasma-workspace-5.4.3new/CMakeLists.txt	2015-11-26 16:56:19.799974311 +0800
+@@ -49,6 +49,7 @@
  include(CheckIncludeFiles)
  include(FeatureSummary)
  include(ECMOptionalAddSubdirectory)
@@ -56,7 +9,7 @@ index 86d1531..5aacfb8 100644
  
  find_package(KF5Activities ${KF5_MIN_VERSION})
  set_package_properties(KF5Activities PROPERTIES DESCRIPTION "management of Plasma activities"
-@@ -156,6 +157,8 @@
+@@ -168,6 +169,8 @@
  add_subdirectory(drkonqi)
  endif()
  
@@ -65,11 +18,9 @@ index 86d1531..5aacfb8 100644
  add_subdirectory(soliduiserver)
  feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
  
-diff --git a/xembed-sni-proxy/CMakeLists.txt b/xembed-sni-proxy/CMakeLists.txt
-new file mode 100644
-index 0000000..1686340
---- /dev/null
-+++ b/xembed-sni-proxy/CMakeLists.txt
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/CMakeLists.txt plasma-workspace-5.4.3new/xembed-sni-proxy/CMakeLists.txt
+--- plasma-workspace-5.4.3/xembed-sni-proxy/CMakeLists.txt	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/CMakeLists.txt	2015-11-26 16:56:35.532974030 +0800
 @@ -0,0 +1,67 @@
 +project(xembedsniproxy)
 +
@@ -138,47 +89,9 @@ index 0000000..1686340
 +install(TARGETS xembedsniproxy ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 +install(FILES xembedsniproxy.desktop DESTINATION ${KDE_INSTALL_AUTOSTARTDIR})
 +
-diff --git a/xembed-sni-proxy/Readme.md b/xembed-sni-proxy/Readme.md
-new file mode 100644
-index 0000000..4201349
---- /dev/null
-+++ b/xembed-sni-proxy/Readme.md
-@@ -0,0 +1,30 @@
-+##XEmbed SNI Proxy
-+
-+The goal of this project is to make xembed system trays available in Plasma.
-+
-+This is to allow legacy apps (xchat, pidgin, tuxguitar) etc. system trays[1] available in Plasma which only supports StatusNotifierItem [2].
-+
-+Ideally we also want this to work in an xwayland session, making X system tray icons available even when plasmashell only has a wayland connection.
-+
-+This project should be portable onto all other DEs that speak SNI.
-+
-+##How it works (in theory)
-+
-+* We register a window as a system tray container
-+* We render embeded windows composited offscreen
-+* We render contents into an image and send this over DBus via the SNI protocol
-+* XDamage events trigger a repaint
-+* Activate and context menu events are replyed via X send event into the embedded container as left and right clicks
-+
-+There are a few extra hacks in the real code to deal with some toolkits being awkward.
-+
-+##Build instructions
-+
-+    cmake .
-+    make
-+    sudo make install
-+
-+After building, run `xembedsniproxy`.
-+
-+[1] http://standards.freedesktop.org/systemtray-spec/systemtray-spec-latest.html
-+[2] http://www.freedesktop.org/wiki/Specifications/StatusNotifierItem/
-diff --git a/xembed-sni-proxy/fdoselectionmanager.cpp b/xembed-sni-proxy/fdoselectionmanager.cpp
-new file mode 100644
-index 0000000..02d2660
---- /dev/null
-+++ b/xembed-sni-proxy/fdoselectionmanager.cpp
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/fdoselectionmanager.cpp
+--- plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/fdoselectionmanager.cpp	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,182 @@
 +/*
 + * Registers as a embed container
@@ -362,11 +275,9 @@ index 0000000..02d2660
 +}
 +
 +
-diff --git a/xembed-sni-proxy/fdoselectionmanager.h b/xembed-sni-proxy/fdoselectionmanager.h
-new file mode 100644
-index 0000000..084152e
---- /dev/null
-+++ b/xembed-sni-proxy/fdoselectionmanager.h
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.h plasma-workspace-5.4.3new/xembed-sni-proxy/fdoselectionmanager.h
+--- plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.h	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/fdoselectionmanager.h	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,62 @@
 +/*
 + * Registers as a embed container
@@ -430,11 +341,9 @@ index 0000000..084152e
 +
 +
 +#endif
-diff --git a/xembed-sni-proxy/main.cpp b/xembed-sni-proxy/main.cpp
-new file mode 100644
-index 0000000..291fb10
---- /dev/null
-+++ b/xembed-sni-proxy/main.cpp
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/main.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/main.cpp
+--- plasma-workspace-5.4.3/xembed-sni-proxy/main.cpp	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/main.cpp	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,72 @@
 +/*
 + * Main
@@ -509,11 +418,9 @@ index 0000000..291fb10
 +    return rc;
 +}
 \ No newline at end of file
-diff --git a/xembed-sni-proxy/org.kde.StatusNotifierItem.xml b/xembed-sni-proxy/org.kde.StatusNotifierItem.xml
-new file mode 100644
-index 0000000..d378c74
---- /dev/null
-+++ b/xembed-sni-proxy/org.kde.StatusNotifierItem.xml
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierItem.xml plasma-workspace-5.4.3new/xembed-sni-proxy/org.kde.StatusNotifierItem.xml
+--- plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierItem.xml	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/org.kde.StatusNotifierItem.xml	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,96 @@
 +<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 +<node>
@@ -611,11 +518,9 @@ index 0000000..d378c74
 +
 +  </interface>
 +</node>
-diff --git a/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml b/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml
-new file mode 100644
-index 0000000..2eb1a7a
---- /dev/null
-+++ b/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml plasma-workspace-5.4.3new/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml
+--- plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,42 @@
 +<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 +<node>
@@ -659,11 +564,43 @@ index 0000000..2eb1a7a
 +    </signal>
 +  </interface>
 +</node>
-diff --git a/xembed-sni-proxy/snidbus.cpp b/xembed-sni-proxy/snidbus.cpp
-new file mode 100644
-index 0000000..4ebb7a0
---- /dev/null
-+++ b/xembed-sni-proxy/snidbus.cpp
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/Readme.md plasma-workspace-5.4.3new/xembed-sni-proxy/Readme.md
+--- plasma-workspace-5.4.3/xembed-sni-proxy/Readme.md	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/Readme.md	2015-11-26 16:56:35.533974030 +0800
+@@ -0,0 +1,30 @@
++##XEmbed SNI Proxy
++
++The goal of this project is to make xembed system trays available in Plasma.
++
++This is to allow legacy apps (xchat, pidgin, tuxguitar) etc. system trays[1] available in Plasma which only supports StatusNotifierItem [2].
++
++Ideally we also want this to work in an xwayland session, making X system tray icons available even when plasmashell only has a wayland connection.
++
++This project should be portable onto all other DEs that speak SNI.
++
++##How it works (in theory)
++
++* We register a window as a system tray container
++* We render embeded windows composited offscreen
++* We render contents into an image and send this over DBus via the SNI protocol
++* XDamage events trigger a repaint
++* Activate and context menu events are replyed via X send event into the embedded container as left and right clicks
++
++There are a few extra hacks in the real code to deal with some toolkits being awkward.
++
++##Build instructions
++
++    cmake .
++    make
++    sudo make install
++
++After building, run `xembedsniproxy`.
++
++[1] http://standards.freedesktop.org/systemtray-spec/systemtray-spec-latest.html
++[2] http://www.freedesktop.org/wiki/Specifications/StatusNotifierItem/
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/snidbus.cpp
+--- plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.cpp	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/snidbus.cpp	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,148 @@
 +/*
 + * SNI DBus Serialisers
@@ -814,11 +751,9 @@ index 0000000..4ebb7a0
 +    return argument;
 +}
 \ No newline at end of file
-diff --git a/xembed-sni-proxy/snidbus.h b/xembed-sni-proxy/snidbus.h
-new file mode 100644
-index 0000000..e8cda9c
---- /dev/null
-+++ b/xembed-sni-proxy/snidbus.h
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.h plasma-workspace-5.4.3new/xembed-sni-proxy/snidbus.h
+--- plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.h	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/snidbus.h	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,65 @@
 +/*
 + * SNI Dbus serialisers
@@ -885,12 +820,10 @@ index 0000000..e8cda9c
 +Q_DECLARE_METATYPE(KDbusToolTipStruct)
 +
 +#endif // SNIDBUS_H
-diff --git a/xembed-sni-proxy/sniproxy.cpp b/xembed-sni-proxy/sniproxy.cpp
-new file mode 100644
-index 0000000..b5cf3c3
---- /dev/null
-+++ b/xembed-sni-proxy/sniproxy.cpp
-@@ -0,0 +1,376 @@
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.cpp
+--- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:56:35.533974030 +0800
+@@ -0,0 +1,404 @@
 +/*
 + * Holds one embedded window, registers as DBus entry
 + * Copyright (C) 2015 <davidedmundson@kde.org> David Edmundson
@@ -937,7 +870,7 @@ index 0000000..b5cf3c3
 +#define SNI_WATCHER_SERVICE_NAME "org.kde.StatusNotifierWatcher"
 +#define SNI_WATCHER_PATH "/StatusNotifierWatcher"
 +
-+static uint16_t s_embedSize = 48; //max size of window to embed. We no longer resize the embedded window as Chromium acts stupidly.
++static uint16_t s_embedSize = 32; //max size of window to embed. We no longer resize the embedded window as Chromium acts stupidly.
 +
 +int SNIProxy::s_serviceCount = 0;
 +
@@ -986,7 +919,7 @@ index 0000000..b5cf3c3
 +    //create a container window
 +    auto screen = xcb_setup_roots_iterator (xcb_get_setup (c)).data;
 +    m_containerWid = xcb_generate_id(c);
-+    uint32_t             values[2];
++    uint32_t values[2];
 +    auto mask = XCB_CW_BACK_PIXEL | XCB_CW_OVERRIDE_REDIRECT;
 +    values[0] = screen->black_pixel; //draw a solid background so the embeded icon doesn't get garbage in it
 +    values[1] = true; //bypass wM
@@ -994,9 +927,9 @@ index 0000000..b5cf3c3
 +                    XCB_COPY_FROM_PARENT,          /* depth         */
 +                     m_containerWid,               /* window Id     */
 +                     screen->root,                 /* parent window */
-+                     -500, 0,                       /* x, y          */
++                     0, 0,                         /* x, y          */
 +                     s_embedSize, s_embedSize,     /* width, height */
-+                     0,                           /* border_width  */
++                     0,                            /* border_width  */
 +                     XCB_WINDOW_CLASS_INPUT_OUTPUT,/* class         */
 +                     screen->root_visual,          /* visual        */
 +                     mask, values);                /* masks         */
@@ -1016,7 +949,7 @@ index 0000000..b5cf3c3
 +    const uint32_t stackBelowData[] = {XCB_STACK_MODE_BELOW};
 +    xcb_configure_window(c, m_containerWid, XCB_CONFIG_WINDOW_STACK_MODE, stackBelowData);
 +
-+    NETWinInfo wm(c, m_containerWid, screen->root, 0);
++    NETWinInfo wm(c, m_containerWid, screen->root, 0, 0);
 +    wm.setOpacity(0);
 +#endif
 +
@@ -1054,13 +987,13 @@ index 0000000..b5cf3c3
 +    //this is needed as chormium and such when resized just fill the icon with transparent space and only draw in the middle
 +    //however spotify does need this as by default the window size is 900px wide.
 +    //use an artbitrary heuristic to make sure icons are always sensible
-+    if (clientGeom->width < 12 || clientGeom->width > s_embedSize ||
-+        clientGeom->height < 12 || clientGeom->height > s_embedSize)
++    if (clientGeom->width > s_embedSize || clientGeom->height > s_embedSize )
 +    {
 +        const uint32_t windowMoveConfigVals[2] = { s_embedSize, s_embedSize };
 +        xcb_configure_window(c, wid,
 +                                XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
 +                                windowMoveConfigVals);
++	qCDebug(SNIPROXY) << "Resizing window" << wid << Title() << "from w*h" << clientGeom->width << clientGeom->height;
 +    }
 +
 +    //show the embedded window otherwise nothing happens
@@ -1085,18 +1018,22 @@ index 0000000..b5cf3c3
 +{
 +    const QImage image = getImageNonComposite();
 +
-+    bool isTransparentImage = true;
++    int w = image.width();
++    int h = image.height();
 +
-+    int sum = 0;
-+    for (int x = 0; x < image.width(); ++x) {
-+        for (int y = 0; y < image.height(); ++y) {
-+            sum += qAlpha(image.pixel(x, y));
-+            if (sum >= 255) {
-+                // There is enough amount of opaque pixels.
-+                isTransparentImage = false;
-+                break;
-+            }
-+        }
++    // check for the center and sub-center pixels first and avoid full image scan
++    bool isTransparentImage = qAlpha(image.pixel(w >> 1, h >> 1)) + qAlpha(image.pixel(w >> 2, h >> 2)) == 0;
++
++    // skip scan altogether if sub-center pixel found to be opaque
++    // and break out from the outer loop too on full scan
++    for (int x = 0; x < w && isTransparentImage; ++x) {
++	for (int y = 0; y < h; ++y) {
++	    if (qAlpha(image.pixel(x, y))) {
++		// Found an opaque pixel.
++		isTransparentImage = false;
++		break;
++	    }
++	}
 +    }
 +
 +    // Update icon only if it is at least partially opaque.
@@ -1105,10 +1042,15 @@ index 0000000..b5cf3c3
 +    // with WINE applications.
 +    if (!isTransparentImage) {
 +        m_pixmap = QPixmap::fromImage(image);
++	if (w != s_embedSize || h != s_embedSize) {
++	    qCDebug(SNIPROXY) << "Scaling pixmap of window" << m_windowId << Title() << "from w*h" << w << h;
++	    m_pixmap = m_pixmap.scaled(s_embedSize, s_embedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
++	}
 +        emit NewIcon();
++        emit NewToolTip();
 +    }
 +    else {
-+        qCDebug(SNIPROXY) << "Skip transparent xembed icon";
++        qCDebug(SNIPROXY) << "Skip transparent xembed icon for" << m_windowId << Title();
 +    }
 +}
 +
@@ -1175,14 +1117,14 @@ index 0000000..b5cf3c3
 +    sendClick(XCB_BUTTON_INDEX_1, x, y);
 +}
 +
-+void SNIProxy::ContextMenu(int x, int y)
-+{
-+    sendClick(XCB_BUTTON_INDEX_3, x, y);
-+}
-+
 +void SNIProxy::SecondaryActivate(int x, int y)
 +{
 +    sendClick(XCB_BUTTON_INDEX_2, x, y);
++}
++
++void SNIProxy::ContextMenu(int x, int y)
++{
++    sendClick(XCB_BUTTON_INDEX_3, x, y);
 +}
 +
 +void SNIProxy::Scroll(int delta, const QString& orientation)
@@ -1204,18 +1146,41 @@ index 0000000..b5cf3c3
 +    //note x,y are not actually where the mouse is, but the plasmoid
 +    //ideally we should make this match the plasmoid hit area
 +
-+    qCDebug(SNIPROXY) << "Sending click " << mouseButton << "to" << x << y;
++    qCDebug(SNIPROXY) << "Received click" << mouseButton << "with passed x*y" << x << y;
 +
 +    auto c = QX11Info::connection();
 +
-+    //set our window so the middle is where the mouse is
++    auto cookieSize = xcb_get_geometry(c, m_windowId);
++    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookieSize, Q_NULLPTR));
++
++    auto cookie = xcb_query_pointer(c, m_windowId);
++    QScopedPointer<xcb_query_pointer_reply_t> pointer(xcb_query_pointer_reply(c, cookie, Q_NULLPTR));
++    /*qCDebug(SNIPROXY) << "samescreen" << pointer->same_screen << endl
++	<< "root x*y" << pointer->root_x << pointer->root_y << endl
++	<< "win x*y" << pointer->win_x << pointer->win_y;*/
++
++    //move our window so the mouse is within its geometry
++    uint32_t configVals[2] = {0, 0};
++    if (mouseButton >= XCB_BUTTON_INDEX_4) {
++	//scroll event, take pointer position
++	configVals[0] = pointer->root_x;
++	configVals[1] = pointer->root_y;
++    } else {
++	if (pointer->root_x > x + clientGeom->width)
++	    configVals[0] = pointer->root_x - clientGeom->width + 1;
++	else
++	    configVals[0] = static_cast<uint32_t>(x);
++	if (pointer->root_y > y + clientGeom->height)
++	    configVals[1] = pointer->root_y - clientGeom->height + 1;
++	else
++	    configVals[1] = static_cast<uint32_t>(y);
++    }
++    xcb_configure_window(c, m_containerWid, XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y, configVals);
++
++    //pull window up
 +    const uint32_t stackAboveData[] = {XCB_STACK_MODE_ABOVE};
 +    xcb_configure_window(c, m_containerWid, XCB_CONFIG_WINDOW_STACK_MODE, stackAboveData);
 +
-+    const uint32_t config_vals[4] = {x, y, s_embedSize, s_embedSize };
-+    xcb_configure_window(c, m_containerWid,
-+                             XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y | XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
-+                             config_vals);
 +    //mouse down
 +    {
 +        xcb_button_press_event_t* event = new xcb_button_press_event_t;
@@ -1257,21 +1222,15 @@ index 0000000..b5cf3c3
 +        xcb_send_event(c, false, m_windowId, XCB_EVENT_MASK_BUTTON_RELEASE, (char *) event);
 +        free(event);
 +    }
++
 +#ifndef VISUAL_DEBUG
 +    const uint32_t stackBelowData[] = {XCB_STACK_MODE_BELOW};
 +    xcb_configure_window(c, m_containerWid, XCB_CONFIG_WINDOW_STACK_MODE, stackBelowData);
 +#endif
-+    }
-+
-+
-+
-+
-+//
-diff --git a/xembed-sni-proxy/sniproxy.h b/xembed-sni-proxy/sniproxy.h
-new file mode 100644
-index 0000000..29aa56e
---- /dev/null
-+++ b/xembed-sni-proxy/sniproxy.h
++}
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.h
+--- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.h	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,152 @@
 +/*
 + * Holds one embedded window, registers as DBus entry
@@ -1425,11 +1384,9 @@ index 0000000..29aa56e
 +};
 +
 +#endif // SNIPROXY_H
-diff --git a/xembed-sni-proxy/xcbutils.h b/xembed-sni-proxy/xcbutils.h
-new file mode 100644
-index 0000000..5e2b6dc
---- /dev/null
-+++ b/xembed-sni-proxy/xcbutils.h
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xcbutils.h plasma-workspace-5.4.3new/xembed-sni-proxy/xcbutils.h
+--- plasma-workspace-5.4.3/xembed-sni-proxy/xcbutils.h	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/xcbutils.h	2015-11-26 16:56:35.533974030 +0800
 @@ -0,0 +1,126 @@
 +/********************************************************************
 +Copyright (C) 2012, 2013 Martin Graesslin <mgraesslin@kde.org>
@@ -1557,19 +1514,33 @@ index 0000000..5e2b6dc
 +} // namespace Xcb
 +
 +#endif // KWIN_XCB_UTILS_H
-diff --git a/xembed-sni-proxy/xembedsniproxy.desktop b/xembed-sni-proxy/xembedsniproxy.desktop
-new file mode 100644
-index 0000000..a583391
---- /dev/null
-+++ b/xembed-sni-proxy/xembedsniproxy.desktop
-@@ -0,0 +1,7 @@
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xembedsniproxy.desktop plasma-workspace-5.4.3new/xembed-sni-proxy/xembedsniproxy.desktop
+--- plasma-workspace-5.4.3/xembed-sni-proxy/xembedsniproxy.desktop	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3new/xembed-sni-proxy/xembedsniproxy.desktop	2015-11-26 16:56:35.534974030 +0800
+@@ -0,0 +1,26 @@
 +[Desktop Entry]
 +Exec=xembedsniproxy
 +Name=XembedSniProxy
++Name[ast]=XembedSniProxy
++Name[ca]=XembedSniProxy
++Name[ca@valencia]=XembedSniProxy
++Name[da]=XembedSniProxy
++Name[en_GB]=XembedSniProxy
++Name[es]=XembedSniProxy
++Name[fi]=XembedSniProxy
++Name[gl]=XembedSniProxy
++Name[ko]=XembedSniProxy
++Name[nl]=XembedSniProxy
++Name[nn]=XembedSniProxy
++Name[pl]=XembedSniProxy
++Name[pt]=XembedSniProxy
++Name[pt_BR]=XembedSniProxy
++Name[sk]=XembedSniProxy
++Name[sl]=XembedSniProxy
++Name[sv]=XembedSniProxy
++Name[uk]=XembedSniProxy
++Name[x-test]=xxXembedSniProxyxx
 +Type=Application
 +X-KDE-StartupNotify=false
 +OnlyShowIn=KDE;
 +X-KDE-autostart-phase=0
--- 
-2.5.0
-

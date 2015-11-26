@@ -1,27 +1,6 @@
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp plasma-workspace-5.4.3fix/xembed-sni-proxy/fdoselectionmanager.cpp
---- plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp	2015-11-16 23:59:22.692089787 +0800
-+++ plasma-workspace-5.4.3fix/xembed-sni-proxy/fdoselectionmanager.cpp	2015-11-17 00:01:46.079096269 +0800
-@@ -146,9 +146,15 @@
-     if (m_proxies.contains(winId)) {
-         return;
-     }
-+    //detect winId clientGeomary to avoid segfault in SNIProxy
-+    xcb_connection_t *c = QX11Info::connection();
-+    auto cookie = xcb_get_geometry(c, winId);
-+    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
- 
--    addDamageWatch(winId);
--    m_proxies[winId] = new SNIProxy(winId, this);
-+    if(clientGeom) {
-+        addDamageWatch(winId);
-+        m_proxies[winId] = new SNIProxy(winId, this);
-+    }
- }
- 
- void FdoSelectionManager::undock(xcb_window_t winId)
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-5.4.3fix/xembed-sni-proxy/sniproxy.cpp
---- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp	2015-11-16 23:59:22.715089788 +0800
-+++ plasma-workspace-5.4.3fix/xembed-sni-proxy/sniproxy.cpp	2015-11-17 00:04:42.674104252 +0800
+diff -Nur plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp plasma-workspace/xembed-sni-proxy/sniproxy.cpp
+--- plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:42:02.109989671 +0800
++++ plasma-workspace/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:42:49.277988826 +0800
 @@ -74,6 +74,13 @@
      m_dbus(QDBusConnection::connectToBus(QDBusConnection::SessionBus, QStringLiteral("XembedSniProxy%1").arg(s_serviceCount++))),
      m_windowId(wid)
@@ -55,7 +34,7 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-
  }
  
  SNIProxy::~SNIProxy()
-@@ -228,11 +232,12 @@
+@@ -237,11 +241,12 @@
      auto c = QX11Info::connection();
      auto cookie = xcb_get_geometry(c, m_windowId);
      QScopedPointer<xcb_get_geometry_reply_t> geom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
