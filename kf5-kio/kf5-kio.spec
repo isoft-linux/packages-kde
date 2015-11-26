@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -27,6 +27,9 @@ Patch2: support-socks5-proxy.patch
 
 #https://git.reviewboard.kde.org/r/126085/
 Patch3: fix-filename-suggestion-changing-to-something-random-when-changing-save-as-mimetype.patch
+
+#https://git.reviewboard.kde.org/r/126164/
+Patch4: request-dbus-name-for-kioexec.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -276,6 +279,9 @@ fi
 
 
 %changelog
+* Thu Nov 26 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
+- Merge patch from git reviewboard
+
 * Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Merge git reviewboard patch back
 
