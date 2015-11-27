@@ -1,0 +1,12 @@
+diff --git a/src/core/settings.cpp b/src/core/settings.cpp
+index 8614e35..5694966 100644
+--- a/src/core/settings.cpp
++++ b/src/core/settings.cpp
+@@ -194,6 +194,7 @@ bool Settings::setQuietIgnoreList(const QStringList &ignores)
+         d->ignore.insert(*itr, true);
+         changed = true;
+     }
++    save();
+     return changed;
+ }
+ 
