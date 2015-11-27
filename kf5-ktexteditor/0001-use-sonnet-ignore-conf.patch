@@ -1,0 +1,49 @@
+diff --git a/src/spellcheck/ontheflycheck.cpp b/src/spellcheck/ontheflycheck.cpp
+index 5960e64..a43f54b 100644
+--- a/src/spellcheck/ontheflycheck.cpp
++++ b/src/spellcheck/ontheflycheck.cpp
+@@ -26,6 +26,7 @@
+ #include "ontheflycheck.h"
+ 
+ #include <QTimer>
++#include <QSettings>
+ 
+ #include "kateconfig.h"
+ #include "kateglobal.h"
+@@ -584,6 +585,9 @@ KTextEditor::Range KateOnTheFlyChecker::findWordBoundaries(const KTextEditor::Cu
+ 
+ void KateOnTheFlyChecker::misspelling(const QString &word, int start)
+ {
++    if (ignores.contains(word))
++        return;
++
+     if (m_currentlyCheckedItem == invalidSpellCheckQueueItem()) {
+         ON_THE_FLY_DEBUG << "exited as no spell check is taking place";
+         return;
+@@ -655,7 +659,11 @@ QList<KTextEditor::MovingRange *> KateOnTheFlyChecker::installedMovingRanges(con
+ void KateOnTheFlyChecker::updateConfig()
+ {
+     ON_THE_FLY_DEBUG;
+-    //m_speller.restore();
++    QSettings settings(QStringLiteral("KDE"), QStringLiteral("Sonnet"));
++    QString defaultLanguage = settings.value(QStringLiteral("defaultLanguage"), 
++        QLocale::system().bcp47Name()).toString();
++    const QString ignoreEntry = QStringLiteral("ignore_%1").arg(defaultLanguage);
++    ignores = settings.value(ignoreEntry, QStringLiteral("")).toStringList();
+ }
+ 
+ void KateOnTheFlyChecker::refreshSpellCheck(const KTextEditor::Range &range)
+diff --git a/src/spellcheck/ontheflycheck.h b/src/spellcheck/ontheflycheck.h
+index dd2ab1a..74cce11 100644
+--- a/src/spellcheck/ontheflycheck.h
++++ b/src/spellcheck/ontheflycheck.h
+@@ -135,6 +135,9 @@ protected Q_SLOTS:
+     void handleRespellCheckBlock(int start, int end);
+     bool removeRangeFromModificationList(KTextEditor::MovingRange *range);
+     void clearModificationList();
++
++private:
++    QStringList ignores;
+ };
+ 
+ #endif

@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 with advanced embeddable text editor
 
 License:        LGPLv2+
@@ -16,6 +16,9 @@ URL:            https://projects.kde.org/projects/frameworks/ktexteditor
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+
+# Use ~/.config/KDE/Sonnet.conf setted by kcm_spellchecking
+Patch0: 0001-use-sonnet-ignore-conf.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -58,6 +61,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 
 %build
@@ -95,6 +99,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Nov 27 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Use ~/.config/KDE/Sonnet.conf ignore setted by kcm_spellchecking.
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
