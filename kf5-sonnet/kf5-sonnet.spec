@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 solution for spell checking
 
 License:        LGPLv2+
