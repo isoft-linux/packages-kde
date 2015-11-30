@@ -57,6 +57,7 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-plasma-devel
 BuildRequires: kf5-threadweaver-devel
 BuildRequires: kf5-kwallet-devel
+BuildRequires: kf5-kcrash-devel
 #for sidebar search
 BuildRequires: baloo-widgets-devel
 
