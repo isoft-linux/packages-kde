@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-26 11:14+0800\n"
+"PO-Revision-Date: 2014-05-26 11:14+0800\n"
+"Last-Translator:  <yunna.cui@i-soft.com.cn>\n"
+"Language-Team: Chinese (simplified)\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "About"
+msgstr "关于"
+
+msgid "Disable automatic selections"
+msgstr "禁用自动选择"
+
+msgid "Do you want to overwrite \"%1\"?"
+msgstr "你希望覆盖\"%1\"吗?"
+
+msgid "Example:"
+msgstr "实例："
+
+msgid "Failed to save image"
+msgstr "图像保存失败"
+
+msgid "Failed to upload image"
+msgstr "图像上传失败"
+
+msgid "General"
+msgstr "常规"
+
+msgid "Help with translations"
+msgstr "帮助翻译"
+
+msgid "Image"
+msgstr "图像"
+
+msgid "Image saving"
+msgstr "图像保存"
+
+msgid "Importing libksane to extragear"
+msgstr "将libksane导入extragear"
+
+msgid "Name & Format:"
+msgstr "名称 & 格式"
+
+msgid "Name && Format:"
+msgstr "名称 && 格式："
+
+msgid "New Image File Name"
+msgstr "新的图像文件名"
+
+msgid "Open the save dialog for every image"
+msgstr "打开每幅图像的保存对话框"
+
+msgid "Open the save dialog for the first image only"
+msgstr "只为第一幅图像打开保存对话框"
+
+msgid "Opening the selected scanner failed."
+msgstr "打开选定的扫描仪失败。"
+
+msgid "Overwrite"
+msgstr "覆盖"
+
+msgid "Preview before saving:"
+msgstr "保存之前预览"
+
+msgid "Revert scanner options to default values"
+msgstr "回复扫描选项为默认值"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Save Location"
+msgstr "保存位置"
+
+msgid "Save Location:"
+msgstr "保存位置："
+
+msgid "Save mode:"
+msgstr "保存模式："
+
+msgid "Set preview resolution (DPI)"
+msgstr "设置预览的分辨率（DPI）"
+
+msgid "Settings"
+msgstr "设置"
+
+msgid "Skanlite Settings"
+msgstr "Skanlite 设置"
+
+msgid "Specify save quality:"
+msgstr "指定保存的画面质量："
+
+msgid "Start numbering from:"
+msgstr "开始编号："
+
+msgid ""
+"The image will be saved in the PNG format, as Skanlite only supports saving "
+"16 bit color images in the PNG format."
+msgstr ""
+"此图像将会被保存为 PNG 格式，SKanlite 只支持16比特的彩色图像保存为PNG格式。"
+
+msgid "This is a scanning application for KDE based on libksane."
+msgstr "这是一个基于libksane的KDE的扫描程序。"
+
+msgid "Writing the user manual"
+msgstr "编写用户手册"
+
+msgid "Zoom In"
+msgstr "放大"
+
+msgid "Zoom Out"
+msgstr "缩小"
+
+msgid "Zoom to Actual size"
+msgstr "缩放至实际大小"
+
+msgid "Zoom to Fit"
+msgstr "缩放以适合"
+
+msgid "contributor"
+msgstr "贡献者"
+
+msgid "developer"
+msgstr "开发者"
