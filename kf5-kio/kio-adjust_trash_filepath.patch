@@ -1,0 +1,35 @@
+--- kio-5.16.0/src/core/copyjob.cpp	2015-11-08 20:26:59.000000000 +0800
++++ kio-5.16.0n/src/core/copyjob.cpp	2015-11-30 14:16:48.853057973 +0800
+@@ -208,6 +208,8 @@
+     QUrl m_currentSrcURL;
+     QUrl m_currentDestURL;
+ 
++    QUrl m_trashDest;
++
+     QSet<QString> m_parentDirs;
+ 
+     void statCurrentSrc();
+@@ -549,6 +551,10 @@
+         if (m_bURLDirty) {
+             m_bURLDirty = false;
+             if (m_mode == CopyJob::Move) {
++                if(!m_trashDest.isEmpty()) {
++                    emitMoving(q, m_currentSrcURL, m_trashDest);
++                    m_trashDest.clear();
++                } else
+                 emitMoving(q, m_currentSrcURL, m_currentDestURL);
+             } else {
+                 emitCopying(q, m_currentSrcURL, m_currentDestURL);
+@@ -2021,6 +2027,12 @@
+     } else {
+         //qDebug() << "Renaming succeeded, move on";
+         ++m_processedFiles;
++	QUrl url = finalDestUrl(*m_currentStatSrc, dest);
++        if (url !=  dest ) {
++            m_trashDest = url;
++        } else {
++            m_trashDest.clear();
++        }
+         emit q->copyingDone(q, *m_currentStatSrc, finalDestUrl(*m_currentStatSrc, dest), QDateTime() /*mtime unknown, and not needed*/, true, true);
+         m_successSrcList.append(*m_currentStatSrc);
+         statNextSrc();
