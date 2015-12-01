@@ -1,12 +1,12 @@
 %define active 0 
 %define chm 1
 %define ebook 1
-%define mobi 0 
+%define mobi 0
 
 Name:    okular 
 Summary: A document viewer
 Version: 1.0.0 
-Release: 8.git%{?dist}
+Release: 9.git%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -74,6 +74,17 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
+BuildRequires: kf5-kactivities-devel
+BuildRequires: kf5-kjs-devel
+BuildRequires: kf5-threadweaver-devel
+BuildRequires: kf5-kwallet-devel
+BuildRequires: kf5-kdelibs4support-devel
+BuildRequires: kf5-khtml-devel
+BuildRequires: kf5-kparts-devel
+BuildRequires: kf5-kpty-devel
+BuildRequires: qt5-qtsvg-devel
+BuildRequires: phonon-qt5-devel
+BuildRequires: qca-qt5-devel
 
 
 %description
@@ -124,6 +135,10 @@ pushd %{_target_platform}
 popd
 
 make %{?_smp_mflags} -C %{_target_platform}
+
+# remove okular item from kickoff(start menu) Graphics group
+sed -e 's/Categories=Qt;KDE.*$/Categories=Qt;KDE;Office;Viewer;/' -i \
+shell/org.kde.okular.desktop
 
 
 %install
@@ -216,6 +231,10 @@ fi
 
 
 %changelog
+* Tue Dec 01 2015 sulit <sulitsrc@gmail.com> - 1.0.0-9.git
+- remove okular item from kickoff(start menu) Graphics group
+- add some buildrequires
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 1.0.0-8.git
 - Update
 
@@ -227,9 +246,3 @@ fi
 - it's related to qt5, the dpi width should be equal to height.
 - add patch1 to fix chm kio_msits issue.
 - add patch2 to fix epub image fetch issue.
-
-
-
-
-
-

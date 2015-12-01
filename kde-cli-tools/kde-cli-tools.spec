@@ -1,6 +1,6 @@
 Name:           kde-cli-tools
 Version:        5.4.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tools based on KDE Frameworks 5 to better interact with the system
 
 License:        GPLv2+
@@ -13,6 +13,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/kde-cli-tools
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+Patch0: konqueror.patch
 
 BuildRequires:  cmake
 BuildRequires:  qt5-qtbase-devel
@@ -58,6 +59,7 @@ Conflicts: kde-runtime-docs < 14.12.3-2
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -97,6 +99,9 @@ ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
 
 
 %changelog
+* Tue Dec 01 2015 kun.li@i-soft.com.cn - 5.4.3-3
+- add konqueror.patch
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
