@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -30,6 +30,9 @@ Patch3: fix-filename-suggestion-changing-to-something-random-when-changing-save-
 
 #https://git.reviewboard.kde.org/r/126164/
 Patch4: request-dbus-name-for-kioexec.patch
+
+#to cover bug 12844
+Patch5: kio-adjust_trash_filepath.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -279,6 +282,9 @@ fi
 
 
 %changelog
+* Mon Nov 30 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.16.0-5
+- Adjust trash_filepath(bug 12844)
+
 * Thu Nov 26 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
 - Merge patch from git reviewboard
 
