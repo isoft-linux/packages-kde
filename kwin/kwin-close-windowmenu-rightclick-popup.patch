@@ -1,0 +1,40 @@
+diff -Nur kwin-5.4.3/abstract_client.cpp kwin-5.4.3n/abstract_client.cpp
+--- kwin-5.4.3/abstract_client.cpp	2015-11-05 20:39:34.000000000 +0800
++++ kwin-5.4.3n/abstract_client.cpp	2015-11-25 17:11:25.628505349 +0800
+@@ -683,6 +684,9 @@
+ 
+ bool AbstractClient::performMouseCommand(Options::MouseCommand cmd, const QPoint &globalPos)
+ {
++    //before anything happened, close WindowMenu.
++    workspace()->closeWindowMenu();
++
+     bool replay = false;
+     switch(cmd) {
+     case Options::MouseRaise:
+diff -Nur kwin-5.4.3/useractions.cpp kwin-5.4.3n/useractions.cpp
+--- kwin-5.4.3/useractions.cpp	2015-11-05 20:39:34.000000000 +0800
++++ kwin-5.4.3n/useractions.cpp	2015-11-25 17:10:42.886506115 +0800
+@@ -1711,6 +1711,11 @@
+     m_userActionsMenu->show(pos, cl);
+ }
+ 
++void Workspace::closeWindowMenu()
++{
++    m_userActionsMenu->close();
++}
++
+ /*!
+   Closes the popup client
+  */
+diff -Nur kwin-5.4.3/workspace.h kwin-5.4.3n/workspace.h
+--- kwin-5.4.3/workspace.h	2015-11-05 20:39:34.000000000 +0800
++++ kwin-5.4.3n/workspace.h	2015-11-25 17:09:36.598507302 +0800
+@@ -257,6 +257,8 @@
+      * it's not already.
+      */
+     void showWindowMenu(const QRect& pos, AbstractClient* cl);
++    void closeWindowMenu();
++
+     const UserActionsMenu *userActionsMenu() const {
+         return m_userActionsMenu;
+     }

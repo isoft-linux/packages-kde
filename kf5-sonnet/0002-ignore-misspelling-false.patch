@@ -1,0 +1,14 @@
+diff --git a/src/core/speller.cpp b/src/core/speller.cpp
+index 2392e93..e2e9bd3 100644
+--- a/src/core/speller.cpp
++++ b/src/core/speller.cpp
+@@ -112,6 +112,9 @@ bool Speller::isCorrect(const QString &word) const
+ 
+ bool Speller::isMisspelled(const QString &word) const
+ {
++    if (d->settings->currentIgnoreList().contains(word)) {
++        return false;
++    }
+     if (!d->isValid()) {
+         return false;
+     }

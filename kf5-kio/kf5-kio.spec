@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -24,6 +24,15 @@ Patch1: kio-hide-unwanted-systemsettings-entries.patch
 
 #https://git.reviewboard.kde.org/r/125885/
 Patch2: support-socks5-proxy.patch
+
+#https://git.reviewboard.kde.org/r/126085/
+Patch3: fix-filename-suggestion-changing-to-something-random-when-changing-save-as-mimetype.patch
+
+#https://git.reviewboard.kde.org/r/126164/
+Patch4: request-dbus-name-for-kioexec.patch
+
+#to cover bug 12844
+Patch5: kio-adjust_trash_filepath.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -273,6 +282,15 @@ fi
 
 
 %changelog
+* Mon Nov 30 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.16.0-5
+- Adjust trash_filepath(bug 12844)
+
+* Thu Nov 26 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
+- Merge patch from git reviewboard
+
+* Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
+- Merge git reviewboard patch back
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 

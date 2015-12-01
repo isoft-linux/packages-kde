@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        6
+Release:        9
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -25,48 +25,51 @@ Source11:       startkde.cmake
 Source12:       metadata.desktop
 
 ## downstream Patches
-Patch10:        plasma-workspace-5.3.0-konsole-in-contextmenu.patch
+Patch10: plasma-workspace-5.3.0-konsole-in-contextmenu.patch
 
 #always disable gpsd, most desktop had no need to run a gpsd service
-Patch12: 	plasma-workspace-disable-gpsd.patch
-
+Patch11: plasma-workspace-disable-gpsd.patch
 
 #Patch from Leslie Zhai
-Patch13:  0001-kscreenlocker-accounts-service.patch
+Patch12: 0001-kscreenlocker-accounts-service.patch
 
 #from Cjacker, protect ~/Desktop(localized by xdg-user-dirs)
 #if it get deleted or Home.desktop/trash.desktop get deleted.
 #when desktop started, all will be restored.
-Patch14:  plasma-workspace-protect-home-Desktop-dir.patch
+Patch13:  plasma-workspace-protect-home-Desktop-dir.patch
 
-Patch16: 0001-Proxy-Xembed-icons-to-SNI.patch
-
+#backporting of xembedsniproxy
+Patch20: 0000-backport-xembedsniproxy.patch
+#all this patches already upstreamed.
+Patch21: 0001-xembedsniproxy-fix-always-segfault.patch
+Patch22: 0002-xembedsniproxy-workaround-for-java-systemtray.patch
+Patch23: 0003-xembedsniproxy-crop-large-transparent-border.patch
+Patch24: 0004-xembedsniproxy-workaround-for-totally-transparent-xcb-image.patch
+Patch25: xembedsniproxy-dirty-fix-for-isoft-startup.patch
 
 #Add isoft logo for splash
-Patch17: 0003-splash-isoft-logo.patch
+Patch30: 0003-splash-isoft-logo.patch
 
 #https://git.reviewboard.kde.org/r/125898/
 #fadeout text where buttons are. 
-Patch18: klippergradient3.patch
+Patch40: klippergradient3.patch
 
 #https://git.reviewboard.kde.org/r/124980/
 #Click outside of logout dialog, cancel logout dialog.
-Patch19: dismissonclickoutside3.patch 
+Patch41: dismissonclickoutside3.patch 
 
 #https://git.reviewboard.kde.org/r/126016/
 #fix: properly recognise Plasma 5 KCM modules (wmClass=kcmshell5)
-Patch20: kcmshell5-show-correct-icon-in-taskbar.patch
+Patch42: kcmshell5-show-correct-icon-in-taskbar.patch
 
 #https://git.reviewboard.kde.org/r/125997/
 #Catch other openGL error gracefully
-Patch21: catch-other-opengl-errors.patch 
+Patch43: catch-other-opengl-errors.patch 
 
-#fix always segfault of xembedsniproxy
-Patch30: xembedsniproxy-fix-always-segfault.patch 
-#there is two special window in isoftdesktop when every cold bootup.HACK!
-Patch31: xembedsniproxy-dirty-fix-for-isoft-startup.patch
+#http://git.reviewboard.kde.org/r/126042/
+Patch44: avoid-qmenu-exec-in-plasmoid-context-menu.patch
 
-# udev
+
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
 BuildRequires:  libGL-devel
@@ -244,21 +247,25 @@ Documentation and user manuals for %{name}.
 
 %prep
 %setup -q
-
-%patch10 -p1 -b .konsole-in-contextmenu
+%patch10 -p1
+%patch11 -p1
 %patch12 -p1
 %patch13 -p1
-%patch14 -p1
-%patch16 -p1
-%patch17 -p1
 
-%patch18 -p1
-%patch19 -p1
 %patch20 -p1
 %patch21 -p1
+%patch22 -p1
+%patch23 -p1
+%patch24 -p1
+%patch25 -p1
 
 %patch30 -p1
-%patch31 -p1
+
+%patch40 -p1
+%patch41 -p1
+%patch42 -p1
+%patch43 -p1
+%patch44 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -370,6 +377,15 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Nov 26 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-9
+- Fix more xembed sni proxy bugs
+
+* Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-8
+- Fix KDE bug 354903
+
+* Mon Nov 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-7
+- Fix kde bug 355504
+
 * Thu Nov 19 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Drop 0002-add-paste-for-desktopview.patch, CTRL+V also need to consider other
   items for example plasmoid.

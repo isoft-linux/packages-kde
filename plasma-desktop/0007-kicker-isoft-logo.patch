@@ -1,5 +1,5 @@
 diff --git a/applets/kicker/package/contents/ui/CompactRepresentation.qml b/applets/kicker/package/contents/ui/CompactRepresentation.qml
-index 56d1c7c..769e6ae 100644
+index 4aa267a..bedefae 100644
 --- a/applets/kicker/package/contents/ui/CompactRepresentation.qml
 +++ b/applets/kicker/package/contents/ui/CompactRepresentation.qml
 @@ -21,6 +21,7 @@ import QtQuick 2.0
@@ -20,7 +20,7 @@ index 56d1c7c..769e6ae 100644
 +
      PlasmaCore.IconItem {
          id: buttonIcon
-
+ 
 @@ -35,7 +40,7 @@ Item {
  
          visible: !(plasmoid.configuration.useCustomButtonImage && plasmoid.configuration.customButtonImage)
@@ -30,8 +30,20 @@ index 56d1c7c..769e6ae 100644
          active: mouseArea.containsMouse
  
          onWidthChanged: {
+diff --git a/applets/kicker/package/contents/ui/main.qml b/applets/kicker/package/contents/ui/main.qml
+index 3e746ae..fc4ff12 100644
+--- a/applets/kicker/package/contents/ui/main.qml
++++ b/applets/kicker/package/contents/ui/main.qml
+@@ -40,6 +40,7 @@ Item {
+ 
+     Plasmoid.compactRepresentation: isDash ? null : compactRepresentation
+     Plasmoid.fullRepresentation: isDash ? compactRepresentation : menuRepresentation
++    Plasmoid.icon: processRunner.isFileExists("/usr/share/isoft-artwork/logo/scalable/isoft-logo-symbolic.svgz") ? "/usr/share/isoft-artwork/logo/scalable/isoft-logo-symbolic.svgz" : plasmoid.configuration.icon 
+ 
+     property QtObject itemListDialogComponent: Qt.createComponent("ItemListDialog.qml");
+     property Item dragSource: null
 diff --git a/applets/kicker/plugin/processrunner.cpp b/applets/kicker/plugin/processrunner.cpp
-index 9214284..140295a 100644
+index 9214284..26ed545 100644
 --- a/applets/kicker/plugin/processrunner.cpp
 +++ b/applets/kicker/plugin/processrunner.cpp
 @@ -20,6 +20,7 @@
@@ -47,7 +59,7 @@ index 9214284..140295a 100644
      KProcess::startDetached("kmenuedit");
  }
 +
-+bool ProcessRunner::isFileExists(QString path)
++bool ProcessRunner::isFileExists(QString path) 
 +{
 +    return QFile::exists(path);
 +}

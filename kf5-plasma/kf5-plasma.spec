@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        5
+Release:        6
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -22,10 +22,13 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 Source1:        desktoptheme-from-plasma-5.15.0.tar.gz
  
 #By default, unlock widget and add widget can not appear at the same time in the menu.
-Patch001: plasma-framework-plasma-reset-action.patch
+Patch0: plasma-framework-plasma-reset-action.patch
 
 # add lunar tip on calendar
-Patch002: plasma-framework-add-lunar-tip.patch
+Patch1: plasma-framework-add-lunar-tip.patch
+
+# https://git.reviewboard.kde.org/r/126168/
+Patch10: noicontheme.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -146,7 +149,10 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
-* Mon Nov 23 2015 x - 5.16.0-5
+* Thu Nov 26 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-6
+- Merge patch from git reviewboard
+
+* Mon Nov 23 2015 WangMing <ming.wang@i-soft.com.cn> - 5.16.0-5
 - Modify patch, set tip alignment the gird cell. Set transparent.
 
 * Fri Nov 20 2015 WangMing <ming.wang@i-soft.com.cn> - 5.16.0-4

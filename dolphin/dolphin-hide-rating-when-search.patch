@@ -1,0 +1,17 @@
+diff -Nur dolphin-15.11.80/src/search/dolphinfacetswidget.cpp dolphin-15.11.80n/src/search/dolphinfacetswidget.cpp
+--- dolphin-15.11.80/src/search/dolphinfacetswidget.cpp	2015-11-18 07:39:00.000000000 +0800
++++ dolphin-15.11.80n/src/search/dolphinfacetswidget.cpp	2015-11-28 13:40:23.821835804 +0800
+@@ -106,6 +106,13 @@
+     m_anyType->setChecked(true);
+     m_anytime->setChecked(true);
+     m_anyRating->setChecked(true);
++    
++    m_anyRating->hide();
++    m_oneOrMore->hide();
++    m_twoOrMore->hide();
++    m_threeOrMore->hide();
++    m_fourOrMore->hide();
++    m_maxRating->hide();
+ }
+ 
+ DolphinFacetsWidget::~DolphinFacetsWidget()

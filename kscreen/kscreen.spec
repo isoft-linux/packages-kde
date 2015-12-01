@@ -4,7 +4,7 @@
 Name:           kscreen
 Epoch:          1
 Version:        5.4.3
-Release:        3%{?dist}
+Release:        4 
 Summary:        KDE Display Management software
 
 License:        GPLv2 or GPLv3
@@ -31,6 +31,9 @@ Source3: kscreen-osd.pot
 Patch0: kscreen-add-osd.patch
 #additional translations we added to kcmmodule.
 Patch1: kscreen-add-osd-zh-CN-trans.patch
+#additional translations we added to kcmmodule.
+Patch2: kscreen-add-osd-zh-CN-trans2.patch
+
 
 BuildRequires:  cmake
 BuildRequires:  gettext
@@ -103,6 +106,9 @@ fi
 
 
 %changelog
+* Mon Nov 23 2015 <kun.li@i-soft.com.cn> - 1:5.4.3-3
+- add Patch2, additional translations
+
 * Fri Nov 13 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add ToolTip for XF86Display shortcut setting. 
 

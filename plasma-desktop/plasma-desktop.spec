@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        8
+Release:        11
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -77,7 +77,14 @@ Patch312: plasma-desktop-startup-history-documents.patch
 # kcm_splashscreen use isoft logo
 Patch313: 0008-preview-splash-isoft-logo.patch
 
-## upstreamable patches
+# https://git.reviewboard.kde.org/r/126079/
+Patch314: fix-kde-bug-355365.patch
+
+# https://git.reviewboard.kde.org/r/124675/
+Patch315: fix-kde-bug-311991.patch
+
+# https://git.reviewboard.kde.org/r/126162/
+Patch316: taskmanager-tooltipdelegate.diff
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -194,18 +201,6 @@ BuildArch: noarch
 
 %prep
 %autosetup -p1
-#The implementation of Patch 312 is not well.
-#There is another startup menu 'kicker' implement the "Open recent documents" and "Clean recent documents".
-#But still have a bug the "Open rencent documents" hang the entire desktop.
-#We need:
-#1, fix kicker bugs.
-#2, implement as kicker in kickoff.
-#You can talk with zhaixiang to find the better way to implement this.
-#By Cjacker
-#exit 1
-#>
-# yes, I see. It is implemented here.
-
 
 %build
 mkdir %{_target_platform}
@@ -338,10 +333,19 @@ fi
 
 
 %changelog
+* Thu Nov 26 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix kicker plasmoid icon issue.
+
+* Thu Nov 26 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-10
+- merge patch back
+
+* Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-9
+- Fix KDE BUG 355365, 311991
+
 * Thu Nov 19 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - kcm_splashscreen use isoft logo.
 
-* Fri Nov 15 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-7
+* Sun Nov 15 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-7
 - Patch for open desktop file with Type=Link.
 
 * Wed Nov 11 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-6

@@ -1,7 +1,7 @@
 Name:    dolphin 
 Summary: KDE File Manager
 Version: 15.11.80
-Release: 2 
+Release: 3 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
@@ -29,6 +29,9 @@ Patch4: dolphin-do-not-show-searchbox-when-use-panel-type-search.patch
 #when press Image/Video/Document/Audio search from panel, add file scheme to url to allow searchbox use baloosearch instead of filename search.
 Patch5: dolphin-fix-path-no-url-scheme.patch
 
+#hide rating in searchbox.
+Patch6: dolphin-hide-rating-when-search.patch
+
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
 BuildRequires: desktop-file-utils
@@ -54,6 +57,7 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-plasma-devel
 BuildRequires: kf5-threadweaver-devel
 BuildRequires: kf5-kwallet-devel
+BuildRequires: kf5-kcrash-devel
 #for sidebar search
 BuildRequires: baloo-widgets-devel
 
@@ -102,6 +106,7 @@ developing applications that use %{name}.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 mkdir %{_target_platform}
@@ -158,6 +163,9 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so
 
 %changelog
+* Mon Nov 30 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-3
+- Hide rating in searchbox
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 

@@ -1,0 +1,107 @@
+diff -Nur baloo-5.16.0/CMakeLists.txt baloo-5.16.0n/CMakeLists.txt
+--- baloo-5.16.0/CMakeLists.txt	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.16.0n/CMakeLists.txt	2015-11-24 12:49:20.292517290 +0800
+@@ -34,6 +34,8 @@
+ 
+ find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS CoreAddons Config DBusAddons I18n IdleTime Solid FileMetaData Crash KIO)
+ 
++find_package(KJieba)
++
+ find_package(LMDB)
+ set_package_properties(LMDB PROPERTIES
+     DESCRIPTION "Lightning Memory-Mapped Database (LMDB)"
+diff -Nur baloo-5.16.0/src/engine/CMakeLists.txt baloo-5.16.0n/src/engine/CMakeLists.txt
+--- baloo-5.16.0/src/engine/CMakeLists.txt	2015-11-24 13:14:47.678489937 +0800
++++ baloo-5.16.0n/src/engine/CMakeLists.txt	2015-11-24 12:54:20.398511915 +0800
+@@ -36,6 +36,7 @@
+     ${LMDB_LIBRARIES}
+     PRIVATE
+     KF5BalooCodecs
++    KJieba::KJieba
+ )
+ 
+ set_target_properties(KF5BalooEngine PROPERTIES
+diff -Nur baloo-5.16.0/src/engine/queryparser.cpp baloo-5.16.0n/src/engine/queryparser.cpp
+--- baloo-5.16.0/src/engine/queryparser.cpp	2015-11-24 13:14:47.677489937 +0800
++++ baloo-5.16.0n/src/engine/queryparser.cpp	2015-11-24 12:57:43.324508281 +0800
+@@ -24,6 +24,7 @@
+ #include <QTextBoundaryFinder>
+ #include <QStringList>
+ #include <QVector>
++#include <KJieba/KJieba_Interface>
+ 
+ using namespace Baloo;
+ 
+@@ -170,6 +171,7 @@
+     //CJK Unified Ideographs Extension B      20000-2A6DF Rare, historic
+     //CJK Compatibility Ideographs            F900-FAFF   Duplicates, unifiable variants, corporate characters
+     //CJK Compatibility Ideographs Supplement 2F800-2FA1F Unifiable variants
++    QString cjkString;
+     int nCount = text.count();
+     for(int i = 0 ; i < nCount ; i++)
+     {
+@@ -182,8 +184,17 @@
+            (uni >= 0x2F800 && uni <= 0x2FA1F))
+         {  
+            queries << EngineQuery(QString(cha).toUtf8(), EngineQuery::StartsWith);
++           cjkString += QString(cha);
+         }   
+-    }   
++    }
++
++    if(!cjkString.isEmpty()) {
++        KJieba::KJiebaInterface *interface = new KJieba::KJiebaInterface;
++        QStringList words = interface->query(cjkString);
++        Q_FOREACH (QString word, words)
++           queries << EngineQuery(word.toUtf8(), EngineQuery::StartsWith);
++    }
++ 
+     if (queries.size() == 1) {
+         return queries.first();
+     }
+diff -Nur baloo-5.16.0/src/engine/termgenerator.cpp baloo-5.16.0n/src/engine/termgenerator.cpp
+--- baloo-5.16.0/src/engine/termgenerator.cpp	2015-11-24 13:14:47.677489937 +0800
++++ baloo-5.16.0n/src/engine/termgenerator.cpp	2015-11-24 12:56:06.190510021 +0800
+@@ -23,6 +23,7 @@
+ 
+ #include <QTextBoundaryFinder>
+ #include <QStringList>
++#include <KJieba/KJieba_Interface>
+ 
+ using namespace Baloo;
+ 
+@@ -108,6 +109,7 @@
+     //CJK Unified Ideographs Extension B      20000-2A6DF Rare, historic
+     //CJK Compatibility Ideographs            F900-FAFF   Duplicates, unifiable variants, corporate characters
+     //CJK Compatibility Ideographs Supplement 2F800-2FA1F Unifiable variants
++    QString cjkString;
+     int nCount = text.count();  
+     for(int i = 0 ; i < nCount ; i++)  
+     {  
+@@ -120,8 +122,15 @@
+            (uni >= 0x2F800 && uni <= 0x2FA1F))
+         {
+            terms<<QString(cha);  
++           cjkString += QString(cha);
+         }  
+     }
++    if(!cjkString.isEmpty()) {
++        KJieba::KJiebaInterface *interface = new KJieba::KJiebaInterface;
++        QStringList words = interface->query(cjkString);
++        Q_FOREACH (QString word, words)
++            terms<<word;
++    } 
+ 
+     for (const QString& term : terms) {
+         QByteArray arr = term.toUtf8();
+diff -Nur baloo-5.16.0/src/file/baloo_file.desktop baloo-5.16.0n/src/file/baloo_file.desktop
+--- baloo-5.16.0/src/file/baloo_file.desktop	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.16.0n/src/file/baloo_file.desktop	2015-11-24 13:17:19.839487212 +0800
+@@ -4,6 +4,7 @@
+ X-KDE-StartupNotify=false
+ X-KDE-autostart-condition=baloofilerc:Basic Settings:Enabled:true
+ X-KDE-autostart-phase=0
++X-KDE-autostart-after=kjieba
+ X-GNOME-Autostart-enabled=true
+ OnlyShowIn=KDE;GNOME;Unity;XFCE
+ NoDisplay=true

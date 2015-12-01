@@ -1,6 +1,6 @@
 Name: kjieba
 Version: 0.2.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: DBus interface of libcppjieba for KDE5
 
 License: GPLv2 or GPLv3
@@ -53,6 +53,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/libcppjieba/dict/jieba.dict.utf8
 %{_datadir}/libcppjieba/dict/user.dict.utf8
 %{_kf5_bindir}/kjieba
+%{_kf5_bindir}/kjieba-query
 %{_datadir}/dbus-1/interfaces/org.isoftlinux.kjieba.App.xml
 %{_sysconfdir}/xdg/autostart/kjieba.desktop
 %{_libdir}/libKJieba.so.*
@@ -64,6 +65,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libdir}/libKJieba.so
 
 %changelog
+* Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 0.2.0-2
+- Add missing kjieba-query to filelist
+
 * Mon Nov 23 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Autostart kjieba dbus service when qdbus call.
 - Add query sync API with CutMethod parameter and install example.
