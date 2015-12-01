@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        9
+Release:        10
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -69,6 +69,8 @@ Patch43: catch-other-opengl-errors.patch
 #http://git.reviewboard.kde.org/r/126042/
 Patch44: avoid-qmenu-exec-in-plasmoid-context-menu.patch
 
+#fix: spelling mistake:kwin vs KWin
+Patch45: plasma-workspace-taskwinjob-qdbus-kwin.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -266,6 +268,7 @@ Documentation and user manuals for %{name}.
 %patch42 -p1
 %patch43 -p1
 %patch44 -p1
+%patch45 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -377,6 +380,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Tue Dec 01 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.4.3-10
+- Fix:spelling mistake:qdbus service name error
+
 * Thu Nov 26 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-9
 - Fix more xembed sni proxy bugs
 

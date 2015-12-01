@@ -1,0 +1,18 @@
+--- plasma-workspace-5.4.3/dataengines/tasks/taskwindowjob.cpp	2015-11-05 20:49:30.000000000 +0800
++++ plasma-workspace-5.4.3n/dataengines/tasks/taskwindowjob.cpp	2015-12-01 14:52:59.920944570 +0800
+@@ -34,13 +34,13 @@
+ {
+     const QString operation = operationName();
+     if (operation == "cascade") {
+-        QDBusInterface  *kwinInterface = new QDBusInterface("org.kde.kwin", "/KWin", "org.kde.KWin");
++        QDBusInterface  *kwinInterface = new QDBusInterface("org.kde.KWin", "/KWin", "org.kde.KWin");
+         QDBusPendingCall pcall = kwinInterface->asyncCall("cascadeDesktop");
+        // kDebug() << " connected to kwin interface! ";
+         setResult(true);
+         return;
+     } else if (operation == "unclutter") {
+-        QDBusInterface  *kwinInterface = new QDBusInterface("org.kde.kwin", "/KWin", "org.kde.KWin");
++        QDBusInterface  *kwinInterface = new QDBusInterface("org.kde.KWin", "/KWin", "org.kde.KWin");
+         QDBusPendingCall pcall = kwinInterface->asyncCall("unclutterDesktop");
+       //  kDebug() << "connected to kwin interface! ";
+         setResult(true);
