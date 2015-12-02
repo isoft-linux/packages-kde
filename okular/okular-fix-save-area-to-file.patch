@@ -1,0 +1,13 @@
+Index: okular/ui/pageview.cpp
+===================================================================
+--- okular.orig/ui/pageview.cpp
++++ okular/ui/pageview.cpp
+@@ -2778,6 +2778,8 @@ void PageView::mouseReleaseEvent( QMouse
+                             type = QStringLiteral("PNG");
+                         else
+                             type = mime.name().section( '/', -1 ).toUpper();
++			if (type ==  "OCTET-STREAM")
++				type = QStringLiteral("PNG");
+                         copyPix.save( fileName, qPrintable( type ) );
+                         d->messageWindow->display( i18n( "Image [%1x%2] saved to %3 file.", copyPix.width(), copyPix.height(), type ) );
+                     }

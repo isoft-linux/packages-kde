@@ -6,7 +6,7 @@
 Name:    okular 
 Summary: A document viewer
 Version: 1.0.0 
-Release: 9.git%{?dist}
+Release: 10.git%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -26,6 +26,8 @@ Source0: okular.tar.gz
 Patch0: okular-fix-accident-pdf-stretch.patch
 Patch1: okular-kio-with-slash-not-work-fix.patch
 Patch2: okular-fix-epub-fetch-file.patch
+# for bug #13093
+Patch3: okular-fix-save-area-to-file.patch
 
 %if 0%{?chm}
 BuildRequires: chmlib-devel
@@ -127,6 +129,7 @@ Summary: A kioslave for displaying WinHelp files
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -231,6 +234,9 @@ fi
 
 
 %changelog
+* Wed Dec 02 2015 xiaotian.wu@i-soft.com.cn - 1.0.0-10.git
+- to fix bug #13093.
+
 * Tue Dec 01 2015 sulit <sulitsrc@gmail.com> - 1.0.0-9.git
 - remove okular item from kickoff(start menu) Graphics group
 - add some buildrequires
