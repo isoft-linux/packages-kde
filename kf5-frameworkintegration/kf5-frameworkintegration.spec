@@ -36,6 +36,8 @@ BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
 
 BuildRequires:  oxygen-fonts-devel
 
+BuildRequires:  libXcursor-devel
+
 Requires:       kf5-filesystem
 Requires:       oxygen-fonts
 
