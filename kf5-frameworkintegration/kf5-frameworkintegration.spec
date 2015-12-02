@@ -24,6 +24,7 @@ BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
+BuildRequires:  qt5-qtx11extras-devel
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
 BuildRequires:  kf5-kconfigwidgets-devel >= %{version}
