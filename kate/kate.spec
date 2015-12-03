@@ -1,7 +1,7 @@
 Name:    kate
 Summary: Advanced Text Editor
 Version: 15.11.80
-Release: 2 
+Release: 3 
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/kate
 
@@ -15,6 +15,9 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/kate-%{ve
 
 #use /usr/src/rust/src instead of /usr/local/src/rust/src
 Patch0: kate-rust-plugin-src-dir.patch
+
+# https://git.reviewboard.kde.org/r/126197/
+Patch1: prepend-dir-when-open-file-via-dbus.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -86,6 +89,7 @@ License: LGPLv2+
 %prep
 %setup -q -n kate-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -158,6 +162,9 @@ update-desktop-database -q &> /dev/null || :
 
 
 %changelog
+* Thu Dec 03 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-3
+- https://git.reviewboard.kde.org/r/126197/
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 
