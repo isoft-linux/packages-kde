@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        11
+Release:        12
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -85,6 +85,9 @@ Patch315: fix-kde-bug-311991.patch
 
 # https://git.reviewboard.kde.org/r/126162/
 Patch316: taskmanager-tooltipdelegate.diff
+
+# Fix DnD file to Trash access denied issue
+Patch317: 0009-dnd-file-to-trash.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -333,6 +336,9 @@ fi
 
 
 %changelog
+* Thu Dec 03 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix DnD file to Trash access denied issue.
+
 * Thu Nov 26 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix kicker plasmoid icon issue.
 

@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 workspace and cross-framework integration plugins
 License:        LGPLv2+
 URL:            http://www.kde.org
@@ -15,10 +15,8 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-#if QFileDialog->show, only involk show, so we need show dialog in show.
-#if QFileDialog->exec, then first involk show, then exec, the hide call in exec will cause dialog not shown at all.
-#so, we need do something, this is not a correct fix, but at least, work now.
-#Patch0:         frameworkintegration-fix-Qt-app-filedialog-not-show.patch
+#do not add extra actions to avoid two "quit" menu item in qt systemtray.
+Patch0: do-not-add-extra-KDE-SNI-actions-in-qpt-plugin.patch
 
 # upstream patches
 
@@ -26,6 +24,7 @@ BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
+BuildRequires:  qt5-qtx11extras-devel
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
 BuildRequires:  kf5-kconfigwidgets-devel >= %{version}
@@ -36,6 +35,8 @@ BuildRequires:  kf5-knotifications-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
 
 BuildRequires:  oxygen-fonts-devel
+
+BuildRequires:  libXcursor-devel
 
 Requires:       kf5-filesystem
 Requires:       oxygen-fonts
@@ -69,6 +70,7 @@ developing applications that use %{name}.
 
 %prep
 %autosetup -p1 -n %{framework}-%{version}
+
 %build
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
@@ -105,6 +107,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Dec 02 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
+- Add patch to fix two 'quit' menu item in qt systemtray
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 

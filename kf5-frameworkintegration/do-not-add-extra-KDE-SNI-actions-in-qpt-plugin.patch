@@ -1,0 +1,26 @@
+Author: David Edmundson <kde@davidedmundson.co.uk>
+Date:   Thu Nov 12 19:22:40 2015 +0000
+
+    Don't add extra KDE SNI actions in our systemtray qpt plugin
+    
+    If any app is written using QSystemTrayIcon they'll have to provide
+    their own quit action in order to work on other platforms. If we add
+    our own entry apps end up with two quit entries.
+    
+    BUG: 354991
+    REVIEW: 126047
+
+diff --git a/src/platformtheme/kdeplatformsystemtrayicon.cpp b/src/platformtheme/kdeplatformsystemtrayicon.cpp
+index 7536697..8f0ce7b 100644
+--- a/src/platformtheme/kdeplatformsystemtrayicon.cpp
++++ b/src/platformtheme/kdeplatformsystemtrayicon.cpp
+@@ -268,6 +268,7 @@ void KDEPlatformSystemTrayIcon::init()
+ {
+     if (!m_sni) {
+         m_sni = new KStatusNotifierItem();
++        m_sni->setStandardActionsEnabled(false);
+         m_sni->setTitle(QApplication::applicationDisplayName());
+         connect(m_sni, &KStatusNotifierItem::activateRequested, [this](bool active, const QPoint &pos) {
+             Q_UNUSED(active)
+
+
