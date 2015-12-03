@@ -3,7 +3,7 @@
 Name:    ark
 Summary: Archive manager
 Version: 15.11.80
-Release: 7
+Release: 8
 
 License: GPLv2+
 URL:     http://utils.kde.org/projects/ark 
@@ -15,6 +15,7 @@ URL:     http://utils.kde.org/projects/ark
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 Patch0: del-rar.patch
+Patch1: servicesmenus-localization.patch
 
 #git clone git://anongit.kde.org/ark
 #git checkout frameworks
@@ -102,6 +103,7 @@ Requires: %{name} = %{version}-%{release}
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1 
 
 %build
 mkdir -p %{_target_platform}
@@ -167,6 +169,9 @@ fi
 
 
 %changelog
+* Thu Dec 03 2015 kun.li@i-soft.com.cn - 15.11.80-8
+- add servicesmenus-localization.patch 
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-7
 - Update
 
