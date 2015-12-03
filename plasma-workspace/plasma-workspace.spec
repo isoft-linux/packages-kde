@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        11
+Release:        12
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -74,6 +74,9 @@ Patch45: plasma-workspace-taskwinjob-qdbus-kwin.patch
 
 #https://git.reviewboard.kde.org/r/126216/
 Patch46: do-not-produce-negative-struts-on-switching-screens.patch
+
+#Fix systemtray applet show/hide items settings issue
+Patch47: 0004-systemtray-applet-show-hide-items.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -275,6 +278,8 @@ Documentation and user manuals for %{name}.
 
 %patch46 -p1
 
+%patch47 -p1
+
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
 
@@ -385,6 +390,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 03 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix systemtray applet show/hide items settings issue.
+
 * Thu Dec 03 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-11
 - https://git.reviewboard.kde.org/r/126216
 

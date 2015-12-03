@@ -1,0 +1,13 @@
+diff --git a/applets/systemtray/package/contents/ui/ConfigEntries.qml b/applets/systemtray/package/contents/ui/ConfigEntries.qml
+index 4001d39..e848ae3 100644
+--- a/applets/systemtray/package/contents/ui/ConfigEntries.qml
++++ b/applets/systemtray/package/contents/ui/ConfigEntries.qml
+@@ -94,7 +94,7 @@ QtLayouts.GridLayout {
+                 var shownIndex = cfg_shownItems.indexOf(modelData.taskId);
+                 var hiddenIndex = cfg_hiddenItems.indexOf(modelData.taskId);
+ 
+-                switch (index) {
++                switch (currentIndex) {
+                 case 0: {
+                     if (shownIndex > -1) {
+                         cfg_shownItems.splice(shownIndex, 1);
