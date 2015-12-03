@@ -4,7 +4,7 @@
 Name:    kde-l10n
 Summary: Internationalization support for KDE
 Version: 15.11.80
-Release: 4 
+Release: 5 
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -36,6 +36,8 @@ Source22: ksnapshot.po.zh_CN
 Source23: ksnapshot.po.zh_TW
 Source24: libksane.po.zh_CN 
 Source25: skanlite.po.zh_CN 
+Source26: konsole.po.zh_CN
+Source27: ark.po.zh_CN 
 
 Source1000: subdirs-kde-l10n
 
@@ -156,6 +158,9 @@ cp %{SOURCE22} %{name}-zh_CN-%{version}/4/zh_CN/messages/kdegraphics/ksnapshot.p
 cp %{SOURCE23} %{name}-zh_TW-%{version}/4/zh_TW/messages/kdegraphics/ksnapshot.po
 cp %{SOURCE24} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/libksane.po
 cp %{SOURCE25} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/skanlite.po
+cp %{SOURCE26} %{name}-zh_CN-%{version}/5/zh_CN/messages/applications/konsole.po
+cp %{SOURCE27} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdeutils/ark.po
+
 
 
 %build
@@ -391,6 +396,9 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/ki18n5/
 
 
 %changelog
+* Thu Dec 03 2015 <kun.li@i-soft.com.cn> - 15.11.80-5
+- add konsole.po ark.po localization 
+
 * Mon Nov 30 2015 <kun.li@i-soft.com.cn> - 15.11.80-3
 - rebuilt add libksane.po  skanlite.po localization
 
