@@ -1,6 +1,6 @@
 Name:           ksysguard
 Version:        5.4.3
-Release:        2
+Release:        3
 Summary:        KDE Process Management application
 
 License:        GPLv2
@@ -13,7 +13,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/ksysguard
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
+Patch0: change-memory-show.patch
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtscript-devel
@@ -50,6 +50,7 @@ Summary: Performance monitor daemon
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1
 
 %build
 
@@ -97,6 +98,9 @@ fi
 
 
 %changelog
+* Fri Dec 04 2015 kun.li@i-soft.com.cn - 5.4.3-3
+- add change-memory-show.patch  
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
