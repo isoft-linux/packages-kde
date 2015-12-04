@@ -1,6 +1,6 @@
 Name:           sddm
 Version:        0.13.0
-Release:        5
+Release:        6
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -23,6 +23,8 @@ Source14:   sddm.conf
 Patch0: 0001-greeter-accounts-service.patch
 #plymouth smooth translation
 Patch1: 0002-plymouth-smooth-transition.patch
+# Fix autologin user exists issue
+Patch2: 0003-autologin-user-exists.patch
 
 Provides: service(graphical-login) = sddm
 
@@ -57,6 +59,7 @@ designer the ability to create smooth, animated user interfaces.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -130,6 +133,9 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Fri Dec 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix autologin user exists issue.
+
 * Mon Nov 23 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Plymouth quit without retain splash. 
 
