@@ -1,32 +1,34 @@
-diff -Nur plasma-desktop-5.4.3/applets/kickoff/core/itemhandlers.cpp plasma-desktop-5.4.3/applets/kickoff1/core/itemhandlers.cpp
---- plasma-desktop-5.4.3/applets/kickoff/core/itemhandlers.cpp	2015-11-05 20:44:49.000000000 +0800
-+++ plasma-desktop-5.4.3/applets/kickoff1/core/itemhandlers.cpp	2015-11-16 11:41:28.616707089 +0800
-@@ -44,6 +44,7 @@
- #include "ksmserver_interface.h"
- #include <QtDBus/QDBusConnection>
- #include <QtDBus/QDBusConnectionInterface>
+diff --git a/applets/kickoff/core/itemhandlers.cpp b/applets/kickoff/core/itemhandlers.cpp
+index e703bb8..ed9ab2e 100644
+--- a/applets/kickoff/core/itemhandlers.cpp
++++ b/applets/kickoff/core/itemhandlers.cpp
+@@ -31,6 +31,7 @@
+ #include <KToolInvocation>
+ #include <KUrl>
+ #include <Solid/PowerManagement>
 +#include <KRun>
  
- using namespace Kickoff;
- 
-@@ -56,7 +57,7 @@
- 
+ // KDE Base
+ #include <kworkspace.h>
+@@ -57,6 +58,9 @@ bool ServiceItemHandler::openUrl(const KUrl& url)
          if (service) {
              RecentApplications::self()->add(service);
--        } else {
-+        } else if (!KRun::runUrl(url, "application/x-desktop", 0)) {
+         } else {
++            if (url.toString().startsWith("file:///usr/share/applications") == false) {
++                KRun::runUrl(url, "application/x-desktop", 0);
++            }
              qWarning() << "Failed to find service for" << url;
              return false;
          }
-diff -Nur plasma-desktop-5.4.3/applets/kickoff/package/contents/ui/RecentlyUsedView.qml plasma-desktop-5.4.3/applets/kickoff1/package/contents/ui/RecentlyUsedView.qml
---- plasma-desktop-5.4.3/applets/kickoff/package/contents/ui/RecentlyUsedView.qml	2015-11-05 20:44:49.000000000 +0800
-+++ plasma-desktop-5.4.3/applets/kickoff1/package/contents/ui/RecentlyUsedView.qml	2015-11-16 11:46:22.304702056 +0800
-@@ -45,7 +45,8 @@
+diff --git a/applets/kickoff/package/contents/ui/RecentlyUsedView.qml b/applets/kickoff/package/contents/ui/RecentlyUsedView.qml
+index df25db2..00b2452 100644
+--- a/applets/kickoff/package/contents/ui/RecentlyUsedView.qml
++++ b/applets/kickoff/package/contents/ui/RecentlyUsedView.qml
+@@ -45,7 +45,7 @@ BaseView {
              text: i18n("Clear Recent Documents")
              icon: "edit-clear-history"
              onClicked: recentlyUsedModel.clearRecentDocuments();
 -            visible: !contextMenu.isApp
-+//            visible: !contextMenu.isApp
 +            visible: true
          }
      }

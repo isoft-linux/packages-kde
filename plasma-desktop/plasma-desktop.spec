@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        13
+Release:        14
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -72,6 +72,8 @@ Patch310: plasma-desktop-uninstall-component-kcm-kemail.patch
 Patch311: plasmadesktop-scrollabletasktooltip.diff
 
 # Open history documents with bash script
+# But it needs to distinguish between *.desktop and general file
+# Fix open systrayed application twice issue
 Patch312: plasma-desktop-startup-history-documents.patch
 
 # kcm_splashscreen use isoft logo
@@ -341,6 +343,7 @@ fi
 %changelog
 * Fri Dec 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add desktop folderview ctrl+c, ctrl+v, ctrl+x support.
+- Fix open systrayed application twice issue.
 
 * Thu Dec 03 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix DnD file to Trash access denied issue.
