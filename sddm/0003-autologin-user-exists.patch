@@ -1,0 +1,50 @@
+diff --git a/src/daemon/Display.cpp b/src/daemon/Display.cpp
+index 8de59e5..a921009 100644
+--- a/src/daemon/Display.cpp
++++ b/src/daemon/Display.cpp
+@@ -38,6 +38,7 @@
+ 
+ #include <pwd.h>
+ #include <unistd.h>
++#include <shadow.h>
+ 
+ namespace SDDM {
+     Display::Display(const int terminalId, Seat *parent) : QObject(parent),
+@@ -103,6 +104,13 @@ namespace SDDM {
+         m_displayServer->start();
+     }
+ 
++    bool Display::userExists(QString name) {
++        QDir homeDir(QStringLiteral("/home/") + name);
++        if (getspnam(name.toStdString().c_str()) == NULL)
++            return false;
++        return homeDir.exists();
++    }
++
+     void Display::displayServerStarted() {
+         // check flag
+         if (m_started)
+@@ -115,7 +123,9 @@ namespace SDDM {
+         qDebug() << "Display server started.";
+ 
+         if ((daemonApp->first || mainConfig.Autologin.Relogin.get()) &&
+-            !mainConfig.Autologin.User.get().isEmpty() && !mainConfig.Autologin.Session.get().isEmpty()) {
++            !mainConfig.Autologin.User.get().isEmpty() &&
++            !mainConfig.Autologin.Session.get().isEmpty() &&
++            userExists(mainConfig.Autologin.User.get())) {
+             // reset first flag
+             daemonApp->first = false;
+ 
+diff --git a/src/daemon/Display.h b/src/daemon/Display.h
+index dc46463..3f5825c 100644
+--- a/src/daemon/Display.h
++++ b/src/daemon/Display.h
+@@ -75,6 +75,8 @@ namespace SDDM {
+         void startAuth(const QString &user, const QString &password,
+                        const Session &session);
+ 
++        bool userExists(QString name);
++
+         bool m_relogin { true };
+         bool m_started { false };
+ 
