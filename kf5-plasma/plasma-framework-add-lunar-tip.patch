@@ -1,25 +1,25 @@
 diff -Nur plasma-framework-clean/plasma-framework-5.16.0/po/zh_CN/libplasma5.po plasma-framework-5.16.0/po/zh_CN/libplasma5.po
 --- plasma-framework-clean/plasma-framework-5.16.0/po/zh_CN/libplasma5.po	2015-11-08 20:40:46.000000000 +0800
-+++ plasma-framework-5.16.0/po/zh_CN/libplasma5.po	2015-11-19 18:14:15.253245751 +0800
++++ plasma-framework-5.16.0/po/zh_CN/libplasma5.po	2015-11-25 11:11:29.585354883 +0800
 @@ -909,3 +909,7 @@
  msgctxt "%1 is the name of the containment"
  msgid "%1 Options"
  msgstr "%1的选项"
 +
 +#: declarativeimports/calendar/lunar.cpp:90
-+msgid "Lunar: %(nian)Y %(yue)M %(ri)"
-+msgstr "农历: %(nian)年%(yue)月%(ri)"
++msgid "Lunar: %(NIAN)(Y)%(YUE)(M)%(RI)(D)"
++msgstr "农历: %(NIAN)年%(YUE)月%(RI)"
 diff -Nur plasma-framework-clean/plasma-framework-5.16.0/po/zh_TW/libplasma5.po plasma-framework-5.16.0/po/zh_TW/libplasma5.po
 --- plasma-framework-clean/plasma-framework-5.16.0/po/zh_TW/libplasma5.po	2015-11-08 20:40:46.000000000 +0800
-+++ plasma-framework-5.16.0/po/zh_TW/libplasma5.po	2015-11-19 18:27:53.131203896 +0800
++++ plasma-framework-5.16.0/po/zh_TW/libplasma5.po	2015-12-08 11:51:09.634865173 +0800
 @@ -909,3 +909,7 @@
  msgctxt "%1 is the name of the containment"
  msgid "%1 Options"
  msgstr "%1 選項"
 +
 +#: declarativeimports/calendar/lunar.cpp:90
-+msgid "Lunar: %(nian)Y %(yue)M %(ri)"
-+msgstr "農歷: %(nian)年%(yue)月%(ri)"
++msgid "Lunar: %(NIAN)(Y)%(YUE)(M)%(RI)(D)"
++msgstr "農歷: %(NIAN)年%(YUE)月%(RI)"
 diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp
 --- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2015-11-08 20:40:46.000000000 +0800
 +++ plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2015-11-20 17:17:02.327958097 +0800
@@ -70,7 +70,7 @@ diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/
  install(TARGETS calendarplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/plasma/calendar)
 diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp
 --- plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp	2015-11-20 16:24:04.343958476 +0800
++++ plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp	2015-11-25 11:09:17.070364913 +0800
 @@ -0,0 +1,96 @@
 +#include <lunar-date/lunar-date.h>
 +#include <stdio.h>
@@ -159,7 +159,7 @@ diff -Nur plasma-framework-clean/plasma-framework-5.16.0/src/declarativeimports/
 +    lunar_date_set_solar_date(date, m_year, (GDateMonth)m_month, m_day, 0, &err);
 +
 +    m_festival = lunar_date_get_jieri(date, "\n");
-+    QString format = i18n("Lunar: %(nian)Y %(yue)M %(ri)");
++    QString format = i18n("Lunar: %(NIAN)(Y)%(YUE)(M)%(RI)(D)");
 +    format += "\n" + m_festival;
 +    m_text = lunar_date_strftime(date, format.toStdString().c_str());
 +
