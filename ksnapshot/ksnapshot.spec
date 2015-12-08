@@ -1,7 +1,7 @@
 Name:    ksnapshot 
 Summary: A screen capture utility 
 Version: 15.04.2
-Release: 8.git 
+Release: 9.git 
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/ksnapshot
@@ -16,6 +16,7 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}.t
 # Fix file QUrl issue for example $HOME/snapshot1.png/snapshot1.png
 Patch1: 0001-fix-file-url.patch
 Patch2: ksnapshot-disable-kipi.patch
+Patch3: ksnapshot-save-to-xdg-image-dir.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -57,6 +58,7 @@ BuildRequires: qt5-qtx11extras-devel
 %setup -q -n %{name}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -98,6 +100,9 @@ fi
 
 
 %changelog
+* Tue Dec 08 2015 Cjacker <cjacker@foxmail.com> - 15.04.2-9.git
+- Save to xdg Image dir
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.04.2-8.git
 - Update
 
