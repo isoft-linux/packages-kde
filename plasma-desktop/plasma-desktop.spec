@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        14
+Release:        15
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -341,6 +341,9 @@ fi
 
 
 %changelog
+* Tue Dec 08 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add shift+delete support for desktop folderview.
+
 * Fri Dec 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add desktop folderview ctrl+c, ctrl+v, ctrl+x support.
 - Fix open systrayed application twice issue.
