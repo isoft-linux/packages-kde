@@ -1,0 +1,42 @@
+diff --git a/applets/systemtray/package/contents/ui/TaskDelegate.qml b/applets/systemtray/package/contents/ui/TaskDelegate.qml
+index 221c6e7..606bb58 100644
+--- a/applets/systemtray/package/contents/ui/TaskDelegate.qml
++++ b/applets/systemtray/package/contents/ui/TaskDelegate.qml
+@@ -28,6 +28,7 @@ KQuickControlsAddonsComponents.MouseEventListener {
+     id: taskItemContainer
+     objectName: "taskItemContainer"
+ 
++    visible: modelData.status == SystemTray.Task.HideMyselfStatus ? false : true
+     height: root.itemSize + (units.smallSpacing * 2)
+     width: snExpanded ? parent.width : height
+ 
+diff --git a/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp b/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
+index c9d98d7..2320084 100644
+--- a/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
++++ b/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
+@@ -140,8 +140,10 @@ void PlasmoidTask::updateStatus()
+         setStatus(Task::Passive);
+     } else if (ps == Plasma::Types::NeedsAttentionStatus) {
+         setStatus(Task::NeedsAttention);
+-    } else {
++    } else if (ps == Plasma::Types::ActiveStatus) {
+         setStatus(Task::Active);
++    } else if (ps == Plasma::Types::HideMyselfStatus) {
++        setStatus(Task::HideMyselfStatus);
+     }
+ }
+ 
+diff --git a/applets/systemtray/plugin/task.h b/applets/systemtray/plugin/task.h
+index e2f7e85..dbc8462 100644
+--- a/applets/systemtray/plugin/task.h
++++ b/applets/systemtray/plugin/task.h
+@@ -60,7 +60,8 @@ public:
+         UnknownStatus = 0,
+         Passive = 1,
+         Active = 2,
+-        NeedsAttention = 3
++        NeedsAttention = 3,
++        HideMyselfStatus = 6
+     };
+ 
+     enum Category {
