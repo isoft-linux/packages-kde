@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        13
+Release:        14
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -396,6 +396,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %changelog
 * Thu Dec 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add systemtray HideMyself status implementation for plasmoid.
+- Fix systemtray's empty area issue for HideMyself status plasmoid.
 
 * Thu Dec 03 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix systemtray applet show/hide items settings issue.

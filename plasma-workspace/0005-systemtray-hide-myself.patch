@@ -10,6 +10,20 @@ index 221c6e7..606bb58 100644
      height: root.itemSize + (units.smallSpacing * 2)
      width: snExpanded ? parent.width : height
  
+diff --git a/applets/systemtray/plugin/host.cpp b/applets/systemtray/plugin/host.cpp
+index 27ca227..50c031f 100644
+--- a/applets/systemtray/plugin/host.cpp
++++ b/applets/systemtray/plugin/host.cpp
+@@ -294,7 +294,8 @@ QStringList Host::defaultPlasmoids() const
+ 
+ 
+ bool HostPrivate::showTask(Task *task) const {
+-    return task->shown() && task->status() != SystemTray::Task::Passive;
++    return task->shown() && task->status() != SystemTray::Task::Passive &&
++        task->status() != SystemTray::Task::HideMyselfStatus;
+ }
+ 
+ void HostPrivate::setupProtocol(Protocol *protocol)
 diff --git a/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp b/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
 index c9d98d7..2320084 100644
 --- a/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
@@ -40,3 +54,17 @@ index e2f7e85..dbc8462 100644
      };
  
      enum Category {
+diff --git a/applets/systemtray/plugin/tasksproxymodel.cpp b/applets/systemtray/plugin/tasksproxymodel.cpp
+index 632e84b..84113cf 100644
+--- a/applets/systemtray/plugin/tasksproxymodel.cpp
++++ b/applets/systemtray/plugin/tasksproxymodel.cpp
+@@ -113,7 +113,8 @@ bool TasksProxyModel::showTask(Task *task) const
+     const QString &taskId = task->taskId();
+ 
+     // not forced hidden, and (forced shown or (shown and not passive))
+-    return ((task->shown() && task->status() != SystemTray::Task::Passive)
++    return ((task->shown() && task->status() != SystemTray::Task::Passive &&
++             task->status() != SystemTray::Task::HideMyselfStatus)
+            || (m_host->forcedShownItems().contains(taskId)))
+            && !m_host->forcedHiddenItems().contains(taskId);
+ }
