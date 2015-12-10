@@ -1,0 +1,14 @@
+diff --git a/src/plasma/plasma.h b/src/plasma/plasma.h
+index 15c346b..7fd41c7 100644
+--- a/src/plasma/plasma.h
++++ b/src/plasma/plasma.h
+@@ -253,7 +253,8 @@ public:
+         ActiveStatus = 2, /**< The Item is active **/
+         NeedsAttentionStatus = 3, /**< The Item needs attention **/
+         RequiresAttentionStatus = 4, /**< The Item needs persistent attention **/
+-        AcceptingInputStatus = 5 /**< The Item is accepting input **/
++        AcceptingInputStatus = 5, /**< The Item is accepting input **/
++        HideMyselfStatus = 6    /**< The Item will be hide totally  **/
+     };
+     Q_ENUMS(ItemStatus)
+ 
