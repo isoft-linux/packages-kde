@@ -1,15 +1,3 @@
-diff --git a/applets/systemtray/package/contents/ui/TaskDelegate.qml b/applets/systemtray/package/contents/ui/TaskDelegate.qml
-index 221c6e7..2ff8313 100644
---- a/applets/systemtray/package/contents/ui/TaskDelegate.qml
-+++ b/applets/systemtray/package/contents/ui/TaskDelegate.qml
-@@ -28,6 +28,7 @@ KQuickControlsAddonsComponents.MouseEventListener {
-     id: taskItemContainer
-     objectName: "taskItemContainer"
- 
-+    visible: modelData.status == SystemTray.Task.HiddenStatus ? false : true
-     height: root.itemSize + (units.smallSpacing * 2)
-     width: snExpanded ? parent.width : height
- 
 diff --git a/applets/systemtray/plugin/host.cpp b/applets/systemtray/plugin/host.cpp
 index 27ca227..a4badf6 100644
 --- a/applets/systemtray/plugin/host.cpp
@@ -25,21 +13,18 @@ index 27ca227..a4badf6 100644
  
  void HostPrivate::setupProtocol(Protocol *protocol)
 diff --git a/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp b/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
-index c9d98d7..7696e83 100644
+index c9d98d7..52361b9 100644
 --- a/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
 +++ b/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
-@@ -140,8 +140,10 @@ void PlasmoidTask::updateStatus()
+@@ -140,6 +140,8 @@ void PlasmoidTask::updateStatus()
          setStatus(Task::Passive);
      } else if (ps == Plasma::Types::NeedsAttentionStatus) {
          setStatus(Task::NeedsAttention);
--    } else {
-+    } else if (ps == Plasma::Types::ActiveStatus) {
-         setStatus(Task::Active);
 +    } else if (ps == Plasma::Types::HiddenStatus) {
 +        setStatus(Task::HiddenStatus);
+     } else {
+         setStatus(Task::Active);
      }
- }
- 
 diff --git a/applets/systemtray/plugin/task.h b/applets/systemtray/plugin/task.h
 index e2f7e85..4b22c59 100644
 --- a/applets/systemtray/plugin/task.h
@@ -55,16 +40,24 @@ index e2f7e85..4b22c59 100644
  
      enum Category {
 diff --git a/applets/systemtray/plugin/tasksproxymodel.cpp b/applets/systemtray/plugin/tasksproxymodel.cpp
-index 632e84b..bb81b75 100644
+index 632e84b..32f34ba 100644
 --- a/applets/systemtray/plugin/tasksproxymodel.cpp
 +++ b/applets/systemtray/plugin/tasksproxymodel.cpp
-@@ -113,7 +113,8 @@ bool TasksProxyModel::showTask(Task *task) const
-     const QString &taskId = task->taskId();
+@@ -93,12 +93,15 @@ bool TasksProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceP
+         return false;
+     }
  
-     // not forced hidden, and (forced shown or (shown and not passive))
--    return ((task->shown() && task->status() != SystemTray::Task::Passive)
-+    return ((task->shown() && task->status() != SystemTray::Task::Passive &&
-+             task->status() != SystemTray::Task::HiddenStatus)
-            || (m_host->forcedShownItems().contains(taskId)))
-            && !m_host->forcedHiddenItems().contains(taskId);
- }
+-    if (m_host->showAllItems() && m_category == Category::HiddenTasksCategory) {
++    if (m_host->showAllItems() && (m_category == Category::HiddenTasksCategory ||
++                                   task->status() == SystemTray::Task::HiddenStatus)) {
+         return false;
+     }
+ 
+     if (!m_host->showAllItems()) {
+-        if (m_category == Category::HiddenTasksCategory) {
++        if (task->status() == SystemTray::Task::HiddenStatus) {
++            return false;
++        } else if (m_category == Category::HiddenTasksCategory) {
+             return !showTask(task);
+         } else if (m_category == Category::ShownTasksCategory) {
+             return showTask(task);

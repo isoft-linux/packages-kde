@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        15
+Release:        16
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -396,6 +396,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %changelog
 * Fri Dec 11 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Changed the name of the enum to HiddenStatus.
+- Fix showAllItems HiddenStatus empty area issue.
 
 * Thu Dec 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add systemtray HideMyself status implementation for plasmoid.
