@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        14
+Release:        15
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -78,8 +78,8 @@ Patch46: do-not-produce-negative-struts-on-switching-screens.patch
 #Fix systemtray applet show/hide items settings issue
 Patch47: 0004-systemtray-applet-show-hide-items.patch
 
-# HideMyself status implementation for plasmoid
-Patch48: 0005-systemtray-hide-myself.patch
+# Hidden status implementation for plasmoid
+Patch48: 0005-systemtray-hidden-status.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -394,6 +394,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Fri Dec 11 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Changed the name of the enum to HiddenStatus.
+
 * Thu Dec 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add systemtray HideMyself status implementation for plasmoid.
 - Fix systemtray's empty area issue for HideMyself status plasmoid.
