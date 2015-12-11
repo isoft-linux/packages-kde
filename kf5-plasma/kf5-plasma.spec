@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        8
+Release:        9
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -27,8 +27,8 @@ Patch0: plasma-framework-plasma-reset-action.patch
 # add lunar tip on calendar
 Patch1: plasma-framework-add-lunar-tip.patch
 
-# HideMyself implementation for plasmoid
-Patch2: 0002-hide-myself-status.patch
+# HiddenStatus implementation for plasmoid
+Patch2: 0002-hidden-status.patch
 
 # https://git.reviewboard.kde.org/r/126168/
 Patch10: noicontheme.patch
@@ -152,6 +152,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Dec 11 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Changed the name of the enum to HiddenStatus.
+
 * Thu Dec 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - HideMyself implementation for plasmoid.
 
