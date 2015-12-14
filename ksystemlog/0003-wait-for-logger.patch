@@ -1,0 +1,12 @@
+diff --git a/src/loggerDialog.cpp b/src/loggerDialog.cpp
+index 94c7a33..a1250aa 100644
+--- a/src/loggerDialog.cpp
++++ b/src/loggerDialog.cpp
+@@ -244,6 +244,7 @@ void LoggerDialog::sendMessage()
+ 
+     // QProcess::Block, QProcess::Stdout
+     process.start(QStringLiteral("logger"), arguments);
++    process.waitForFinished();
+ 
+     // If the launching of the command failed
+     if (process.error() == QProcess::FailedToStart) {

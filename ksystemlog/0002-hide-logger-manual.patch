@@ -1,0 +1,14 @@
+diff --git a/src/loggerDialogBase.ui b/src/loggerDialogBase.ui
+index a640e51..611b91d 100644
+--- a/src/loggerDialogBase.ui
++++ b/src/loggerDialogBase.ui
+@@ -292,9 +292,6 @@
+        <property name="statusTip" >
+         <string>This link opens the 'logger' command manual.</string>
+        </property>
+-       <property name="text" >
+-        <string>&lt;a href="man:/logger">Logger Manual&lt;/a></string>
+-       </property>
+       </widget>
+      </item>
+      <item>

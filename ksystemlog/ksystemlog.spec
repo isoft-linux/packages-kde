@@ -1,7 +1,7 @@
 Name:    ksystemlog
 Summary: System Log Viewer for KDE
 Version: 15.11.80
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: GPLv2+
 URL:     http://www.kde.org/applications/system/ksystemlog/
@@ -16,6 +16,10 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%
 
 #match isoft Desktop.
 Patch0: ksystemlog-isoft-customized.patch
+
+# waitForFinished logger.
+Patch1: 0002-hide-logger-manual.patch
+Patch2: 0003-wait-for-logger.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -56,6 +60,9 @@ and less commands.
 %setup -q 
 %patch0 -p1
 
+%patch1 -p1
+%patch2 -p1
+
 %build
 mkdir %{_target_platform}
 pushd %{_target_platform}
@@ -82,6 +89,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.ksystemlog.d
 
 
 %changelog
+* Mon Dec 14 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- waitForFinished when call logger command.
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 
