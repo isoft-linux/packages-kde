@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        15
+Release:        16
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -93,6 +93,9 @@ Patch317: 0009-dnd-file-to-trash.patch
 
 # Add desktop folderview ctrl+c, ctrl+v, ctrl+x support
 Patch318: 0010-desktop-folderview-shortcut.patch
+
+# Remove leave unchaged kcm_keyboard, there is ONLY ON or OFF.
+Patch319: 0011-remove-numlock-unchanged.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -341,6 +344,9 @@ fi
 
 
 %changelog
+* Mon Dec 14 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Remove leave unchaged kcm_keyboard, there is ONLY ON or OFF.
+
 * Tue Dec 08 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add shift+delete support for desktop folderview.
 
