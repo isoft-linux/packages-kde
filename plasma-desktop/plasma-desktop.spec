@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        18
+Release:        19
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -102,6 +102,9 @@ Patch320: 0012-drop-icons-advance-setting.patch
 
 # Remove suspend 
 Patch321: 0013-remove-suspend.patch
+
+# Fix recent document icon issue.
+Patch322: 0014-kickoff-recentdoc-icon.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -353,6 +356,7 @@ fi
 * Tue Dec 15 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Remove icons advance setting KDEBUG-356712
 - Remove suspend.
+- Fix recent document icon issue.
 
 * Mon Dec 14 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Remove leave unchaged kcm_keyboard, there is ONLY ON or OFF.
