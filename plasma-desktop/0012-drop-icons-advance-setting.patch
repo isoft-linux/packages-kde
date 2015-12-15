@@ -1,0 +1,50 @@
+diff --git a/kcms/icons/main.cpp b/kcms/icons/main.cpp
+index 736fae4..f0db1b6 100644
+--- a/kcms/icons/main.cpp
++++ b/kcms/icons/main.cpp
+@@ -50,11 +50,6 @@ IconModule::IconModule(QWidget *parent, const QVariantList &)
+   tab->addTab(tab1, i18n("&Theme"));
+   connect(tab1, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+ 
+-  tab2 = new KIconConfig(this);
+-  tab2->setObjectName( QLatin1String( "effects" ) );
+-  tab->addTab(tab2, i18n("Ad&vanced"));
+-  connect(tab2, SIGNAL(changed(bool)), this, SLOT(moduleChanged(bool)));
+-
+   KAboutData* about = new KAboutData("kcmicons", i18n("Icons"), QStringLiteral("1.0"),
+                                      i18n("Icons Control Panel Module"), KAboutLicense::GPL,
+                                      i18n("(c) 2000-2003 Geert Jansen"));
+@@ -69,21 +64,18 @@ IconModule::IconModule(QWidget *parent, const QVariantList &)
+ void IconModule::load()
+ {
+   tab1->load();
+-  tab2->load();
+ }
+ 
+ 
+ void IconModule::save()
+ {
+   tab1->save();
+-  tab2->save();
+ }
+ 
+ 
+ void IconModule::defaults()
+ {
+   tab1->defaults();
+-  tab2->defaults();
+ }
+ 
+ 
+diff --git a/kcms/icons/main.h b/kcms/icons/main.h
+index 84a52f1..f4735f1 100644
+--- a/kcms/icons/main.h
++++ b/kcms/icons/main.h
+@@ -49,7 +49,6 @@ private:
+   QTabWidget   *tab;
+ 
+   KCModule *tab1;
+-  KCModule *tab2;
+ };
+ 
+ 
