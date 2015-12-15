@@ -1,7 +1,7 @@
 Name:    ksnapshot 
 Summary: A screen capture utility 
 Version: 15.04.2
-Release: 9.git 
+Release: 10.git 
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/ksnapshot
@@ -17,6 +17,7 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}.t
 Patch1: 0001-fix-file-url.patch
 Patch2: ksnapshot-disable-kipi.patch
 Patch3: ksnapshot-save-to-xdg-image-dir.patch
+Patch4: ksnapshot-modify-window-under-cursor.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -100,6 +101,9 @@ fi
 
 
 %changelog
+* Tue Dec 15 2015 fj <fujiang.zhu@i-soft.com.cn> - 15.04.2-10.git
+- ksnapshot-modify-window-under-cursor.patch
+
 * Tue Dec 08 2015 Cjacker <cjacker@foxmail.com> - 15.04.2-9.git
 - Save to xdg Image dir
 
