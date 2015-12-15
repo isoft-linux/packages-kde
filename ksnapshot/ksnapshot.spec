@@ -1,7 +1,7 @@
 Name:    ksnapshot 
 Summary: A screen capture utility 
 Version: 15.04.2
-Release: 10.git 
+Release: 11.git 
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/ksnapshot
@@ -60,6 +60,7 @@ BuildRequires: qt5-qtx11extras-devel
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -101,6 +102,9 @@ fi
 
 
 %changelog
+* Tue Dec 15 2015 fj <fujiang.zhu@i-soft.com.cn> - 15.04.2-11.git
+- sorry, missing patch4
+
 * Tue Dec 15 2015 fj <fujiang.zhu@i-soft.com.cn> - 15.04.2-10.git
 - ksnapshot-modify-window-under-cursor.patch
 
