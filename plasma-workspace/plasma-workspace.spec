@@ -180,7 +180,8 @@ BuildRequires:  libqalculate-devel
 BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
 Requires: qt5-qtaccountsservice >= 0.6.0
 
-
+BuildRequires: kjieba-devel
+Requires: kjieba
 
 # for libkdeinit5_*
 %{?kf5_kinit_requires}
