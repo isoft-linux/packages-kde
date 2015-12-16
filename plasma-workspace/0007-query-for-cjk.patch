@@ -1,0 +1,13 @@
+diff --git a/runners/services/servicerunner.cpp b/runners/services/servicerunner.cpp
+index eb50ead..8ee7c7e 100644
+--- a/runners/services/servicerunner.cpp
++++ b/runners/services/servicerunner.cpp
+@@ -77,7 +77,7 @@ void ServiceRunner::match(Plasma::RunnerContext &context)
+         // See http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
+         // if the following is unclear to you.
+         query = QString("exist Exec and ('%1' =~ Name)").arg(term);
+-        KService::List services = KServiceTypeTrader::self()->query("Application", query);
++        KService::List services = KServiceTypeTrader::self()->queryForCJK(term);
+ 
+         if (!services.isEmpty()) {
+             //qDebug() << service->name() << "is an exact match!" << service->storageId() << service->exec();

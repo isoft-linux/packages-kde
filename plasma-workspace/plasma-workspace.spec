@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        16
+Release:        17
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -80,6 +80,9 @@ Patch47: 0004-systemtray-applet-show-hide-items.patch
 
 # Hidden status implementation for plasmoid
 Patch48: 0005-systemtray-hidden-status.patch
+
+# Use queryForCJK for Application search
+Patch49: 0007-query-for-cjk.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -283,6 +286,7 @@ Documentation and user manuals for %{name}.
 
 %patch47 -p1
 %patch48 -p1
+%patch49 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -394,6 +398,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Dec 16 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Use queryForCJK for Application search.
+
 * Fri Dec 11 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Changed the name of the enum to HiddenStatus.
 - Fix showAllItems HiddenStatus empty area issue.
