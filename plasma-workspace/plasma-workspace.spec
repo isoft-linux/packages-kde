@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        19
+Release:        20
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -81,10 +81,8 @@ Patch47: 0004-systemtray-applet-show-hide-items.patch
 # Hidden status implementation for plasmoid
 Patch48: 0005-systemtray-hidden-status.patch
 
-# Use queryForCJK (kservice MOD) for Application search
-# !!!WARNING!!! kservice is so important, it CAN NOT depende on dbus service kjieba
-# But integrate some kservice's code into plasma-workspace/runners/services it is OK!
-#Patch49: 0007-query-for-cjk.patch
+# Integrate some kservice's code into plasma-workspace/runners/services
+Patch49: 0007-query-for-cjk.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -289,6 +287,7 @@ Documentation and user manuals for %{name}.
 
 %patch47 -p1
 %patch48 -p1
+%patch49 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -404,6 +403,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 - Use queryForCJK for Application search.
 - Remove kservice queryForCJK API.
 - Integrate some code from KServiceTypeTrader.
+- Add KJieba query and topinyin support.
 
 * Fri Dec 11 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Changed the name of the enum to HiddenStatus.
