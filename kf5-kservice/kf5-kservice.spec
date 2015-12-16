@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for advanced plugin and service introspection
 
 License:        GPLv2+ and LGPLv2+
@@ -32,9 +32,6 @@ BuildRequires:  kf5-kcrash-devel >= %{version}
 BuildRequires:  kf5-kdbusaddons-devel >= %{version}
 BuildRequires:  kf5-ki18n-devel >= %{version}
 BuildRequires:  kf5-kdoctools-devel >= %{version}
-
-BuildRequires:  kjieba-devel
-Requires:       kjieba
 
 Requires:       kf5-filesystem
 
