@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        19
+Release:        20
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -95,7 +95,7 @@ Patch317: 0009-dnd-file-to-trash.patch
 Patch318: 0010-desktop-folderview-shortcut.patch
 
 # Remove leave unchaged kcm_keyboard, there is ONLY ON or OFF.
-Patch319: 0011-remove-numlock-unchanged.patch
+#Patch319: 0011-remove-numlock-unchanged.patch
 
 # Remove icons advance setting KDEBUG-356712
 Patch320: 0012-drop-icons-advance-setting.patch
@@ -353,6 +353,9 @@ fi
 
 
 %changelog
+* Wed Dec 16 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-20
+- patch319 cause kcm_keyboard segfault, remove temp
+
 * Tue Dec 15 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Remove icons advance setting KDEBUG-356712
 - Remove suspend.
