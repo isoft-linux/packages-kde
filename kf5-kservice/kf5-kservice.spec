@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for advanced plugin and service introspection
 
 License:        GPLv2+ and LGPLv2+
@@ -18,7 +18,8 @@ URL:            http://www.kde.org
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
 # Add queryForCJK with kjieba support
-Patch0: 0001-query-for-cjk-with-kjieba.patch
+# !!!WARNING!!! kservice is so important, it CAN NOT depende on dbus service kjieba
+#Patch0: 0001-query-for-cjk-with-kjieba.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -54,7 +55,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -99,6 +99,7 @@ mkdir -p %{buildroot}%{_kf5_datadir}/kservicetypes5
 %changelog
 * Wed Dec 16 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add queryForCJK with kjieba support.
+- Remove kjieba support.
 
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
