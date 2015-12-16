@@ -1,0 +1,112 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8e9382d..8cacee3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -44,6 +44,7 @@ find_package(KF5Crash ${KF5_DEP_VERSION} REQUIRED)
+ find_package(KF5DBusAddons ${KF5_DEP_VERSION} REQUIRED)
+ find_package(KF5I18n ${KF5_DEP_VERSION} REQUIRED)
+ find_package(KF5DocTools ${KF5_DEP_VERSION})
++find_package(KJieba REQUIRED)
+ 
+ # create a Config.cmake and a ConfigVersion.cmake file and install them
+ set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Service")
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index f4d09d5..04a7955 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -81,6 +81,7 @@ target_link_libraries(KF5Service
+   PUBLIC
+     KF5::ConfigCore   # KConfig and friends
+     KF5::CoreAddons   # KShell KPluginLoader
++    KJieba::KJieba
+   PRIVATE
+     KF5::I18n
+     KF5::DBusAddons   # KDEInitInterface
+diff --git a/src/services/kservicetypetrader.cpp b/src/services/kservicetypetrader.cpp
+index a56c239..6601e79 100644
+--- a/src/services/kservicetypetrader.cpp
++++ b/src/services/kservicetypetrader.cpp
+@@ -52,12 +52,15 @@ KServiceTypeTrader *KServiceTypeTrader::self()
+ }
+ 
+ KServiceTypeTrader::KServiceTypeTrader()
+-    : d(0)
++    : d(0),
++      kjieba(new KJieba::KJiebaInterface)
+ {
+ }
+ 
+ KServiceTypeTrader::~KServiceTypeTrader()
+ {
++    delete kjieba;
++    kjieba = NULL;
+ }
+ 
+ // shared with KMimeTypeTrader
+@@ -173,6 +176,34 @@ KService::List KServiceTypeTrader::query(const QString &serviceType,
+     return lst;
+ }
+ 
++KService::List KServiceTypeTrader::queryForCJK(const QString &term) const
++{
++    const QString serviceType = "Application";
++    const QString constraint = "exist Exec";
++
++    KService::List lst;
++    // Get all services of this service type.
++    const KServiceOfferList offers = weightedOffers(serviceType);
++
++    // Now extract only the services; the weighting was only used for sorting.
++    KServiceOfferList::const_iterator itOff = offers.begin();
++    for (; itOff != offers.end(); ++itOff) {
++        lst.append((*itOff).service());
++    }
++
++    KService::List::iterator it = lst.begin();
++    while (it != lst.end()) {
++        QStringList words = kjieba->query((*it)->name());
++        if (!words.contains(term)) {
++            it = lst.erase(it);
++        } else {
++            ++it;
++        }
++    }
++
++    return lst;
++}
++
+ KService::Ptr KServiceTypeTrader::preferredService(const QString &serviceType) const
+ {
+     const KServiceOfferList offers = weightedOffers(serviceType);
+diff --git a/src/services/kservicetypetrader.h b/src/services/kservicetypetrader.h
+index 56994d8..de52b68 100644
+--- a/src/services/kservicetypetrader.h
++++ b/src/services/kservicetypetrader.h
+@@ -20,6 +20,9 @@
+ #define __kservicetypetrader_h__
+ 
+ #include "kservice.h"
++
++#include <KJieba/KJieba_Interface>
++
+ class KServiceOffer;
+ typedef QList<KServiceOffer> KServiceOfferList;
+ class KServiceTypeTraderPrivate;
+@@ -106,6 +109,8 @@ public:
+     KService::List query(const QString &servicetype,
+                          const QString &constraint = QString()) const;
+ 
++    KService::List queryForCJK(const QString &term) const;
++
+     /**
+      * Returns all offers associated with a given servicetype, IGNORING the
+      * user preference. The sorting will be the one coming from the InitialPreference
+@@ -217,6 +222,8 @@ private:
+ 
+     KServiceTypeTraderPrivate *const d;
+ 
++    KJieba::KJiebaInterface *kjieba;
++
+     friend class KServiceTypeTraderSingleton;
+ };
+ 
