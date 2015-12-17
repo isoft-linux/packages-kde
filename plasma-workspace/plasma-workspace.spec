@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        21
+Release:        22
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -83,6 +83,9 @@ Patch48: 0005-systemtray-hidden-status.patch
 
 # Integrate some kservice's code into plasma-workspace/runners/services
 Patch49: 0007-query-for-cjk.patch
+
+# ksmserver starts with default empty session
+Patch50: 0008-ksmserver-default-session.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -288,6 +291,7 @@ Documentation and user manuals for %{name}.
 %patch47 -p1
 %patch48 -p1
 %patch49 -p1
+%patch50 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -401,6 +405,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %changelog
 * Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add kservice exec() is empty check and query && topinyin GenericName.
+- ksmserver starts with default empty session.
 
 * Wed Dec 16 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Use queryForCJK for Application search.
