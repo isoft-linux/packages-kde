@@ -1,8 +1,8 @@
 %define realname libksane
 Name: libksane5
 Summary: SANE Library interface for KDE5
-Version: 15.11.80
-Release: 1 
+Version: 15.12.0
+Release: 2
 License: LGPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/libs/libksane
 %global revision %(echo %{version} | cut -d. -f3)
@@ -78,6 +78,9 @@ fi
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.3.0-3
 - Rebuild for new 4.0 release
 
