@@ -1,5 +1,5 @@
 diff --git a/applets/kickoff/core/recentlyusedmodel.cpp b/applets/kickoff/core/recentlyusedmodel.cpp
-index 571b6a3..492c2f0 100644
+index 571b6a3..c3c2dcd 100644
 --- a/applets/kickoff/core/recentlyusedmodel.cpp
 +++ b/applets/kickoff/core/recentlyusedmodel.cpp
 @@ -22,6 +22,7 @@
@@ -10,20 +10,22 @@ index 571b6a3..492c2f0 100644
  
  // KDE
  #include <KDirWatch>
-@@ -100,10 +101,17 @@ public:
+@@ -100,10 +101,19 @@ public:
      void addRecentDocument(const QString& desktopPath, bool append) {
          // remove existing item if any
          removeExistingItem(desktopPath);
 +        QSettings settings(desktopPath, QSettings::IniFormat);
 +        settings.beginGroup("Desktop Entry");
-+        if (settings.value("Type").toString() != "Link")
++        if (settings.value("Icon").toString() == "inode-directory" ||
++            settings.value("Icon").toString() == "text-html") {
 +            return;
++        }
  
          QStandardItem *documentItem = StandardItemFactory::createItemForUrl(desktopPath, displayOrder);
          documentItem->setData(true, Kickoff::SubTitleMandatoryRole);
          documentItem->setData(documentTitle, Kickoff::GroupNameRole);
 +        documentItem->setData(
-+            QIcon::fromTheme(settings.value("Icon").toString(), QIcon::fromTheme("unknown")), 
++            QIcon::fromTheme(settings.value("Icon").toString(), QIcon::fromTheme("unknown")),
 +            Qt::DecorationRole);
          itemsByPath.insert(desktopPath, documentItem);
  
