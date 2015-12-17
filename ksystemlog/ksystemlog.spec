@@ -1,7 +1,7 @@
 Name:    ksystemlog
 Summary: System Log Viewer for KDE
-Version: 15.11.90
-Release: 4%{?dist}
+Version: 15.12.0
+Release: 2%{?dist}
 
 License: GPLv2+
 URL:     http://www.kde.org/applications/system/ksystemlog/
@@ -93,6 +93,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/org.kde.ksystemlog.d
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.11.90-4
 - Fix exit segfault
 
