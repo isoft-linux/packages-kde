@@ -1,8 +1,8 @@
 #kdelibs also need HUPNP optional
 Summary:    The KDE libraries provide a powerful framework to make writing applications easier
 Name: kdelibs 
-Version: 4.14.14
-Release: 3
+Version: 4.14.15
+Release: 2
 License: GPL
 Source0: %{name}-%{version}.tar.xz
 Source1: macros.kdelibs4
@@ -324,6 +324,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 4.14.15-2
+- Update
+
 * Thu Nov 12 2015 Cjacker <cjacker@foxmail.com> - 4.14.14-3
 - Add docbook packages to kdelibs-devel requires
 
