@@ -1,7 +1,7 @@
 Name:    baloo-widgets
 Summary: Widgets for Baloo
-Version: 15.11.80
-Release: 3%{?dist}
+Version: 15.12.0
+Release: 2%{?dist}
 
 # # KDE e.V. may determine that future LGPL versions are accepted
 License: LGPLv2 or LGPLv3
@@ -85,6 +85,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
 * Wed Nov 25 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-3
 - Backport patch from git reviewboard
 
