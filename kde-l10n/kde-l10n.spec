@@ -3,8 +3,8 @@
 
 Name:    kde-l10n
 Summary: Internationalization support for KDE
-Version: 15.11.80
-Release: 5 
+Version: 15.12.0
+Release: 3 
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -396,6 +396,12 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/ki18n5/
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-3
+- Update
+
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
 * Thu Dec 03 2015 <kun.li@i-soft.com.cn> - 15.11.80-5
 - add konsole.po ark.po localization 
 
