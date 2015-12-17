@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for user-configurable main windows
 
 License:        GPLv2+ and LGPLv2+
@@ -25,7 +25,7 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 # QGuiApplication::quitOnLastWindowClosed() are both true by default.
 # So this call either did nothing or overwrote a setting set by some
 # other code, which likely intended it to stay as set.
-Patch0: 0001-session-management.patch
+#Patch0: 0001-session-management.patch
 
 BuildRequires:  libX11-devel
 
@@ -98,6 +98,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Drop patch for KDEBUG-341930 at first.
+
 * Wed Dec 09 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Don't call QCoreApplication::setQuitLockEnabled(true) on init for KDEBUG-341930.
 
