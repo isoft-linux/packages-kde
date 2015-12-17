@@ -1,6 +1,6 @@
-diff -Nur baloo-5.16.0/src/engine/queryparser.cpp baloo-5.16.0n/src/engine/queryparser.cpp
---- baloo-5.16.0/src/engine/queryparser.cpp	2015-12-17 16:12:48.876564333 +0800
-+++ baloo-5.16.0n/src/engine/queryparser.cpp	2015-12-17 14:55:59.938313622 +0800
+diff -Nur baloo-5.16.0/src/engine/queryparser.cpp baloo-5.16.0fix/src/engine/queryparser.cpp
+--- baloo-5.16.0/src/engine/queryparser.cpp	2015-12-17 16:24:11.087601443 +0800
++++ baloo-5.16.0fix/src/engine/queryparser.cpp	2015-12-17 16:24:27.590602341 +0800
 @@ -193,6 +193,8 @@
          QStringList words = interface->query(cjkString);
          Q_FOREACH (QString word, words)
@@ -10,9 +10,9 @@ diff -Nur baloo-5.16.0/src/engine/queryparser.cpp baloo-5.16.0n/src/engine/query
      }
   
      if (queries.size() == 1) {
-diff -Nur baloo-5.16.0/src/engine/termgenerator.cpp baloo-5.16.0n/src/engine/termgenerator.cpp
---- baloo-5.16.0/src/engine/termgenerator.cpp	2015-12-17 16:14:17.832569172 +0800
-+++ baloo-5.16.0n/src/engine/termgenerator.cpp	2015-12-17 16:01:06.833526144 +0800
+diff -Nur baloo-5.16.0/src/engine/termgenerator.cpp baloo-5.16.0fix/src/engine/termgenerator.cpp
+--- baloo-5.16.0/src/engine/termgenerator.cpp	2015-12-17 16:24:11.087601443 +0800
++++ baloo-5.16.0fix/src/engine/termgenerator.cpp	2015-12-17 16:25:58.367607279 +0800
 @@ -110,6 +110,9 @@
      //CJK Compatibility Ideographs            F900-FAFF   Duplicates, unifiable variants, corporate characters
      //CJK Compatibility Ideographs Supplement 2F800-2FA1F Unifiable variants
@@ -23,13 +23,15 @@ diff -Nur baloo-5.16.0/src/engine/termgenerator.cpp baloo-5.16.0n/src/engine/ter
      int nCount = text.count();  
      for(int i = 0 ; i < nCount ; i++)  
      {  
-@@ -122,15 +125,21 @@
+@@ -121,16 +124,22 @@
+            (uni >= 0xF900 && uni <= 0xFAFF) ||
             (uni >= 0x2F800 && uni <= 0x2FA1F))
          {
-            terms<<QString(cha);
-+           terms<<interface->topinyin(QString(cha), false);
+-           terms<<QString(cha);  
++           terms<<QString(cha); 
++           terms<<interface->topinyin(QString(cha), false); 
             cjkString += QString(cha);
-         }
+         }  
      }
      if(!cjkString.isEmpty()) {
 -        KJieba::KJiebaInterface *interface = new KJieba::KJiebaInterface;
