@@ -24,7 +24,7 @@ index 6107256..be6d0d8 100644
  
  install(TARGETS krunner_services DESTINATION ${KDE_INSTALL_PLUGINDIR} )
 diff --git a/runners/services/servicerunner.cpp b/runners/services/servicerunner.cpp
-index eb50ead..42bc934 100644
+index eb50ead..f5d0e67 100644
 --- a/runners/services/servicerunner.cpp
 +++ b/runners/services/servicerunner.cpp
 @@ -26,8 +26,8 @@
@@ -60,7 +60,7 @@ index eb50ead..42bc934 100644
  void ServiceRunner::match(Plasma::RunnerContext &context)
  {
      const QString term = context.query();
-@@ -73,11 +76,24 @@ void ServiceRunner::match(Plasma::RunnerContext &context)
+@@ -73,11 +76,28 @@ void ServiceRunner::match(Plasma::RunnerContext &context)
      QString query;
  
      if (term.length() > 1) {
@@ -79,9 +79,13 @@ index eb50ead..42bc934 100644
 +
 +        KService::List::iterator it = services.begin();
 +        while (it != services.end()) {
-+            if (!kjieba->query((*it)->name()).contains(term) && 
-+                !kjieba->topinyin((*it)->name()).contains(term) && 
-+                !kjieba->topinyin((*it)->name(), KJieba::INIT).contains(term)) {
++            if ((*it)->exec().isEmpty() ||
++                (!kjieba->query((*it)->genericName()).contains(term) &&
++                 !kjieba->topinyin((*it)->genericName()).contains(term) &&
++                 !kjieba->topinyin((*it)->genericName(), false).contains(term) &&
++                 !kjieba->query((*it)->name()).contains(term) &&
++                 !kjieba->topinyin((*it)->name()).contains(term) &&
++                 !kjieba->topinyin((*it)->name(), false).contains(term))) {
 +                it = services.erase(it);
 +            } else {
 +                ++it;

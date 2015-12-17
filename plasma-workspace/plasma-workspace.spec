@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        20
+Release:        21
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -399,6 +399,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add kservice exec() is empty check and query && topinyin GenericName.
+
 * Wed Dec 16 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Use queryForCJK for Application search.
 - Remove kservice queryForCJK API.
