@@ -35,6 +35,7 @@ BuildRequires: kf5-kiconthemes-devel
 BuildRequires: kf5-kxmlgui-devel
 BuildRequires: kf5-kdelibs4support-devel
 BuildRequires: kf5-kinit-devel >= 5.10.0-3
+BuildRequires: kf5-plasma-devel
 BuildRequires: pkgconfig(Qt5Gui)
 %{?kf5_kinit_requires}
 
