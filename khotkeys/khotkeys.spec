@@ -1,6 +1,6 @@
 Name:           khotkeys
 Version:        5.4.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Application to configure hotkeys in KDE
 
 License:        GPLv2+
@@ -88,8 +88,10 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
-%find_lang khotkeys
+#NOT conflict with spectacle
+rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/printscreen.khotkeys
 
+%find_lang khotkeys
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -101,8 +103,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_qtplugindir}/kded_khotkeys.so
 %{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservices5/khotkeys.desktop
-%{_datadir}/khotkeys/
-%{_datadir}/doc/HTML/en/kcontrol/khotkeys/
+%dir %{_kf5_datadir}/khotkeys/
+%{_kf5_datadir}/khotkeys/*
+%{_docdir}/HTML/en/kcontrol/khotkeys/
 
 %files devel
 %{_datadir}/dbus-1/interfaces/org.kde.khotkeys.xml
@@ -110,6 +113,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-4
+- Remove printscreen hotkeys
+
 * Fri Nov 20 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
 - Backport some fixes from plasma-5.5
 
