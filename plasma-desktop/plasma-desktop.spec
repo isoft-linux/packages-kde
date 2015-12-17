@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        21
+Release:        22
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -358,6 +358,7 @@ fi
 %changelog
 * Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - kcmsmserver starts with default session.
+- Restore kcmsmserver ui.
 
 * Wed Dec 16 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-20
 - patch319 cause kcm_keyboard segfault, remove temp

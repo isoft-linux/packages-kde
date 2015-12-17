@@ -56,27 +56,10 @@ index fd8af00..6d963b6 100644
  
  #include "kcmsmserver.moc"
 diff --git a/kcms/ksmserver/smserverconfigdlg.ui b/kcms/ksmserver/smserverconfigdlg.ui
-index 15a4d1c..90f4693 100644
+index 15a4d1c..1b2548e 100644
 --- a/kcms/ksmserver/smserverconfigdlg.ui
 +++ b/kcms/ksmserver/smserverconfigdlg.ui
-@@ -49,14 +49,14 @@
-       <item>
-        <widget class="QRadioButton" name="logoutRadio">
-         <property name="text">
--         <string>&amp;End current session</string>
-+         <string>E&amp;nd current session</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="haltRadio">
-         <property name="text">
--         <string>&amp;Turn off computer</string>
-+         <string>T&amp;urn off computer</string>
-         </property>
-        </widget>
-       </item>
-@@ -84,43 +84,9 @@
+@@ -84,46 +84,12 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -96,10 +79,10 @@ index 15a4d1c..90f4693 100644
 -      <item>
         <widget class="QRadioButton" name="emptySessionRadio">
          <property name="text">
--         <string>Start with an empty &amp;session</string>
--        </property>
--       </widget>
--      </item>
+          <string>Start with an empty &amp;session</string>
+         </property>
+        </widget>
+       </item>
 -      <item>
 -       <widget class="QLabel" name="textLabel1">
 -        <property name="text">
@@ -117,10 +100,12 @@ index 15a4d1c..90f4693 100644
 -       <widget class="QLineEdit" name="excludeLineedit">
 -        <property name="whatsThis">
 -         <string>Here you can enter a colon or comma separated list of applications that should not be saved in sessions, and therefore will not be started when restoring a session. For example 'xterm:konsole' or 'xterm,konsole'.</string>
-+         <string>Start with an empt&amp;y session</string>
-         </property>
-        </widget>
-       </item>
+-        </property>
+-       </widget>
+-      </item>
+      </layout>
+     </widget>
+    </item>
 @@ -142,12 +108,6 @@
     </item>
    </layout>
