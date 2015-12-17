@@ -1,0 +1,58 @@
+diff -Nur ksystemlog-15.11.90/debugfiles.list ksystemlog-15.11.90n/debugfiles.list
+--- ksystemlog-15.11.90/debugfiles.list	1970-01-01 08:00:00.000000000 +0800
++++ ksystemlog-15.11.90n/debugfiles.list	2015-12-17 08:46:24.358107344 +0800
+@@ -0,0 +1,9 @@
++%dir /usr/lib/debug
++%dir /usr/lib/debug/.build-id
++%dir /usr/lib/debug/.build-id/b0
++%dir /usr/lib/debug/usr
++%dir /usr/lib/debug/usr/bin
++/usr/lib/debug/.build-id/b0/ecf1ad0e774311349c9bf6392c6b72decb8b5b
++/usr/lib/debug/.build-id/b0/ecf1ad0e774311349c9bf6392c6b72decb8b5b.debug
++/usr/lib/debug/usr/bin/ksystemlog.debug
++/usr/src/debug/ksystemlog-15.11.90
+diff -Nur ksystemlog-15.11.90/debuglinks.list ksystemlog-15.11.90n/debuglinks.list
+--- ksystemlog-15.11.90/debuglinks.list	1970-01-01 08:00:00.000000000 +0800
++++ ksystemlog-15.11.90n/debuglinks.list	2015-12-17 08:46:24.229107337 +0800
+@@ -0,0 +1,2 @@
++/usr/lib/debug/.build-id/b0/ecf1ad0e774311349c9bf6392c6b72decb8b5b /usr/bin/ksystemlog
++/usr/lib/debug/.build-id/b0/ecf1ad0e774311349c9bf6392c6b72decb8b5b.debug /usr/lib/debug/usr/bin/ksystemlog.debug
+Binary files ksystemlog-15.11.90/debugsources.list and ksystemlog-15.11.90n/debugsources.list differ
+diff -Nur ksystemlog-15.11.90/elfbins.list ksystemlog-15.11.90n/elfbins.list
+--- ksystemlog-15.11.90/elfbins.list	1970-01-01 08:00:00.000000000 +0800
++++ ksystemlog-15.11.90n/elfbins.list	2015-12-17 08:46:24.226107337 +0800
+@@ -0,0 +1 @@
++.//usr/bin/ksystemlog
+diff -Nur ksystemlog-15.11.90/src/lib/view.cpp ksystemlog-15.11.90n/src/lib/view.cpp
+--- ksystemlog-15.11.90/src/lib/view.cpp	2015-11-15 20:46:00.000000000 +0800
++++ ksystemlog-15.11.90n/src/lib/view.cpp	2015-12-17 08:54:17.640133089 +0800
+@@ -116,9 +116,6 @@
+ 
+ View::~View()
+ {
+-    // All widgets are deleted automatically by Qt
+-
+-    delete d;
+ }
+ 
+ LogViewWidget *View::logViewWidget() const
+diff -Nur ksystemlog-15.11.90/src/tabLogManager.cpp ksystemlog-15.11.90n/src/tabLogManager.cpp
+--- ksystemlog-15.11.90/src/tabLogManager.cpp	2015-11-15 20:46:00.000000000 +0800
++++ ksystemlog-15.11.90n/src/tabLogManager.cpp	2015-12-17 08:55:08.807135872 +0800
+@@ -48,11 +48,11 @@
+ 
+ TabLogManager::~TabLogManager()
+ {
+-    delete d->logManager->usedView();
+-
+-    delete d->logManager;
+-
+-    delete d;
++    /*if(d && d->logManager) {
++      delete d->logManager->usedView();
++      delete d->logManager;
++      delete d;
++    }*/
+ }
+ 
+ LogManager *TabLogManager::logManager()
