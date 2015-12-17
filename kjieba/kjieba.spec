@@ -1,6 +1,6 @@
 Name: kjieba
-Version: 0.3.0
-Release: 2%{?dist}
+Version: 0.4.0
+Release: 1%{?dist}
 Summary: DBus interface of libcppjieba for KDE5
 
 License: GPLv2 or GPLv3
@@ -62,6 +62,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libdir}/libKJieba.so
 
 %changelog
+* Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Change topinyin parameter, please see the example/query.cpp
+
 * Wed Dec 16 2015 Cjacker <cjacker@foxmail.com> - 0.3.0-2
 - Own libcppjieba dir and add missing pinyin dict
 
