@@ -1,0 +1,15 @@
+diff --git a/gui/mdwslider.cpp b/gui/mdwslider.cpp
+index d4363b3..b125716 100644
+--- a/gui/mdwslider.cpp
++++ b/gui/mdwslider.cpp
+@@ -127,10 +127,6 @@ void MDWSlider::createActions()
+         m_moveMenu = new KMenu( i18n("Mo&ve"), this);
+         connect( m_moveMenu, SIGNAL(aboutToShow()), SLOT(showMoveMenu()) );
+     }
+-
+-    QAction* qaction = _mdwActions->addAction( "keys" );
+-    qaction->setText( i18n("C&onfigure Shortcuts...") );
+-    connect( qaction, SIGNAL(triggered(bool)), SLOT(defineKeys()) );
+ }
+ 
+ void MDWSlider::addGlobalShortcut(QAction* qaction, const QString& label, bool dynamicControl)

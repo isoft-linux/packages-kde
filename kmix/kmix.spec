@@ -3,7 +3,7 @@
 Name:    kmix 
 Summary: KDE volume control 
 Version: 15.12.0
-Release: 2
+Release: 3
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdemultimedia/%{name}
@@ -16,6 +16,8 @@ URL:     https://projects.kde.org/projects/kde/kdemultimedia/%{name}
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 
 ## upstream patches
+Patch0: 0001-drop-shortcut-setting.patch
+
 
 BuildRequires: desktop-file-utils
 BuildRequires: pkgconfig(alsa)
@@ -45,7 +47,7 @@ BuildRequires: pkgconfig(Qt5Gui)
 
 %prep
 %setup -q
-
+%patch0 -p1
 
 %build
 mkdir %{_target_platform}
@@ -103,6 +105,9 @@ fi
 
 
 %changelog
+* Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Drop shortcut setting, but please use kcmkeys instead.
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update
 
