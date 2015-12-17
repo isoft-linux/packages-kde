@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        7
+Release:        8
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -27,6 +27,9 @@ Patch10: baloo-rude-chinese-support.patch
 Patch11: baloo-extend-to-support-all-CJKV.patch
 #use kjieba to segment Chinese
 Patch12: baloo-enable-kjieba.patch 
+
+#enable pinyin and pinyin initial letter support for Chinese.
+Patch13: baloo-add-pinyin-support.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -90,6 +93,7 @@ Summary:        Runtime libraries for %{name}
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch13 -p1
 
 %build
 mkdir %{_target_platform}
@@ -178,6 +182,9 @@ fi
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-8
+- Add pinyin support
+
 * Wed Nov 25 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-7
 - Update to git master
 
