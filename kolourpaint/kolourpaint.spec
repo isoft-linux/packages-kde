@@ -1,7 +1,7 @@
 Name:    kolourpaint
 Summary: An easy-to-use paint program 
 Version: 5.0.0 
-Release: 3.git
+Release: 4.git
 
 License: BSD 
 URL:     https://projects.kde.org/projects/kde/kdegraphics/kolourpaint
@@ -18,6 +18,7 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/kolourpaint
 #git checkout frameworks
 Source0: kolourpaint.tar.gz
 Patch0: kolourpaint-fix-soversion.patch
+Patch1: modify_include_head_file_for_scandialog.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -43,6 +44,9 @@ BuildRequires: kf5-kservice-devel
 BuildRequires: kf5-kwindowsystem-devel
 BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: kf5-kxmlgui-devel
+BuildRequires: kf5-kdelibs4support-devel
+BuildRequires: libksane5-devel
+BuildRequires: qimageblitz-devel
 
 BuildRequires: appstream-glib
 #BuildRequires: pkgconfig(qimageblitz)
@@ -52,6 +56,7 @@ BuildRequires: appstream-glib
 
 %prep
 %setup -q -n %{name}
+%patch1 -p1
 
 
 %build
@@ -66,7 +71,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
-%find_lang %{name} --with-kde --without-mo
+%find_lang %{name} --with-kde --without-mo || :
 
 ## unpackaged files
 rm -fv %{buildroot}%{_kf5_libdir}/libkolourpaint_lgpl.so
@@ -102,6 +107,13 @@ fi
 %{_kf5_datadir}/kxmlgui5/kolourpaint/
 
 %changelog
+* Thu Dec 17 2015 sulit <sulitsrc@gmail.com> - 5.0.0-4.git
+- add libksane5-devel buildrequire for scan
+- add qimageblitz-devel buildrequire for scan
+- update to git codes
+- add modify scandialog head file include patch, I get the help
+- from Leslie Zhai
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 5.0.0-3.git
 - Rebuild for new 4.0 release
 
