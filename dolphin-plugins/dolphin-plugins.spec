@@ -45,6 +45,7 @@ BuildRequires: kf5-kdelibs4support-devel
 BuildRequires: kf5-knotifications-devel
 BuildRequires: kf5-kparts-devel
 BuildRequires: kf5-ktextwidgets-devel
+BuildRequires: kf5-ktexteditor-devel
 BuildRequires: kf5-kunitconversion-devel
 BuildRequires: qt5-qtbase-devel
 
