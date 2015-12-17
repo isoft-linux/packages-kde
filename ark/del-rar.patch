@@ -1,6 +1,6 @@
-diff -Nur ark-15.11.80/app/ark_addtoservicemenu.desktop ark-15.11.80n/app/ark_addtoservicemenu.desktop
---- ark-15.11.80/app/ark_addtoservicemenu.desktop	2015-11-19 04:21:31.000000000 +0800
-+++ ark-15.11.80n/app/ark_addtoservicemenu.desktop	2015-11-21 17:51:01.222268499 +0800
+diff -Nur ark-15.12.0/app/ark_addtoservicemenu.desktop ark-15.12.0fix/app/ark_addtoservicemenu.desktop
+--- ark-15.12.0/app/ark_addtoservicemenu.desktop	2015-12-15 15:42:30.000000000 +0800
++++ ark-15.12.0fix/app/ark_addtoservicemenu.desktop	2015-12-17 10:02:25.104355433 +0800
 @@ -2,7 +2,7 @@
  Type=Service
  ServiceTypes=KonqPopupMenu/Plugin
@@ -10,7 +10,7 @@ diff -Nur ark-15.11.80/app/ark_addtoservicemenu.desktop ark-15.11.80n/app/ark_ad
  X-KDE-Submenu=Compress
  X-KDE-Submenu[ar]=اضغط
  X-KDE-Submenu[ast]=Comprimir
-@@ -132,40 +132,6 @@
+@@ -134,41 +134,6 @@
  Icon=ark
  Exec=ark --changetofirstpath --add --autofilename zip %F
  
@@ -45,6 +45,7 @@ diff -Nur ark-15.11.80/app/ark_addtoservicemenu.desktop ark-15.11.80n/app/ark_ad
 -Name[uk]=Сюди (як RAR)
 -Name[x-test]=xxHere (as RAR)xx
 -Name[zh_CN]=此处 (作为 RAR)
+-Name[zh_TW]=在此壓成 RAR 壓縮檔
 -Icon=ark
 -Exec=ark --changetofirstpath --add --autofilename rar %F
 -
