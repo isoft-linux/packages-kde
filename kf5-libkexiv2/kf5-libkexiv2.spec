@@ -20,6 +20,7 @@ BuildRequires: desktop-file-utils
 BuildRequires: extra-cmake-modules
 BuildRequires: gettext
 BuildRequires: kf5-rpm-macros
+BuildRequires: qt5-qtbase-devel qt5-qttools-devel
 BuildRequires: pkgconfig(exiv2)
 
 %description
