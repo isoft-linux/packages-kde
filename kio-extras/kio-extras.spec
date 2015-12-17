@@ -1,5 +1,5 @@
 Name:           kio-extras
-Version:        15.11.80
+Version:        15.12.0
 Release:        2 
 Summary:        Additional components to increase the functionality of KIO Framework
 
@@ -161,6 +161,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 
