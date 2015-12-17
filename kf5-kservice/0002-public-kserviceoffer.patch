@@ -1,0 +1,34 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index f4d09d5..74a8c50 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -124,6 +124,7 @@ ecm_generate_headers(KService_HEADERS
+   KServiceTypeProfile
+   KServiceTypeTrader
+   KPluginInfo
++  KServiceOffer
+ 
+   RELATIVE services REQUIRED_HEADERS KService_HEADERS
+ )
+diff --git a/src/services/kservicetypetrader.h b/src/services/kservicetypetrader.h
+index 56994d8..1642ef4 100644
+--- a/src/services/kservicetypetrader.h
++++ b/src/services/kservicetypetrader.h
+@@ -203,6 +203,8 @@ public:
+     static void applyConstraints(KService::List &lst,
+                                  const QString &constraint);
+ 
++    static KServiceOfferList weightedOffers(const QString &serviceType);
++
+ private:
+     /**
+      * @internal
+@@ -213,8 +215,6 @@ private:
+     KServiceTypeTrader(const KServiceTypeTrader &other);
+     KServiceTypeTrader &operator=(const KServiceTypeTrader &rhs);
+ 
+-    static KServiceOfferList weightedOffers(const QString &serviceType);
+-
+     KServiceTypeTraderPrivate *const d;
+ 
+     friend class KServiceTypeTraderSingleton;

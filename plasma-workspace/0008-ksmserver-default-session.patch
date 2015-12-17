@@ -1,0 +1,26 @@
+diff --git a/ksmserver/main.cpp b/ksmserver/main.cpp
+index 4808a80..8a77166 100644
+--- a/ksmserver/main.cpp
++++ b/ksmserver/main.cpp
+@@ -322,7 +322,7 @@ extern "C" Q_DECL_EXPORT int kdemain( int argc, char* argv[] )
+     bool screenCountChanged =
+          ( config.readEntry( "screenCount", realScreenCount ) != realScreenCount );
+ 
+-    QString loginMode = config.readEntry( "loginMode", "restorePreviousLogout" );
++    QString loginMode = config.readEntry( "loginMode", "default" );
+ 
+     if ( parser.isSet( restoreOption ) && ! screenCountChanged )
+         server->restoreSession( QStringLiteral( SESSION_BY_USER ) );
+diff --git a/ksmserver/shutdown.cpp b/ksmserver/shutdown.cpp
+index 636ae66..94fe3b7 100644
+--- a/ksmserver/shutdown.cpp
++++ b/ksmserver/shutdown.cpp
+@@ -176,7 +176,7 @@ void KSMServer::shutdown( KWorkSpace::ShutdownConfirm confirm,
+ 
+         // shall we save the session on logout?
+         saveSession = ( cg.readEntry( "loginMode",
+-                                      QStringLiteral( "restorePreviousLogout" ) )
++                                      QStringLiteral( "default" ) )
+                         == QStringLiteral( "restorePreviousLogout" ) );
+ 
+ 		qDebug() << "saveSession is " << saveSession;

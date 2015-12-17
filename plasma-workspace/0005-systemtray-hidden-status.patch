@@ -1,0 +1,63 @@
+diff --git a/applets/systemtray/plugin/host.cpp b/applets/systemtray/plugin/host.cpp
+index 27ca227..a4badf6 100644
+--- a/applets/systemtray/plugin/host.cpp
++++ b/applets/systemtray/plugin/host.cpp
+@@ -294,7 +294,8 @@ QStringList Host::defaultPlasmoids() const
+ 
+ 
+ bool HostPrivate::showTask(Task *task) const {
+-    return task->shown() && task->status() != SystemTray::Task::Passive;
++    return task->shown() && task->status() != SystemTray::Task::Passive &&
++        task->status() != SystemTray::Task::HiddenStatus;
+ }
+ 
+ void HostPrivate::setupProtocol(Protocol *protocol)
+diff --git a/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp b/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
+index c9d98d7..52361b9 100644
+--- a/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
++++ b/applets/systemtray/plugin/protocols/plasmoid/plasmoidtask.cpp
+@@ -140,6 +140,8 @@ void PlasmoidTask::updateStatus()
+         setStatus(Task::Passive);
+     } else if (ps == Plasma::Types::NeedsAttentionStatus) {
+         setStatus(Task::NeedsAttention);
++    } else if (ps == Plasma::Types::HiddenStatus) {
++        setStatus(Task::HiddenStatus);
+     } else {
+         setStatus(Task::Active);
+     }
+diff --git a/applets/systemtray/plugin/task.h b/applets/systemtray/plugin/task.h
+index e2f7e85..4b22c59 100644
+--- a/applets/systemtray/plugin/task.h
++++ b/applets/systemtray/plugin/task.h
+@@ -60,7 +60,8 @@ public:
+         UnknownStatus = 0,
+         Passive = 1,
+         Active = 2,
+-        NeedsAttention = 3
++        NeedsAttention = 3,
++        HiddenStatus = 6
+     };
+ 
+     enum Category {
+diff --git a/applets/systemtray/plugin/tasksproxymodel.cpp b/applets/systemtray/plugin/tasksproxymodel.cpp
+index 632e84b..32f34ba 100644
+--- a/applets/systemtray/plugin/tasksproxymodel.cpp
++++ b/applets/systemtray/plugin/tasksproxymodel.cpp
+@@ -93,12 +93,15 @@ bool TasksProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceP
+         return false;
+     }
+ 
+-    if (m_host->showAllItems() && m_category == Category::HiddenTasksCategory) {
++    if (m_host->showAllItems() && (m_category == Category::HiddenTasksCategory ||
++                                   task->status() == SystemTray::Task::HiddenStatus)) {
+         return false;
+     }
+ 
+     if (!m_host->showAllItems()) {
+-        if (m_category == Category::HiddenTasksCategory) {
++        if (task->status() == SystemTray::Task::HiddenStatus) {
++            return false;
++        } else if (m_category == Category::HiddenTasksCategory) {
+             return !showTask(task);
+         } else if (m_category == Category::ShownTasksCategory) {
+             return showTask(task);

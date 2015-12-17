@@ -1,7 +1,7 @@
-Name:    kate
-Summary: Advanced Text Editor
-Version: 15.11.80
-Release: 2 
+Name: kwrite
+Summary: Text Editor
+Version: 15.12.0
+Release: 2
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/kate
 
@@ -15,6 +15,9 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/kate-%{ve
 
 #use /usr/src/rust/src instead of /usr/local/src/rust/src
 Patch0: kate-rust-plugin-src-dir.patch
+
+# https://git.reviewboard.kde.org/r/126197/
+Patch1: prepend-dir-when-open-file-via-dbus.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -57,35 +60,13 @@ BuildRequires: kf5-kwidgetsaddons-devel
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qt5-qtscript-devel
 
-# not sure if we want -plugins by default, let's play it safe
-# and go with no initially -- rex
-#Requires: %{name}-plugins%{?_isa} = %{version}-%{release}
-
-%{?kf5_kinit_requires}
-
 %description
 %{summary}.
-
-%package plugins
-Summary: Kate plugins
-License: LGPLv2
-# upgrade path, when -plugins were split
-Obsoletes: kate < 14.12.1
-Requires: %{name} = %{version}-%{release}
-%description plugins
-%{summary}.
-
-%package -n kwrite
-Summary: Text Editor
-License: LGPLv2+
-%{?kf5_kinit_requires}
-%description -n kwrite
-%{summary}.
-
 
 %prep
 %setup -q -n kate-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -93,15 +74,16 @@ pushd %{_target_platform}
 %{cmake_kf5} ..
 popd
 
-make %{?_smp_mflags} -C %{_target_platform}
+make %{?_smp_mflags} -C %{_target_platform}/kwrite
+make %{?_smp_mflags} -C %{_target_platform}/doc/kwrite
 
 
 %install
-make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+make install/fast DESTDIR=%{buildroot} -C %{_target_platform}/kwrite
+make install/fast DESTDIR=%{buildroot} -C %{_target_platform}/doc/kwrite
 
 
 %check
-desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.kate.desktop
 desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.kwrite.desktop
 
 
@@ -119,45 +101,24 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 update-desktop-database -q &> /dev/null || :
 fi
 
-%postun -n kwrite
-if [ $1 -eq 0 ] ; then
-update-desktop-database -q &> /dev/null || :
-fi
-
-%posttrans -n kwrite
-update-desktop-database -q &> /dev/null || :
-
-
 %files
-%doc COPYING.LIB
-%doc AUTHORS
-%{_kf5_bindir}/kate
-%{_kf5_datadir}/applications/org.kde.kate.desktop
-%{_datadir}/appdata/org.kde.kate.appdata.xml
-%{_kf5_datadir}/icons/hicolor/*/*
-%{_mandir}/man1/kate.1*
-%{_kf5_docdir}/HTML/en/kate/
-%{_kf5_docdir}/HTML/en/katepart/
-%{_kf5_datadir}/plasma/plasmoids/org.kde.plasma.katesessions/
-%{_kf5_datadir}/kservices5/plasma-applet-org.kde.plasma.katesessions.desktop
-%{_kf5_datadir}/kservices5/plasma-dataengine-katesessions.desktop
-%{_kf5_datadir}/plasma/services/org.kde.plasma.katesessions.operations
-
-%files plugins
-%{_kf5_qtplugindir}/ktexteditor/*.so
-%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_katesessions.so
-%{_kf5_datadir}/kateproject/
-%{_kf5_datadir}/katexmltools/
-%{_kf5_datadir}/kxmlgui5/katexmltools
-
-%files -n kwrite
 %{_kf5_bindir}/kwrite
+%{_kf5_datadir}/icons/hicolor/*/apps/kwrite.*
 %{_kf5_datadir}/applications/org.kde.kwrite.desktop
 %{_datadir}/appdata/org.kde.kwrite.appdata.xml
 %{_kf5_docdir}/HTML/en/kwrite/
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
+* Wed Dec 16 2015 Cjacker <cjacker@foxmail.com> - 15.11.90-2
+- Update
+
+* Thu Dec 03 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-3
+- https://git.reviewboard.kde.org/r/126197/
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 

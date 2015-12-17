@@ -1,6 +1,6 @@
 Name:           powerdevil
 Version:        5.4.3
-Release:        3
+Release:        4
 Summary:        Manages the power consumption settings of a Plasma Shell
 
 License:        GPLv2+
@@ -20,7 +20,7 @@ Patch0:         powerdevil-enable-upower.patch
 Patch1:         do-not-ignore-brightness-key-during-animation.patch
 #https://quickgit.kde.org/?p=powerdevil.git&a=commit&h=4c66646761834236f6b14789162fe71f6179f472
 Patch2:         show-full-charged-msg-instead-of-not-charging-when-full.patch
-
+Patch3:         powerdevil-kcmmodule-activities.patch
  
 BuildRequires:  libxcb-devel
 BuildRequires:  xcb-util-keysyms-devel
@@ -63,6 +63,7 @@ of a daemon (a KDED module) and a KCModule for its configuration.
 %patch0 -p1 -b .enable-upower
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 
@@ -102,6 +103,9 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Wed Dec 16 2015 wangming <ming.wang@i-soft.com.cn> - 5.4.3-4
+- Fixed logical conflit on Activity Settings.
+
 * Fri Nov 20 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
 - Backport patches from 5.5
 

@@ -1,6 +1,6 @@
 Name:    dolphin-plugins
 Summary: Dolphin plugins for revision control systems
-Version: 15.11.80
+Version: 15.12.0
 Release: 2%{?dist}
 
 License: GPLv2+
@@ -45,6 +45,7 @@ BuildRequires: kf5-kdelibs4support-devel
 BuildRequires: kf5-knotifications-devel
 BuildRequires: kf5-kparts-devel
 BuildRequires: kf5-ktextwidgets-devel
+BuildRequires: kf5-ktexteditor-devel
 BuildRequires: kf5-kunitconversion-devel
 BuildRequires: qt5-qtbase-devel
 
@@ -95,6 +96,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 

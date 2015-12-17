@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        11
+Release:        22
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -72,6 +72,8 @@ Patch310: plasma-desktop-uninstall-component-kcm-kemail.patch
 Patch311: plasmadesktop-scrollabletasktooltip.diff
 
 # Open history documents with bash script
+# But it needs to distinguish between *.desktop and general file
+# Fix open systrayed application twice issue
 Patch312: plasma-desktop-startup-history-documents.patch
 
 # kcm_splashscreen use isoft logo
@@ -85,6 +87,27 @@ Patch315: fix-kde-bug-311991.patch
 
 # https://git.reviewboard.kde.org/r/126162/
 Patch316: taskmanager-tooltipdelegate.diff
+
+# Fix DnD file to Trash access denied issue
+Patch317: 0009-dnd-file-to-trash.patch
+
+# Add desktop folderview ctrl+c, ctrl+v, ctrl+x support
+Patch318: 0010-desktop-folderview-shortcut.patch
+
+# Remove leave unchaged kcm_keyboard, there is ONLY ON or OFF.
+#Patch319: 0011-remove-numlock-unchanged.patch
+
+# Remove icons advance setting KDEBUG-356712
+Patch320: 0012-drop-icons-advance-setting.patch
+
+# Remove suspend 
+Patch321: 0013-remove-suspend.patch
+
+# Fix recent document icon issue.
+Patch322: 0014-kickoff-recentdoc-icon.patch
+
+# kcmsmserver starts with default session.
+Patch323: 0015-kcm-ksmserver-default-session.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -333,6 +356,31 @@ fi
 
 
 %changelog
+* Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- kcmsmserver starts with default session.
+- Restore kcmsmserver ui.
+
+* Wed Dec 16 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-20
+- patch319 cause kcm_keyboard segfault, remove temp
+
+* Tue Dec 15 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Remove icons advance setting KDEBUG-356712
+- Remove suspend.
+- Fix recent document icon issue.
+
+* Mon Dec 14 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Remove leave unchaged kcm_keyboard, there is ONLY ON or OFF.
+
+* Tue Dec 08 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add shift+delete support for desktop folderview.
+
+* Fri Dec 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add desktop folderview ctrl+c, ctrl+v, ctrl+x support.
+- Fix open systrayed application twice issue.
+
+* Thu Dec 03 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix DnD file to Trash access denied issue.
+
 * Thu Nov 26 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix kicker plasmoid icon issue.
 

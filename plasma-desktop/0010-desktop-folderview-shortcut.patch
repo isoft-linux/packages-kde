@@ -1,0 +1,51 @@
+diff --git a/containments/desktop/package/contents/ui/FolderView.qml b/containments/desktop/package/contents/ui/FolderView.qml
+index 578ec87..a3da781 100644
+--- a/containments/desktop/package/contents/ui/FolderView.qml
++++ b/containments/desktop/package/contents/ui/FolderView.qml
+@@ -670,6 +670,16 @@ Item {
+                     } else if (event.key == Qt.Key_End) {
+                         currentIndex = count - 1;
+                         updateSelection(event.modifiers);
++                    } else if (event.matches(StandardKey.Copy)) {
++                        dir.copy();
++                    } else if (event.matches(StandardKey.Paste)) {
++                        dir.paste();
++                    } else if (event.modifiers && Qt.ShiftModifier) {
++                        if (event.key == Qt.Key_Delete) {
++                            dir.deleteSelected();
++                        }
++                    } else if (event.matches(StandardKey.Cut)) {
++                        dir.cut();
+                     }
+                 }
+ 
+diff --git a/containments/desktop/plugins/folder/foldermodel.h b/containments/desktop/plugins/folder/foldermodel.h
+index 5d7f886..46bc0dc 100644
+--- a/containments/desktop/plugins/folder/foldermodel.h
++++ b/containments/desktop/plugins/folder/foldermodel.h
+@@ -191,6 +191,11 @@ class FolderModel : public QSortFilterProxyModel
+         bool isDir(const QModelIndex &index, const KDirModel *dirModel) const;
+         bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+ 
++        Q_INVOKABLE void paste();
++        Q_INVOKABLE void copy();
++        Q_INVOKABLE void cut();
++        Q_INVOKABLE void deleteSelected();
++
+     Q_SIGNALS:
+         void urlChanged() const;
+         void resolvedUrlChanged() const;
+@@ -220,13 +225,9 @@ class FolderModel : public QSortFilterProxyModel
+         void statResult(KJob *job);
+         void evictFromIsDirCache(const KFileItemList &items);
+         void selectionChanged(QItemSelection selected, QItemSelection deselected);
+-        void copy();
+-        void cut();
+-        void paste();
+         void pasteTo();
+         void refresh();
+         void moveSelectedToTrash();
+-        void deleteSelected();
+         void emptyTrashBin();
+         void undoTextChanged(const QString &text);
+ 

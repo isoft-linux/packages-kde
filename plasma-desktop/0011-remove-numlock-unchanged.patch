@@ -1,0 +1,30 @@
+diff --git a/kcms/keyboard/kcmmisc.cpp b/kcms/keyboard/kcmmisc.cpp
+index 8c0eabf..a02ded0 100644
+--- a/kcms/keyboard/kcmmisc.cpp
++++ b/kcms/keyboard/kcmmisc.cpp
+@@ -73,7 +73,6 @@ KCMiscKeyboardWidget::KCMiscKeyboardWidget(QWidget *parent)
+   _numlockButtonGroup = new QButtonGroup(ui.numlockButtonGroup);
+   _numlockButtonGroup->addButton(ui.radioButton1, 0);
+   _numlockButtonGroup->addButton(ui.radioButton2, 1);
+-  _numlockButtonGroup->addButton(ui.radioButton3, 2);
+ 
+   connect(_numlockButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(changed()));
+ 
+diff --git a/kcms/keyboard/kcmmiscwidget.ui b/kcms/keyboard/kcmmiscwidget.ui
+index 3603b96..5901819 100644
+--- a/kcms/keyboard/kcmmiscwidget.ui
++++ b/kcms/keyboard/kcmmiscwidget.ui
+@@ -40,13 +40,6 @@
+            </property>
+           </widget>
+          </item>
+-         <item row="2" column="0">
+-          <widget class="QRadioButton" name="radioButton3">
+-           <property name="text">
+-            <string>Leave unchan&amp;ged</string>
+-           </property>
+-          </widget>
+-         </item>
+         </layout>
+        </widget>
+       </item>

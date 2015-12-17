@@ -2,8 +2,8 @@
 
 Name:           kwalletmanager
 Summary:        Manage KDE passwords
-Version:        15.11.80
-Release:        2 
+Version:        15.12.0
+Release:        2
 
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/kdeutils/kwalletmanager
@@ -92,6 +92,9 @@ fi
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 

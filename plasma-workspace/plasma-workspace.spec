@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        10
+Release:        22
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -71,6 +71,21 @@ Patch44: avoid-qmenu-exec-in-plasmoid-context-menu.patch
 
 #fix: spelling mistake:kwin vs KWin
 Patch45: plasma-workspace-taskwinjob-qdbus-kwin.patch
+
+#https://git.reviewboard.kde.org/r/126216/
+Patch46: do-not-produce-negative-struts-on-switching-screens.patch
+
+#Fix systemtray applet show/hide items settings issue
+Patch47: 0004-systemtray-applet-show-hide-items.patch
+
+# Hidden status implementation for plasmoid
+Patch48: 0005-systemtray-hidden-status.patch
+
+# Integrate some kservice's code into plasma-workspace/runners/services
+Patch49: 0007-query-for-cjk.patch
+
+# ksmserver starts with default empty session
+Patch50: 0008-ksmserver-default-session.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -168,7 +183,8 @@ BuildRequires:  libqalculate-devel
 BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
 Requires: qt5-qtaccountsservice >= 0.6.0
 
-
+BuildRequires: kjieba-devel
+Requires: kjieba
 
 # for libkdeinit5_*
 %{?kf5_kinit_requires}
@@ -269,6 +285,13 @@ Documentation and user manuals for %{name}.
 %patch43 -p1
 %patch44 -p1
 %patch45 -p1
+
+%patch46 -p1
+
+%patch47 -p1
+%patch48 -p1
+%patch49 -p1
+%patch50 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -380,6 +403,30 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add kservice exec() is empty check and query && topinyin GenericName.
+- ksmserver starts with default empty session.
+
+* Wed Dec 16 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Use queryForCJK for Application search.
+- Remove kservice queryForCJK API.
+- Integrate some code from KServiceTypeTrader.
+- Add KJieba query and topinyin support.
+
+* Fri Dec 11 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Changed the name of the enum to HiddenStatus.
+- Fix showAllItems HiddenStatus empty area issue.
+
+* Thu Dec 10 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add systemtray HideMyself status implementation for plasmoid.
+- Fix systemtray's empty area issue for HideMyself status plasmoid.
+
+* Thu Dec 03 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix systemtray applet show/hide items settings issue.
+
+* Thu Dec 03 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-11
+- https://git.reviewboard.kde.org/r/126216
+
 * Tue Dec 01 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.4.3-10
 - Fix:spelling mistake:qdbus service name error
 

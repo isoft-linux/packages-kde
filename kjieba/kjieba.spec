@@ -1,6 +1,6 @@
 Name: kjieba
-Version: 0.2.0
-Release: 2%{?dist}
+Version: 0.4.0
+Release: 1%{?dist}
 Summary: DBus interface of libcppjieba for KDE5
 
 License: GPLv2 or GPLv3
@@ -46,12 +46,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files
 %{_datadir}/dbus-1/services/org.isoftlinux.kjieba.service
-%dir %{_datadir}/libcppjieba/dict/
-%{_datadir}/libcppjieba/dict/hmm_model.utf8
-%{_datadir}/libcppjieba/dict/stop_words.utf8
-%{_datadir}/libcppjieba/dict/idf.utf8
-%{_datadir}/libcppjieba/dict/jieba.dict.utf8
-%{_datadir}/libcppjieba/dict/user.dict.utf8
+# own this dir.
+%dir %{_datadir}/libcppjieba/
+%{_datadir}/libcppjieba/*
 %{_kf5_bindir}/kjieba
 %{_kf5_bindir}/kjieba-query
 %{_datadir}/dbus-1/interfaces/org.isoftlinux.kjieba.App.xml
@@ -65,6 +62,15 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libdir}/libKJieba.so
 
 %changelog
+* Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Change topinyin parameter, please see the example/query.cpp
+
+* Wed Dec 16 2015 Cjacker <cjacker@foxmail.com> - 0.3.0-2
+- Own libcppjieba dir and add missing pinyin dict
+
+* Wed Dec 16 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add Chinese2Pinyin support.
+
 * Tue Nov 24 2015 Cjacker <cjacker@foxmail.com> - 0.2.0-2
 - Add missing kjieba-query to filelist
 

@@ -2,7 +2,7 @@
 
 Name:    kf5-libkexiv2
 Summary: An Exiv2 wrapper library
-Version: 15.11.80 
+Version: 15.12.0
 Release: 2%{?dist}
 
 License: GPLv2+
@@ -20,6 +20,7 @@ BuildRequires: desktop-file-utils
 BuildRequires: extra-cmake-modules
 BuildRequires: gettext
 BuildRequires: kf5-rpm-macros
+BuildRequires: qt5-qtbase-devel qt5-qttools-devel
 BuildRequires: pkgconfig(exiv2)
 
 %description
@@ -68,6 +69,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
+- Update
+
 * Sat Nov 21 2015 Cjacker <cjacker@foxmail.com> - 15.11.80-2
 - Update
 
