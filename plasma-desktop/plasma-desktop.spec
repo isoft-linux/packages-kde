@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        20
+Release:        21
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -105,6 +105,9 @@ Patch321: 0013-remove-suspend.patch
 
 # Fix recent document icon issue.
 Patch322: 0014-kickoff-recentdoc-icon.patch
+
+# kcmsmserver starts with default session.
+Patch323: 0015-kcm-ksmserver-default-session.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -353,6 +356,9 @@ fi
 
 
 %changelog
+* Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- kcmsmserver starts with default session.
+
 * Wed Dec 16 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-20
 - patch319 cause kcm_keyboard segfault, remove temp
 
