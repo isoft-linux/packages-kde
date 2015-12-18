@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        9
+Release:        10
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -32,6 +32,10 @@ Patch2: 0002-hidden-status.patch
 
 # https://git.reviewboard.kde.org/r/126168/
 Patch10: noicontheme.patch
+
+# https://git.reviewboard.kde.org/r/126296/
+# [Window Thumbnails] Don't crash if Composite is disabled
+Patch11: windowthumbcomposite.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -152,6 +156,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Dec 18 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-10
+- Merge patch back
+
 * Fri Dec 11 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Changed the name of the enum to HiddenStatus.
 
