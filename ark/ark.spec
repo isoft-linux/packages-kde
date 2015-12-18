@@ -3,7 +3,7 @@
 Name:    ark
 Summary: Archive manager
 Version: 15.12.0
-Release: 2 
+Release: 3 
 
 License: GPLv2+
 URL:     http://utils.kde.org/projects/ark 
@@ -16,6 +16,8 @@ URL:     http://utils.kde.org/projects/ark
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 Patch0: del-rar.patch
 Patch1: servicesmenus-localization.patch
+#https://git.reviewboard.kde.org/r/126360/
+Patch2: ark-rar-path-with-space.patch
 
 #git clone git://anongit.kde.org/ark
 #git checkout frameworks
@@ -104,6 +106,7 @@ Requires: %{name} = %{version}-%{release}
 %setup -q
 %patch0 -p1
 %patch1 -p1 
+%patch2 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -169,6 +172,9 @@ fi
 
 
 %changelog
+* Fri Dec 18 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-3
+- Merge gitreviewboard patch back
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update to stable release
 
