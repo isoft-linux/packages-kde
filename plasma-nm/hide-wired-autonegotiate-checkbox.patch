@@ -1,0 +1,12 @@
+diff -Nur plasma-nm-5.4.3/libs/editor/settings/wiredconnectionwidget.cpp plasma-nm-5.4.3n/libs/editor/settings/wiredconnectionwidget.cpp
+--- plasma-nm-5.4.3/libs/editor/settings/wiredconnectionwidget.cpp	2015-11-05 20:46:53.000000000 +0800
++++ plasma-nm-5.4.3n/libs/editor/settings/wiredconnectionwidget.cpp	2015-12-18 15:37:12.784180365 +0800
+@@ -36,7 +36,7 @@
+     m_widget->speed->setHidden(true);
+     m_widget->duplexLabel->setHidden(true);
+     m_widget->duplex->setHidden(true);
+-
++    m_widget->autonegotiate->setVisible(false);
+     connect(m_widget->btnRandomMacAddr, &QPushButton::clicked, this, &WiredConnectionWidget::generateRandomClonedMac);
+ 
+     if (setting)

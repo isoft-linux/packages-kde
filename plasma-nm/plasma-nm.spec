@@ -1,6 +1,6 @@
 Name:           plasma-nm
 Version:        5.4.3
-Release:        3
+Release:        4
 Summary:        Plasma Next applet written in QML for managing network connections
 License:        LGPLv2+ and GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-nm
@@ -25,6 +25,8 @@ Patch0001: hide-menu-item.patch
 #https://git.reviewboard.kde.org/r/126035/
 #Add --import-vpn argument to connection editor
 Patch0002: importvpn.patch
+
+Patch0003: hide-wired-autonegotiate-checkbox.patch
 # Upstream patches
 
 BuildRequires:  gettext
@@ -271,6 +273,9 @@ install -m 0644 %{SOURCE11} %{buildroot}%{_datadir}/kservices5/
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_sstpui.desktop
 
 %changelog
+* Fri Dec 18 2015 fj <fujiang.zhu@i-soft.com.cn> - 5.4.3-4
+- hide-wired-autonegotiate-checkbox
+
 * Thu Nov 12 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
 - Add importvpn arg to connection-editor
 
