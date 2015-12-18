@@ -1,0 +1,28 @@
+diff -Nur kservice-5.16.0/src/services/kautostart.cpp kservice-5.16.0n/src/services/kautostart.cpp
+--- kservice-5.16.0/src/services/kautostart.cpp	2015-11-08 20:35:05.000000000 +0800
++++ kservice-5.16.0n/src/services/kautostart.cpp	2015-12-18 16:38:26.423791650 +0800
+@@ -25,6 +25,7 @@
+ #include <QCoreApplication>
+ #include <QtCore/QFile>
+ #include <QStringList>
++#include <QDir>
+ 
+ class KAutostartPrivate
+ {
+@@ -147,8 +148,14 @@
+         return true;
+     }
+ 
+-    KConfig config(list[0], KConfig::NoGlobals);
+-    KConfigGroup cg(&config, list[1]);
++    KConfig *config;
++
++    if(list[0].startsWith("kde4-")) {
++        QString configfile = QDir::homePath()+"/.kde/share/config/" + QString(list[0].constData()).remove(0,5);
++        config = new KConfig(configfile, "whateverbackend");
++    } else 
++        config = new KConfig(list[0], KConfig::NoGlobals);
++    KConfigGroup cg(config, list[1]);
+ 
+     const bool defaultValue = (list[3].toLower() == QLatin1String("true"));
+     return cg.readEntry(list[2], defaultValue);
