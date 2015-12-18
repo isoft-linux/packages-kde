@@ -1,5 +1,5 @@
 diff --git a/applets/kickoff/core/recentlyusedmodel.cpp b/applets/kickoff/core/recentlyusedmodel.cpp
-index 571b6a3..c3c2dcd 100644
+index 571b6a3..b505271 100644
 --- a/applets/kickoff/core/recentlyusedmodel.cpp
 +++ b/applets/kickoff/core/recentlyusedmodel.cpp
 @@ -22,6 +22,7 @@
@@ -10,13 +10,14 @@ index 571b6a3..c3c2dcd 100644
  
  // KDE
  #include <KDirWatch>
-@@ -100,10 +101,19 @@ public:
+@@ -100,10 +101,20 @@ public:
      void addRecentDocument(const QString& desktopPath, bool append) {
          // remove existing item if any
          removeExistingItem(desktopPath);
 +        QSettings settings(desktopPath, QSettings::IniFormat);
 +        settings.beginGroup("Desktop Entry");
 +        if (settings.value("Icon").toString() == "inode-directory" ||
++            settings.value("Icon").toString() == "user-trash-full" ||
 +            settings.value("Icon").toString() == "text-html") {
 +            return;
 +        }
