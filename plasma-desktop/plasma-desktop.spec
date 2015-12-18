@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        24
+Release:        25
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -108,6 +108,9 @@ Patch322: 0014-kickoff-recentdoc-icon.patch
 
 # kcmsmserver starts with default session.
 Patch323: 0015-kcm-ksmserver-default-session.patch
+
+# Fix taskmanager font size when changed to oxygen theme.
+Patch324: 0016-taskmanager-font-size.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -358,6 +361,7 @@ fi
 %changelog
 * Fri Dec 18 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Filter user-trash-full for kickoff recent document.
+- Fix taskmanager font size issue when changed to oxygen theme.
 
 * Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - kcmsmserver starts with default session.
