@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        22
+Release:        23
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -86,6 +86,7 @@ Patch49: 0007-query-for-cjk.patch
 
 # ksmserver starts with default empty session
 Patch50: 0008-ksmserver-default-session.patch
+Patch51: disable-ignore-image-and-textonly-for-clipboard.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -292,6 +293,7 @@ Documentation and user manuals for %{name}.
 %patch48 -p1
 %patch49 -p1
 %patch50 -p1
+%patch51 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -403,6 +405,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Dec 21 2015 xiaotian.wu@i-soft.com.cn - 5.4.3-23
+- remove two checkbox from clipboard configdialog: IgnoreImage and textonly
+
 * Thu Dec 17 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add kservice exec() is empty check and query && topinyin GenericName.
 - ksmserver starts with default empty session.
