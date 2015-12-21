@@ -1,0 +1,67 @@
+Index: plasma-workspace-5.4.3/klipper/generalconfig.ui
+===================================================================
+--- plasma-workspace-5.4.3.orig/klipper/generalconfig.ui
++++ plasma-workspace-5.4.3/klipper/generalconfig.ui
+@@ -26,13 +26,6 @@
+     </widget>
+    </item>
+    <item>
+-    <widget class="QCheckBox" name="kcfg_IgnoreImages">
+-     <property name="text">
+-      <string>Ignore images</string>
+-     </property>
+-    </widget>
+-   </item>
+-   <item>
+     <widget class="QGroupBox" name="selection_group">
+      <property name="title">
+       <string>Selection and Clipboard</string>
+@@ -46,13 +39,6 @@
+        </widget>
+       </item>
+       <item>
+-       <widget class="QCheckBox" name="kcfg_SelectionTextOnly">
+-        <property name="text">
+-         <string>Text selection only</string>
+-        </property>
+-       </widget>
+-      </item>
+-      <item>
+        <widget class="QCheckBox" name="kcfg_SyncClipboards">
+         <property name="text">
+          <string>Synchronize contents of the clipboard and the selection</string>
+@@ -117,22 +103,6 @@
+   <connection>
+    <sender>kcfg_IgnoreSelection</sender>
+    <signal>clicked(bool)</signal>
+-   <receiver>kcfg_SelectionTextOnly</receiver>
+-   <slot>setDisabled(bool)</slot>
+-   <hints>
+-    <hint type="sourcelabel">
+-     <x>78</x>
+-     <y>213</y>
+-    </hint>
+-    <hint type="destinationlabel">
+-     <x>80</x>
+-     <y>231</y>
+-    </hint>
+-   </hints>
+-  </connection>
+-  <connection>
+-   <sender>kcfg_IgnoreSelection</sender>
+-   <signal>clicked(bool)</signal>
+    <receiver>kcfg_SyncClipboards</receiver>
+    <slot>setDisabled(bool)</slot>
+    <hints>
+Index: plasma-workspace-5.4.3/klipper/configdialog.cpp
+===================================================================
+--- plasma-workspace-5.4.3.orig/klipper/configdialog.cpp
++++ plasma-workspace-5.4.3/klipper/configdialog.cpp
+@@ -43,7 +43,6 @@ void GeneralWidget::updateWidgets()
+ {
+   if (m_ui.kcfg_IgnoreSelection->isChecked()) {
+     m_ui.kcfg_SyncClipboards->setEnabled(false);
+-    m_ui.kcfg_SelectionTextOnly->setEnabled(false);
+   } else if (m_ui.kcfg_SyncClipboards->isChecked()) {
+     m_ui.kcfg_IgnoreSelection->setEnabled(false);
+   }
