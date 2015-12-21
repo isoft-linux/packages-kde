@@ -1,0 +1,12 @@
+diff --git a/src/views/dolphinview.cpp b/src/views/dolphinview.cpp
+index 5023859..2f7ecc4 100644
+--- a/src/views/dolphinview.cpp
++++ b/src/views/dolphinview.cpp
+@@ -1381,6 +1381,7 @@ void DolphinView::slotTrashFileFinished(KJob* job)
+ {
+     if (job->error() == 0) {
+         emit operationCompletedMessage(i18nc("@info:status", "Trash operation completed."));
++        reload();
+     } else if (job->error() != KIO::ERR_USER_CANCELED) {
+         emit errorMessage(job->errorString());
+     }

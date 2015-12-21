@@ -1,7 +1,7 @@
 Name:    dolphin 
 Summary: KDE File Manager
 Version: 15.12.0
-Release: 2
+Release: 3
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
@@ -31,6 +31,9 @@ Patch5: dolphin-fix-path-no-url-scheme.patch
 
 #hide rating in searchbox.
 Patch6: dolphin-hide-rating-when-search.patch
+
+# Fix baloosearch move to trash reload issue
+Patch7: 0001-move-to-trash-reload.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -107,6 +110,7 @@ developing applications that use %{name}.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 mkdir %{_target_platform}
@@ -163,6 +167,9 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so
 
 %changelog
+* Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix baloosearch move to trash reload issue.
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update
 
