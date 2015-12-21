@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -33,6 +33,9 @@ Patch4: request-dbus-name-for-kioexec.patch
 
 #to cover bug 12844
 Patch5: kio-adjust_trash_filepath.patch
+
+# Fix cut and paste info myself issue.
+Patch6: 0001-cut-paste-into-myself.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -282,6 +285,9 @@ fi
 
 
 %changelog
+* Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix cut and paste info myself issue.
+
 * Mon Nov 30 2015 fujiang <fujiang.zhu@i-soft.com.cn> - 5.16.0-5
 - Adjust trash_filepath(bug 12844)
 

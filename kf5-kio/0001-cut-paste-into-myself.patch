@@ -1,0 +1,28 @@
+diff --git a/src/widgets/pastejob.cpp b/src/widgets/pastejob.cpp
+index a0ce3ac..836286d 100644
+--- a/src/widgets/pastejob.cpp
++++ b/src/widgets/pastejob.cpp
+@@ -26,6 +26,7 @@
+ #include <QFileInfo>
+ #include <QMimeData>
+ #include <QTimer>
++#include <QMessageBox>
+ 
+ #include <KIO/CopyJob>
+ #include <KIO/FileUndoManager>
+@@ -100,6 +101,15 @@ void PasteJob::slotResult(KJob *job)
+ 
+ PasteJob * KIO::paste(const QMimeData *mimeData, const QUrl &destDir, JobFlags flags)
+ {
++    if (isClipboardDataCut(mimeData)) {
++        Q_FOREACH (QUrl url, mimeData->urls()) {
++            if (destDir.path().startsWith(url.path())) {
++                QMessageBox box(QMessageBox::Warning, i18n("Warning"), i18n("Can not paste here"));
++                box.exec();
++                break;
++            }
++        }
++    }
+     return PasteJobPrivate::newJob(mimeData, destDir, flags, true /*clipboard*/);
+ }
+ 
