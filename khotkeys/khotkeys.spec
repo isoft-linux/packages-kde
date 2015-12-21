@@ -1,6 +1,6 @@
 Name:           khotkeys
 Version:        5.4.3
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Application to configure hotkeys in KDE
 
 License:        GPLv2+
@@ -47,21 +47,14 @@ BuildRequires:  qt5-qtx11extras-devel
 
 Requires:       kf5-filesystem
 
-# when khotkeys was split out of kde-workspace-4.11.x
-Conflicts:      kde-workspace < 4.11.15-3
-
-# upgrade path from khotkeys-libs-4.11.x (skip Provides for now, it was only ever a private library)
-Obsoletes:      khotkeys-libs < 5.0.0
-#Provides:       khotkeys-libs = %{version}-%{release}
-
 %description
 An advanced editor component which is used in numerous KDE applications
 requiring a text editing component.
 
 %package        devel
 Summary:        Development files for %{name}
-# strictly speaking, not required in this case, but still often expected to pull in subpkg -- rex
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+
 %description    devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
@@ -90,6 +83,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 #NOT conflict with spectacle
 rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/printscreen.khotkeys
+rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/defaults.khotkeys
+rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/kde32b1.khotkeys
+rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/konqueror_gestures_kde321.khotkeys
 
 %find_lang khotkeys
 
@@ -104,7 +100,6 @@ rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/printscreen.khotkeys
 %{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservices5/khotkeys.desktop
 %dir %{_kf5_datadir}/khotkeys/
-%{_kf5_datadir}/khotkeys/*
 %{_docdir}/HTML/en/kcontrol/khotkeys/
 
 %files devel
@@ -113,6 +108,9 @@ rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/printscreen.khotkeys
 
 
 %changelog
+* Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-5
+- Remove all preset non-used hotkeys
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-4
 - Remove printscreen hotkeys
 
