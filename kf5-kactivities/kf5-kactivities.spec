@@ -5,7 +5,7 @@
 Name:           kf5-%{framework}
 Summary:        A KDE Frameworks 5 Tier 3 to organize user work into separate activities
 Version:        5.16.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.kde.org
@@ -77,6 +77,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %find_lang kactivities5_qt --with-qt --all-name
 
+#drop this, confuse user.
+rm -rf %{buildroot}%{_kf5_datadir}/kservices5/kactivitymanagerd_fileitem_linking_plugin.desktop
+
 %if !0%{?build_main_package}
 rm -f %{buildroot}%{_kf5_bindir}/kactivitymanagerd
 rm -f %{buildroot}%{_kf5_datadir}/kservices5/*.desktop
@@ -120,6 +123,9 @@ rm -rf %{buildroot}/%{_kf5_datadir}/kf5/kactivitymanagerd
 
 
 %changelog
+* Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
+- Drop fileitem link to activities plugin
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
