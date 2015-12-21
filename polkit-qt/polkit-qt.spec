@@ -4,7 +4,7 @@
 
 Name:            polkit-qt
 Version:         0.112.0
-Release:         6%{?dist}
+Release:         7%{?dist}
 Summary:         Qt bindings for PolicyKit
 
 License:         GPLv2+
@@ -15,6 +15,10 @@ Source1:         Doxyfile
 Patch0:          polkit-qt-0.95.1-install-cmake-find.patch
 
 ## upstream patches
+
+# Change ConsoleKit to systemd-logind
+# KDEBUG-356984
+Patch1:          change-consolekit-to-systemd-logind.patch
 
 Source10:        macros.polkit-qt
 
@@ -72,6 +76,7 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 # module installation
 %patch0 -p1 -b .install-cmake-find
 
+%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -161,6 +166,9 @@ install -p -m644 -D %{SOURCE10} %{buildroot}%{rpm_macros_dir}/macros.polkit-qt
 
 
 %changelog
+* Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Change ConsoleKit to systemd-logind to fix KDEBUG-356984.
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 0.112.0-6
 - Rebuild for new 4.0 release
 

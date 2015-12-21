@@ -1,0 +1,153 @@
+diff -Naur polkit-qt-1-0.112.0/core/polkitqt1-authority.cpp polkit-qt-1/core/polkitqt1-authority.cpp
+--- polkit-qt-1-0.112.0/core/polkitqt1-authority.cpp	2014-07-10 16:37:25.000000000 +0800
++++ polkit-qt-1/core/polkitqt1-authority.cpp	2015-12-21 16:26:11.952246292 +0800
+@@ -83,7 +83,11 @@
+     // Polkit will return NULL on failures, hence we use it instead of 0
+     Private(Authority *qq) : q(qq)
+             , pkAuthority(NULL)
+-            , m_hasError(false) {}
++            , m_hasError(false)
++            , m_isLogind(false)
++            , m_systemBus(0)
++    {
++    }
+ 
+     ~Private();
+ 
+@@ -103,6 +107,14 @@
+     bool m_hasError;
+     Authority::ErrorCode m_lastError;
+     QString m_errorDetails;
++    bool m_isLogind;
++    // Local system bus. QDBusConnection::systemBus() may only be savely used
++    // inside a QCoreApplication scope as for example destruction of connected
++    // objects need to happen before the bus disappears. Since this class however
++    // is a global static and systemBus() internally is a global static we
++    // cannot assure destruction order. Instead we create a local copy of the
++    // global systemBus instance so we can make life time to our needs.
++    // This prevents crashes when cleaning up the global statics.
+     QDBusConnection *m_systemBus;
+     GCancellable *m_checkAuthorizationCancellable,
+     *m_enumerateActionsCancellable,
+@@ -127,6 +139,7 @@
+ 
+ Authority::Private::~Private()
+ {
++    delete m_systemBus;
+     g_object_unref(m_checkAuthorizationCancellable);
+     g_object_unref(m_enumerateActionsCancellable);
+     g_object_unref(m_registerAuthenticationAgentCancellable);
+@@ -170,6 +183,9 @@
+ 
+     g_type_init();
+ 
++    m_systemBus = new QDBusConnection(QDBusConnection::connectToBus(QDBusConnection::SystemBus,
++                                                                    QString("polkit_qt_system_bus")));
++
+     m_checkAuthorizationCancellable = g_cancellable_new();
+     m_enumerateActionsCancellable = g_cancellable_new();
+     m_registerAuthenticationAgentCancellable = g_cancellable_new();
+@@ -208,25 +224,40 @@
+     // need to listen to NameOwnerChanged
+     dbusSignalAdd("org.freedesktop.DBus", "/", "org.freedesktop.DBus", "NameOwnerChanged");
+ 
+-    QString consoleKitService("org.freedesktop.ConsoleKit");
+-    QString consoleKitManagerPath("/org/freedesktop/ConsoleKit/Manager");
+-    QString consoleKitManagerInterface("org.freedesktop.ConsoleKit.Manager");
+-    QString consoleKitSeatInterface("org.freedesktop.ConsoleKit.Seat");
+-
+-    // first, add signals SeadAdded and SeatRemoved from ConsoleKit Manager
+-    dbusSignalAdd(consoleKitService, consoleKitManagerPath, consoleKitManagerInterface, "SeatAdded");
+-    dbusSignalAdd(consoleKitService, consoleKitManagerPath, consoleKitManagerInterface, "SeatRemoved");
+-
+-    // then we need to extract all seats from ConsoleKit
+-    QDBusMessage msg = QDBusMessage::createMethodCall(consoleKitService, consoleKitManagerPath, consoleKitManagerInterface, "GetSeats");
+-    msg = QDBusConnection::systemBus().call(msg);
++    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.DBus", "/", "org.freedesktop.DBus", "NameHasOwner");
++    msg << "org.freedesktop.login1";
++    msg = m_systemBus->call(msg);
++    if (!msg.arguments().isEmpty() && msg.arguments().at(0).toBool()) {
++        m_isLogind = true;
++        QString loginService("org.freedesktop.login1");
++        QString loginPath("/org/freedesktop/login1");
++        QString loginManagerInterface("org.freedesktop.login1.Manager");
++
++        dbusSignalAdd(loginService, loginPath, loginManagerInterface, "SeatNew");
++        dbusSignalAdd(loginService, loginPath, loginManagerInterface, "SeatRemoved");
++
++        msg = QDBusMessage::createMethodCall(loginService, loginPath, loginManagerInterface, "ListSeats");
++    } else {
++        QString consoleKitService("org.freedesktop.ConsoleKit");
++        QString consoleKitManagerPath("/org/freedesktop/ConsoleKit/Manager");
++        QString consoleKitManagerInterface("org.freedesktop.ConsoleKit.Manager");
++
++        // first, add signals SeadAdded and SeatRemoved from ConsoleKit Manager
++        dbusSignalAdd(consoleKitService, consoleKitManagerPath, consoleKitManagerInterface, "SeatAdded");
++        dbusSignalAdd(consoleKitService, consoleKitManagerPath, consoleKitManagerInterface, "SeatRemoved");
++
++        // then we need to extract all seats from ConsoleKit
++        msg = QDBusMessage::createMethodCall(consoleKitService, consoleKitManagerPath, consoleKitManagerInterface, "GetSeats");
++    }
++
++    msg = m_systemBus->call(msg);
+     if (!msg.arguments().isEmpty()) {
+         // this method returns a list with present seats
+-        QList<QString> seats;
+-        qVariantValue<QDBusArgument> (msg.arguments()[0]) >> seats;
++        QVariantList seats;
++        msg.arguments()[0].value<QDBusArgument>() >> seats;
+         // it can be multiple seats present so connect all their signals
+-        Q_FOREACH(const QString &seat, seats) {
+-            seatSignalsConnect(seat);
++        Q_FOREACH(const QVariant &seat, seats) {
++            seatSignalsConnect(seat.toString());
+         }
+     }
+ }
+@@ -243,21 +274,27 @@
+ 
+ void Authority::Private::seatSignalsConnect(const QString &seat)
+ {
+-    QString consoleKitService("org.freedesktop.ConsoleKit");
+-    QString consoleKitSeatInterface("org.freedesktop.ConsoleKit.Seat");
+-    // we want to connect to all slots of the seat
+-    dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "DeviceAdded");
+-    dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "DeviceRemoved");
+-    dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "SessionAdded");
+-    dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "SessionRemoved");
+-    dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "ActiveSessionChanged");
++    if (m_isLogind) {
++        QString loginService("org.freedesktop.login1");
++        QString loginManagerInterface("org.freedesktop.login1.Manager");
++        dbusSignalAdd(loginService, seat, loginManagerInterface, "SessionNew");
++        dbusSignalAdd(loginService, seat, loginManagerInterface, "SessionRemoved");
++    } else {
++        QString consoleKitService("org.freedesktop.ConsoleKit");
++        QString consoleKitSeatInterface("org.freedesktop.ConsoleKit.Seat");
++        // we want to connect to all slots of the seat
++        dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "DeviceAdded");
++        dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "DeviceRemoved");
++        dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "SessionAdded");
++        dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "SessionRemoved");
++        dbusSignalAdd(consoleKitService, seat, consoleKitSeatInterface, "ActiveSessionChanged");
++    }
+ }
+ 
+ void Authority::Private::dbusSignalAdd(const QString &service, const QString &path, const QString &interface, const QString &name)
+ {
+     // FIXME: This code seems to be nonfunctional - it needs to be fixed somewhere (is it Qt BUG?)
+-    QDBusConnection::systemBus().connect(service, path, interface, name,
+-                                         q, SLOT(dbusFilter(QDBusMessage)));
++    m_systemBus->connect(service, path, interface, name, q, SLOT(dbusFilter(QDBusMessage)));
+ }
+ 
+ void Authority::Private::dbusFilter(const QDBusMessage &message)
+@@ -266,7 +303,7 @@
+         Q_EMIT q->consoleKitDBChanged();
+ 
+         // TODO: Test this with the multiseat support
+-        if (message.member() == "SeatAdded") {
++        if ((m_isLogind && message.member() == "SeatNew") || (!m_isLogind && message.member() == "SeatAdded")) {
+             seatSignalsConnect(qVariantValue<QDBusObjectPath> (message.arguments()[0]).path());
+         }
+     }
