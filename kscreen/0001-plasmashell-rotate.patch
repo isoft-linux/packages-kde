@@ -1,0 +1,23 @@
+diff --git a/kcm/src/kcm_kscreen.cpp b/kcm/src/kcm_kscreen.cpp
+index 1bd7de7..78c2278 100644
+--- a/kcm/src/kcm_kscreen.cpp
++++ b/kcm/src/kcm_kscreen.cpp
+@@ -38,6 +38,7 @@
+ #include <kscreen/setconfigoperation.h>
+ 
+ #include <qquickitem.h>
++#include <unistd.h>
+ 
+ K_PLUGIN_FACTORY(KCMDisplayConfigurationFactory, registerPlugin<KCMKScreen>();)
+ 
+@@ -142,6 +143,10 @@ void KCMKScreen::save()
+     /* Block until the operation is completed, otherwise KCMShell will terminate
+      * before we get to execute the Operation */
+     op->exec();
++    usleep(100);
++    // monkey patch for KDEBUG-356228
++    op = new SetConfigOperation(config);
++    op->exec();
+ }
+ 
+ void KCMKScreen::defaults()

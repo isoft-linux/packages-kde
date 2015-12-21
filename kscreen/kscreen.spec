@@ -4,7 +4,7 @@
 Name:           kscreen
 Epoch:          1
 Version:        5.4.3
-Release:        4 
+Release:        5
 Summary:        KDE Display Management software
 
 License:        GPLv2 or GPLv3
@@ -33,7 +33,8 @@ Patch0: kscreen-add-osd.patch
 Patch1: kscreen-add-osd-zh-CN-trans.patch
 #additional translations we added to kcmmodule.
 Patch2: kscreen-add-osd-zh-CN-trans2.patch
-
+# KDEBUG-356228 QScreen issue workaround patch
+Patch3: 0001-plasmashell-rotate.patch
 
 BuildRequires:  cmake
 BuildRequires:  gettext
@@ -106,6 +107,9 @@ fi
 
 
 %changelog
+* Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- KDEBUG-356228 QScreen issue workaround patch.
+
 * Mon Nov 23 2015 <kun.li@i-soft.com.cn> - 1:5.4.3-3
 - add Patch2, additional translations
 
