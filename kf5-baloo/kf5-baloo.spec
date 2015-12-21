@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        9
+Release:        10
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -107,7 +107,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 %install
 make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 
-#install -p -m644 -D %{SOURCE1} %{buildroot}%{_prefix}/lib/sysctl.d/97-kde-baloo-filewatch-inotify.conf
+install -p -m644 -D %{SOURCE1} %{buildroot}%{_prefix}/lib/sysctl.d/97-kde-baloo-filewatch-inotify.conf
 
 %find_lang baloomonitorplugin --with-qt
 %find_lang balooctl --with-qt
@@ -159,7 +159,7 @@ fi
 %{_kf5_datadir}/icons/hicolor/*/apps/baloo.png
 
 %files file -f %{name}-file.lang
-#%{_prefix}/lib/sysctl.d/97-kde-baloo-filewatch-inotify.conf
+%{_prefix}/lib/sysctl.d/97-kde-baloo-filewatch-inotify.conf
 %{_kf5_bindir}/baloo_file
 %{_kf5_bindir}/baloo_file_extractor
 %{_kf5_sysconfdir}/xdg/autostart/baloo_file.desktop
@@ -182,6 +182,9 @@ fi
 
 
 %changelog
+* Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-10
+- Re-enable inotify watch setting
+
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-9
 - Disable max inofity watch settings
 
