@@ -1,7 +1,7 @@
 Name:    kamera
 Summary: Digital camera support for KDE 
 Version: 15.12.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/kamera
@@ -12,6 +12,7 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/kamera
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+Patch0: kamera-fix-i18n.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -33,6 +34,8 @@ BuildRequires: pkgconfig(libgphoto2)
 
 %prep
 %setup -q
+%patch0 -p1
+
 %build
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
@@ -59,6 +62,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-3
+- Fix i18n
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update
 

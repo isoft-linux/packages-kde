@@ -1,0 +1,12 @@
+diff -Nur kamera-15.12.0/kcontrol/CMakeLists.txt kamera-15.12.0n/kcontrol/CMakeLists.txt
+--- kamera-15.12.0/kcontrol/CMakeLists.txt	2015-12-08 23:52:41.000000000 +0800
++++ kamera-15.12.0n/kcontrol/CMakeLists.txt	2015-12-19 12:56:32.892763095 +0800
+@@ -1,6 +1,8 @@
+ 
+ ########### next target ###############
+ 
++add_definitions(-DTRANSLATION_DOMAIN=\"kcmkamera\")
++
+ set(kcm_kamera_PART_SRCS kamera.cpp kameradevice.cpp kameraconfigdialog.cpp )
+ 
+ add_library(kcm_kamera MODULE ${kcm_kamera_PART_SRCS})
