@@ -1,0 +1,48 @@
+diff -Nur spectacle-15.12.0/desktop/spectacle.khotkeys spectacle-15.12.0n/desktop/spectacle.khotkeys
+--- spectacle-15.12.0/desktop/spectacle.khotkeys	2015-12-09 20:00:20.000000000 +0800
++++ spectacle-15.12.0n/desktop/spectacle.khotkeys	2015-12-19 22:15:55.536984428 +0800
+@@ -7,9 +7,11 @@
+ 
+ [Data_1]
+ Comment=Shortcuts for taking screenshots
++Comment[zh_CN]=屏幕截图快捷键
+ DataCount=3
+ Enabled=true
+ Name=Screenshots
++Name[zh_CN]=屏幕截图
+ SystemGroup=0
+ Type=ACTION_DATA_GROUP
+ 
+@@ -19,8 +21,10 @@
+ 
+ [Data_1_1]
+ Comment=Start the screenshot tool and show the GUI
++Comment[zh_CN]=启动截图工具并显示图形界面
+ Enabled=true
+ Name=Start Screenshot Tool
++Name[zh_CN]=启动截图工具
+ Type=SIMPLE_ACTION_DATA
+ 
+ [Data_1_1Actions]
+@@ -47,8 +51,10 @@
+ 
+ [Data_1_2]
+ Comment=Take a full screen (all monitors) screenshot and save it
++Comment[zh_CN]=截取整个屏幕(包括所有显示器)并保存
+ Enabled=true
+ Name=Take Full Screen Screenshot
++Name[zh_CN]=全屏截图
+ Type=SIMPLE_ACTION_DATA
+ 
+ [Data_1_2Actions]
+@@ -75,8 +81,10 @@
+ 
+ [Data_1_3]
+ Comment=Take a screenshot of the currently active window and save it
++Comment[zh_CN]=截取当前活动窗口并保存
+ Enabled=true
+ Name=Take Active Window Screenshot
++Name[zh_CN]=活动窗口截图
+ Type=SIMPLE_ACTION_DATA
+ 
+ [Data_1_3Actions]

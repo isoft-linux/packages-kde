@@ -1,7 +1,7 @@
 Name: spectacle
 Summary: A screen capture utility 
 Version: 15.12.0
-Release: 3
+Release: 4
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/ksnapshot
@@ -12,6 +12,7 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/ksnapshot
 %global stable stable
 %endif 
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
+Patch0: spectacle-hotkeys-zh_CN.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -58,6 +59,7 @@ BuildRequires: qt5-qtx11extras-devel
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -98,6 +100,9 @@ fi
 
 
 %changelog
+* Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-4
+- Add zh_CN info for khotkeys
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-3
 - Fix xcb dependency
 
