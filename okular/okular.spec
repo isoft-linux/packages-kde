@@ -5,8 +5,8 @@
 
 Name:    okular 
 Summary: A document viewer
-Version: 1.0.0 
-Release: 10.git%{?dist}
+Version: 15.12.0 
+Release: 2.git%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -28,6 +28,15 @@ Patch1: okular-kio-with-slash-not-work-fix.patch
 Patch2: okular-fix-epub-fetch-file.patch
 # for bug #13093
 Patch3: okular-fix-save-area-to-file.patch
+
+#some menubar item can not localized, this patch fix it.
+Patch4: okular-fix-menu-i18n.patch
+
+#trim view menu always enabled even no page, fix it.
+Patch5: disable-trimview-submenu-when-no-page.patch
+
+#KDE applications already in 15.12.0, bump okular version to match it, even we use git codes.
+Patch6: okular-bump-version-to-match-kde-application-release.patch
 
 %if 0%{?chm}
 BuildRequires: chmlib-devel
@@ -130,6 +139,9 @@ Summary: A kioslave for displaying WinHelp files
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -208,7 +220,7 @@ fi
 
 %files part
 %{_kf5_qtplugindir}/okularGenerator_*.so
-%{_kf5_qtplugindir}/okularpart.so
+%{_kf5_qtplugindir}/libokularpart.so
 
 %dir %{_kf5_qmldir}/org/kde/okular
 %{_kf5_qmldir}/org/kde/okular/*
@@ -234,6 +246,12 @@ fi
 
 
 %changelog
+* Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2.git
+- Various fix, bump version to 15.12.0
+
+* Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 1.0.0-11.git
+- Fix i18n
+
 * Wed Dec 02 2015 xiaotian.wu@i-soft.com.cn - 1.0.0-10.git
 - to fix bug #13093.
 

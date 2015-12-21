@@ -1,0 +1,11 @@
+--- okular/CMakeLists.txt	2015-12-19 09:45:18.000000000 +0800
++++ okularn/CMakeLists.txt	2015-12-19 10:07:59.974944199 +0800
+@@ -22,7 +22,7 @@
+ include(ECMAddAppIcon) 
+ include(ECMPackageConfigHelpers)
+ 
+-ecm_setup_version(1.0.0 VARIABLE_PREFIX OKULAR
++ecm_setup_version(15.12.0 VARIABLE_PREFIX OKULAR
+                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/core/version.h"
+                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Okular5ConfigVersion.cmake")
+ 

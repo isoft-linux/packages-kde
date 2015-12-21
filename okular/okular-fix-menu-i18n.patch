@@ -1,0 +1,13 @@
+Binary files okular/.git/index and okularn/.git/index differ
+diff -Nur okular/shell/main.cpp okularn/shell/main.cpp
+--- okular/shell/main.cpp	2015-08-13 23:19:55.000000000 +0800
++++ okularn/shell/main.cpp	2015-12-19 09:56:23.191956677 +0800
+@@ -30,6 +30,8 @@
+ int main(int argc, char** argv)
+ {
+     QApplication app(argc, argv);
++ 
++    KLocalizedString::setApplicationDomain("okular");
+ 
+     KAboutData aboutData = okularAboutData();
+ 
