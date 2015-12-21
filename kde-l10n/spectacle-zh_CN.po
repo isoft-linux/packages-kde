@@ -1,0 +1,436 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Weng Xuetian <wengxt@gmail.cm>, 2015.
+# Feng Chao <chaofeng111@gmail.com>, 2015.
+# cjacker <cjacker@gmail.com>, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-19 12:22+0800\n"
+"PO-Revision-Date: 2015-12-19 12:43+0800\n"
+"Last-Translator: cjacker <cjacker@gmail.com>\n"
+"Language-Team: Chinese <kde-china@kde.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: src/ExportManager.cpp:168
+#, kde-format
+msgid "QImageWriter cannot write image: "
+msgstr "QImageWriter无法写入图片："
+
+#: src/ExportManager.cpp:181
+#, kde-format
+msgid "Cannot save screenshot. Error while writing file."
+msgstr "不能保存屏幕截图。写入文件错误。"
+
+#: src/ExportManager.cpp:193 src/ExportManager.cpp:225
+#, kde-format
+msgid "Cannot save screenshot. Error while writing temporary local file."
+msgstr "不能保存屏幕截图。写入本地临时文件错误。"
+
+#: src/ExportManager.cpp:201
+#, kde-format
+msgid "Unable to save image. Could not upload file to remote location."
+msgstr "不能保存图片。不能上传至远程地址。"
+
+#: src/ExportManager.cpp:238
+#, kde-format
+msgid "Cannot save screenshot. The save filename is invalid."
+msgstr "不能保存屏幕截图。文件名不可用。"
+
+#: src/ExportManager.cpp:266
+#, kde-format
+msgid "Cannot save an empty screenshot image."
+msgstr "不能保存临时屏幕截图。"
+
+#: src/ExportManager.cpp:330
+#, kde-format
+msgid "Printing failed. The printer failed to initialize."
+msgstr "打印失败。打印机初始化失败。"
+
+#: src/Gui/KSImageWidget.cpp:40
+#, kde-format
+msgid "Image Size: %1x%2 pixels"
+msgstr "图像大小：%1x%2 像素"
+
+#: src/Gui/ScreenClipper.cpp:106
+#, kde-format
+msgid ""
+"Click anywhere on the screen (including on this text) to start drawing a "
+"selection rectangle, or press Esc to quit"
+msgstr "点击屏幕任何位置（包括这个文本的位置）开始拖动选择的矩形框，或者按ESC键退出"
+
+#: src/Gui/ScreenClipper.cpp:148
+#, kde-format
+msgid ""
+"To take the screenshot, double-click or press Enter. Right-click to reset "
+"the selection, or press Esc to quit."
+msgstr "要进行屏幕截图，鼠标双击或者按‘回车’键。鼠标右击重置选择区域，或按ESC键退出。"
+
+#: src/Gui/ExportMenu.cpp:52
+#, kde-format
+msgid "Online Services"
+msgstr "在线服务"
+
+#: src/Gui/ExportMenu.cpp:53
+#, kde-format
+msgid "Please wait..."
+msgstr "请稍候..."
+
+#: src/Gui/ExportMenu.cpp:86
+#, kde-format
+msgid "Other Application"
+msgstr "其它应用程序"
+
+#: src/Gui/ExportMenu.cpp:124
+#, kde-format
+msgid "KIPI plugin from library %1 failed to load"
+msgstr "KIPI插件 %1 加载失败"
+
+#: src/Gui/KSSaveConfigDialog.cpp:27 src/Gui/KSMainWindow.cpp:135
+#, kde-format
+msgid "Configure Save Options"
+msgstr "配置保存选项"
+
+#: src/Gui/KSSaveConfigDialog.cpp:38
+#, kde-format
+msgid "Default Save Directory"
+msgstr "默认保存目录"
+
+#: src/Gui/KSSaveConfigDialog.cpp:45
+#, kde-format
+msgid ""
+"Set the directory where you'd like to save your screenshots when you press "
+"<b>Save</b> or <b>Save & Exit</b>."
+msgstr "设置按下<b>保存</b>或<b>保存并退出</b>按钮时，您希望保存屏幕截图的目录。"
+
+#: src/Gui/KSSaveConfigDialog.cpp:50
+#, kde-format
+msgid "Location:"
+msgstr "位置："
+
+#: src/Gui/KSSaveConfigDialog.cpp:63
+#, kde-format
+msgid "Default Save Filename"
+msgstr "默认保存文件名"
+
+#: src/Gui/KSSaveConfigDialog.cpp:69
+#, kde-format
+msgid ""
+"<p>Set a default filename for saved screenshots.</p><p>You can use the "
+"following placeholders in the filename, which will be replaced with actual "
+"text when the file is saved:</p><blockquote><b>%Y</b>: Year (4 digit)<br /"
+"><b>%y</b>: Year (2 digit)<br /><b>%M</b>: Month<br /><b>%D</b>: Day<br /><b>"
+"%H</b>: Hour<br /><b>%m</b>: Minute<br /><b>%S</b>: Second</"
+"blockquote><p>You don't need to enter a filetype extension. By default, "
+"screenshots are always saved as a <b>PNG (Portable Network Graphics)</b> "
+"image with a <b>.png</b> extension.</p><p>If a file with this name already "
+"exists, a serial number will be appended to the filename. For example, if "
+"the filename is \"Screenshot\", and \"Screenshot.png\" already exists, the "
+"image will be saved as \"Screenshot-1.png\".</p>"
+msgstr ""
+"<p>设置保存屏幕截图的默认文件名。</p><p>在文件名中，你可以使用以下占位符，"
+"在保存时占位符将被自动替换：</p><blockquote><b>%Y</b>: 年 (4 位)<br /"
+"><b>%y</b>: 年 (2 位)<br /><b>%M</b>: 月<br /><b>%D</b>: 日<br /><b>"
+"%H</b>: 时<br /><b>%m</b>: 分<br /><b>%S</b>: 秒</"
+"blockquote><p>你不需要设置文件扩展名。屏幕截图默认以<b>PNG</b>格式，以 "
+"<b>.png</b> 扩展名保存.</p><p>如果同名文件已经存在，文件名会自动添加序列数字。"
+"比如，如果文件名是“屏幕截图”，但“屏幕截图.png”已经存在，图片将被保存为 \"Screenshot-1.png\"。</p>"
+
+#: src/Gui/KSSaveConfigDialog.cpp:99
+#, kde-format
+msgid "Filename:"
+msgstr "文件名："
+
+#: src/Gui/KSWidget.cpp:34
+#, kde-format
+msgid "<b>Capture Mode</b>"
+msgstr "<b>抓取模式</b>"
+
+#: src/Gui/KSWidget.cpp:37
+#, kde-format
+msgid "Full Screen (All Monitors)"
+msgstr "全屏(所有屏幕)"
+
+#: src/Gui/KSWidget.cpp:38
+#, kde-format
+msgid "Current Screen"
+msgstr "当前屏幕"
+
+#: src/Gui/KSWidget.cpp:39
+#, kde-format
+msgid "Active Window"
+msgstr "活动窗口"
+
+#: src/Gui/KSWidget.cpp:40
+#, kde-format
+msgid "Window Under Cursor"
+msgstr "光标所在窗口"
+
+#: src/Gui/KSWidget.cpp:41
+#, kde-format
+msgid "Rectangular Region"
+msgstr "方形区域"
+
+#: src/Gui/KSWidget.cpp:50
+#, kde-format
+msgid " seconds"
+msgstr " 秒"
+
+#: src/Gui/KSWidget.cpp:55
+#, kde-format
+msgid "On Click"
+msgstr "点击触发"
+
+#: src/Gui/KSWidget.cpp:56
+#, kde-format
+msgid "Wait for a mouse click before capturing the screenshot image"
+msgstr "直到鼠标点击时才开始进行屏幕截图"
+
+#: src/Gui/KSWidget.cpp:65
+#, kde-format
+msgid "Area:"
+msgstr "区域："
+
+#: src/Gui/KSWidget.cpp:66
+#, kde-format
+msgid "Delay:"
+msgstr "延迟："
+
+#: src/Gui/KSWidget.cpp:72
+#, kde-format
+msgid "<b>Content Options</b>"
+msgstr "<b>内容选项</b>"
+
+#: src/Gui/KSWidget.cpp:75
+#, kde-format
+msgid "Include mouse pointer"
+msgstr "包含鼠标指针"
+
+#: src/Gui/KSWidget.cpp:76
+#, kde-format
+msgid "Show the mouse cursor in the screeenshot image"
+msgstr "在屏幕截图的图片上显示鼠标指针"
+
+#: src/Gui/KSWidget.cpp:80
+#, kde-format
+msgid "Include window titlebar and borders"
+msgstr "包含窗口标题栏和边框"
+
+#: src/Gui/KSWidget.cpp:81
+#, kde-format
+msgid ""
+"Show the window title bar, the minimize/maximize/close buttons, and the "
+"window border"
+msgstr "显示窗口标题栏，包括最小化/最大化/关闭按钮，以及窗口边框"
+
+#: src/Gui/KSWidget.cpp:86
+#, kde-format
+msgid "Capture the current pop-up only"
+msgstr "抓取当前弹出窗口"
+
+#: src/Gui/KSWidget.cpp:87
+#, kde-format
+msgid ""
+"Capture only the current pop-up window (like a menu, tooltip etc). If this "
+"is not enabled, the pop-up is captured along with the parent window"
+msgstr "仅抓取当前弹出窗口（比如菜单，工具提示等）。如果不启用这个选项，弹出窗口将跟父窗口一起被抓取"
+
+#: src/Gui/KSWidget.cpp:102
+#, kde-format
+msgid "Take New Screenshot"
+msgstr "新建截图"
+
+#: src/Gui/KSMainWindow.cpp:121
+#, kde-format
+msgid "Export To..."
+msgstr "导出到..."
+
+#: src/Gui/KSMainWindow.cpp:126
+#, kde-format
+msgid "Copy To Clipboard"
+msgstr "复制到剪贴板"
+
+#: src/Gui/KSMainWindow.cpp:127
+#, kde-format
+msgid "Copy the current screenshot image to the clipboard."
+msgstr "将当前截图复制到剪贴板。"
+
+#: src/Gui/KSMainWindow.cpp:137
+#, kde-format
+msgid "Save &&& Exit"
+msgstr "保存并退出"
+
+#: src/Gui/KSMainWindow.cpp:138
+#, kde-format
+msgid "Save screenshot in your Pictures directory and exit"
+msgstr "将截图保存到您的图片目录并退出"
+
+#: src/Gui/KSMainWindow.cpp:159
+#, kde-format
+msgid "The screenshot has been copied to the clipboard."
+msgstr "截图已复制到剪贴板."
+
+#: src/Gui/KSMainWindow.cpp:212
+#, kde-format
+msgctxt "Unsaved Screenshot"
+msgid "Unsaved[*]"
+msgstr "未保存[*]"
+
+#: src/Main.cpp:53
+#, kde-format
+msgid "Spectacle"
+msgstr "Spectacle"
+
+#: src/Main.cpp:55
+#, kde-format
+msgid "KDE Screenshot Utility"
+msgstr "KDE 屏幕截图工具"
+
+#: src/Main.cpp:57
+#, kde-format
+msgid "(C) 2015 Boudhayan Gupta"
+msgstr "(C) 2015 Boudhayan Gupta"
+
+#: src/Main.cpp:69
+#, kde-format
+msgid "Capture the entire desktop (default)"
+msgstr "抓取整个桌面 (默认)"
+
+#: src/Main.cpp:70
+#, kde-format
+msgid "Capture the current monitor"
+msgstr "抓取当前屏幕"
+
+#: src/Main.cpp:71
+#, kde-format
+msgid "Capture the active window"
+msgstr "抓取活动窗口"
+
+#: src/Main.cpp:72
+#, kde-format
+msgid ""
+"Capture the window currently under the cursor, including parents of pop-up "
+"menus"
+msgstr "抓取鼠标指针位置的窗口，包括父窗口的弹出菜单"
+
+#: src/Main.cpp:73
+#, kde-format
+msgid ""
+"Capture the window currently under the cursor, excluding parents of pop-up "
+"menus"
+msgstr "抓取鼠标指针位置的窗口，不包括父窗口的弹出菜单"
+
+#: src/Main.cpp:74
+#, kde-format
+msgid "Capture a rectangular region of the screen"
+msgstr "抓取屏幕内方形区域"
+
+#: src/Main.cpp:75
+#, kde-format
+msgid "Start in GUI mode (default)"
+msgstr "图形界面启动（默认）"
+
+#: src/Main.cpp:76
+#, kde-format
+msgid "Take a screenshot and exit without showing the GUI"
+msgstr "进行屏幕截图并退出，不显示图形界面"
+
+#: src/Main.cpp:77
+#, kde-format
+msgid "Start in DBus-Activation mode"
+msgstr "通过DBus激活模式启动"
+
+#: src/Main.cpp:78
+#, kde-format
+msgid ""
+"In background mode, do not pop up a notification when the screenshot is taken"
+msgstr "后台模式，截图时不弹出提示"
+
+#: src/Main.cpp:79
+#, kde-format
+msgid "In background mode, send image to clipboard without saving to file"
+msgstr "后台模式，不保存文件，发送到剪贴板"
+
+#: src/Main.cpp:80
+#, kde-format
+msgid "In background mode, save image to specified file"
+msgstr "后台模式，保存图片到特定文件"
+
+#: src/Main.cpp:81
+#, kde-format
+msgid "In background mode, delay before taking the shot (in milliseconds)"
+msgstr "后台模式，在截图前延迟（单位是毫秒）"
+
+#: src/Main.cpp:82
+#, kde-format
+msgid "Wait for a click before taking screenshot. Invalidates delay"
+msgstr "截图前等待鼠标点击。不验证延迟"
+
+#: src/SpectacleCore.cpp:163
+#, kde-format
+msgid "Copied image to clipboard"
+msgstr "复制图片到剪贴板"
+
+#: src/SpectacleCore.cpp:191
+#, kde-format
+msgid "Screenshot capture canceled or failed"
+msgstr "屏幕截图已取消或失败"
+
+#: src/SpectacleCore.cpp:205
+#, kde-format
+msgid "A new screenshot was captured and saved to %1"
+msgstr "屏幕截图已截取并保存到 %1"
+
+#: src/KipiInterface/KSGKipiImageCollectionSelector.cpp:35
+#, kde-format
+msgctxt "%1 is collection name, %2 is image count in collection"
+msgid "%1 (%2 image)"
+msgid_plural "%1 (%2 images)"
+msgstr[0] "%1(%2 张图像)"
+
+#: src/KipiInterface/KSGKipiInfoShared.cpp:39
+#, kde-format
+msgid "Taken with Spectacle"
+msgstr "使用Spectacle截图"
+
+#~ msgctxt "NAME OF TRANSLATORS"
+#~ msgid "Your names"
+#~ msgstr "KDE 中国"
+
+#~ msgctxt "EMAIL OF TRANSLATORS"
+#~ msgid "Your emails"
+#~ msgstr "kde-china@kde.org"
+
+#~ msgid "Open With..."
+#~ msgstr "打开方式..."
+
+#, fuzzy
+#~| msgid "Capture Area"
+#~ msgid "Kapture"
+#~ msgstr "抓取区域"
+
+#~ msgid "KScreenGenie"
+#~ msgstr "KScreenGenie"
+
+#~ msgid "Send To..."
+#~ msgstr "发送至..."
+
+#~ msgid "Capture Delay"
+#~ msgstr "抓取延迟"
+
+#~ msgctxt "Untitled Screenshot"
+#~ msgid "Untitled"
+#~ msgstr "无标题"
+
+#~ msgid "Cancel"
+#~ msgstr "取消"
+
+#~ msgid "Confirm"
+#~ msgstr "确认"

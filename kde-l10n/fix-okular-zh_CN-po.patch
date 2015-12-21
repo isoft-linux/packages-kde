@@ -1,0 +1,40 @@
+diff -Nur kde-l10n-15.12.0/kde-l10n-zh_CN-15.12.0/4/zh_CN/messages/kdegraphics/okular.po kde-l10n-15.12.0n/kde-l10n-zh_CN-15.12.0/4/zh_CN/messages/kdegraphics/okular.po
+--- kde-l10n-15.12.0/kde-l10n-zh_CN-15.12.0/4/zh_CN/messages/kdegraphics/okular.po	2015-11-16 14:44:47.000000000 +0800
++++ kde-l10n-15.12.0n/kde-l10n-zh_CN-15.12.0/4/zh_CN/messages/kdegraphics/okular.po	2015-12-19 10:19:26.931931896 +0800
+@@ -2664,21 +2664,16 @@
+ msgstr "页面大小(&P)"
+ 
+ #: ui/pageview.cpp:487
+-#, fuzzy
+-#| msgid "&View"
+ msgid "&Trim View"
+-msgstr "查看(&V)"
++msgstr "裁剪(&T)"
+ 
+ #: ui/pageview.cpp:491
+ msgid "&Trim Margins"
+-msgstr "裁减页边距(&T)"
++msgstr "裁剪页边距(&T)"
+ 
+ #: ui/pageview.cpp:498
+-#, fuzzy
+-#| msgctxt "Text Selection Tool"
+-#| msgid "Text Selection"
+ msgid "Trim To &Selection"
+-msgstr "文本选择"
++msgstr "裁剪到选择区域(&S)"
+ 
+ #: ui/pageview.cpp:505
+ msgid "Fit &Width"
+@@ -2934,10 +2929,8 @@
+ msgstr "请插入您的姓名或其首字母："
+ 
+ #: ui/pageview.cpp:5054
+-#, fuzzy
+-#| msgid "Draw a rectangle around the text/graphics to copy."
+ msgid "Draw a rectangle around the page area you wish to keep visible"
+-msgstr "在要复制的文字/图形周围绘制矩形。"
++msgstr "在要保持可见的页面区域绘制矩形"
+ 
+ #: ui/pageviewannotator.cpp:162
+ msgid "Text of the new note:"
