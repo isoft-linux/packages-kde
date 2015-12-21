@@ -1,7 +1,7 @@
 Name:    kolourpaint
 Summary: An easy-to-use paint program 
-Version: 5.0.0 
-Release: 4.git
+Version: 15.12.0 
+Release: 2.git
 
 License: BSD 
 URL:     https://projects.kde.org/projects/kde/kdegraphics/kolourpaint
@@ -17,8 +17,10 @@ URL:     https://projects.kde.org/projects/kde/kdegraphics/kolourpaint
 #git clone git://anongit.kde.org/kolourpaint
 #git checkout frameworks
 Source0: kolourpaint.tar.gz
-Patch0: kolourpaint-fix-soversion.patch
 Patch1: modify_include_head_file_for_scandialog.patch
+#kxmlgui menubar item not localized, fix it
+Patch2: kolourpaint-fix-menu-i18n.patch
+Patch3: kolourpaint-bump-verion-to-match-kde-applications.patch
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -57,7 +59,8 @@ BuildRequires: appstream-glib
 %prep
 %setup -q -n %{name}
 %patch1 -p1
-
+%patch2 -p1
+%patch3 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -107,6 +110,12 @@ fi
 %{_kf5_datadir}/kxmlgui5/kolourpaint/
 
 %changelog
+* Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2.git
+- Bump version
+
+* Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 5.0.0-5.git
+- Fix menu bar item i18n
+
 * Thu Dec 17 2015 sulit <sulitsrc@gmail.com> - 5.0.0-4.git
 - add libksane5-devel buildrequire for scan
 - add qimageblitz-devel buildrequire for scan

@@ -1,0 +1,43 @@
+diff -Nur kolourpaint/CMakeLists.txt kolourpaintn/CMakeLists.txt
+--- kolourpaint/CMakeLists.txt	2015-12-17 14:27:46.000000000 +0800
++++ kolourpaintn/CMakeLists.txt	2015-12-19 11:16:02.280871092 +0800
+@@ -14,6 +14,7 @@
+ include(ECMInstallIcons)
+ include(FeatureSummary)
+ include(ECMAddAppIcon)
++include(ECMSetupVersion)
+ 
+ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+     Core
+@@ -24,6 +25,10 @@
+     KDELibs4Support
+ )
+ 
++ecm_setup_version(15.12.0 VARIABLE_PREFIX KOLOURPAINT 
++                        VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/version.h")
++
++
+ find_package(QImageBlitz REQUIRED)
+ add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
+ 
+Binary files kolourpaint/.git/index and kolourpaintn/.git/index differ
+diff -Nur kolourpaint/kolourpaint.cpp kolourpaintn/kolourpaint.cpp
+--- kolourpaint/kolourpaint.cpp	2015-12-19 11:05:22.267882554 +0800
++++ kolourpaintn/kolourpaint.cpp	2015-12-19 11:16:37.672870458 +0800
+@@ -36,13 +36,15 @@
+ #include <QCommandLineParser>
+ #include <KLocalizedString>
+ 
++#include "version.h"
++
+ int main(int argc, char *argv [])
+ {
+   KAboutData aboutData
+   (
+     "kolourpaint",
+     i18n("KolourPaint"),
+-    KDE_VERSION_STRING,
++    KOLOURPAINT_VERSION_STRING,
+     i18n("Paint Program for KDE"),
+     KAboutLicense::Custom,
+     QString(), // copyright statement - see license instead
