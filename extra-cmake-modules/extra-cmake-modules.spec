@@ -19,7 +19,7 @@ Patch0: extra-cmake-modules-backport-from-5.17.0.patch
 BuildArch:      noarch
 
 BuildRequires:  cmake >= 2.8.12
-
+BuildRequires:  qt5-qtbase-devel qt5-qttools-devel
 Requires:       cmake >= 2.8.12
 
 %description
