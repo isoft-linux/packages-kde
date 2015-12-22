@@ -20,6 +20,7 @@ BuildArch:      noarch
 
 BuildRequires:  cmake >= 2.8.12
 BuildRequires:  qt5-qtbase-devel qt5-qttools-devel
+BuildRequires:  python-sphinx
 Requires:       cmake >= 2.8.12
 
 %description
