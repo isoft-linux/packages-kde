@@ -1,0 +1,15 @@
+Index: kcmutils-5.16.0/src/kcmultidialog.cpp
+===================================================================
+--- kcmutils-5.16.0.orig/src/kcmultidialog.cpp
++++ kcmutils-5.16.0/src/kcmultidialog.cpp
+@@ -262,8 +262,8 @@ KCMultiDialog::~KCMultiDialog()
+ 
+ void KCMultiDialog::showEvent(QShowEvent *ev)
+ {
+-    resize(QSize(800, 550));
+-    adjustSize();
++    //resize(QSize(800, 550));
++    //adjustSize();
+     KPageDialog::showEvent(ev);
+ }
+ 
