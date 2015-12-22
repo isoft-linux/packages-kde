@@ -1,7 +1,7 @@
 Name:           extra-cmake-modules
 Summary:        Additional modules for CMake build system
 Version:        5.16.0
-Release:        3 
+Release:        4 
 
 License:        BSD
 URL:            http://community.kde.org/KDE_Core/Platform_11/Buildsystem/FindFilesSurvey
@@ -14,12 +14,13 @@ URL:            http://community.kde.org/KDE_Core/Platform_11/Buildsystem/FindFi
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{name}-%{version}.tar.xz
-Patch0:         fix-multiple_calls_to_ecm_create_qm_loader.patch
+Patch0: extra-cmake-modules-backport-from-5.17.0.patch
 
 BuildArch:      noarch
 
 BuildRequires:  cmake >= 2.8.12
-
+BuildRequires:  qt5-qtbase-devel qt5-qttools-devel
+BuildRequires:  python-sphinx
 Requires:       cmake >= 2.8.12
 
 %description
@@ -48,6 +49,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_mandir}/man7/*
 %{_docdir}/ECM/
 %changelog
+* Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
+- Backport from 5.17.0
+
 * Sun Nov 15 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Add patch from reviewboard
 

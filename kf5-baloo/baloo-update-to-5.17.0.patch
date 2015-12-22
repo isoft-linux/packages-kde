@@ -1,0 +1,1691 @@
+diff -Nur baloo-5.16.0/po/ast/balooctl.po baloo-5.17.0/po/ast/balooctl.po
+--- baloo-5.16.0/po/ast/balooctl.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/ast/balooctl.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,7 +7,7 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-10-19 08:03+0000\n"
+-"PO-Revision-Date: 2015-04-06 19:50+0100\n"
++"PO-Revision-Date: 2015-11-16 00:49+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+ "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+@@ -17,12 +17,10 @@
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+ "X-Generator: Lokalize 2.0\n"
+ 
+-#, fuzzy
+ msgctxt "NAME OF TRANSLATORS"
+ msgid "Your names"
+ msgstr "Softastur"
+ 
+-#, fuzzy
+ msgctxt "EMAIL OF TRANSLATORS"
+ msgid "Your emails"
+ msgstr "alministradores@softastur.org"
+diff -Nur baloo-5.16.0/po/ast/baloo_file_extractor.po baloo-5.17.0/po/ast/baloo_file_extractor.po
+--- baloo-5.16.0/po/ast/baloo_file_extractor.po	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.17.0/po/ast/baloo_file_extractor.po	2015-12-07 05:14:09.000000000 +0800
+@@ -0,0 +1,38 @@
++# Copyright (C) YEAR This_file_is_part_of_KDE
++# This file is distributed under the same license as the PACKAGE package.
++#
++# enolp <enolp@softastur.org>, 2015.
++msgid ""
++msgstr ""
++"Project-Id-Version: \n"
++"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
++"POT-Creation-Date: 2015-09-08 10:30+0000\n"
++"PO-Revision-Date: 2015-11-16 18:41+0100\n"
++"Last-Translator: enolp <enolp@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
++"Language: ast_ES\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=n != 1;\n"
++"X-Generator: Lokalize 2.0\n"
++
++msgctxt "NAME OF TRANSLATORS"
++msgid "Your names"
++msgstr "Softastur"
++
++msgctxt "EMAIL OF TRANSLATORS"
++msgid "Your emails"
++msgstr "alministradores@softastur.org"
++
++#: main.cpp:40
++msgid "Baloo File Extractor"
++msgstr ""
++
++#: main.cpp:41
++msgid "Vishesh Handa"
++msgstr ""
++
++#: main.cpp:41
++msgid "Maintainer"
++msgstr ""
+diff -Nur baloo-5.16.0/po/ast/baloo_file.po baloo-5.17.0/po/ast/baloo_file.po
+--- baloo-5.16.0/po/ast/baloo_file.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/ast/baloo_file.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,9 +7,9 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-09-08 10:30+0000\n"
+-"PO-Revision-Date: 2015-07-09 01:33+0100\n"
++"PO-Revision-Date: 2015-11-16 00:50+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+-"Language-Team: Asturian <alminsitradores@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+@@ -17,12 +17,10 @@
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+ "X-Generator: Lokalize 2.0\n"
+ 
+-#, fuzzy
+ msgctxt "NAME OF TRANSLATORS"
+ msgid "Your names"
+ msgstr "Softastur"
+ 
+-#, fuzzy
+ msgctxt "EMAIL OF TRANSLATORS"
+ msgid "Your emails"
+ msgstr "alministradores@softastur.org"
+diff -Nur baloo-5.16.0/po/ast/baloomonitorplugin.po baloo-5.17.0/po/ast/baloomonitorplugin.po
+--- baloo-5.16.0/po/ast/baloomonitorplugin.po	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.17.0/po/ast/baloomonitorplugin.po	2015-12-07 05:14:09.000000000 +0800
+@@ -0,0 +1,54 @@
++# Copyright (C) YEAR This_file_is_part_of_KDE
++# This file is distributed under the same license as the PACKAGE package.
++#
++# enolp <enolp@softastur.org>, 2015.
++msgid ""
++msgstr ""
++"Project-Id-Version: \n"
++"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
++"POT-Creation-Date: 2015-10-03 08:40+0000\n"
++"PO-Revision-Date: 2015-11-16 19:52+0100\n"
++"Last-Translator: enolp <enolp@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
++"Language: ast_ES\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=n != 1;\n"
++"X-Generator: Lokalize 2.0\n"
++
++#: ../../file/indexerstate.h:42
++msgid "Unknown"
++msgstr ""
++
++#: ../../file/indexerstate.h:45
++msgid "Idle"
++msgstr ""
++
++#: ../../file/indexerstate.h:48
++msgid "Suspended"
++msgstr ""
++
++#: ../../file/indexerstate.h:51
++msgid "Initial Indexing"
++msgstr ""
++
++#: ../../file/indexerstate.h:54
++msgid "Indexing new files"
++msgstr "Indizando ficheros nuevos"
++
++#: ../../file/indexerstate.h:57
++msgid "Indexing modified files"
++msgstr ""
++
++#: ../../file/indexerstate.h:60
++msgid "Indexing Extended Attributes"
++msgstr ""
++
++#: ../../file/indexerstate.h:63
++msgid "Indexing file content"
++msgstr ""
++
++#: ../../file/indexerstate.h:66
++msgid "Checking for unindexed files"
++msgstr ""
+diff -Nur baloo-5.16.0/po/ast/baloosearch.po baloo-5.17.0/po/ast/baloosearch.po
+--- baloo-5.16.0/po/ast/baloosearch.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/ast/baloosearch.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,9 +7,9 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-09-19 08:51+0000\n"
+-"PO-Revision-Date: 2015-07-09 01:23+0100\n"
++"PO-Revision-Date: 2015-11-16 00:29+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+-"Language-Team: Asturian <alminsitradores@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+diff -Nur baloo-5.16.0/po/ast/balooshow.po baloo-5.17.0/po/ast/balooshow.po
+--- baloo-5.16.0/po/ast/balooshow.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/ast/balooshow.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,9 +7,9 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-10-11 08:16+0000\n"
+-"PO-Revision-Date: 2015-07-09 01:44+0100\n"
++"PO-Revision-Date: 2015-11-16 00:29+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+-"Language-Team: Asturian <alminsitradores@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+diff -Nur baloo-5.16.0/po/ast/kio_timeline.po baloo-5.17.0/po/ast/kio_timeline.po
+--- baloo-5.16.0/po/ast/kio_timeline.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/ast/kio_timeline.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,9 +7,9 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-09-09 08:06+0000\n"
+-"PO-Revision-Date: 2015-07-02 19:12+0100\n"
++"PO-Revision-Date: 2015-11-21 21:13+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+-"Language-Team: Asturian <alminsitradores@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+@@ -24,7 +24,7 @@
+ "ask kde-i18n-doc@kde.org if you have problems understanding how to translate "
+ "this"
+ msgid "MMMM yyyy"
+-msgstr ""
++msgstr "MMMM yyyy"
+ 
+ #: kio_timeline.cpp:120
+ msgid "Today"
+diff -Nur baloo-5.16.0/po/da/balooctl.po baloo-5.17.0/po/da/balooctl.po
+--- baloo-5.16.0/po/da/balooctl.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/da/balooctl.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,7 +7,7 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-10-19 08:03+0000\n"
+-"PO-Revision-Date: 2015-08-26 19:56+0200\n"
++"PO-Revision-Date: 2015-11-23 21:24+0100\n"
+ "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
+ "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
+ "Language: da\n"
+@@ -15,7 +15,7 @@
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+-"X-Generator: Lokalize 1.5\n"
++"X-Generator: Lokalize 2.0\n"
+ 
+ msgctxt "NAME OF TRANSLATORS"
+ msgid "Your names"
+@@ -27,202 +27,196 @@
+ 
+ #: ../../file/indexerstate.h:42
+ msgid "Unknown"
+-msgstr ""
++msgstr "Ukendt"
+ 
+ #: ../../file/indexerstate.h:45
+ msgid "Idle"
+-msgstr ""
++msgstr "Tomgang"
+ 
+ #: ../../file/indexerstate.h:48
+ msgid "Suspended"
+-msgstr ""
++msgstr "Suspenderet"
+ 
+ #: ../../file/indexerstate.h:51
+ msgid "Initial Indexing"
+-msgstr ""
++msgstr "Indledningsvis indeksering"
+ 
+ #: ../../file/indexerstate.h:54
+-#, fuzzy
+-#| msgid "Index the specified files"
+ msgid "Indexing new files"
+-msgstr "Indeksér de angivne filer"
++msgstr "Indekserer nye filer"
+ 
+ #: ../../file/indexerstate.h:57
+-#, fuzzy
+-#| msgid "Index the specified files"
+ msgid "Indexing modified files"
+-msgstr "Indeksér de angivne filer"
++msgstr "Indekserer ændrede filer"
+ 
+ #: ../../file/indexerstate.h:60
+ msgid "Indexing Extended Attributes"
+-msgstr ""
++msgstr "Indekserer udvidede attributter"
+ 
+ #: ../../file/indexerstate.h:63
+ msgid "Indexing file content"
+-msgstr ""
++msgstr "Indekserer filindhold"
+ 
+ #: ../../file/indexerstate.h:66
+-#, fuzzy
+-#| msgid "Check for any unindexed files and index them"
+ msgid "Checking for unindexed files"
+-msgstr "Tjek for ikke-indekserede filer og indeksér dem"
++msgstr "Tjekker for ikke-indekserede filer"
+ 
+ #: configcommand.cpp:45
+ msgid "Manipulate the Baloo configuration"
+-msgstr ""
++msgstr "Tilpas Baloo-indstillingerne"
+ 
+ #: configcommand.cpp:68
+ msgid "The config command can be used to manipulate the Baloo Configuration"
+-msgstr ""
++msgstr "Kommandoen config kan bruges til at tilpasse Baloo-indstillingerne"
+ 
+ #: configcommand.cpp:69
+ msgid "Usage: balooctl config <command>"
+-msgstr ""
++msgstr "Brug: balooctl config <kommando>"
+ 
+ #: configcommand.cpp:70
+ msgid "Possible Commands:"
+-msgstr ""
++msgstr "Mulige kommandoer:"
+ 
+ #: configcommand.cpp:73
+ msgid "Add a value to config parameter"
+-msgstr ""
++msgstr "Tilføj en værdi til config-parameteren"
+ 
+ #: configcommand.cpp:74
+ msgid "Remove a value from a config parameter"
+-msgstr ""
++msgstr "Fjern en værdi fra config-parameteren"
+ 
+ #: configcommand.cpp:75
+ msgid "Show the value of a config parameter"
+-msgstr ""
++msgstr "Vis værdien af en config-paramter"
+ 
+ #: configcommand.cpp:76
+ msgid "Set the value of a config parameter"
+-msgstr ""
++msgstr "Angiv værdien for en config-parameter"
+ 
+ #: configcommand.cpp:77
+ msgid "Display this help menu"
+-msgstr ""
++msgstr "Vis denne hjælpemenu"
+ 
+ #: configcommand.cpp:83
+ msgid "The following configuration options may be listed:"
+-msgstr ""
++msgstr "De følgende konfigurationstilvalg kan oplistes:"
+ 
+ #: configcommand.cpp:85 configcommand.cpp:398
+ msgid "Controls if Baloo indexes hidden files and folders"
+-msgstr ""
++msgstr "Styrer om Baloo skal indeksere skjulte filer og mapper"
+ 
+ #: configcommand.cpp:86
+ msgid "Controls if baloo indexes file content."
+-msgstr ""
++msgstr "Styrer om Baloo skal indeksere filindhold."
+ 
+ #: configcommand.cpp:87 configcommand.cpp:150 configcommand.cpp:261
+ msgid "The list of folders which Baloo indexes"
+-msgstr ""
++msgstr "Listen over mapper som Baloo skal indeksere"
+ 
+ #: configcommand.cpp:88 configcommand.cpp:151 configcommand.cpp:262
+ msgid "The list of folders which Baloo will never index"
+-msgstr ""
++msgstr "Listen over mapper som Baloo aldrig skal indeksere"
+ 
+ #: configcommand.cpp:89 configcommand.cpp:152 configcommand.cpp:263
+ msgid "The list of filters which are used to exclude files"
+-msgstr ""
++msgstr "Listen over filtre der bruges til at undtage filer"
+ 
+ #: configcommand.cpp:90 configcommand.cpp:153 configcommand.cpp:264
+ msgid "The list of mimetypes which are used to exclude files"
+-msgstr ""
++msgstr "Listen over MIME-typer som bruges til at undtage filer"
+ 
+ #: configcommand.cpp:142 configcommand.cpp:253 configcommand.cpp:390
+ #: configcommand.cpp:459
+ msgid "Config parameter could not be found"
+-msgstr ""
++msgstr "Config-parameteren kunne ikke findes"
+ 
+ #: configcommand.cpp:148 configcommand.cpp:259 configcommand.cpp:396
+ msgid "The following configuration options may be modified:"
+-msgstr ""
++msgstr "De følgende konfigurationstilvalg kan ændres:"
+ 
+ #: configcommand.cpp:161 configcommand.cpp:191 configcommand.cpp:272
+ #: configcommand.cpp:314
+ msgid "A folder must be provided"
+-msgstr ""
++msgstr "En mappe skal angives"
+ 
+ #: configcommand.cpp:167 configcommand.cpp:197 configcommand.cpp:278
+ #: configcommand.cpp:320
+ msgid "Path does not exist"
+-msgstr ""
++msgstr "Stien findes ikke"
+ 
+ #: configcommand.cpp:172 configcommand.cpp:202 configcommand.cpp:283
+ #: configcommand.cpp:325
+ msgid "Path is not a directory"
+-msgstr ""
++msgstr "Stien er ikke en mappe"
+ 
+ #: configcommand.cpp:179
+ #, kde-format
+ msgid "%1 is not in the list of include folders"
+-msgstr ""
++msgstr "%1 er ikke i listen over inkluderede mapper"
+ 
+ #: configcommand.cpp:209
+ #, kde-format
+ msgid "%1 is not in the list of exclude folders"
+-msgstr ""
++msgstr "%1 er ikke i listen over undtagne mapper"
+ 
+ #: configcommand.cpp:221 configcommand.cpp:356
+ msgid "A filter must be provided"
+-msgstr ""
++msgstr "Et filer skal angives"
+ 
+ #: configcommand.cpp:227
+ #, kde-format
+ msgid "%1 is not in list of exclude filters"
+-msgstr ""
++msgstr "%1 er ikke i listen over undtagelsesfiltre"
+ 
+ #: configcommand.cpp:238 configcommand.cpp:374
+ msgid "A mimetype must be provided"
+-msgstr ""
++msgstr "En MIME-type skal angives"
+ 
+ #: configcommand.cpp:244
+ #, kde-format
+ msgid "%1 is not in list of exclude mimetypes"
+-msgstr ""
++msgstr "%1 er ikke i listen over undtagne MIME-typer"
+ 
+ #: configcommand.cpp:290
+ #, kde-format
+ msgid "%1 is already in the list of include folders"
+-msgstr ""
++msgstr "%1 er allerede i listen over inkluderede mapper"
+ 
+ #: configcommand.cpp:296
+ #, kde-format
+ msgid "Parent folder %1 is already in the list of include folders"
+-msgstr ""
++msgstr "Overmappen %1 er allerede i listen over inkluderede mapper"
+ 
+ #: configcommand.cpp:302 configcommand.cpp:344
+ #, kde-format
+ msgid "%1 is in the list of exclude folders"
+-msgstr ""
++msgstr "%1 er i listen over undtagne mapper"
+ 
+ #: configcommand.cpp:332
+ #, kde-format
+ msgid "%1 is already in the list of exclude folders"
+-msgstr ""
++msgstr "%1 er ikke i listen over undtagne mapper"
+ 
+ #: configcommand.cpp:338
+ #, kde-format
+ msgid "Parent folder %1 is already in the list of exclude folders"
+-msgstr ""
++msgstr "Overmappen %1 er allerede i listen over undtagne mapper"
+ 
+ #: configcommand.cpp:362
+ msgid "Exclude filter is already in the list"
+-msgstr ""
++msgstr "Undtagelsesfilteret er allerede på listen"
+ 
+ #: configcommand.cpp:380
+ msgid "Exclude mimetype is already in the list"
+-msgstr ""
++msgstr "Den undtagne MIME-type er allerede på listen"
+ 
+ #: configcommand.cpp:407 configcommand.cpp:434
+ msgid "A value must be provided"
+-msgstr ""
++msgstr "En værdi skal angives"
+ 
+ #: configcommand.cpp:428 configcommand.cpp:455
+ msgid "Invalid value"
+-msgstr ""
++msgstr "Ugyldig værdi"
+ 
+ #: main.cpp:67
+ msgid "balooctl"
+@@ -281,49 +275,45 @@
+ msgstr "Indeksér de angivne filer"
+ 
+ #: main.cpp:86
+-#, fuzzy
+-#| msgid "Index the specified files"
+ msgid "Forget the specified files"
+-msgstr "Indeksér de angivne filer"
++msgstr "Glem de angivne filer"
+ 
+ #: main.cpp:87
+ msgid "Modify the Baloo configuration"
+-msgstr ""
++msgstr "Ændr Baloo-konfigurationen"
+ 
+ #: statuscommand.cpp:45
+-#, fuzzy
+-#| msgid "Print the status of the indexer"
+ msgid "Print the status of the Indexer"
+ msgstr "Skriv status for indekseringen"
+ 
+ #: statuscommand.cpp:54
+ msgid "Baloo is currently disabled. To enable, please run \"balooctl enable\""
+ msgstr ""
++"Baloo er deaktiveret i øjeblikket. Kør \"balooctl enable\" for at aktivere"
+ 
+ #: statuscommand.cpp:60
+ msgid "Baloo Index could not be opened"
+-msgstr ""
++msgstr "Baloo-indekset kunne ikke åbnes"
+ 
+ #: statuscommand.cpp:81
+ msgid "Baloo File Indexer is running"
+-msgstr ""
++msgstr "Baloo filindeksering kører"
+ 
+ #: statuscommand.cpp:82
+ #, kde-format
+ msgid "Indexer state: %1"
+-msgstr ""
++msgstr "Indekseringstilstand: %1"
+ 
+ #: statuscommand.cpp:85
+ msgid "Baloo File Indexer is not running"
+-msgstr ""
++msgstr "Baloo filindeksering kører ikke"
+ 
+ #: statuscommand.cpp:91
+-#, fuzzy, kde-format
+-#| msgid "Index the specified files"
++#, kde-format
+ msgid "Indexed %1 / %2 files"
+-msgstr "Indeksér de angivne filer"
++msgstr "Har indekseret %1 / %2 filer"
+ 
+ #: statuscommand.cpp:110
+ #, kde-format
+ msgid "File: %1"
+-msgstr ""
++msgstr "Fil: %1"
+diff -Nur baloo-5.16.0/po/da/baloo_file_extractor.po baloo-5.17.0/po/da/baloo_file_extractor.po
+--- baloo-5.16.0/po/da/baloo_file_extractor.po	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.17.0/po/da/baloo_file_extractor.po	2015-12-07 05:14:09.000000000 +0800
+@@ -0,0 +1,38 @@
++# Copyright (C) YEAR This_file_is_part_of_KDE
++# This file is distributed under the same license as the PACKAGE package.
++#
++# Martin Schlander <mschlander@opensuse.org>, 2015.
++msgid ""
++msgstr ""
++"Project-Id-Version: \n"
++"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
++"POT-Creation-Date: 2015-09-08 10:30+0000\n"
++"PO-Revision-Date: 2015-11-23 21:09+0100\n"
++"Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
++"Language-Team: Danish <kde-i18n-doc@kde.org>\n"
++"Language: da\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=n != 1;\n"
++"X-Generator: Lokalize 2.0\n"
++
++msgctxt "NAME OF TRANSLATORS"
++msgid "Your names"
++msgstr "Martin Schlander"
++
++msgctxt "EMAIL OF TRANSLATORS"
++msgid "Your emails"
++msgstr "mschlander@opensuse.org"
++
++#: main.cpp:40
++msgid "Baloo File Extractor"
++msgstr "Baloo filudtrækker"
++
++#: main.cpp:41
++msgid "Vishesh Handa"
++msgstr "Vishesh Handa"
++
++#: main.cpp:41
++msgid "Maintainer"
++msgstr "Vedligeholder"
+diff -Nur baloo-5.16.0/po/da/baloomonitorplugin.po baloo-5.17.0/po/da/baloomonitorplugin.po
+--- baloo-5.16.0/po/da/baloomonitorplugin.po	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.17.0/po/da/baloomonitorplugin.po	2015-12-07 05:14:09.000000000 +0800
+@@ -0,0 +1,54 @@
++# Copyright (C) YEAR This_file_is_part_of_KDE
++# This file is distributed under the same license as the PACKAGE package.
++#
++# Martin Schlander <mschlander@opensuse.org>, 2015.
++msgid ""
++msgstr ""
++"Project-Id-Version: \n"
++"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
++"POT-Creation-Date: 2015-10-03 08:40+0000\n"
++"PO-Revision-Date: 2015-11-23 21:11+0100\n"
++"Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
++"Language-Team: Danish <kde-i18n-doc@kde.org>\n"
++"Language: da\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=n != 1;\n"
++"X-Generator: Lokalize 2.0\n"
++
++#: ../../file/indexerstate.h:42
++msgid "Unknown"
++msgstr "Ukendt"
++
++#: ../../file/indexerstate.h:45
++msgid "Idle"
++msgstr "Tomgang"
++
++#: ../../file/indexerstate.h:48
++msgid "Suspended"
++msgstr "Suspenderet"
++
++#: ../../file/indexerstate.h:51
++msgid "Initial Indexing"
++msgstr "Indledningsvis indeksering"
++
++#: ../../file/indexerstate.h:54
++msgid "Indexing new files"
++msgstr "Indekserer nye filer"
++
++#: ../../file/indexerstate.h:57
++msgid "Indexing modified files"
++msgstr "Indekserer ændrede filer"
++
++#: ../../file/indexerstate.h:60
++msgid "Indexing Extended Attributes"
++msgstr "Indekserer udvidede attributter"
++
++#: ../../file/indexerstate.h:63
++msgid "Indexing file content"
++msgstr "Indekserer filindhold"
++
++#: ../../file/indexerstate.h:66
++msgid "Checking for unindexed files"
++msgstr "Tjekker for ikke-indekserede filer"
+diff -Nur baloo-5.16.0/po/da/baloosearch.po baloo-5.17.0/po/da/baloosearch.po
+--- baloo-5.16.0/po/da/baloosearch.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/da/baloosearch.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,7 +7,7 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-09-19 08:51+0000\n"
+-"PO-Revision-Date: 2015-08-26 19:56+0200\n"
++"PO-Revision-Date: 2015-11-23 21:08+0100\n"
+ "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
+ "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
+ "Language: da\n"
+@@ -15,7 +15,7 @@
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+-"X-Generator: Lokalize 1.5\n"
++"X-Generator: Lokalize 2.0\n"
+ 
+ msgctxt "NAME OF TRANSLATORS"
+ msgid "Your names"
+@@ -31,7 +31,7 @@
+ 
+ #: main.cpp:41
+ msgid "A tool to search through the files indexed by Baloo"
+-msgstr ""
++msgstr "Et værktøj til at søge i de filer som Baloo indekserer"
+ 
+ #: main.cpp:43
+ msgid "Vishesh Handa"
+@@ -43,21 +43,19 @@
+ 
+ #: main.cpp:50
+ msgid "The maximum number of results"
+-msgstr ""
++msgstr "Det maksimale antal resultater"
+ 
+ #: main.cpp:51
+ msgid "limit"
+-msgstr ""
++msgstr "grænse"
+ 
+ #: main.cpp:53
+-#, fuzzy
+-#| msgid "Offset from which start the search"
+ msgid "Offset from which to start the search"
+ msgstr "Forskydning som søgningen skal starte fra"
+ 
+ #: main.cpp:54
+ msgid "offset"
+-msgstr ""
++msgstr "forskydning"
+ 
+ #: main.cpp:56
+ msgid "Type of data to be searched"
+@@ -65,22 +63,20 @@
+ 
+ #: main.cpp:57
+ msgid "typeStr"
+-msgstr ""
++msgstr "typeStr"
+ 
+ #: main.cpp:59
+ msgid "Limit search to specified directory"
+-msgstr ""
++msgstr "Begræns søgning til angiven mappe"
+ 
+ #: main.cpp:60
+ msgid "directory"
+-msgstr ""
++msgstr "mappe"
+ 
+ #: main.cpp:61
+ msgid "query"
+-msgstr ""
++msgstr "forespørgsel"
+ 
+ #: main.cpp:61
+-#, fuzzy
+-#| msgid "The words to search for"
+ msgid "List of words to query for"
+-msgstr "De ord der skal søges efter"
++msgstr "Liste over ord der skal søges efter"
+diff -Nur baloo-5.16.0/po/da/balooshow.po baloo-5.17.0/po/da/balooshow.po
+--- baloo-5.16.0/po/da/balooshow.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/da/balooshow.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,13 +1,13 @@
+ # Copyright (C) YEAR This_file_is_part_of_KDE
+ # This file is distributed under the same license as the PACKAGE package.
+ #
+-# Martin Schlander <mschlander@opensuse.org>, 2013.
++# Martin Schlander <mschlander@opensuse.org>, 2013, 2015.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-10-11 08:16+0000\n"
+-"PO-Revision-Date: 2013-12-29 15:06+0100\n"
++"PO-Revision-Date: 2015-11-23 21:06+0100\n"
+ "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
+ "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
+ "Language: da\n"
+@@ -15,7 +15,7 @@
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+-"X-Generator: Lokalize 1.5\n"
++"X-Generator: Lokalize 2.0\n"
+ 
+ msgctxt "NAME OF TRANSLATORS"
+ msgid "Your names"
+@@ -50,15 +50,17 @@
+ "The Baloo index could not be opened. Please run \"balooctl status\" to see "
+ "if Baloo is enabled and working."
+ msgstr ""
++"Baloo-indekset kunne ikke åbnes. Kør \"balooctl status\" for at se om Baloo "
++"er aktiveret og virker."
+ 
+ #: main.cpp:121
+ msgid "The fileID is not equal to the actual Baloo fileID"
+-msgstr ""
++msgstr "Fil-id'et er ikke lig med det aktuelle Baloo-fil-id"
+ 
+ #: main.cpp:122
+ msgid "This is a bug"
+-msgstr ""
++msgstr "Dette er en programfejl"
+ 
+ #: main.cpp:150
+ msgid "No index information found"
+-msgstr ""
++msgstr "Ingen indeksinformation fundet"
+diff -Nur baloo-5.16.0/po/da/kio_timeline.po baloo-5.17.0/po/da/kio_timeline.po
+--- baloo-5.16.0/po/da/kio_timeline.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/da/kio_timeline.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,7 +7,7 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-09-09 08:06+0000\n"
+-"PO-Revision-Date: 2015-08-26 19:59+0200\n"
++"PO-Revision-Date: 2015-11-22 22:41+0100\n"
+ "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
+ "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
+ "Language: da\n"
+@@ -15,23 +15,16 @@
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=2; plural=n != 1;\n"
+-"X-Generator: Lokalize 1.5\n"
++"X-Generator: Lokalize 2.0\n"
+ 
+ #: kio_timeline.cpp:62
+-#, fuzzy
+-#| msgctxt ""
+-#| "Month and year used in a tree above the actual days. Have a look at "
+-#| "http://doc.qt.io/qt-5/qdate.html#toString to see which variables you can "
+-#| "use and ask kde-i18n-doc@kde.org if you have problems understanding how "
+-#| "to translate this"
+-#| msgid "%MMMM %yy"
+ msgctxt ""
+ "Month and year used in a tree above the actual days. Have a look at http://"
+ "doc.qt.io/qt-5/qdate.html#toString to see which variables you can use and "
+ "ask kde-i18n-doc@kde.org if you have problems understanding how to translate "
+ "this"
+ msgid "MMMM yyyy"
+-msgstr "%MMMM %yy"
++msgstr "MMMM åååå"
+ 
+ #: kio_timeline.cpp:120
+ msgid "Today"
+diff -Nur baloo-5.16.0/po/it/balooctl.po baloo-5.17.0/po/it/balooctl.po
+--- baloo-5.16.0/po/it/balooctl.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/it/balooctl.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,7 +7,7 @@
+ "Project-Id-Version: balooctl\n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-10-19 08:03+0000\n"
+-"PO-Revision-Date: 2015-10-15 23:13+0100\n"
++"PO-Revision-Date: 2015-11-09 22:29+0100\n"
+ "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
+ "Language-Team: Italian <kde-i18n-it@kde.org>\n"
+ "Language: it\n"
+@@ -123,10 +123,8 @@
+ msgstr "L'elenco dei filtri usati per escludere i file"
+ 
+ #: configcommand.cpp:90 configcommand.cpp:153 configcommand.cpp:264
+-#, fuzzy
+-#| msgid "The list of filters which are used to exclude files"
+ msgid "The list of mimetypes which are used to exclude files"
+-msgstr "L'elenco dei filtri usati per escludere i file"
++msgstr "L'elenco dei tipi MIME usati per escludere i file"
+ 
+ #: configcommand.cpp:142 configcommand.cpp:253 configcommand.cpp:390
+ #: configcommand.cpp:459
+@@ -172,16 +170,13 @@
+ msgstr "%1 non è nell'elenco dei filtri di esclusione"
+ 
+ #: configcommand.cpp:238 configcommand.cpp:374
+-#, fuzzy
+-#| msgid "A filter must be provided"
+ msgid "A mimetype must be provided"
+-msgstr "Deve essere fornito un filtro"
++msgstr "Deve essere fornito un tipo MIME"
+ 
+ #: configcommand.cpp:244
+-#, fuzzy, kde-format
+-#| msgid "is not in list of exclude filters"
++#, kde-format
+ msgid "%1 is not in list of exclude mimetypes"
+-msgstr "non è nell'elenco dei filtri esclusi"
++msgstr "%1 non è nell'elenco dei tipi MIME da escludere"
+ 
+ #: configcommand.cpp:290
+ #, kde-format
+@@ -213,10 +208,8 @@
+ msgstr "Il filtro di esclusione è già nell'elenco"
+ 
+ #: configcommand.cpp:380
+-#, fuzzy
+-#| msgid "Exclude filter is already in the list"
+ msgid "Exclude mimetype is already in the list"
+-msgstr "Il filtro di esclusione è già nell'elenco"
++msgstr "Il tipo MIME da escludere è già nell'elenco"
+ 
+ #: configcommand.cpp:407 configcommand.cpp:434
+ msgid "A value must be provided"
+diff -Nur baloo-5.16.0/po/ko/baloomonitorplugin.po baloo-5.17.0/po/ko/baloomonitorplugin.po
+--- baloo-5.16.0/po/ko/baloomonitorplugin.po	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.17.0/po/ko/baloomonitorplugin.po	2015-12-07 05:14:09.000000000 +0800
+@@ -0,0 +1,54 @@
++# Copyright (C) YEAR This_file_is_part_of_KDE
++# This file is distributed under the same license as the PACKAGE package.
++# Shinjo Park <peremen@gmail.com>, 2015.
++#
++msgid ""
++msgstr ""
++"Project-Id-Version: \n"
++"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
++"POT-Creation-Date: 2015-10-03 08:40+0000\n"
++"PO-Revision-Date: 2015-11-10 22:27+0100\n"
++"Last-Translator: Shinjo Park <peremen@gmail.com>\n"
++"Language-Team: Korean <kde@peremen.name>\n"
++"Language: ko\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=1; plural=0;\n"
++"X-Generator: Lokalize 2.0\n"
++
++#: ../../file/indexerstate.h:42
++msgid "Unknown"
++msgstr "알 수 없음"
++
++#: ../../file/indexerstate.h:45
++msgid "Idle"
++msgstr "준비"
++
++#: ../../file/indexerstate.h:48
++msgid "Suspended"
++msgstr "일시 정지됨"
++
++#: ../../file/indexerstate.h:51
++msgid "Initial Indexing"
++msgstr "초기 색인 중"
++
++#: ../../file/indexerstate.h:54
++msgid "Indexing new files"
++msgstr "새 파일 색인 중"
++
++#: ../../file/indexerstate.h:57
++msgid "Indexing modified files"
++msgstr "수정한 파일 색인 중"
++
++#: ../../file/indexerstate.h:60
++msgid "Indexing Extended Attributes"
++msgstr "존재하는 속성 색인 중"
++
++#: ../../file/indexerstate.h:63
++msgid "Indexing file content"
++msgstr "파일 내용 색인 중"
++
++#: ../../file/indexerstate.h:66
++msgid "Checking for unindexed files"
++msgstr "색인에 없는 파일 검사 중"
+diff -Nur baloo-5.16.0/po/ko/baloosearch.po baloo-5.17.0/po/ko/baloosearch.po
+--- baloo-5.16.0/po/ko/baloosearch.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/ko/baloosearch.po	2015-12-07 05:14:09.000000000 +0800
+@@ -7,15 +7,15 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-09-19 08:51+0000\n"
+-"PO-Revision-Date: 2015-06-27 13:50+0200\n"
+-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
++"PO-Revision-Date: 2015-11-10 22:26+0100\n"
++"Last-Translator: Shinjo Park <peremen@gmail.com>\n"
+ "Language-Team: Korean <kde@peremen.name>\n"
+ "Language: ko\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=1; plural=0;\n"
+-"X-Generator: Lokalize 1.5\n"
++"X-Generator: Lokalize 2.0\n"
+ 
+ msgctxt "NAME OF TRANSLATORS"
+ msgid "Your names"
+@@ -31,7 +31,7 @@
+ 
+ #: main.cpp:41
+ msgid "A tool to search through the files indexed by Baloo"
+-msgstr ""
++msgstr "Baloo에서 색인한 파일을 검색하는 도구"
+ 
+ #: main.cpp:43
+ msgid "Vishesh Handa"
+@@ -43,21 +43,19 @@
+ 
+ #: main.cpp:50
+ msgid "The maximum number of results"
+-msgstr ""
++msgstr "최대 결과 개수"
+ 
+ #: main.cpp:51
+ msgid "limit"
+-msgstr ""
++msgstr "limit"
+ 
+ #: main.cpp:53
+-#, fuzzy
+-#| msgid "Offset from which start the search"
+ msgid "Offset from which to start the search"
+ msgstr "검색을 시작할 위치"
+ 
+ #: main.cpp:54
+ msgid "offset"
+-msgstr ""
++msgstr "offset"
+ 
+ #: main.cpp:56
+ msgid "Type of data to be searched"
+@@ -65,22 +63,20 @@
+ 
+ #: main.cpp:57
+ msgid "typeStr"
+-msgstr ""
++msgstr "typeStr"
+ 
+ #: main.cpp:59
+ msgid "Limit search to specified directory"
+-msgstr ""
++msgstr "지정한 디렉터리에서만 검색"
+ 
+ #: main.cpp:60
+ msgid "directory"
+-msgstr ""
++msgstr "directory"
+ 
+ #: main.cpp:61
+ msgid "query"
+-msgstr ""
++msgstr "query"
+ 
+ #: main.cpp:61
+-#, fuzzy
+-#| msgid "The words to search for"
+ msgid "List of words to query for"
+ msgstr "검색할 단어"
+diff -Nur baloo-5.16.0/po/ko/balooshow.po baloo-5.17.0/po/ko/balooshow.po
+--- baloo-5.16.0/po/ko/balooshow.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/ko/balooshow.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,20 +1,21 @@
+ # Copyright (C) YEAR This_file_is_part_of_KDE
+ # This file is distributed under the same license as the PACKAGE package.
++# Shinjo Park <kde@peremen.name>, 2014, 2015.
+ #
+-# Shinjo Park <kde@peremen.name>, 2014.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-10-11 08:16+0000\n"
+-"PO-Revision-Date: 2014-03-10 10:43+0900\n"
+-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
++"PO-Revision-Date: 2015-11-10 22:27+0100\n"
++"Last-Translator: Shinjo Park <peremen@gmail.com>\n"
+ "Language-Team: Korean <kde@peremen.name>\n"
+ "Language: ko\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+ "Content-Transfer-Encoding: 8bit\n"
+ "Plural-Forms: nplurals=1; plural=0;\n"
++"X-Generator: Lokalize 2.0\n"
+ 
+ msgctxt "NAME OF TRANSLATORS"
+ msgid "Your names"
+@@ -49,15 +50,17 @@
+ "The Baloo index could not be opened. Please run \"balooctl status\" to see "
+ "if Baloo is enabled and working."
+ msgstr ""
++"Baloo 색인을 열 수 없습니다. \"balooctl status\" 명령을 실행하여 Baloo 상태"
++"를 확인하십시오."
+ 
+ #: main.cpp:121
+ msgid "The fileID is not equal to the actual Baloo fileID"
+-msgstr ""
++msgstr "fileID가 실제 Baloo fileID와 일치하지 않음"
+ 
+ #: main.cpp:122
+ msgid "This is a bug"
+-msgstr ""
++msgstr "버그입니다"
+ 
+ #: main.cpp:150
+ msgid "No index information found"
+-msgstr ""
++msgstr "색인 정보를 찾을 수 없습니다"
+diff -Nur baloo-5.16.0/po/nb/balooctl.po baloo-5.17.0/po/nb/balooctl.po
+--- baloo-5.16.0/po/nb/balooctl.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nb/balooctl.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of balooctl to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2014, 2015.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nb/baloo_file_extractor.po baloo-5.17.0/po/nb/baloo_file_extractor.po
+--- baloo-5.16.0/po/nb/baloo_file_extractor.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nb/baloo_file_extractor.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of baloo_file_extractor to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2013, 2014.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nb/baloo_file.po baloo-5.17.0/po/nb/baloo_file.po
+--- baloo-5.16.0/po/nb/baloo_file.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nb/baloo_file.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of baloo_file to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2013, 2014.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nb/baloosearch.po baloo-5.17.0/po/nb/baloosearch.po
+--- baloo-5.16.0/po/nb/baloosearch.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nb/baloosearch.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of baloosearch to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2014.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nb/balooshow.po baloo-5.17.0/po/nb/balooshow.po
+--- baloo-5.16.0/po/nb/balooshow.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nb/balooshow.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of balooshow to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2014.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nb/kio_baloosearch.po baloo-5.17.0/po/nb/kio_baloosearch.po
+--- baloo-5.16.0/po/nb/kio_baloosearch.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nb/kio_baloosearch.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of kio_baloosearch to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2008, 2009, 2010, 2011, 2014.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nb/kio_tags.po baloo-5.17.0/po/nb/kio_tags.po
+--- baloo-5.16.0/po/nb/kio_tags.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nb/kio_tags.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of kio_tags to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2014.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nb/kio_timeline.po baloo-5.17.0/po/nb/kio_timeline.po
+--- baloo-5.16.0/po/nb/kio_timeline.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nb/kio_timeline.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of kio_timeline to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2014.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nn/baloo_file_extractor.po baloo-5.17.0/po/nn/baloo_file_extractor.po
+--- baloo-5.16.0/po/nn/baloo_file_extractor.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nn/baloo_file_extractor.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of baloo_file_extractor to Norwegian Nynorsk
++#
+ # Karl Ove Hufthammer <karl@huftis.org>, 2015.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nn/baloo_file.po baloo-5.17.0/po/nn/baloo_file.po
+--- baloo-5.16.0/po/nn/baloo_file.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nn/baloo_file.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of baloo_file to Norwegian Nynorsk
++#
+ # Karl Ove Hufthammer <karl@huftis.org>, 2015.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nn/baloomonitorplugin.po baloo-5.17.0/po/nn/baloomonitorplugin.po
+--- baloo-5.16.0/po/nn/baloomonitorplugin.po	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.17.0/po/nn/baloomonitorplugin.po	2015-12-07 05:14:09.000000000 +0800
+@@ -0,0 +1,56 @@
++# Translation of baloomonitorplugin to Norwegian Nynorsk
++#
++# Karl Ove Hufthammer <karl@huftis.org>, 2015.
++msgid ""
++msgstr ""
++"Project-Id-Version: \n"
++"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
++"POT-Creation-Date: 2015-10-03 08:40+0000\n"
++"PO-Revision-Date: 2015-11-10 20:10+0100\n"
++"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
++"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
++"Language: nn\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=n != 1;\n"
++"X-Generator: Lokalize 2.0\n"
++"X-Environment: kde\n"
++"X-Accelerator-Marker: &\n"
++"X-Text-Markup: kde4\n"
++
++#: ../../file/indexerstate.h:42
++msgid "Unknown"
++msgstr "Ukjend"
++
++#: ../../file/indexerstate.h:45
++msgid "Idle"
++msgstr "Ikkje aktiv"
++
++#: ../../file/indexerstate.h:48
++msgid "Suspended"
++msgstr "I pause"
++
++#: ../../file/indexerstate.h:51
++msgid "Initial Indexing"
++msgstr "Første indeksering"
++
++#: ../../file/indexerstate.h:54
++msgid "Indexing new files"
++msgstr "Indekserer nye filer"
++
++#: ../../file/indexerstate.h:57
++msgid "Indexing modified files"
++msgstr "Indekserer endra filer"
++
++#: ../../file/indexerstate.h:60
++msgid "Indexing Extended Attributes"
++msgstr "Indekserer utvida attributt"
++
++#: ../../file/indexerstate.h:63
++msgid "Indexing file content"
++msgstr "Indekserer filinnhald"
++
++#: ../../file/indexerstate.h:66
++msgid "Checking for unindexed files"
++msgstr "Ser etter ikkje-indekserte filer"
+diff -Nur baloo-5.16.0/po/nn/baloosearch.po baloo-5.17.0/po/nn/baloosearch.po
+--- baloo-5.16.0/po/nn/baloosearch.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nn/baloosearch.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of baloosearch to Norwegian Nynorsk
++#
+ # Karl Ove Hufthammer <karl@huftis.org>, 2015.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/nn/balooshow.po baloo-5.17.0/po/nn/balooshow.po
+--- baloo-5.16.0/po/nn/balooshow.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/nn/balooshow.po	2015-12-07 05:14:09.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of balooshow to Norwegian Nynorsk
++#
+ # Karl Ove Hufthammer <karl@huftis.org>, 2015.
+ msgid ""
+ msgstr ""
+diff -Nur baloo-5.16.0/po/ru/balooctl.po baloo-5.17.0/po/ru/balooctl.po
+--- baloo-5.16.0/po/ru/balooctl.po	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/po/ru/balooctl.po	2015-12-07 05:14:09.000000000 +0800
+@@ -2,13 +2,14 @@
+ # This file is distributed under the same license as the PACKAGE package.
+ #
+ # Alexander Potashev <aspotashev@gmail.com>, 2014, 2015.
++# Nick Shaforostoff <shafff@ukr.net>, 2015.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-10-19 08:03+0000\n"
+-"PO-Revision-Date: 2015-10-03 18:43+0300\n"
+-"Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
++"PO-Revision-Date: 2015-11-14 17:22+0000\n"
++"Last-Translator: Nick Shaforostoff <shafff@ukr.net>\n"
+ "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+ "Language: ru\n"
+ "MIME-Version: 1.0\n"
+@@ -125,11 +126,9 @@
+ "индексирования"
+ 
+ #: configcommand.cpp:90 configcommand.cpp:153 configcommand.cpp:264
+-#, fuzzy
+-#| msgid "The list of filters which are used to exclude files"
+ msgid "The list of mimetypes which are used to exclude files"
+ msgstr ""
+-"Список фильтров, используемых для исключения файлов из процесса "
++"Список типов файлов, используемых для исключения файлов из процесса "
+ "индексирования"
+ 
+ #: configcommand.cpp:142 configcommand.cpp:253 configcommand.cpp:390
+@@ -159,17 +158,15 @@
+ 
+ # BUGME: word puzzle --aspotashev
+ #: configcommand.cpp:179
+-#, fuzzy, kde-format
+-#| msgid "is not in list of exclude filters"
++#, kde-format
+ msgid "%1 is not in the list of include folders"
+-msgstr "не входит в список фильтров исключения."
++msgstr "%1 не входит в список индексируемых папок"
+ 
+ # BUGME: word puzzle --aspotashev
+ #: configcommand.cpp:209
+-#, fuzzy, kde-format
+-#| msgid "is not in list of exclude filters"
++#, kde-format
+ msgid "%1 is not in the list of exclude folders"
+-msgstr "не входит в список фильтров исключения."
++msgstr "%1 не входит в список исключенных из индексирования папок"
+ 
+ #: configcommand.cpp:221 configcommand.cpp:356
+ msgid "A filter must be provided"
+@@ -334,16 +331,16 @@
+ 
+ #: statuscommand.cpp:81
+ msgid "Baloo File Indexer is running"
+-msgstr ""
++msgstr "Индексирование файлов выполняется"
+ 
+ #: statuscommand.cpp:82
+ #, kde-format
+ msgid "Indexer state: %1"
+-msgstr ""
++msgstr "Состояние индексирования: %1"
+ 
+ #: statuscommand.cpp:85
+ msgid "Baloo File Indexer is not running"
+-msgstr ""
++msgstr "Индексирование файлов не выполняется"
+ 
+ #: statuscommand.cpp:91
+ #, fuzzy, kde-format
+@@ -354,4 +351,4 @@
+ #: statuscommand.cpp:110
+ #, kde-format
+ msgid "File: %1"
+-msgstr ""
++msgstr "Файл: %1"
+diff -Nur baloo-5.16.0/src/engine/CMakeLists.txt baloo-5.17.0/src/engine/CMakeLists.txt
+--- baloo-5.16.0/src/engine/CMakeLists.txt	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/src/engine/CMakeLists.txt	2015-12-07 05:14:09.000000000 +0800
+@@ -23,6 +23,7 @@
+     vectorpositioninfoiterator.cpp
+     writetransaction.cpp
+     global.cpp
++    fsutils.cpp
+ )
+ 
+ add_library(KF5BalooEngine ${BALOO_ENGINE_SRCS})
+diff -Nur baloo-5.16.0/src/engine/database.cpp baloo-5.17.0/src/engine/database.cpp
+--- baloo-5.16.0/src/engine/database.cpp	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/src/engine/database.cpp	2015-12-07 05:14:09.000000000 +0800
+@@ -38,6 +38,7 @@
+ 
+ #include "writetransaction.h"
+ #include "idutils.h"
++#include "fsutils.h"
+ 
+ #include <QFile>
+ #include <QFileInfo>
+@@ -62,16 +63,30 @@
+         return true;
+     }
+ 
+-    QFileInfo dirInfo(m_path);
+-    if (!dirInfo.exists()) {
+-        QDir().mkdir(m_path);
+-        dirInfo.refresh();
++    QDir dir(m_path);
++    if (!dir.exists()) {
++        dir.mkpath(QStringLiteral("."));
++        dir.refresh();
+     }
+-    if (mode == CreateDatabase && !dirInfo.permission(QFile::WriteOwner)) {
+-        qCritical() << m_path << "does not have write permissions. Aborting";
++    QFileInfo indexInfo(dir, QStringLiteral("index"));
++
++    if (mode == OpenDatabase && !indexInfo.exists()) {
+         return false;
+     }
+ 
++    if (mode == CreateDatabase) {
++        if (!QFileInfo(dir.absolutePath()).permission(QFile::WriteOwner)) {
++            qCritical() << m_path << "does not have write permissions. Aborting";
++            return false;
++        }
++
++        if (!indexInfo.exists()) {
++            if (FSUtils::getDirectoryFileSystem(m_path) == QStringLiteral("btrfs")) {
++                FSUtils::disableCoW(m_path);
++            }
++        }
++    }
++
+     int rc = mdb_env_create(&m_env);
+     if (rc) {
+         m_env = 0;
+@@ -82,7 +97,7 @@
+     mdb_env_set_mapsize(m_env, static_cast<size_t>(1024) * 1024 * 1024 * 5); // 5 gb
+ 
+     // The directory needs to be created before opening the environment
+-    QByteArray arr = QFile::encodeName(m_path) + "/index";
++    QByteArray arr = QFile::encodeName(indexInfo.absoluteFilePath());
+     rc = mdb_env_open(m_env, arr.constData(), MDB_NOSUBDIR | MDB_NOMEMINIT, 0664);
+     if (rc) {
+         m_env = 0;
+@@ -91,6 +106,10 @@
+ 
+     rc = mdb_reader_check(m_env, 0);
+     Q_ASSERT_X(rc == 0, "Database::open reader_check", mdb_strerror(rc));
++    if (rc) {
++        mdb_env_close(m_env);
++        return false;
++    }
+ 
+     //
+     // Individual Databases
+@@ -99,6 +118,13 @@
+     if (mode == OpenDatabase) {
+         int rc = mdb_txn_begin(m_env, NULL, MDB_RDONLY, &txn);
+         Q_ASSERT_X(rc == 0, "Database::transaction ro begin", mdb_strerror(rc));
++        if (rc) {
++            mdb_txn_abort(txn);
++            mdb_env_close(m_env);
++            m_env = 0;
++            return false;
++        }
++
+         m_dbis.postingDbi = PostingDB::open(txn);
+         m_dbis.positionDBi = PositionDB::open(txn);
+ 
+@@ -117,17 +143,31 @@
+ 
+         m_dbis.mtimeDbi = MTimeDB::open(txn);
+ 
++        Q_ASSERT(m_dbis.isValid());
+         if (!m_dbis.isValid()) {
+             mdb_txn_abort(txn);
++            mdb_env_close(m_env);
+             m_env = 0;
+             return false;
+         }
++
+         rc = mdb_txn_commit(txn);
+         Q_ASSERT_X(rc == 0, "Database::transaction ro commit", mdb_strerror(rc));
+-    }
+-    else {
++        if (rc) {
++            mdb_env_close(m_env);
++            m_env = 0;
++            return false;
++        }
++    } else {
+         int rc = mdb_txn_begin(m_env, NULL, 0, &txn);
+         Q_ASSERT_X(rc == 0, "Database::transaction begin", mdb_strerror(rc));
++        if (rc) {
++            mdb_txn_abort(txn);
++            mdb_env_close(m_env);
++            m_env = 0;
++            return false;
++        }
++
+         m_dbis.postingDbi = PostingDB::create(txn);
+         m_dbis.positionDBi = PositionDB::create(txn);
+ 
+@@ -149,11 +189,18 @@
+         Q_ASSERT(m_dbis.isValid());
+         if (!m_dbis.isValid()) {
+             mdb_txn_abort(txn);
++            mdb_env_close(m_env);
+             m_env = 0;
+             return false;
+         }
++
+         rc = mdb_txn_commit(txn);
+         Q_ASSERT_X(rc == 0, "Database::transaction commit", mdb_strerror(rc));
++        if (rc) {
++            mdb_env_close(m_env);
++            m_env = 0;
++            return false;
++        }
+     }
+ 
+     return true;
+diff -Nur baloo-5.16.0/src/engine/fsutils.cpp baloo-5.17.0/src/engine/fsutils.cpp
+--- baloo-5.16.0/src/engine/fsutils.cpp	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.17.0/src/engine/fsutils.cpp	2015-12-07 05:14:09.000000000 +0800
+@@ -0,0 +1,108 @@
++/*
++ * Copyright (C) 2010 Tobias Koenig <tokoe@kde.org>
++ * Copyright (C) 2014 Daniel Vrátil <dvratil@redhat.com>
++ * Copyright (C) 2015 Vishesh Handa <vhanda@kde.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Library General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Library General Public License for more details.
++ *
++ * You should have received a copy of the GNU Library General Public License
++ * along with this library; see the file COPYING.LIB.  If not, write to
++ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++ * Boston, MA 02110-1301, USA.
++ *
++ */
++
++#include "fsutils.h"
++
++#include <QDebug>
++
++#ifdef Q_OS_LINUX
++#include <unistd.h>
++#include <mntent.h>
++#include <sys/ioctl.h>
++#include <fcntl.h>
++#endif
++
++using namespace Baloo;
++
++QString FSUtils::getDirectoryFileSystem(const QString &directory)
++{
++#ifndef Q_OS_LINUX
++    return QString();
++#else
++    QString bestMatchPath;
++    QString bestMatchFS;
++
++    FILE *mtab = setmntent("/etc/mtab", "r");
++    if (!mtab) {
++        return QString();
++    }
++    while (mntent *mnt = getmntent(mtab)) {
++        if (qstrcmp(mnt->mnt_type, MNTTYPE_IGNORE) == 0) {
++            continue;
++        }
++
++        const QString dir = QString::fromLocal8Bit(mnt->mnt_dir);
++        if (!directory.startsWith(dir) || dir.length() < bestMatchPath.length()) {
++            continue;
++        }
++
++        bestMatchPath = dir;
++        bestMatchFS = QString::fromLocal8Bit(mnt->mnt_type);
++    }
++
++    endmntent(mtab);
++
++    return bestMatchFS;
++#endif
++}
++
++void FSUtils::disableCoW(const QString &path)
++{
++#ifndef Q_OS_LINUX
++    Q_UNUSED(path);
++#else
++    // from linux/fs.h, so that Baloo does not depend on Linux header files
++#ifndef FS_IOC_GETFLAGS
++#define FS_IOC_GETFLAGS     _IOR('f', 1, long)
++#endif
++#ifndef FS_IOC_SETFLAGS
++#define FS_IOC_SETFLAGS     _IOW('f', 2, long)
++#endif
++
++    // Disable COW on file
++#ifndef FS_NOCOW_FL
++#define FS_NOCOW_FL         0x00800000
++#endif
++
++    ulong flags = 0;
++    const int fd = open(qPrintable(path), O_RDONLY);
++    if (fd == -1) {
++        qWarning() << "Failed to open" << path << "to modify flags (" << errno << ")";
++        return;
++    }
++
++    if (ioctl(fd, FS_IOC_GETFLAGS, &flags) == -1) {
++        qWarning() << "ioctl error: failed to get file flags (" << errno << ")";
++        close(fd);
++        return;
++    }
++    if (!(flags & FS_NOCOW_FL)) {
++        flags |= FS_NOCOW_FL;
++        if (ioctl(fd, FS_IOC_SETFLAGS, &flags) == -1) {
++            qWarning() << "ioctl error: failed to set file flags (" << errno << ")";
++            close(fd);
++            return;
++        }
++    }
++    close(fd);
++#endif
++}
+diff -Nur baloo-5.16.0/src/engine/fsutils.h baloo-5.17.0/src/engine/fsutils.h
+--- baloo-5.16.0/src/engine/fsutils.h	1970-01-01 08:00:00.000000000 +0800
++++ baloo-5.17.0/src/engine/fsutils.h	2015-12-07 05:14:09.000000000 +0800
+@@ -0,0 +1,51 @@
++/*
++ * This file is part of the KDE Baloo Project
++ * Copyright (C) 2015  Vishesh Handa <me@vhanda.in>
++ * Copyright (C) 2010  Tobias Koenig <tokoe@kde.org>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) version 3, or any
++ * later version accepted by the membership of KDE e.V. (or its
++ * successor approved by the membership of KDE e.V.), which shall
++ * act as a proxy defined in Section 6 of version 3 of the license.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#ifndef BALOO_ENGINE_FSUTILS_H
++#define BALOO_ENGINE_FSUTILS_H
++
++#include <QString>
++
++namespace Baloo {
++namespace FSUtils {
++
++/**
++ * Returns name of filesystem that @p directory is stored on. This
++ * only works on Linux and returns empty string on other platforms or when it's
++ * unable to detect the filesystem.
++ */
++QString getDirectoryFileSystem(const QString &directory);
++
++/**
++ * Disables filesystem copy-on-write feature on given file or directory.
++ * Only works on Linux and does nothing on other platforms.
++ *
++ * It was tested only with Btrfs but in theory can be called on any FS that
++ * supports NOCOW.
++ */
++void disableCoW(const QString &path);
++
++}
++
++}
++#endif
+diff -Nur baloo-5.16.0/src/kioslaves/kded/baloosearchmodule.cpp baloo-5.17.0/src/kioslaves/kded/baloosearchmodule.cpp
+--- baloo-5.16.0/src/kioslaves/kded/baloosearchmodule.cpp	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/src/kioslaves/kded/baloosearchmodule.cpp	2015-12-07 05:14:09.000000000 +0800
+@@ -46,7 +46,7 @@
+     : KDEDModule(parent)
+     , m_dirNotify(0)
+ {
+-    QTimer::singleShot(0, this, &SearchModule::init);
++    QTimer::singleShot(0, this, SLOT(init()));
+ }
+ 
+ void SearchModule::init()
+diff -Nur baloo-5.16.0/src/lib/searchstore.cpp baloo-5.17.0/src/lib/searchstore.cpp
+--- baloo-5.16.0/src/lib/searchstore.cpp	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/src/lib/searchstore.cpp	2015-12-07 05:14:09.000000000 +0800
+@@ -210,16 +210,18 @@
+ 
+             Q_ASSERT(year);
+ 
+-            month = month > 0 && month <= 12 ? month : 1;
+-            day = day > 0 && day <= 31 ? day : 1;
++            // uses 0 to represent whole month or whole year
++            month = month >= 0 && month <= 12 ? month : 0;
++            day = day >= 0 && day <= 31 ? day : 0;
+ 
+-            QDate startDate(year, month, day);
++            QDate startDate(year, month ? month : 1, day ? day : 1);
+             QDate endDate(startDate);
+ 
+-            if (month == 1)
+-                endDate.setDate(endDate.year(), 12, endDate.day());
+-            else if (day == 1)
++            if (month == 0) {
++                endDate.setDate(endDate.year(), 12, 31);
++            } else if (day == 0) {
+                 endDate.setDate(endDate.year(), endDate.month(), endDate.daysInMonth());
++            }
+ 
+             return tr->mTimeRangeIter(QDateTime(startDate).toTime_t(), QDateTime(endDate, QTime(23, 59, 59)).toTime_t());
+         }
+diff -Nur baloo-5.16.0/src/tools/balooctl/main.cpp baloo-5.17.0/src/tools/balooctl/main.cpp
+--- baloo-5.16.0/src/tools/balooctl/main.cpp	2015-11-08 20:08:54.000000000 +0800
++++ baloo-5.17.0/src/tools/balooctl/main.cpp	2015-12-07 05:14:09.000000000 +0800
+@@ -1,5 +1,5 @@
+ /*
+-   Copyright (c) 2012-2013 Vishesh Handa <me@vhanda.in>
++   Copyright (c) 2012-2015 Vishesh Handa <me@vhanda.in>
+ 
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+@@ -162,6 +162,8 @@
+             mainInterface.quit();
+         if (shouldStart)
+             start();
++
++        return 0;
+     }
+ 
+     if (command == QStringLiteral("suspend")) {
+@@ -217,6 +219,8 @@
+         }
+         tr.commit();
+         out << "File(s) indexed\n";
++
++        return 0;
+     }
+ 
+     if (command == QStringLiteral("clear")) {
+@@ -250,6 +254,8 @@
+         }
+         tr.commit();
+         out << "File(s) cleared\n";
++
++        return 0;
+     }
+ 
+     if (command == QStringLiteral("indexSize")) {

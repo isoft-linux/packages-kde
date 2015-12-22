@@ -1,0 +1,2033 @@
+diff -Nur extra-cmake-modules-5.16.0/cmake/FindQCollectionGenerator.cmake extra-cmake-modules-5.17.0/cmake/FindQCollectionGenerator.cmake
+--- extra-cmake-modules-5.16.0/cmake/FindQCollectionGenerator.cmake	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/cmake/FindQCollectionGenerator.cmake	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1,94 @@
++#.rst:
++# FindQCollectionGenerator
++# ------------------------
++#
++# Try to find the Qt help collection generator.
++#
++# This will define the following variables:
++#
++# ``QCollectionGenerator_FOUND``
++#     True if (the requested version of) Sphinx is available
++# ``QCollectionGenerator_VERSION``
++#     The version of the Qt help collection generator. Note that this not the
++#     same as the version of Qt it is provided by.
++# ``QCollectionGenerator_QT_VERSION``
++#     The version of Qt that the Qt help collection generator is from.
++# ``QCollectionGenerator_EXECUTABLE``
++#     The path to the Qt help collection generator executable.
++#
++# If ``QCollectionGenerator_FOUND`` is TRUE, it will also define the following
++# imported target:
++#
++# ``QCollectionGenerator::Generator``
++#     The Qt help collection generator.
++#
++# In general we recommend using the imported target, as it is easier to use.
++#
++# Since 5.17.0.
++
++#=============================================================================
++# Copyright 2015 Alex Merry <alex.merry@kde.org>
++#
++# Redistribution and use in source and binary forms, with or without
++# modification, are permitted provided that the following conditions
++# are met:
++#
++# 1. Redistributions of source code must retain the copyright
++#    notice, this list of conditions and the following disclaimer.
++# 2. Redistributions in binary form must reproduce the copyright
++#    notice, this list of conditions and the following disclaimer in the
++#    documentation and/or other materials provided with the distribution.
++# 3. The name of the author may not be used to endorse or promote products
++#    derived from this software without specific prior written permission.
++#
++# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++#=============================================================================
++
++find_program(QCollectionGenerator_EXECUTABLE
++    NAMES
++        qcollectiongenerator
++        qcollectiongenerator-qt4
++        qcollectiongenerator-qt5
++    DOC "Qt help collection generator"
++)
++
++if (QCollectionGenerator_EXECUTABLE)
++    if(NOT TARGET QCollectionGenerator::Generator)
++        add_executable(QCollectionGenerator::Generator IMPORTED)
++        set_target_properties(QCollectionGenerator::Generator PROPERTIES
++            IMPORTED_LOCATION "${QCollectionGenerator_EXECUTABLE}"
++        )
++    endif()
++
++    execute_process(
++        COMMAND "${QCollectionGenerator_EXECUTABLE}" -v
++        OUTPUT_VARIABLE _QCollectionGenerator_version_raw
++        ERROR_VARIABLE _QCollectionGenerator_version_raw
++    )
++    if (_QCollectionGenerator_version_raw MATCHES "^Qt Collection Generator version ([0-9]+(\\.[0-9]+)*) \\(Qt ([0-9]+(\\.[0-9]+)*)\\)")
++        set(QCollectionGenerator_VERSION "${CMAKE_MATCH_1}")
++        set(QCollectionGenerator_QT_VERSION "${CMAKE_MATCH_3}")
++    endif()
++    unset(_QCollectionGenerator_version_raw)
++endif()
++
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(QCollectionGenerator
++    FOUND_VAR
++        QCollectionGenerator_FOUND
++    REQUIRED_VARS
++        QCollectionGenerator_EXECUTABLE
++    VERSION_VAR
++        QCollectionGenerator_VERSION
++)
++
++mark_as_advanced(QCollectionGenerator_EXECUTABLE)
+diff -Nur extra-cmake-modules-5.16.0/cmake/FindSphinx.cmake extra-cmake-modules-5.17.0/cmake/FindSphinx.cmake
+--- extra-cmake-modules-5.16.0/cmake/FindSphinx.cmake	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/cmake/FindSphinx.cmake	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1,91 @@
++#.rst:
++# FindSphinx
++# ----------
++#
++# Try to find the Sphinx documentation builder.
++#
++# This will define the following variables:
++#
++# ``Sphinx_FOUND``
++#     True if (the requested version of) Sphinx is available
++# ``Sphinx_VERSION``
++#     The version of the Sphinx documentation builder.
++# ``Sphinx_BUILD_EXECUTABLE``
++#     The path to the Sphinx documentation builder executable.
++#
++# If ``Sphinx_FOUND`` is TRUE, it will also define the following imported target:
++#
++# ``Sphinx::Build``
++#     The Sphinx documentation builder.
++#
++# In general we recommend using the imported target, as it is easier to use.
++#
++# Since 5.17.0.
++
++#=============================================================================
++# Copyright 2015 Alex Merry <alex.merry@kde.org>
++#
++# Redistribution and use in source and binary forms, with or without
++# modification, are permitted provided that the following conditions
++# are met:
++#
++# 1. Redistributions of source code must retain the copyright
++#    notice, this list of conditions and the following disclaimer.
++# 2. Redistributions in binary form must reproduce the copyright
++#    notice, this list of conditions and the following disclaimer in the
++#    documentation and/or other materials provided with the distribution.
++# 3. The name of the author may not be used to endorse or promote products
++#    derived from this software without specific prior written permission.
++#
++# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++#=============================================================================
++
++# Distros sometimes rename Python executables to allow for parallel
++# installation of Python2 and Python3 versions
++find_program(Sphinx_BUILD_EXECUTABLE
++    NAMES
++        sphinx-build
++        sphinx-build2
++        sphinx-build3
++    DOC "Sphinx Documentation Builder (http://sphinx-doc.org/)"
++)
++
++if (Sphinx_BUILD_EXECUTABLE)
++    if(NOT TARGET Sphinx::Build)
++        add_executable(Sphinx::Build IMPORTED)
++        set_target_properties(Sphinx::Build PROPERTIES
++            IMPORTED_LOCATION "${Sphinx_BUILD_EXECUTABLE}"
++        )
++    endif()
++
++    execute_process(
++        COMMAND "${Sphinx_BUILD_EXECUTABLE}" --version
++        OUTPUT_VARIABLE _Sphinx_version_raw
++        ERROR_VARIABLE _Sphinx_version_raw
++    )
++    if (_Sphinx_version_raw MATCHES "^Sphinx \\([^)]*\\) ([0-9]+(\\.[0-9]+)*)")
++        set(Sphinx_VERSION "${CMAKE_MATCH_1}")
++    endif()
++    unset(_Sphinx_version_raw)
++endif()
++
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(Sphinx
++    FOUND_VAR
++        Sphinx_FOUND
++    REQUIRED_VARS
++        Sphinx_BUILD_EXECUTABLE
++    VERSION_VAR
++        Sphinx_VERSION
++)
++
++mark_as_advanced(Sphinx_BUILD_EXECUTABLE)
+diff -Nur extra-cmake-modules-5.16.0/CMakeLists.txt extra-cmake-modules-5.17.0/CMakeLists.txt
+--- extra-cmake-modules-5.16.0/CMakeLists.txt	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/CMakeLists.txt	2015-12-06 22:09:22.000000000 +0800
+@@ -1,29 +1,99 @@
++#=============================================================================
++# Copyright 2006-2013 Alex Neundorf <neundorf@kde.org>
++# Copyright 2014-2015 Alex Merry <alex.merry@kde.org>
++#
++# Distributed under the OSI-approved BSD License (the "License");
++# see accompanying file COPYING-CMAKE-SCRIPTS for details.
++#
++# This software is distributed WITHOUT ANY WARRANTY; without even the
++# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the License for more information.
++#=============================================================================
++
+ cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+ 
+-project(extra-cmake-modules NONE)
++#
++# Preliminary setup
++#
++
++set(VERSION "5.16.0") # handled by release scripts
++
++if (POLICY CMP0048)
++    cmake_policy(SET CMP0048 NEW)
++    project(ECM
++        VERSION "${VERSION}"
++        LANGUAGES NONE
++    )
++else()
++    project(ECM NONE)
++    include("${CMAKE_SOURCE_DIR}/modules/ECMSetupVersion.cmake")
++    ecm_setup_version(
++        "${VERSION}"
++        VARIABLE_PREFIX ECM
++    )
++endif()
++
++
++#
++# Includes
++#
++
++set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
++
++include(FeatureSummary)
++
++
++#
++# Installation paths
++#
++
++set(SHARE_INSTALL_DIR share
++    CACHE
++    PATH
++    "read-only architecture-independent data"
++)
++
++set(CMAKECONFIG_INSTALL_DIR       ${SHARE_INSTALL_DIR}/ECM/cmake/)
++
++set(FIND_MODULES_INSTALL_DIR      ${SHARE_INSTALL_DIR}/ECM/find-modules/)
++set(KDE_MODULES_INSTALL_DIR       ${SHARE_INSTALL_DIR}/ECM/kde-modules/)
++set(MODULES_INSTALL_DIR           ${SHARE_INSTALL_DIR}/ECM/modules/)
++set(TOOLCHAIN_MODULES_INSTALL_DIR ${SHARE_INSTALL_DIR}/ECM/toolchain/)
++
++set(DOC_INSTALL_DIR ${SHARE_INSTALL_DIR}/doc/ECM
++    CACHE
++    PATH
++    "HTML and QtHelp documentation"
++)
++set(MAN_INSTALL_DIR ${SHARE_INSTALL_DIR}/man
++    CACHE
++    PATH
++    "man pages"
++)
+ 
+-set(ECM_MAJOR_VERSION 5)
+-set(ECM_MINOR_VERSION 16)
+-set(ECM_PATCH_VERSION 0)
+ 
+-set(ECM_VERSION ${ECM_MAJOR_VERSION}.${ECM_MINOR_VERSION}.${ECM_PATCH_VERSION})
++#
++# Documentation
++#
++
++add_subdirectory(docs)
++
++
++#
++# Tests
++#
+ 
+ option(BUILD_TESTING "Build automated tests." ON)
++add_feature_info(BUILD_TESTING BUILD_TESTING "Build automated tests.")
+ if(BUILD_TESTING)
+     enable_testing()
+     add_subdirectory(tests)
+ endif()
+ 
+-set(SHARE_INSTALL_DIR share CACHE PATH "read-only architecture-independent data")
+-set(TOOLCHAIN_MODULES_INSTALL_DIR ${SHARE_INSTALL_DIR}/ECM/toolchain/)
+-set(MODULES_INSTALL_DIR ${SHARE_INSTALL_DIR}/ECM/modules/)
+-set(KDE_MODULES_INSTALL_DIR ${SHARE_INSTALL_DIR}/ECM/kde-modules/)
+-set(FIND_MODULES_INSTALL_DIR ${SHARE_INSTALL_DIR}/ECM/find-modules/)
+-set(CMAKECONFIG_INSTALL_DIR ${SHARE_INSTALL_DIR}/ECM/cmake/)
+-set(DOC_INSTALL_DIR ${SHARE_INSTALL_DIR}/doc/ECM)
+-set(MAN_INSTALL_DIR ${SHARE_INSTALL_DIR}/man)
+ 
+-add_subdirectory(docs)
++#
++# Install modules
++#
+ 
+ file(GLOB installModuleFiles ${CMAKE_SOURCE_DIR}/modules/*[^~])
+ install(FILES ${installModuleFiles} DESTINATION ${MODULES_INSTALL_DIR})
+@@ -38,28 +108,58 @@
+ install(FILES ${installToolchainModuleFiles} DESTINATION ${TOOLCHAIN_MODULES_INSTALL_DIR})
+ 
+ 
+-include(CMakePackageConfigHelpers)
++#
++# Config.cmake file
++#
+ 
+-configure_package_config_file(ECMConfig.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/ECMConfig.cmake
+-                              INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
+-                              PATH_VARS  FIND_MODULES_INSTALL_DIR KDE_MODULES_INSTALL_DIR MODULES_INSTALL_DIR )
+-
+-
+-write_basic_package_version_file( ${CMAKE_CURRENT_BINARY_DIR}/ECMConfigVersion.cmake
+-                                 VERSION ${ECM_MAJOR_VERSION}.${ECM_MINOR_VERSION}.${ECM_PATCH_VERSION}
+-                                 COMPATIBILITY AnyNewerVersion )
+-
+-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ECMConfig.cmake
+-              ${CMAKE_CURRENT_BINARY_DIR}/ECMConfigVersion.cmake
+-        DESTINATION ${CMAKECONFIG_INSTALL_DIR})
++include(CMakePackageConfigHelpers)
+ 
+-# need to install a Config.cmake file
++configure_package_config_file(
++    ECMConfig.cmake.in
++    ${CMAKE_CURRENT_BINARY_DIR}/ECMConfig.cmake
++    INSTALL_DESTINATION
++        ${CMAKECONFIG_INSTALL_DIR}
++    PATH_VARS
++        FIND_MODULES_INSTALL_DIR
++        KDE_MODULES_INSTALL_DIR
++        MODULES_INSTALL_DIR
++)
++
++write_basic_package_version_file(
++    ${CMAKE_CURRENT_BINARY_DIR}/ECMConfigVersion.cmake
++    VERSION
++        "${PROJECT_VERSION}"
++    COMPATIBILITY
++        AnyNewerVersion
++)
++
++install(
++    FILES
++        ${CMAKE_CURRENT_BINARY_DIR}/ECMConfig.cmake
++        ${CMAKE_CURRENT_BINARY_DIR}/ECMConfigVersion.cmake
++    DESTINATION
++        ${CMAKECONFIG_INSTALL_DIR}
++)
++
++
++#
++# Packaging
++#
+ 
+-# set up packaging
+ set(CPACK_PACKAGE_NAME extra-cmake-modules)
+-set(CPACK_PACKAGE_VERSION ${ECM_VERSION})
++set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+ set(CPACK_SYSTEM_NAME "generic")
+ set(CPACK_GENERATOR "TGZ")
+ set(CPACK_SET_DESTDIR FALSE)
+ 
+ include(CPack)
++
++
++#
++# Feature summary
++#
++
++feature_summary(
++    FATAL_ON_MISSING_REQUIRED_PACKAGES
++    WHAT ALL
++)
+diff -Nur extra-cmake-modules-5.16.0/docs/CMakeLists.txt extra-cmake-modules-5.17.0/docs/CMakeLists.txt
+--- extra-cmake-modules-5.16.0/docs/CMakeLists.txt	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/docs/CMakeLists.txt	2015-12-06 22:09:22.000000000 +0800
+@@ -1,51 +1,55 @@
+ #=============================================================================
+-# CMake - Cross Platform Makefile Generator
+-# Copyright 2000-2013 Kitware, Inc., Insight Software Consortium
+-# Copyright 2014 Alex Merry <alex.merry@kde.org>
++# Copyright 2000-2013 Kitware, Inc.
++# Copyright 2014-2015 Alex Merry <alex.merry@kde.org>
+ #
+ # Distributed under the OSI-approved BSD License (the "License");
+-# see accompanying file Copyright.txt for details.
++# see accompanying file COPYING-CMAKE-SCRIPTS for details.
+ #
+ # This software is distributed WITHOUT ANY WARRANTY; without even the
+ # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ # See the License for more information.
+ #=============================================================================
+ 
+-# Distros sometimes rename Python executables to allow for parallel
+-# installation of Python2 and Python3 versions
+-message(STATUS "Looking for Sphinx Documentation Builder...")
+-find_program(SPHINX_EXECUTABLE
+-    NAMES
+-        sphinx-build
+-        sphinx-build2
+-        sphinx-build3
+-    DOC "Sphinx Documentation Builder (http://sphinx-doc.org/)"
++include(CMakeDependentOption)
++
++find_package(Sphinx 1.2 MODULE)
++set_package_properties(
++    Sphinx
++    PROPERTIES
++        URL "http://sphinx-doc.org/"
++        DESCRIPTION "Tool to generate documentation."
++        TYPE OPTIONAL
++        PURPOSE "Required to build documentation for Extra CMake Modules."
+ )
+-if(SPHINX_EXECUTABLE)
+-    message(STATUS "Sphinx Documentation Builder found at ${SPHINX_EXECUTABLE} - building documentation")
+-    set(build_docs_default ON)
+-else()
+-    message(STATUS "Sphinx Documentation Builder not found - documentation will not be built (see http://sphinx-doc.org/)")
+-    set(build_docs_default OFF)
+-endif()
+ 
+-option(BUILD_HTML_DOCS "Build html help with Sphinx" ${build_docs_default})
+-option(BUILD_MAN_DOCS "Build man pages with Sphinx" ${build_docs_default})
+-option(BUILD_QTHELP_DOCS "Build Qt help with Sphinx" OFF)
++find_package(QCollectionGenerator MODULE)
++set_package_properties(
++    QCollectionGenerator
++    PROPERTIES
++        URL "http://www.qt.io/"
++        DESCRIPTION "Qt help collection generator."
++        TYPE OPTIONAL
++        PURPOSE "Required to build Extra CMake Modules documentation in Qt Help format."
++)
+ 
+-if(NOT BUILD_HTML_DOCS AND NOT BUILD_MAN_DOCS AND NOT BUILD_QTHELP_DOCS)
+-    return()
+-elseif(NOT SPHINX_EXECUTABLE)
+-    message(FATAL_ERROR "SPHINX_EXECUTABLE (sphinx-build) was not found!")
+-endif()
++cmake_dependent_option(
++    BUILD_HTML_DOCS "Build html help with Sphinx" ON
++    "Sphinx_FOUND" OFF
++)
++add_feature_info(BUILD_HTML_DOCS BUILD_HTML_DOCS "Generate HTML documentation for installed modules.")
++
++cmake_dependent_option(
++    BUILD_MAN_DOCS "Build man pages with Sphinx" ON
++    "Sphinx_FOUND" OFF
++)
++add_feature_info(BUILD_MAN_DOCS BUILD_MAN_DOCS "Generate man page documentation for installed modules.")
++
++cmake_dependent_option(
++    BUILD_QTHELP_DOCS "Build Qt help with Sphinx" OFF
++    "Sphinx_FOUND;QCollectionGenerator_FOUND" OFF
++)
++add_feature_info(BUILD_QTHELP_DOCS BUILD_QTHELP_DOCS "Generate QtHelp documentation for installed modules.")
+ 
+-# the docs/ directory
+-set(conf_docs "${CMAKE_CURRENT_SOURCE_DIR}")
+-# where cmake.py and other sphinx files are
+-set(conf_path "${CMAKE_CURRENT_SOURCE_DIR}/sphinx")
+-set(conf_version "${extra-cmake-modules_VERSION_MAJOR}.${extra-cmake-modules_VERSION_MINOR}.${extra-cmake-modules_VERSION_PATCH}")
+-set(conf_release "${extra-cmake-modules_VERSION}")
+-configure_file(sphinx/conf.py.in conf.py @ONLY)
+ 
+ set(doc_formats "")
+ if(BUILD_HTML_DOCS)
+@@ -55,22 +59,26 @@
+     list(APPEND doc_formats man)
+ endif()
+ if(BUILD_QTHELP_DOCS)
+-    find_program(QCOLLECTIONGENERATOR_EXECUTABLE
+-        NAMES qcollectiongenerator
+-        DOC "qcollectiongenerator tool"
+-    )
+-    if (NOT QCOLLECTIONGENERATOR_EXECUTABLE)
+-        message(FATAL_ERROR "QCOLLECTIONGENERATOR_EXECUTABLE (qcollectiongenerator) not found!")
+-    endif()
+     list(APPEND doc_formats qthelp)
+-
+     set(qthelp_extra_commands
+         COMMAND
+-            qcollectiongenerator
+-            ${CMAKE_CURRENT_BINARY_DIR}/qthelp/extra-cmake-modules.qhcp
++            QCollectionGenerator::Generator
++            ${CMAKE_CURRENT_BINARY_DIR}/qthelp/ExtraCMakeModules.qhcp
+     )
+ endif()
+ 
++if(NOT doc_formats)
++    return()
++endif()
++
++if (Sphinx_VERSION VERSION_LESS 1.3)
++    set(sphinx_theme default)
++else()
++    set(sphinx_theme classic)
++endif()
++configure_file(sphinx/conf.py.in conf.py @ONLY)
++configure_file(sphinx/ecm.css.in static/ecm.css)
++
+ 
+ set(doc_format_outputs "")
+ set(doc_format_last "")
+@@ -80,13 +88,14 @@
+     add_custom_command(
+         OUTPUT ${doc_format_output}
+         COMMAND
+-            ${SPHINX_EXECUTABLE}
++            Sphinx::Build
+             -c ${CMAKE_CURRENT_BINARY_DIR}
+             -d ${CMAKE_CURRENT_BINARY_DIR}/doctrees
+             -b ${format}
+             ${CMAKE_CURRENT_SOURCE_DIR}
+             ${CMAKE_CURRENT_BINARY_DIR}/${format}
+             > ${doc_format_log} # log stdout, pass stderr
++        ${${format}_extra_commands}
+         DEPENDS ${doc_format_last}
+         COMMENT "sphinx-build ${format}: see ${CMAKE_CURRENT_BINARY_DIR}/${doc_format_log}"
+         VERBATIM
+@@ -99,8 +108,8 @@
+ add_custom_target(documentation ALL DEPENDS ${doc_format_outputs})
+ 
+ if(BUILD_MAN_DOCS)
+-    file(GLOB man_rst RELATIVE ${extra-cmake-modules_SOURCE_DIR}/docs/manual
+-    ${extra-cmake-modules_SOURCE_DIR}/docs/manual/*.[1-9].rst)
++    file(GLOB man_rst RELATIVE ${ECM_SOURCE_DIR}/docs/manual
++        ${ECM_SOURCE_DIR}/docs/manual/*.[1-9].rst)
+     foreach(m ${man_rst})
+         if("x${m}" MATCHES "^x(.+)\\.([1-9])\\.rst$")
+             set(name "${CMAKE_MATCH_1}")
+@@ -122,7 +131,7 @@
+ endif()
+ if(BUILD_QTHELP_DOCS)
+     install(
+-        FILES ${CMAKE_CURRENT_BINARY_DIR}/qthelp/extra-cmake-modules.qch
++        FILES ${CMAKE_CURRENT_BINARY_DIR}/qthelp/ExtraCMakeModules.qch
+         DESTINATION ${DOC_INSTALL_DIR}
+     )
+ endif()
+diff -Nur extra-cmake-modules-5.16.0/docs/sphinx/conf.py.in extra-cmake-modules-5.17.0/docs/sphinx/conf.py.in
+--- extra-cmake-modules-5.16.0/docs/sphinx/conf.py.in	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/docs/sphinx/conf.py.in	2015-12-06 22:09:22.000000000 +0800
+@@ -14,24 +14,23 @@
+ import re
+ import glob
+ 
+-sys.path.insert(0, r'@conf_path@')
++sys.path.insert(0, r'@CMAKE_CURRENT_SOURCE_DIR@/sphinx/ext')
+ 
+ source_suffix = '.rst'
+ master_doc = 'index'
+ 
+ project = 'Extra CMake Modules'
+ copyright = 'KDE Developers'
+-version = '@conf_version@' # feature version
+-release = '@conf_release@' # full version string
++version = '@PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@' # feature version
++release = '@PROJECT_VERSION@' # full version string
+ 
+ primary_domain = 'ecm'
+ 
+ exclude_patterns = []
+ 
+ extensions = ['ecm']
+-templates_path = ['@conf_path@/templates']
+ 
+-ecm_manuals = sorted(glob.glob(r'@conf_docs@/manual/*.rst'))
++ecm_manuals = sorted(glob.glob(r'@CMAKE_CURRENT_SOURCE_DIR@/manual/*.rst'))
+ ecm_manual_description = re.compile('^\.\. ecm-manual-description:(.*)$')
+ man_pages = []
+ for fpath in ecm_manuals:
+@@ -55,9 +54,8 @@
+ man_show_urls = False
+ 
+ html_show_sourcelink = True
+-html_static_path = ['@conf_path@/static']
++html_static_path = ['@CMAKE_CURRENT_BINARY_DIR@/static']
+ html_style = 'ecm.css'
+-html_theme = 'default'
+-html_title = 'Extra CMake Modules %s Documentation' % release
+-html_short_title = '%s Documentation' % release
+-html_favicon = '@conf_path@/kde-favicon.ico'
++html_theme = '@sphinx_theme@'
++html_short_title = 'ECM %s documentation' % version
++html_favicon = '@CMAKE_CURRENT_SOURCE_DIR@/sphinx/kde-favicon.ico'
+diff -Nur extra-cmake-modules-5.16.0/docs/sphinx/ecm.css.in extra-cmake-modules-5.17.0/docs/sphinx/ecm.css.in
+--- extra-cmake-modules-5.16.0/docs/sphinx/ecm.css.in	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/docs/sphinx/ecm.css.in	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1,8 @@
++/* Import the Sphinx theme style.  */
++@import url("${sphinx_theme}.css");
++
++/* Wrap sidebar content even within words so that long
++   document names do not escape sidebar borders.  */
++div.sphinxsidebarwrapper {
++  word-wrap: break-word;
++}
+diff -Nur extra-cmake-modules-5.16.0/docs/sphinx/ecm.py extra-cmake-modules-5.17.0/docs/sphinx/ecm.py
+--- extra-cmake-modules-5.16.0/docs/sphinx/ecm.py	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/docs/sphinx/ecm.py	1970-01-01 08:00:00.000000000 +0800
+@@ -1,307 +0,0 @@
+-# Copyright 2014 Alex Merry <alex.merry@kde.org>
+-# Based on cmake.py from CMake:
+-# Copyright 2000-2013 Kitware, Inc., Insight Software Consortium
+-#
+-# Redistribution and use in source and binary forms, with or without
+-# modification, are permitted provided that the following conditions
+-# are met:
+-#
+-# 1. Redistributions of source code must retain the copyright
+-#    notice, this list of conditions and the following disclaimer.
+-# 2. Redistributions in binary form must reproduce the copyright
+-#    notice, this list of conditions and the following disclaimer in the
+-#    documentation and/or other materials provided with the distribution.
+-# 3. The name of the author may not be used to endorse or promote products
+-#    derived from this software without specific prior written permission.
+-#
+-# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+-# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+-# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+-# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+-# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+-# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+-# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-
+-import os
+-import re
+-
+-# Monkey patch for pygments reporting an error when generator expressions are
+-# used.
+-# https://bitbucket.org/birkenfeld/pygments-main/issue/942/cmake-generator-expressions-not-handled
+-from pygments.lexers import CMakeLexer
+-from pygments.token import Name, Operator
+-from pygments.lexer import bygroups
+-CMakeLexer.tokens["args"].append(('(\\$<)(.+?)(>)',
+-                                  bygroups(Operator, Name.Variable, Operator)))
+-
+-# Monkey patch for sphinx generating invalid content for qcollectiongenerator
+-# https://bitbucket.org/birkenfeld/sphinx/issue/1435/qthelp-builder-should-htmlescape-keywords
+-from sphinx.util.pycompat import htmlescape
+-from sphinx.builders.qthelp import QtHelpBuilder
+-old_build_keywords = QtHelpBuilder.build_keywords
+-def new_build_keywords(self, title, refs, subitems):
+-  old_items = old_build_keywords(self, title, refs, subitems)
+-  new_items = []
+-  for item in old_items:
+-    before, rest = item.split("ref=\"", 1)
+-    ref, after = rest.split("\"")
+-    if ("<" in ref and ">" in ref):
+-      new_items.append(before + "ref=\"" + htmlescape(ref) + "\"" + after)
+-    else:
+-      new_items.append(item)
+-  return new_items
+-QtHelpBuilder.build_keywords = new_build_keywords
+-
+-
+-from docutils.parsers.rst import Directive, directives
+-from docutils.transforms import Transform
+-try:
+-    from docutils.utils.error_reporting import SafeString, ErrorString
+-except ImportError:
+-    # error_reporting was not in utils before version 0.11:
+-    from docutils.error_reporting import SafeString, ErrorString
+-
+-from docutils import io, nodes
+-
+-from sphinx.directives import ObjectDescription
+-from sphinx.domains import Domain, ObjType
+-from sphinx.roles import XRefRole
+-from sphinx.util.nodes import make_refnode
+-from sphinx import addnodes
+-
+-class ECMModule(Directive):
+-    required_arguments = 1
+-    optional_arguments = 0
+-    final_argument_whitespace = True
+-    option_spec = {'encoding': directives.encoding}
+-
+-    def __init__(self, *args, **keys):
+-        self.re_start = re.compile(r'^#\[(?P<eq>=*)\[\.rst:$')
+-        Directive.__init__(self, *args, **keys)
+-
+-    def run(self):
+-        settings = self.state.document.settings
+-        if not settings.file_insertion_enabled:
+-            raise self.warning('"%s" directive disabled.' % self.name)
+-
+-        env = self.state.document.settings.env
+-        rel_path, path = env.relfn2path(self.arguments[0])
+-        path = os.path.normpath(path)
+-        encoding = self.options.get('encoding', settings.input_encoding)
+-        e_handler = settings.input_encoding_error_handler
+-        try:
+-            settings.record_dependencies.add(path)
+-            f = io.FileInput(source_path=path, encoding=encoding,
+-                             error_handler=e_handler)
+-        except UnicodeEncodeError as error:
+-            raise self.severe('Problems with "%s" directive path:\n'
+-                              'Cannot encode input file path "%s" '
+-                              '(wrong locale?).' %
+-                              (self.name, SafeString(path)))
+-        except IOError as error:
+-            raise self.severe('Problems with "%s" directive path:\n%s.' %
+-                      (self.name, ErrorString(error)))
+-        raw_lines = f.read().splitlines()
+-        f.close()
+-        rst = None
+-        lines = []
+-        for line in raw_lines:
+-            if rst is not None and rst != '#':
+-                # Bracket mode: check for end bracket
+-                pos = line.find(rst)
+-                if pos >= 0:
+-                    if line[0] == '#':
+-                        line = ''
+-                    else:
+-                        line = line[0:pos]
+-                    rst = None
+-            else:
+-                # Line mode: check for .rst start (bracket or line)
+-                m = self.re_start.match(line)
+-                if m:
+-                    rst = ']%s]' % m.group('eq')
+-                    line = ''
+-                elif line == '#.rst:':
+-                    rst = '#'
+-                    line = ''
+-                elif rst == '#':
+-                    if line == '#' or line[:2] == '# ':
+-                        line = line[2:]
+-                    else:
+-                        rst = None
+-                        line = ''
+-                elif rst is None:
+-                    line = ''
+-            lines.append(line)
+-        if rst is not None and rst != '#':
+-            raise self.warning('"%s" found unclosed bracket "#[%s[.rst:" in %s' %
+-                               (self.name, rst[1:-1], path))
+-        self.state_machine.insert_input(lines, path)
+-        return []
+-
+-class _ecm_index_entry:
+-    def __init__(self, desc):
+-        self.desc = desc
+-
+-    def __call__(self, title, targetid):
+-        return ('pair', u'%s ; %s' % (self.desc, title), targetid, 'main')
+-
+-_ecm_index_objs = {
+-    'manual':      _ecm_index_entry('manual'),
+-    'module':      _ecm_index_entry('module'),
+-    'find-module': _ecm_index_entry('find-module'),
+-    'kde-module':  _ecm_index_entry('kde-module'),
+-    'toolchain':   _ecm_index_entry('toolchain'),
+-    }
+-
+-def _ecm_object_inventory(env, document, line, objtype, targetid):
+-    inv = env.domaindata['ecm']['objects']
+-    if targetid in inv:
+-        document.reporter.warning(
+-            'ECM object "%s" also described in "%s".' %
+-            (targetid, env.doc2path(inv[targetid][0])), line=line)
+-    inv[targetid] = (env.docname, objtype)
+-
+-class ECMTransform(Transform):
+-
+-    # Run this transform early since we insert nodes we want
+-    # treated as if they were written in the documents.
+-    default_priority = 210
+-
+-    def __init__(self, document, startnode):
+-        Transform.__init__(self, document, startnode)
+-        self.titles = {}
+-
+-    def parse_title(self, docname):
+-        """Parse a document title as the first line starting in [A-Za-z0-9<]
+-           or fall back to the document basename if no such line exists.
+-           Return the title or False if the document file does not exist.
+-        """
+-        env = self.document.settings.env
+-        title = self.titles.get(docname)
+-        if title is None:
+-            fname = os.path.join(env.srcdir, docname+'.rst')
+-            try:
+-                f = open(fname, 'r')
+-            except IOError:
+-                title = False
+-            else:
+-                for line in f:
+-                    if len(line) > 0 and (line[0].isalnum() or line[0] == '<'):
+-                        title = line.rstrip()
+-                        break
+-                f.close()
+-                if title is None:
+-                    title = os.path.basename(docname)
+-            self.titles[docname] = title
+-        return title
+-
+-    def apply(self):
+-        env = self.document.settings.env
+-
+-        # Treat some documents as ecm domain objects.
+-        objtype, sep, tail = env.docname.rpartition('/')
+-        make_index_entry = _ecm_index_objs.get(objtype)
+-        if make_index_entry:
+-            title = self.parse_title(env.docname)
+-            # Insert the object link target.
+-            targetid = '%s:%s' % (objtype, title)
+-            targetnode = nodes.target('', '', ids=[targetid])
+-            self.document.insert(0, targetnode)
+-            # Insert the object index entry.
+-            indexnode = addnodes.index()
+-            indexnode['entries'] = [make_index_entry(title, targetid)]
+-            self.document.insert(0, indexnode)
+-            # Add to ecm domain object inventory
+-            _ecm_object_inventory(env, self.document, 1, objtype, targetid)
+-
+-class ECMObject(ObjectDescription):
+-
+-    def handle_signature(self, sig, signode):
+-        # called from sphinx.directives.ObjectDescription.run()
+-        signode += addnodes.desc_name(sig, sig)
+-        return sig
+-
+-    def add_target_and_index(self, name, sig, signode):
+-        targetid = '%s:%s' % (self.objtype, name)
+-        if targetid not in self.state.document.ids:
+-            signode['names'].append(targetid)
+-            signode['ids'].append(targetid)
+-            signode['first'] = (not self.names)
+-            self.state.document.note_explicit_target(signode)
+-            _ecm_object_inventory(self.env, self.state.document,
+-                                    self.lineno, self.objtype, targetid)
+-
+-        make_index_entry = _ecm_index_objs.get(self.objtype)
+-        if make_index_entry:
+-            self.indexnode['entries'].append(make_index_entry(name, targetid))
+-
+-class ECMXRefRole(XRefRole):
+-
+-    # See sphinx.util.nodes.explicit_title_re; \x00 escapes '<'.
+-    _re = re.compile(r'^(.+?)(\s*)(?<!\x00)<(.*?)>$', re.DOTALL)
+-    _re_sub = re.compile(r'^([^()\s]+)\s*\(([^()]*)\)$', re.DOTALL)
+-
+-    def __call__(self, typ, rawtext, text, *args, **keys):
+-        # CMake cross-reference targets may contain '<' so escape
+-        # any explicit `<target>` with '<' not preceded by whitespace.
+-        while True:
+-            m = ECMXRefRole._re.match(text)
+-            if m and len(m.group(2)) == 0:
+-                text = '%s\x00<%s>' % (m.group(1), m.group(3))
+-            else:
+-                break
+-        return XRefRole.__call__(self, typ, rawtext, text, *args, **keys)
+-
+-class ECMDomain(Domain):
+-    """ECM domain."""
+-    name = 'ecm'
+-    label = 'ECM'
+-    object_types = {
+-        'module':      ObjType('module',      'module'),
+-        'kde-module':  ObjType('kde-module',  'kde-module'),
+-        'find-module': ObjType('find-module', 'find-module'),
+-        'manual':      ObjType('manual',      'manual'),
+-        'toolchain':   ObjType('toolchain',   'toolchain'),
+-    }
+-    directives = {}
+-    roles = {
+-        'module':      XRefRole(),
+-        'kde-module':  XRefRole(),
+-        'find-module': XRefRole(),
+-        'manual':      XRefRole(),
+-        'toolchain':   XRefRole(),
+-    }
+-    initial_data = {
+-        'objects': {},  # fullname -> docname, objtype
+-    }
+-
+-    def clear_doc(self, docname):
+-        to_clear = []
+-        for fullname, (fn, _) in self.data['objects'].items():
+-            if fn == docname:
+-                to_clear.append(fullname)
+-        for fullname in to_clear:
+-            del self.data['objects'][fullname]
+-
+-    def resolve_xref(self, env, fromdocname, builder,
+-                     typ, target, node, contnode):
+-        targetid = '%s:%s' % (typ, target)
+-        obj = self.data['objects'].get(targetid)
+-        if obj is None:
+-            # TODO: warn somehow?
+-            return None
+-        return make_refnode(builder, fromdocname, obj[0], targetid,
+-                            contnode, target)
+-
+-    def get_objects(self):
+-        for refname, (docname, type) in self.data['objects'].items():
+-            yield (refname, refname, type, docname, refname, 1)
+-
+-def setup(app):
+-    app.add_directive('ecm-module', ECMModule)
+-    app.add_transform(ECMTransform)
+-    app.add_domain(ECMDomain)
+diff -Nur extra-cmake-modules-5.16.0/docs/sphinx/ext/ecm.py extra-cmake-modules-5.17.0/docs/sphinx/ext/ecm.py
+--- extra-cmake-modules-5.16.0/docs/sphinx/ext/ecm.py	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/docs/sphinx/ext/ecm.py	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1,307 @@
++# Copyright 2014 Alex Merry <alex.merry@kde.org>
++# Based on cmake.py from CMake:
++# Copyright 2000-2013 Kitware, Inc., Insight Software Consortium
++#
++# Redistribution and use in source and binary forms, with or without
++# modification, are permitted provided that the following conditions
++# are met:
++#
++# 1. Redistributions of source code must retain the copyright
++#    notice, this list of conditions and the following disclaimer.
++# 2. Redistributions in binary form must reproduce the copyright
++#    notice, this list of conditions and the following disclaimer in the
++#    documentation and/or other materials provided with the distribution.
++# 3. The name of the author may not be used to endorse or promote products
++#    derived from this software without specific prior written permission.
++#
++# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++import os
++import re
++
++# Monkey patch for pygments reporting an error when generator expressions are
++# used.
++# https://bitbucket.org/birkenfeld/pygments-main/issue/942/cmake-generator-expressions-not-handled
++from pygments.lexers import CMakeLexer
++from pygments.token import Name, Operator
++from pygments.lexer import bygroups
++CMakeLexer.tokens["args"].append(('(\\$<)(.+?)(>)',
++                                  bygroups(Operator, Name.Variable, Operator)))
++
++# Monkey patch for sphinx generating invalid content for qcollectiongenerator
++# https://bitbucket.org/birkenfeld/sphinx/issue/1435/qthelp-builder-should-htmlescape-keywords
++from sphinx.util.pycompat import htmlescape
++from sphinx.builders.qthelp import QtHelpBuilder
++old_build_keywords = QtHelpBuilder.build_keywords
++def new_build_keywords(self, title, refs, subitems):
++  old_items = old_build_keywords(self, title, refs, subitems)
++  new_items = []
++  for item in old_items:
++    before, rest = item.split("ref=\"", 1)
++    ref, after = rest.split("\"")
++    if ("<" in ref and ">" in ref):
++      new_items.append(before + "ref=\"" + htmlescape(ref) + "\"" + after)
++    else:
++      new_items.append(item)
++  return new_items
++QtHelpBuilder.build_keywords = new_build_keywords
++
++
++from docutils.parsers.rst import Directive, directives
++from docutils.transforms import Transform
++try:
++    from docutils.utils.error_reporting import SafeString, ErrorString
++except ImportError:
++    # error_reporting was not in utils before version 0.11:
++    from docutils.error_reporting import SafeString, ErrorString
++
++from docutils import io, nodes
++
++from sphinx.directives import ObjectDescription
++from sphinx.domains import Domain, ObjType
++from sphinx.roles import XRefRole
++from sphinx.util.nodes import make_refnode
++from sphinx import addnodes
++
++class ECMModule(Directive):
++    required_arguments = 1
++    optional_arguments = 0
++    final_argument_whitespace = True
++    option_spec = {'encoding': directives.encoding}
++
++    def __init__(self, *args, **keys):
++        self.re_start = re.compile(r'^#\[(?P<eq>=*)\[\.rst:$')
++        Directive.__init__(self, *args, **keys)
++
++    def run(self):
++        settings = self.state.document.settings
++        if not settings.file_insertion_enabled:
++            raise self.warning('"%s" directive disabled.' % self.name)
++
++        env = self.state.document.settings.env
++        rel_path, path = env.relfn2path(self.arguments[0])
++        path = os.path.normpath(path)
++        encoding = self.options.get('encoding', settings.input_encoding)
++        e_handler = settings.input_encoding_error_handler
++        try:
++            settings.record_dependencies.add(path)
++            f = io.FileInput(source_path=path, encoding=encoding,
++                             error_handler=e_handler)
++        except UnicodeEncodeError as error:
++            raise self.severe('Problems with "%s" directive path:\n'
++                              'Cannot encode input file path "%s" '
++                              '(wrong locale?).' %
++                              (self.name, SafeString(path)))
++        except IOError as error:
++            raise self.severe('Problems with "%s" directive path:\n%s.' %
++                      (self.name, ErrorString(error)))
++        raw_lines = f.read().splitlines()
++        f.close()
++        rst = None
++        lines = []
++        for line in raw_lines:
++            if rst is not None and rst != '#':
++                # Bracket mode: check for end bracket
++                pos = line.find(rst)
++                if pos >= 0:
++                    if line[0] == '#':
++                        line = ''
++                    else:
++                        line = line[0:pos]
++                    rst = None
++            else:
++                # Line mode: check for .rst start (bracket or line)
++                m = self.re_start.match(line)
++                if m:
++                    rst = ']%s]' % m.group('eq')
++                    line = ''
++                elif line == '#.rst:':
++                    rst = '#'
++                    line = ''
++                elif rst == '#':
++                    if line == '#' or line[:2] == '# ':
++                        line = line[2:]
++                    else:
++                        rst = None
++                        line = ''
++                elif rst is None:
++                    line = ''
++            lines.append(line)
++        if rst is not None and rst != '#':
++            raise self.warning('"%s" found unclosed bracket "#[%s[.rst:" in %s' %
++                               (self.name, rst[1:-1], path))
++        self.state_machine.insert_input(lines, path)
++        return []
++
++class _ecm_index_entry:
++    def __init__(self, desc):
++        self.desc = desc
++
++    def __call__(self, title, targetid):
++        return ('pair', u'%s ; %s' % (self.desc, title), targetid, 'main')
++
++_ecm_index_objs = {
++    'manual':      _ecm_index_entry('manual'),
++    'module':      _ecm_index_entry('module'),
++    'find-module': _ecm_index_entry('find-module'),
++    'kde-module':  _ecm_index_entry('kde-module'),
++    'toolchain':   _ecm_index_entry('toolchain'),
++    }
++
++def _ecm_object_inventory(env, document, line, objtype, targetid):
++    inv = env.domaindata['ecm']['objects']
++    if targetid in inv:
++        document.reporter.warning(
++            'ECM object "%s" also described in "%s".' %
++            (targetid, env.doc2path(inv[targetid][0])), line=line)
++    inv[targetid] = (env.docname, objtype)
++
++class ECMTransform(Transform):
++
++    # Run this transform early since we insert nodes we want
++    # treated as if they were written in the documents.
++    default_priority = 210
++
++    def __init__(self, document, startnode):
++        Transform.__init__(self, document, startnode)
++        self.titles = {}
++
++    def parse_title(self, docname):
++        """Parse a document title as the first line starting in [A-Za-z0-9<]
++           or fall back to the document basename if no such line exists.
++           Return the title or False if the document file does not exist.
++        """
++        env = self.document.settings.env
++        title = self.titles.get(docname)
++        if title is None:
++            fname = os.path.join(env.srcdir, docname+'.rst')
++            try:
++                f = open(fname, 'r')
++            except IOError:
++                title = False
++            else:
++                for line in f:
++                    if len(line) > 0 and (line[0].isalnum() or line[0] == '<'):
++                        title = line.rstrip()
++                        break
++                f.close()
++                if title is None:
++                    title = os.path.basename(docname)
++            self.titles[docname] = title
++        return title
++
++    def apply(self):
++        env = self.document.settings.env
++
++        # Treat some documents as ecm domain objects.
++        objtype, sep, tail = env.docname.rpartition('/')
++        make_index_entry = _ecm_index_objs.get(objtype)
++        if make_index_entry:
++            title = self.parse_title(env.docname)
++            # Insert the object link target.
++            targetid = '%s:%s' % (objtype, title)
++            targetnode = nodes.target('', '', ids=[targetid])
++            self.document.insert(0, targetnode)
++            # Insert the object index entry.
++            indexnode = addnodes.index()
++            indexnode['entries'] = [make_index_entry(title, targetid)]
++            self.document.insert(0, indexnode)
++            # Add to ecm domain object inventory
++            _ecm_object_inventory(env, self.document, 1, objtype, targetid)
++
++class ECMObject(ObjectDescription):
++
++    def handle_signature(self, sig, signode):
++        # called from sphinx.directives.ObjectDescription.run()
++        signode += addnodes.desc_name(sig, sig)
++        return sig
++
++    def add_target_and_index(self, name, sig, signode):
++        targetid = '%s:%s' % (self.objtype, name)
++        if targetid not in self.state.document.ids:
++            signode['names'].append(targetid)
++            signode['ids'].append(targetid)
++            signode['first'] = (not self.names)
++            self.state.document.note_explicit_target(signode)
++            _ecm_object_inventory(self.env, self.state.document,
++                                    self.lineno, self.objtype, targetid)
++
++        make_index_entry = _ecm_index_objs.get(self.objtype)
++        if make_index_entry:
++            self.indexnode['entries'].append(make_index_entry(name, targetid))
++
++class ECMXRefRole(XRefRole):
++
++    # See sphinx.util.nodes.explicit_title_re; \x00 escapes '<'.
++    _re = re.compile(r'^(.+?)(\s*)(?<!\x00)<(.*?)>$', re.DOTALL)
++    _re_sub = re.compile(r'^([^()\s]+)\s*\(([^()]*)\)$', re.DOTALL)
++
++    def __call__(self, typ, rawtext, text, *args, **keys):
++        # CMake cross-reference targets may contain '<' so escape
++        # any explicit `<target>` with '<' not preceded by whitespace.
++        while True:
++            m = ECMXRefRole._re.match(text)
++            if m and len(m.group(2)) == 0:
++                text = '%s\x00<%s>' % (m.group(1), m.group(3))
++            else:
++                break
++        return XRefRole.__call__(self, typ, rawtext, text, *args, **keys)
++
++class ECMDomain(Domain):
++    """ECM domain."""
++    name = 'ecm'
++    label = 'ECM'
++    object_types = {
++        'module':      ObjType('module',      'module'),
++        'kde-module':  ObjType('kde-module',  'kde-module'),
++        'find-module': ObjType('find-module', 'find-module'),
++        'manual':      ObjType('manual',      'manual'),
++        'toolchain':   ObjType('toolchain',   'toolchain'),
++    }
++    directives = {}
++    roles = {
++        'module':      XRefRole(),
++        'kde-module':  XRefRole(),
++        'find-module': XRefRole(),
++        'manual':      XRefRole(),
++        'toolchain':   XRefRole(),
++    }
++    initial_data = {
++        'objects': {},  # fullname -> docname, objtype
++    }
++
++    def clear_doc(self, docname):
++        to_clear = []
++        for fullname, (fn, _) in self.data['objects'].items():
++            if fn == docname:
++                to_clear.append(fullname)
++        for fullname in to_clear:
++            del self.data['objects'][fullname]
++
++    def resolve_xref(self, env, fromdocname, builder,
++                     typ, target, node, contnode):
++        targetid = '%s:%s' % (typ, target)
++        obj = self.data['objects'].get(targetid)
++        if obj is None:
++            # TODO: warn somehow?
++            return None
++        return make_refnode(builder, fromdocname, obj[0], targetid,
++                            contnode, target)
++
++    def get_objects(self):
++        for refname, (docname, type) in self.data['objects'].items():
++            yield (refname, refname, type, docname, refname, 1)
++
++def setup(app):
++    app.add_directive('ecm-module', ECMModule)
++    app.add_transform(ECMTransform)
++    app.add_domain(ECMDomain)
+diff -Nur extra-cmake-modules-5.16.0/docs/sphinx/static/ecm.css extra-cmake-modules-5.17.0/docs/sphinx/static/ecm.css
+--- extra-cmake-modules-5.16.0/docs/sphinx/static/ecm.css	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/docs/sphinx/static/ecm.css	1970-01-01 08:00:00.000000000 +0800
+@@ -1,8 +0,0 @@
+-/* Import the Sphinx theme style.  */
+-@import url("default.css");
+-
+-/* Wrap sidebar content even within words so that long
+-   document names do not escape sidebar borders.  */
+-div.sphinxsidebarwrapper {
+-  word-wrap: break-word;
+-}
+diff -Nur extra-cmake-modules-5.16.0/ECMConfig.cmake.in extra-cmake-modules-5.17.0/ECMConfig.cmake.in
+--- extra-cmake-modules-5.16.0/ECMConfig.cmake.in	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/ECMConfig.cmake.in	2015-12-06 22:09:22.000000000 +0800
+@@ -1,12 +1,5 @@
+ @PACKAGE_INIT@
+ 
+-# set the version of myself
+-set(ECM_VERSION_MAJOR @ECM_MAJOR_VERSION@)
+-set(ECM_VERSION_MINOR @ECM_MINOR_VERSION@)
+-set(ECM_VERSION_PATCH @ECM_PATCH_VERSION@)
+-set(ECM_MODULES_VERSION ${ECM_VERSION_MAJOR}.${ECM_VERSION_MINOR}.${ECM_VERSION_PATCH})
+-
+-
+ set(ECM_FIND_MODULE_DIR "@PACKAGE_FIND_MODULES_INSTALL_DIR@")
+ 
+ set(ECM_MODULE_DIR "@PACKAGE_MODULES_INSTALL_DIR@")
+diff -Nur extra-cmake-modules-5.16.0/find-modules/FindXCB.cmake extra-cmake-modules-5.17.0/find-modules/FindXCB.cmake
+--- extra-cmake-modules-5.16.0/find-modules/FindXCB.cmake	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/find-modules/FindXCB.cmake	2015-12-06 22:09:22.000000000 +0800
+@@ -18,7 +18,8 @@
+ #   XKB          XPRINT       XTEST        XV           XVMC
+ #
+ # If no components are specified, this module will act as though all components
+-# were passed to OPTIONAL_COMPONENTS.
++# except XINPUT (which is considered unstable) were passed to
++# OPTIONAL_COMPONENTS.
+ #
+ # This module will define the following variables, independently of the
+ # components searched for or found:
+@@ -57,7 +58,7 @@
+ #=============================================================================
+ # Copyright 2011 Fredrik Höglund <fredrik@kde.org>
+ # Copyright 2013 Martin Gräßlin <mgraesslin@kde.org>
+-# Copyright 2014 Alex Merry <alex.merry@kde.org>
++# Copyright 2014-2015 Alex Merry <alex.merry@kde.org>
+ #
+ # Redistribution and use in source and binary forms, with or without
+ # modification, are permitted provided that the following conditions
+@@ -125,7 +126,13 @@
+     XPRINT
+     XTEST
+     XV
+-    XVMC)
++    XVMC
++)
++
++# XINPUT is unstable; do not include it by default
++set(XCB_default_components ${XCB_known_components})
++list(REMOVE_ITEM XCB_default_components "XINPUT")
++
+ # default component info: xcb components have fairly predictable
+ # header files, library names and pkg-config names
+ foreach(_comp ${XCB_known_components})
+@@ -165,7 +172,14 @@
+ ecm_find_package_parse_components(XCB
+     RESULT_VAR XCB_components
+     KNOWN_COMPONENTS ${XCB_known_components}
++    DEFAULT_COMPONENTS ${XCB_default_components}
+ )
++
++list(FIND XCB_components "XINPUT" _XCB_XINPUT_index)
++if (NOT _XCB_XINPUT_index EQUAL -1)
++    message(AUTHOR_WARNING "XINPUT from XCB was requested: this is EXPERIMENTAL and is likely to unavailable on many systems!")
++endif()
++
+ ecm_find_package_handle_library_components(XCB
+     COMPONENTS ${XCB_components}
+ )
+diff -Nur extra-cmake-modules-5.16.0/.gitignore extra-cmake-modules-5.17.0/.gitignore
+--- extra-cmake-modules-5.16.0/.gitignore	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/.gitignore	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1 @@
++/build
+diff -Nur extra-cmake-modules-5.16.0/kde-modules/KDECMakeSettings.cmake extra-cmake-modules-5.17.0/kde-modules/KDECMakeSettings.cmake
+--- extra-cmake-modules-5.16.0/kde-modules/KDECMakeSettings.cmake	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/kde-modules/KDECMakeSettings.cmake	2015-12-06 22:09:22.000000000 +0800
+@@ -55,6 +55,15 @@
+ #
+ # Since pre-1.0.0.
+ #
++# ``ENABLE_CLAZY`` option is added (OFF by default) when clang is being used.
++# Turning this option on will force clang to load the clazy plugins for richer
++# warnings on Qt-related code.
++#
++# If clang is not being used, this won't have an effect.
++# See https://quickgit.kde.org/?p=clazy.git&a=blob&f=README&o=plain
++#
++# Since 5.17.0
++#
+ # - Uninstall target functionality since 1.7.0.
+ # - ``APPLE_FORCE_X11`` option since 5.14.0 (detecting X11 was previously the default behavior)
+ # - ``APPLE_SUPPRESS_X11_WARNING`` option since 5.14.0
+@@ -217,4 +226,13 @@
+    endif()
+ 
+ endif()
++
++if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
++    option(ENABLE_CLAZY "Enable Clazy warnings" OFF)
++
++    if(ENABLE_CLAZY)
++        set(CMAKE_CXX_COMPILE_OBJECT "${CMAKE_CXX_COMPILE_OBJECT} -Xclang -load -Xclang ClangLazy.so -Xclang -add-plugin -Xclang clang-lazy")
++    endif()
++endif()
++
+ ###################################################################
+diff -Nur extra-cmake-modules-5.16.0/modules/ECMFindModuleHelpers.cmake extra-cmake-modules-5.17.0/modules/ECMFindModuleHelpers.cmake
+--- extra-cmake-modules-5.16.0/modules/ECMFindModuleHelpers.cmake	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/modules/ECMFindModuleHelpers.cmake	2015-12-06 22:09:22.000000000 +0800
+@@ -122,7 +122,7 @@
+ macro(ecm_find_package_parse_components module_name)
+     set(ecm_fppc_options SKIP_DEPENDENCY_HANDLING)
+     set(ecm_fppc_oneValueArgs RESULT_VAR)
+-    set(ecm_fppc_multiValueArgs KNOWN_COMPONENTS)
++    set(ecm_fppc_multiValueArgs KNOWN_COMPONENTS DEFAULT_COMPONENTS)
+     cmake_parse_arguments(ECM_FPPC "${ecm_fppc_options}" "${ecm_fppc_oneValueArgs}" "${ecm_fppc_multiValueArgs}" ${ARGN})
+ 
+     if(ECM_FPPC_UNPARSED_ARGUMENTS)
+@@ -134,6 +134,9 @@
+     if(NOT ECM_FPPC_KNOWN_COMPONENTS)
+         message(FATAL_ERROR "Missing KNOWN_COMPONENTS argument to ecm_find_package_parse_components")
+     endif()
++    if(NOT ECM_FPPC_DEFAULT_COMPONENTS)
++        set(ECM_FPPC_DEFAULT_COMPONENTS ${ECM_FPPC_KNOWN_COMPONENTS})
++    endif()
+ 
+     if(${module_name}_FIND_COMPONENTS)
+         set(ecm_fppc_requestedComps ${${module_name}_FIND_COMPONENTS})
+@@ -178,7 +181,7 @@
+             return()
+         endif()
+     else()
+-        set(${ECM_FPPC_RESULT_VAR} ${ECM_FPPC_KNOWN_COMPONENTS})
++        set(${ECM_FPPC_RESULT_VAR} ${ECM_FPPC_DEFAULT_COMPONENTS})
+     endif()
+ endmacro()
+ 
+diff -Nur extra-cmake-modules-5.16.0/modules/ECMInstallIcons.cmake extra-cmake-modules-5.17.0/modules/ECMInstallIcons.cmake
+--- extra-cmake-modules-5.16.0/modules/ECMInstallIcons.cmake	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/modules/ECMInstallIcons.cmake	2015-12-06 22:09:22.000000000 +0800
+@@ -268,8 +268,8 @@
+                 endif()
+                 set(size_dir "scalable")
+             else()
+-                if(NOT ext STREQUAL "png" AND NOT ext STREQUAL "mng")
+-                    message(WARNING "Fixed-size icon ${icon} is not PNG or MNG")
++                if(NOT ext STREQUAL "png" AND NOT ext STREQUAL "mng" AND NOT ext STREQUAL "svg" AND NOT ext STREQUAL "svgz")
++                    message(WARNING "Fixed-size icon ${icon} is not PNG/MNG/SVG/SVGZ")
+                 endif()
+                 set(size_dir "${size}x${size}")
+             endif()
+diff -Nur extra-cmake-modules-5.16.0/modules/ECMPoQmTools.cmake extra-cmake-modules-5.17.0/modules/ECMPoQmTools.cmake
+--- extra-cmake-modules-5.16.0/modules/ECMPoQmTools.cmake	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/modules/ECMPoQmTools.cmake	2015-12-06 22:09:22.000000000 +0800
+@@ -28,8 +28,8 @@
+ #
+ #   ecm_create_qm_loader(<source_files_var> <catalog_name>)
+ #
+-# Generates a C++ file which ensures translations are automatically loaded at
+-# startup. The path of the .cpp file is appended to ``<source_files_var>``.
++# Generates C++ code which ensures translations are automatically loaded at
++# startup. The generated files are appended to ``<source_files_var>``.
+ #
+ # It assumes that the .qm file for the language code ``<lang>`` is installed as
+ # ``<sharedir>/locale/<lang>/LC_MESSAGES/<catalog_name>.qm``, where
+@@ -99,9 +99,16 @@
+ 
+ 
+ function(ecm_create_qm_loader out_var catalog_name)
+-    # catalog_name is used in ECMQmLoader.cpp.in
+-    configure_file(${ECM_MODULE_DIR}/ECMQmLoader.cpp.in ECMQmLoader.cpp @ONLY)
+-    set(${out_var} ${${out_var}} ${CMAKE_CURRENT_BINARY_DIR}/ECMQmLoader.cpp PARENT_SCOPE)
++    set(loader_base ${CMAKE_CURRENT_BINARY_DIR}/ECMQmLoader-${catalog_name})
++
++    set(QM_LOADER_CATALOG_NAME "${catalog_name}")
++
++    configure_file(
++        ${ECM_MODULE_DIR}/ECMQmLoader.cpp.in
++        "${loader_base}.cpp"
++        @ONLY
++    )
++    set(${out_var} "${${out_var}}" "${loader_base}.cpp" PARENT_SCOPE)
+ endfunction()
+ 
+ 
+diff -Nur extra-cmake-modules-5.16.0/modules/ECMQmLoader.cpp.in extra-cmake-modules-5.17.0/modules/ECMQmLoader.cpp.in
+--- extra-cmake-modules-5.16.0/modules/ECMQmLoader.cpp.in	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/modules/ECMQmLoader.cpp.in	2015-12-06 22:09:22.000000000 +0800
+@@ -33,40 +33,81 @@
+ #include <QCoreApplication>
+ #include <QLocale>
+ #include <QStandardPaths>
++#include <QThread>
+ #include <QTranslator>
+ 
+-#include <QDebug>
++namespace {
+ 
+-static bool loadTranslation(const QString &localeDirName)
+-{
+-    QString subPath = QStringLiteral("locale/") + localeDirName + QStringLiteral("/LC_MESSAGES/@catalog_name@.qm");
+-    QString fullPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, subPath);
+-    if (fullPath.isEmpty()) {
+-        return false;
++    bool loadTranslation(const QString &localeDirName)
++    {
++        QString subPath = QStringLiteral("locale/") + localeDirName + QStringLiteral("/LC_MESSAGES/@QM_LOADER_CATALOG_NAME@.qm");
++        QString fullPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, subPath);
++        if (fullPath.isEmpty()) {
++            return false;
++        }
++        QTranslator *translator = new QTranslator(QCoreApplication::instance());
++        if (!translator->load(fullPath)) {
++            delete translator;
++            return false;
++        }
++        QCoreApplication::instance()->installTranslator(translator);
++        return true;
+     }
+-    QTranslator *translator = new QTranslator(QCoreApplication::instance());
+-    if (!translator->load(fullPath)) {
+-        delete translator;
+-        return false;
++
++    void load()
++    {
++        // The way Qt translation system handles plural forms makes it necessary to
++        // have a translation file which contains only plural forms for `en`. That's
++        // why we load the `en` translation unconditionally, then load the
++        // translation for the current locale to overload it.
++        loadTranslation(QStringLiteral("en"));
++
++        QLocale locale = QLocale::system();
++        if (locale.name() != QStringLiteral("en")) {
++            if (!loadTranslation(locale.name())) {
++                loadTranslation(locale.bcp47Name());
++            }
++        }
+     }
+-    QCoreApplication::instance()->installTranslator(translator);
+-    return true;
+-}
+ 
+-static void load()
+-{
+-    // The way Qt translation system handles plural forms makes it necessary to
+-    // have a translation file which contains only plural forms for `en`. That's
+-    // why we load the `en` translation unconditionally, then load the
+-    // translation for the current locale to overload it.
+-    loadTranslation(QStringLiteral("en"));
+-
+-    QLocale locale = QLocale::system();
+-    if (locale.name() != QStringLiteral("en")) {
+-        if (!loadTranslation(locale.name())) {
+-            loadTranslation(locale.bcp47Name());
++    // Helper to call load() on the main thread.
++    //
++    // Calling functions on another thread without using moc is non-trivial in
++    // Qt until 5.4 (when some useful QTimer::singleShot overloads were added).
++    //
++    // Instead, we have to use QEvents. Ideally, we'd use a custom QEvent, but
++    // there's a chance this could cause trouble with applications that claim
++    // QEvent codes themselves, but don't register them with Qt (and we also
++    // want to avoid registering a new QEvent code for every plugin that might
++    // be loaded). We use QTimer because it's unlikely to be filtered by
++    // applications, and is also unlikely to cause Qt to do something it
++    // shouldn't.
++    class Loader : public QObject
++    {
++    protected:
++        void timerEvent(QTimerEvent *) Q_DECL_OVERRIDE
++        {
++            load();
++            this->deleteLater();
++        }
++    };
++
++    void loadOnMainThread()
++    {
++        // If this library is loaded after the QCoreApplication instance is
++        // created (eg: because it is brought in by a plugin), there is no
++        // guarantee this function will be called on the main thread.
++        // QCoreApplication::installTranslator needs to be called on the main
++        // thread, because it uses QCoreApplication::sendEvent.
++        if (QThread::currentThread() == QCoreApplication::instance()->thread()) {
++            load();
++        } else {
++            // QObjects inherit their parent object's thread
++            Loader *loader = new Loader();
++            loader->moveToThread(QCoreApplication::instance()->thread());
++            QCoreApplication::instance()->postEvent(loader, new QTimerEvent(0), Qt::HighEventPriority);
+         }
+     }
+ }
+ 
+-Q_COREAPP_STARTUP_FUNCTION(load)
++Q_COREAPP_STARTUP_FUNCTION(loadOnMainThread)
+diff -Nur extra-cmake-modules-5.16.0/README.rst extra-cmake-modules-5.17.0/README.rst
+--- extra-cmake-modules-5.16.0/README.rst	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/README.rst	2015-12-06 22:09:22.000000000 +0800
+@@ -93,4 +93,4 @@
+ * Home page: https://projects.kde.org/projects/kdesupport/extra-cmake-modules
+ * Mailing list: https://mail.kde.org/mailman/listinfo/kde-buildsystem
+ * IRC channel: #kde-devel on Freenode
+-* Git repository: https://projects.kde.org/projects/kdesupport/extra-cmake-modules/repository
++* Git repository: https://quickgit.kde.org/?p=extra-cmake-modules.git
+diff -Nur extra-cmake-modules-5.16.0/tests/CMakeLists.txt extra-cmake-modules-5.17.0/tests/CMakeLists.txt
+--- extra-cmake-modules-5.16.0/tests/CMakeLists.txt	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/CMakeLists.txt	2015-12-06 22:09:22.000000000 +0800
+@@ -1,9 +1,41 @@
++#=============================================================================
++# Copyright 2011      Alex Neundorf <neundorf@kde.org>
++# Copyright 2014-2015 Alex Merry <alex.merry@kde.org>
++#
++# Distributed under the OSI-approved BSD License (the "License");
++# see accompanying file COPYING-CMAKE-SCRIPTS for details.
++#
++# This software is distributed WITHOUT ANY WARRANTY; without even the
++# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the License for more information.
++#=============================================================================
++
+ # We need to set a language to find CMake packages installed in
+ # architecture-dependent locations (like /usr/lib64).
+ # We only set this for the tests, making sure it does not interfere
+ # with other files (as ECM itself is architecture-independent).
+ project(ECMTests C)
+ 
++find_package(Qt5LinguistTools CONFIG)
++set_package_properties(
++    Qt5LinguistTools
++    PROPERTIES
++        URL "http://www.qt.io/"
++        DESCRIPTION "Qt5 linguist tools."
++        TYPE OPTIONAL
++        PURPOSE "Required to run tests for the ECMPoQmTools module."
++)
++
++find_package(Qt5Core CONFIG)
++set_package_properties(
++    Qt5Core
++    PROPERTIES
++        URL "http://www.qt.io/"
++        DESCRIPTION "Qt5 core library."
++        TYPE OPTIONAL
++        PURPOSE "Required to run tests for the ECMQtDeclareLoggingCategory module, and for some tests of the KDEInstallDirs module."
++)
++
+ add_subdirectory(ECMAddTests)
+ add_subdirectory(ECMGenerateHeadersTest)
+ add_subdirectory(ECMSetupVersionTest)
+@@ -30,8 +62,6 @@
+     add_test_variant("${NAME}" "${NAME}" ${ARGN})
+ endmacro()
+ 
+-find_package(Qt5LinguistTools CONFIG)
+-
+ add_test_macro(ExecuteCoreModules dummy)
+ add_test_macro(ExecuteKDEModules dummy)
+ 
+@@ -73,7 +103,6 @@
+ add_test_variant(KDEInstallDirsTest.relative_or_absolute_usr
+                  KDEInstallDirsTest.relative_or_absolute dummy)
+ 
+-find_package(Qt5Core QUIET)
+ if (TARGET Qt5::qmake)
+     set(KDEInstallDirsTest.relative_or_absolute_qt_EXTRA_OPTIONS
+         --build-options -DKDE_INSTALL_USE_QT_SYS_PATHS=TRUE
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMGenerateHeadersTest/CMakeLists.txt extra-cmake-modules-5.17.0/tests/ECMGenerateHeadersTest/CMakeLists.txt
+--- extra-cmake-modules-5.16.0/tests/ECMGenerateHeadersTest/CMakeLists.txt	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMGenerateHeadersTest/CMakeLists.txt	2015-12-06 22:09:22.000000000 +0800
+@@ -1,4 +1,4 @@
+-set(MODULES_DIR "${extra-cmake-modules_SOURCE_DIR}/modules")
++set(MODULES_DIR "${ECM_SOURCE_DIR}/modules")
+ configure_file(run_test.cmake.config "${CMAKE_CURRENT_BINARY_DIR}/run_test.cmake" @ONLY)
+ 
+ add_test(
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMGeneratePkgConfigFile/CMakeLists.txt extra-cmake-modules-5.17.0/tests/ECMGeneratePkgConfigFile/CMakeLists.txt
+--- extra-cmake-modules-5.16.0/tests/ECMGeneratePkgConfigFile/CMakeLists.txt	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMGeneratePkgConfigFile/CMakeLists.txt	2015-12-06 22:09:22.000000000 +0800
+@@ -1,4 +1,4 @@
+-set(MODULES_DIR "${extra-cmake-modules_SOURCE_DIR}/modules")
++set(MODULES_DIR "${ECM_SOURCE_DIR}/modules")
+ configure_file(run_test.cmake.config "${CMAKE_CURRENT_BINARY_DIR}/run_test.cmake" @ONLY)
+ 
+ add_test(
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/check.cmake.in extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/check.cmake.in
+--- extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/check.cmake.in	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/check.cmake.in	2015-12-06 22:09:22.000000000 +0800
+@@ -23,7 +23,9 @@
+     "share/locale/es/LC_MESSAGES/install-test.qm"
+     "share/locale/fr/LC_MESSAGES/install-test.qm"
+     "share/locale/en/LC_MESSAGES/catalog.qm"
++    "share/locale/en/LC_MESSAGES/catalog2.qm"
+     "share/locale/de/LC_MESSAGES/catalog.qm"
++    "share/locale/de/LC_MESSAGES/catalog2.qm"
+     "custom-dir1/es/LC_MESSAGES/custom-dir1-install-test.qm"
+     "custom-dir1/fr/LC_MESSAGES/custom-dir1-install-test.qm"
+     "custom-dir2/es/LC_MESSAGES/custom-dir2-install-test.qm"
+@@ -54,26 +56,40 @@
+ 
+ # we know we can modify the executable environment on Linux
+ if("@CMAKE_SYSTEM_NAME@" STREQUAL "Linux")
+-    set(exp_output_en "english text:english plural form 5")
+-    set(exp_output_de "german text:german plural form 5")
++    set(exp_output_catalog_en "english text:english plural form 5")
++    set(exp_output_catalog_de "german text:german plural form 5")
+     # no french translation provided -> english fallback
+-    set(exp_output_fr "${exp_output_en}")
+-    foreach(exec TR_TEST TR_TEST_SUBDIR)
++    set(exp_output_catalog_fr "${exp_output_catalog_en}")
++
++    set(exp_output_catalog2_en "2nd english text:2nd english plural form 5")
++    set(exp_output_catalog2_de "2nd german text:2nd german plural form 5")
++    # no french translation provided -> english fallback
++    set(exp_output_catalog2_fr "${exp_output_catalog2_en}")
++
++    function(check_translations name exec catalog_name)
+         foreach(lang en de fr)
+             execute_process(
+                 COMMAND "${CMAKE_COMMAND}" -E env "XDG_DATA_DIRS=${ACTUAL_TREE}/share"
+-                    LANGUAGE=${lang} "${${exec}_EXEC}"
++                    LANGUAGE=${lang} "${exec}"
+                 OUTPUT_VARIABLE output
+             )
+             string(STRIP "${output}" stripped_output)
+-            if(NOT stripped_output STREQUAL exp_output_${lang})
+-                message(WARNING "${exec}[${lang}] output was \"${stripped_output}\", but expected \"${exp_output_${lang}}\"")
++            if(NOT stripped_output STREQUAL exp_output_${catalog_name}_${lang})
++                message(WARNING "${name}[${lang}] output was \"${stripped_output}\", but expected \"${exp_output_${catalog_name}_${lang}}\"")
+                 set(fail ON)
+             else()
+-                message(STATUS "${exec}[${lang}] output was \"${stripped_output}\", as expected")
++                message(STATUS "${name}[${lang}] output was \"${stripped_output}\", as expected")
+             endif()
+         endforeach()
+-    endforeach()
++    endfunction()
++
++    check_translations(TR_TEST "${TR_TEST_EXEC}" catalog)
++    check_translations(TR_TEST_2 "${TR_TEST_2_EXEC}" catalog2)
++
++    check_translations(TR_TEST_SUBDIR "${TR_TEST_SUBDIR_EXEC}" catalog)
++
++    check_translations(TR_THREAD_TEST "${TR_THREAD_TEST_EXEC}" catalog)
++    check_translations(TR_THREAD_TEST_2 "${TR_THREAD_TEST_2_EXEC}" catalog2)
+ endif()
+ 
+ if (fail)
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/check_conf.cmake.in extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/check_conf.cmake.in
+--- extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/check_conf.cmake.in	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/check_conf.cmake.in	2015-12-06 22:09:22.000000000 +0800
+@@ -1,2 +1,5 @@
+ set(TR_TEST_EXEC "$<TARGET_FILE:tr_test>")
++set(TR_TEST_2_EXEC "$<TARGET_FILE:tr_test_2>")
+ set(TR_TEST_SUBDIR_EXEC "$<TARGET_FILE:tr_test_subdir>")
++set(TR_THREAD_TEST_EXEC "$<TARGET_FILE:tr_thread_test>")
++set(TR_THREAD_TEST_2_EXEC "$<TARGET_FILE:tr_thread_test_2>")
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/CMakeLists.txt extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/CMakeLists.txt
+--- extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/CMakeLists.txt	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/CMakeLists.txt	2015-12-06 22:09:22.000000000 +0800
+@@ -12,9 +12,11 @@
+ include(../test_helpers.cmake)
+ 
+ 
+-#
+-# ecm_process_po_files_as_qm
+-#
++##############################
++#                            #
++# ecm_process_po_files_as_qm #
++#                            #
++##############################
+ 
+ 
+ # Should create a process-and-install.qm file and install it
+@@ -30,9 +32,11 @@
+ 
+ 
+ 
+-#
+-# ecm_install_po_files_as_qm
+-#
++##############################
++#                            #
++# ecm_install_po_files_as_qm #
++#                            #
++##############################
+ 
+ # Should create a bunch of .qm files and install them in share/locale.
+ # Should ignore files directly under po/ as well as directories under po/ which
+@@ -56,14 +60,19 @@
+ 
+ 
+ 
+-#
+-# ecm_create_qm_loader
+-#
++########################
++#                      #
++# ecm_create_qm_loader #
++#                      #
++########################
+ 
+ find_package(Qt5Core CONFIG REQUIRED)
+ ecm_install_po_files_as_qm(tr_test-po)
+ 
+ 
++#
++# single-threaded test
++#
+ set(tr_test_SRCS
+     tr_test.cpp
+ )
+@@ -72,10 +81,64 @@
+ target_link_libraries(tr_test PRIVATE Qt5::Core)
+ 
+ 
+-# This is not something we want people to do (putting the ecm_create_qm_loader
+-# call in one CMakeLists.txt file and the target it is used for in another),
+-# but it's unfortunately something projects have done and we need to keep them
+-# building
++#
++# single-threaded test (different catalog name, automoc)
++#
++# This is to check we don't overwrite previously-generated files.
++set(tr_test_2_SRCS
++    tr_test.cpp
++)
++ecm_create_qm_loader(tr_test_2_SRCS catalog2)
++add_executable(tr_test_2 ${tr_test_2_SRCS})
++set_target_properties(tr_test_2 PROPERTIES AUTOMOC ON)
++target_include_directories(tr_test_2 PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
++target_link_libraries(tr_test_2 PRIVATE Qt5::Core)
++
++
++#
++# module for tr_thread_test
++#
++add_library(tr_thread_module MODULE tr_thread_test_module.cpp ${QMLOADER_FILES})
++target_link_libraries(tr_thread_module PRIVATE Qt5::Core)
++
++
++#
++# loading a module on a thread other than the main thread
++# (automoc)
++#
++set(tr_thread_test_SRCS
++    tr_thread_test.cpp
++)
++ecm_create_qm_loader(tr_thread_test_SRCS catalog)
++add_executable(tr_thread_test ${tr_thread_test_SRCS})
++set_target_properties(tr_thread_test PROPERTIES AUTOMOC ON)
++target_include_directories(tr_thread_test PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
++target_compile_definitions(tr_thread_test PRIVATE "MODULE_PATH=\"$<TARGET_FILE:tr_thread_module>\"")
++target_link_libraries(tr_thread_test PRIVATE Qt5::Core)
++
++
++#
++# loading a module on a thread other than the main thread
++# (different catalog, no AUTOMOC)
++#
++qt5_generate_moc(tr_thread_test.cpp "${CMAKE_CURRENT_BINARY_DIR}/tr_thread_test.moc")
++set(tr_thread_test_2_SRCS
++    tr_thread_test.cpp
++    "${CMAKE_CURRENT_BINARY_DIR}/tr_thread_test.moc"
++)
++ecm_create_qm_loader(tr_thread_test_2_SRCS catalog2)
++add_executable(tr_thread_test_2 ${tr_thread_test_2_SRCS})
++target_include_directories(tr_thread_test_2 PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
++target_compile_definitions(tr_thread_test_2 PRIVATE "MODULE_PATH=\"$<TARGET_FILE:tr_thread_module>\"")
++target_link_libraries(tr_thread_test_2 PRIVATE Qt5::Core)
++
++
++#
++# call to ecm_create_qm_loader is in a different CMakeLists.txt to where
++# the target it is added to is defined
++#
++# This is not something we want people to do, but it's unfortunately something
++# projects have done and we need to keep them building.
+ unset(QMLOADER_FILES)
+ ecm_create_qm_loader(QMLOADER_FILES catalog)
+ assert_var_defined(QMLOADER_FILES)
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/tr_test-po/de/catalog2.po extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/tr_test-po/de/catalog2.po
+--- extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/tr_test-po/de/catalog2.po	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/tr_test-po/de/catalog2.po	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1,22 @@
++msgid ""
++msgstr ""
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=(n != 1);\n"
++"X-Language: de\n"
++"X-Qt-Contexts: true\n"
++
++#: main.cpp:12
++msgctxt "testcontext|"
++msgid "test string"
++msgstr "2nd german text"
++
++#: main.cpp:13
++#, qt-format
++#| msgid "test plural"
++msgctxt "testcontext|"
++msgid "test plural %n"
++msgid_plural "test plural %n"
++msgstr[0] "2nd german singular form %n"
++msgstr[1] "2nd german plural form %n"
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/tr_test-po/en/catalog2.po extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/tr_test-po/en/catalog2.po
+--- extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/tr_test-po/en/catalog2.po	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/tr_test-po/en/catalog2.po	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1,22 @@
++msgid ""
++msgstr ""
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=(n != 1);\n"
++"X-Language: en\n"
++"X-Qt-Contexts: true\n"
++
++#: main.cpp:12
++msgctxt "testcontext|"
++msgid "test string"
++msgstr "2nd english text"
++
++#: main.cpp:13
++#, qt-format
++#| msgid "test plural"
++msgctxt "testcontext|"
++msgid "test plural %n"
++msgid_plural "test plural %n"
++msgstr[0] "2nd english singular form %n"
++msgstr[1] "2nd english plural form %n"
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/tr_thread_test.cpp extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/tr_thread_test.cpp
+--- extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/tr_thread_test.cpp	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/tr_thread_test.cpp	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1,96 @@
++/*
++ * Copyright 2015 Alex Merry <alex.merry@kde.org>
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ *
++ * 1. Redistributions of source code must retain the copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ * 3. The name of the author may not be used to endorse or promote products
++ *    derived from this software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#include <QCoreApplication>
++#include <QLibrary>
++#include <QMetaObject>
++#include <QThread>
++
++class Thread : public QThread
++{
++    Q_OBJECT
++
++    QLibrary *m_lib;
++
++public:
++    Thread()
++        : m_lib(0)
++    {}
++    ~Thread()
++    {
++        delete m_lib;
++    }
++
++Q_SIGNALS:
++    void libraryLoaded();
++
++public Q_SLOTS:
++    void printStrings()
++    {
++        Q_ASSERT(QThread::currentThread() == QCoreApplication::instance()->thread());
++
++        QFunctionPointer print_strings = m_lib->resolve("print_strings");
++        if (print_strings) {
++            print_strings();
++        } else {
++            qFatal("Could not resolve print_strings: %s", qPrintable(m_lib->errorString()));
++        }
++
++        QCoreApplication::instance()->quit();
++    }
++protected:
++    void run()
++    {
++        m_lib = new QLibrary(MODULE_PATH);
++
++        if (!m_lib->load()) {
++            qFatal("Could not load module: %s", m_lib->errorString().toUtf8().data());
++        }
++
++        // Queue a call to printStrings() on the main event loop (giving the
++        // translations a chance to be loaded).
++        QMetaObject::invokeMethod(this, "printStrings", Qt::QueuedConnection);
++    }
++};
++
++int main(int argc, char** argv)
++{
++    QCoreApplication app(argc, argv);
++
++    Thread thread;
++
++    // Start the thread *after* QCoreApplication is started (otherwise the
++    // plugin's startup function won't be run on the Thread, and we won't test
++    // what we wanted to test).
++    QMetaObject::invokeMethod(&thread, "start", Qt::QueuedConnection);
++
++    app.exec();
++
++    return 0;
++}
++
++#include "tr_thread_test.moc"
+diff -Nur extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/tr_thread_test_module.cpp extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/tr_thread_test_module.cpp
+--- extra-cmake-modules-5.16.0/tests/ECMPoQmToolsTest/tr_thread_test_module.cpp	1970-01-01 08:00:00.000000000 +0800
++++ extra-cmake-modules-5.17.0/tests/ECMPoQmToolsTest/tr_thread_test_module.cpp	2015-12-06 22:09:22.000000000 +0800
+@@ -0,0 +1,39 @@
++/*
++ * Copyright 2015 Alex Merry <alex.merry@kde.org>
++ *
++ * Redistribution and use in source and binary forms, with or without
++ * modification, are permitted provided that the following conditions
++ * are met:
++ *
++ * 1. Redistributions of source code must retain the copyright
++ *    notice, this list of conditions and the following disclaimer.
++ * 2. Redistributions in binary form must reproduce the copyright
++ *    notice, this list of conditions and the following disclaimer in the
++ *    documentation and/or other materials provided with the distribution.
++ * 3. The name of the author may not be used to endorse or promote products
++ *    derived from this software without specific prior written permission.
++ *
++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++ */
++
++#include <QCoreApplication>
++#include <QTextStream>
++
++#include <stdio.h>
++
++extern "C" Q_DECL_EXPORT void print_strings()
++{
++    QTextStream output(stdout);
++
++    output << QCoreApplication::translate("testcontext", "test string") << ":";
++    output << QCoreApplication::translate("testcontext", "test plural %n", 0, 5) << '\n';
++}
+diff -Nur extra-cmake-modules-5.16.0/toolchain/Android.cmake extra-cmake-modules-5.17.0/toolchain/Android.cmake
+--- extra-cmake-modules-5.16.0/toolchain/Android.cmake	2015-11-09 05:01:33.000000000 +0800
++++ extra-cmake-modules-5.17.0/toolchain/Android.cmake	2015-12-06 22:09:22.000000000 +0800
+@@ -180,6 +180,7 @@
+ 
+     add_custom_target(${CREATEAPK_TARGET_NAME}
+         COMMAND cmake -E echo "Generating $<TARGET_NAME:${QTANDROID_EXPORTED_TARGET}> with $<TARGET_FILE_DIR:Qt5::qmake>/androiddeployqt"
++        COMMAND cmake -E remove_directory "${EXPORT_DIR}"
+         COMMAND cmake -E copy_directory "${ANDROID_APK_DIR}" "${EXPORT_DIR}"
+         COMMAND cmake -E copy "$<TARGET_FILE:${QTANDROID_EXPORTED_TARGET}>" "${EXECUTABLE_DESTINATION_PATH}"
+         COMMAND cmake -DINPUT_FILE="${QTANDROID_EXPORTED_TARGET}-deployment.json.in" -DOUTPUT_FILE="${QTANDROID_EXPORTED_TARGET}-deployment.json" "-DTARGET_DIR=$<TARGET_FILE_DIR:${QTANDROID_EXPORTED_TARGET}>" "-DTARGET_NAME=${QTANDROID_EXPORTED_TARGET}" -P ${_CMAKE_ANDROID_DIR}/specifydependencies.cmake

@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        10
+Release:        11
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -18,8 +18,8 @@ Source0: http://download.kde.org/%{stable}/frameworks/5.16/%{framework}-%{versio
 
 Source1: 97-kde-baloo-filewatch-inotify.conf
 
-#backport from git
-Patch0: baloo-to-git.patch
+#backport from 5.17.0 
+Patch0: baloo-update-to-5.17.0.patch
 
 #simple chinese support for baloo filename index/search.
 Patch10: baloo-rude-chinese-support.patch
@@ -182,8 +182,11 @@ fi
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-11
+- Backport from 5.17.0
+
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-10
-- Re-enable inotify watch setting
+- backport from 5.17
 
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-9
 - Disable max inofity watch settings

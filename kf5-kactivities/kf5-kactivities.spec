@@ -5,7 +5,7 @@
 Name:           kf5-%{framework}
 Summary:        A KDE Frameworks 5 Tier 3 to organize user work into separate activities
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.kde.org
@@ -18,6 +18,7 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+Patch0: kactivities-backport-from-5.17.0.patch
 
 BuildRequires:  boost-devel
 
@@ -64,6 +65,7 @@ Requires:       qt5-qtbase-devel
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -123,6 +125,9 @@ rm -rf %{buildroot}/%{_kf5_datadir}/kf5/kactivitymanagerd
 
 
 %changelog
+* Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
+- Backport from 5.17.0
+
 * Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Drop fileitem link to activities plugin
 
