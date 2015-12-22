@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        10
+Release:        12
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -20,22 +20,21 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 #plasma-5.16.0 changed the theme, it change the look and feel of entire desktop
 #we choose to use themes from 5.15.0
 Source1:        desktoptheme-from-plasma-5.15.0.tar.gz
+
+Patch0: plasma-framework-backport-from-5.17.patch
  
 #By default, unlock widget and add widget can not appear at the same time in the menu.
-Patch0: plasma-framework-plasma-reset-action.patch
+Patch1: plasma-framework-plasma-reset-action.patch
 
 # add lunar tip on calendar
-Patch1: plasma-framework-add-lunar-tip.patch
+Patch2: plasma-framework-add-lunar-tip.patch
 
 # HiddenStatus implementation for plasmoid
-Patch2: 0002-hidden-status.patch
-
-# https://git.reviewboard.kde.org/r/126168/
-Patch10: noicontheme.patch
+Patch3: 0002-hidden-status.patch
 
 # https://git.reviewboard.kde.org/r/126296/
 # [Window Thumbnails] Don't crash if Composite is disabled
-Patch11: windowthumbcomposite.patch
+Patch10: windowthumbcomposite.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -63,7 +62,8 @@ BuildRequires:  kf5-karchive-devel >= %{version}
 BuildRequires:  kf5-kconfigwidgets-devel >= %{version}
 BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kdbusaddons-devel >= %{version}
-BuildRequires:  kf5-kdeclarative-devel >= %{version}
+#an import backport of calenderevent support
+BuildRequires:  kf5-kdeclarative-devel >= %{version}-5
 BuildRequires:  kf5-kglobalaccel-devel >= %{version}
 BuildRequires:  kf5-kguiaddons-devel >= %{version}
 BuildRequires:  kf5-ki18n-devel >= %{version}
@@ -73,7 +73,8 @@ BuildRequires:  kf5-kservice-devel >= %{version}
 BuildRequires:  kf5-kwindowsystem-devel >= %{version}
 BuildRequires:  kf5-kxmlgui-devel >= %{version}
 BuildRequires:  kf5-kdoctools-devel >= %{version}
-BuildRequires:  kf5-kpackage-devel >= %{version}
+#an import backport
+BuildRequires:  kf5-kpackage-devel >= %{version}-3
 BuildRequires:  kf5-kdesu-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
 BuildRequires:  kf5-knotifications-devel >= %{version}
@@ -135,13 +136,11 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_qtplugindir}/*.so
 %{_kf5_qtplugindir}/plasma/
 %{_kf5_qtplugindir}/plasma/scriptengines/
-%{_kf5_datadir}/dbus-1/interfaces/*.xml
 %{_kf5_datadir}/plasma/
 %{_kf5_datadir}/kservices5/*.desktop
 #%{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservicetypes5/*.desktop
 %{_kf5_mandir}/man1/plasmapkg2.1.gz
-%{_kf5_plugindir}/kded/platformstatus.so
 
 %lang(lt) %{_datadir}/locale/lt/LC_SCRIPTS/libplasma5/*.js
 
@@ -153,9 +152,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/plasma_version.h
 %{_kf5_includedir}/plasma/
 %{_kf5_includedir}/Plasma/
+%{_kf5_datadir}/kdevappwizard/templates/*
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-12
+- Rebase lunar calender patch
+
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-11
+- Backport from 5.17
+
 * Fri Dec 18 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-10
 - Merge patch back
 
