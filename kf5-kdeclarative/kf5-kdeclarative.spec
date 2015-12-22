@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 addon for Qt declarative
 
 License:        GPLv2+ and MIT
@@ -16,6 +16,7 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+
 Patch0: kdeclarative-backport-from-5.17.0.patch
 
 BuildRequires:  kf5-rpm-macros
@@ -24,7 +25,9 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
-BuildRequires:  kf5-ki18n-devel >= %{version}
+# an import backport in ki18n 5.16.0-3
+BuildRequires:  kf5-ki18n-devel >= %{version}-3
+
 BuildRequires:  kf5-kiconthemes-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
 BuildRequires:  kf5-kwindowsystem-devel >= %{version}
@@ -96,6 +99,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
+- More backport
+
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Backport from 5.17.0
 

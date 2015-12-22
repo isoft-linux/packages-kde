@@ -1,3 +1,1208 @@
+diff -Nur kdeclarative-5.16.0/po/ast/kdeclarative5.po kdeclarative-5.17.0/po/ast/kdeclarative5.po
+--- kdeclarative-5.16.0/po/ast/kdeclarative5.po	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/po/ast/kdeclarative5.po	2015-12-07 05:21:30.000000000 +0800
+@@ -7,9 +7,9 @@
+ "Project-Id-Version: kdelibs4-1\n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-07-22 08:34+0000\n"
+-"PO-Revision-Date: 2015-07-11 16:22+0100\n"
++"PO-Revision-Date: 2015-11-16 00:29+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+-"Language-Team: Asturian <alminsitradores@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+diff -Nur kdeclarative-5.16.0/po/nb/kdeclarative5.po kdeclarative-5.17.0/po/nb/kdeclarative5.po
+--- kdeclarative-5.16.0/po/nb/kdeclarative5.po	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/po/nb/kdeclarative5.po	2015-12-07 05:21:30.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of kdeclarative5 to Norwegian Bokmål
++#
+ # Knut Yrvin <knut.yrvin@gmail.com>, 2002, 2003, 2004, 2005.
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
+ # Eskild Hustvedt <zerodogg@skolelinux.no>, 2004, 2005.
+diff -Nur kdeclarative-5.16.0/po/se/kdeclarative5.po kdeclarative-5.17.0/po/se/kdeclarative5.po
+--- kdeclarative-5.16.0/po/se/kdeclarative5.po	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/po/se/kdeclarative5.po	2015-12-07 05:21:30.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of kdeclarative5 to Northern Sami
++#
+ # Børre Gaup <boerre@skolelinux.no>, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012.
+ msgid ""
+ msgstr ""
+diff -Nur kdeclarative-5.16.0/src/calendarevents/CalendarEventsConfig.cmake.in kdeclarative-5.17.0/src/calendarevents/CalendarEventsConfig.cmake.in
+--- kdeclarative-5.16.0/src/calendarevents/CalendarEventsConfig.cmake.in	1970-01-01 08:00:00.000000000 +0800
++++ kdeclarative-5.17.0/src/calendarevents/CalendarEventsConfig.cmake.in	2015-12-07 05:21:30.000000000 +0800
+@@ -0,0 +1,5 @@
++@PACKAGE_INIT@
++
++find_dependency(Qt5Core @REQUIRED_QT_VERSION@)
++
++include("${CMAKE_CURRENT_LIST_DIR}/CalendarEventsTargets.cmake")
+diff -Nur kdeclarative-5.16.0/src/calendarevents/calendarevents_export.h kdeclarative-5.17.0/src/calendarevents/calendarevents_export.h
+--- kdeclarative-5.16.0/src/calendarevents/calendarevents_export.h	1970-01-01 08:00:00.000000000 +0800
++++ kdeclarative-5.17.0/src/calendarevents/calendarevents_export.h	2015-12-07 05:21:30.000000000 +0800
+@@ -0,0 +1,37 @@
++/*  This file is part of the KDE project
++ *    Copyright (C) 2007 David Faure <faure@kde.org>
++ *
++ *    This library is free software; you can redistribute it and/or
++ *    modify it under the terms of the GNU Library General Public
++ *    License as published by the Free Software Foundation; either
++ *    version 2 of the License, or (at your option) any later version.
++ *
++ *    This library is distributed in the hope that it will be useful,
++ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ *    Library General Public License for more details.
++ *
++ *    You should have received a copy of the GNU Library General Public License
++ *    along with this library; see the file COPYING.LIB.  If not, write to
++ *    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++ *    Boston, MA 02110-1301, USA.
++ */
++
++#ifndef CALENDAREVENTS_EXPORT_H
++#define CALENDAREVENTS_EXPORT_H
++
++#include <QtCore/QtGlobal>
++
++#ifndef CALENDAREVENTS_EXPORT
++/* We are building this library */
++#  define CALENDAREVENTS_EXPORT __attribute__((visibility("default")))
++# else
++/* We are using this library */
++#  define CALENDAREVENTS_EXPORT __attribute__((visibility("default")))
++#endif
++
++# ifndef CALENDAREVENTS_EXPORT_DEPRECATED
++#  define CALENDAREVENTS_EXPORT_DEPRECATED Q_DECL_DEPRECATED CALENDAREVENTS_EXPORT
++# endif
++
++#endif
+diff -Nur kdeclarative-5.16.0/src/calendarevents/calendareventsplugin.cpp kdeclarative-5.17.0/src/calendarevents/calendareventsplugin.cpp
+--- kdeclarative-5.16.0/src/calendarevents/calendareventsplugin.cpp	1970-01-01 08:00:00.000000000 +0800
++++ kdeclarative-5.17.0/src/calendarevents/calendareventsplugin.cpp	2015-12-07 05:21:30.000000000 +0800
+@@ -0,0 +1,35 @@
++/*
++    Copyright (C) 2015 Martin Klapetek <mklapetek@kde.org>
++
++    This program is free software; you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation; either version 2 of the License, or
++    (at your option) any later version.
++
++    This program is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++
++    You should have received a copy of the GNU General Public License along
++    with this program; if not, write to the Free Software Foundation, Inc.,
++    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++*/
++
++#include "calendareventsplugin.h"
++
++namespace CalendarEvents {
++
++CalendarEventsPlugin::CalendarEventsPlugin(QObject *parent)
++    : QObject(parent)
++{
++
++}
++
++CalendarEventsPlugin::~CalendarEventsPlugin()
++{
++
++}
++
++}
+diff -Nur kdeclarative-5.16.0/src/calendarevents/calendareventsplugin.h kdeclarative-5.17.0/src/calendarevents/calendareventsplugin.h
+--- kdeclarative-5.16.0/src/calendarevents/calendareventsplugin.h	1970-01-01 08:00:00.000000000 +0800
++++ kdeclarative-5.17.0/src/calendarevents/calendareventsplugin.h	2015-12-07 05:21:30.000000000 +0800
+@@ -0,0 +1,233 @@
++/*
++    Copyright (C) 2015 Martin Klapetek <mklapetek@kde.org>
++
++    This program is free software; you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation; either version 2 of the License, or
++    (at your option) any later version.
++
++    This program is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++
++    You should have received a copy of the GNU General Public License along
++    with this program; if not, write to the Free Software Foundation, Inc.,
++    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++*/
++
++#ifndef CALENDAREVENTSPLUGIN_H
++#define CALENDAREVENTSPLUGIN_H
++
++#include <QObject>
++#include <QDateTime>
++#include <QMultiHash>
++#include <QSharedDataPointer>
++
++#include "calendarevents_export.h"
++
++namespace CalendarEvents {
++
++class CALENDAREVENTS_EXPORT EventData
++{
++public:
++    enum EventType {
++        Holiday,    // Any holiday
++        Event,      // General event
++        Todo        // A Todo item
++    };
++
++    EventData();
++    EventData(const EventData &other);
++    ~EventData();
++
++    EventData &operator=(const EventData &other);
++
++    /**
++     * The start date and time of this event
++     */
++    QDateTime startDateTime() const;
++
++    /**
++     * Set the start date-time of this event
++     *
++     * @param startDateTime the date-time of when the event is starting
++     */
++    void setStartDateTime(const QDateTime &startDateTime);
++
++    /**
++     * The end date and time of this event
++     */
++    QDateTime endDateTime() const;
++
++    /**
++     * Set the end date-time of this event
++     *
++     * @param endDateTime the date-time of when the event is ending
++     */
++    void setEndDateTime(const QDateTime &endDateTime);
++
++    /**
++     * If true, this event goes on the whole day (eg. a holiday)
++     */
++    bool isAllDay() const;
++
++    /**
++     * If set to true, it will be displayed in the Calendar agenda
++     * without any time besides it, marked as "going on all day"
++     *
++     * This is useful for single-day events only, for multiple-day
++     * events, leave to false (default)
++     *
++     * @param isAllDay set to true if the event takes all day, false otherwise
++     *                 (defaults to false)
++     */
++    void setIsAllDay(bool isAllDay);
++
++    /**
++     * If true, this event won't mark the day in the calendar grid
++     * The main purpose for this flag is to support
++     * namedays, where in some countries the calendars have
++     * different name in them every day. This is just a minor holiday
++     * and as such should not mark the calendar grid, otherwise
++     * the whole grid would be in a different color.
++     */
++    bool isMinor() const;
++
++    /**
++     * If set to true, it won't be marked in the calendar grid
++     *
++     * @param isMinor true if it's a minor event (like a nameday holiday),
++     *                false otherwise (defaults to false)
++     */
++    void setIsMinor(bool isMinor);
++
++    /**
++     * Event title
++     */
++    QString title() const;
++
++    /**
++     * Sets the title of the event
++     *
++     * @param title The event title
++     */
++    void setTitle(const QString &title);
++
++    /**
++     * Event description, can provide more details about the event
++     */
++    QString description() const;
++
++    /**
++     * Sets the event description, which allows to add more details
++     * about this event
++     *
++     * @param description The description
++     */
++    void setDescription(const QString &description);
++
++    /**
++     * Type of the current event, eg. a holiday, an event or a todo item
++     */
++    EventType type() const;
++
++    /**
++     * Sets the event type, eg. a holiday, an event or a todo item
++     *
++     * @param type The event type,
++     */
++    void setEventType(EventType type);
++
++    /**
++     * The color that should be used to mark this event with
++     * It comes in the HTML hex format, eg. #AARRGGBB or #RRGGBB
++     */
++    QString eventColor() const;
++
++    /**
++     * This is to support various calendar colors the user might
++     * have configured elsewhere
++     *
++     * @param color The color for this event in the HTML hex format
++     *              eg. #AARRGGBB or #RRGGBB (this is passed directly
++     *              to QML)
++     */
++    void setEventColor(const QString &color);
++
++    /**
++     * Unique ID of the event
++     */
++    QString uid() const;
++
++    /**
++     * Sets the uid of the event
++     *
++     * This is a mandatory field only if you want to use
++     * the eventModified/eventRemoved signals, otherwise
++     * setting it is optional
++     *
++     * @param uid A unique id, recommended is to use the plugin name as prefix (to keep it unique)
++     */
++    void setUid(const QString &uid);
++
++private:
++    class Private;
++    QSharedDataPointer<Private> d;
++};
++
++class CALENDAREVENTS_EXPORT CalendarEventsPlugin : public QObject
++{
++    Q_OBJECT
++
++public:
++    explicit CalendarEventsPlugin(QObject *parent = Q_NULLPTR);
++    virtual ~CalendarEventsPlugin();
++
++    /**
++     * When this is called, the plugin should load all events data
++     * between those two date ranges. Once the data are ready, it should
++     * just emit the dataReady() signal. The range is usually one month
++     *
++     * @param startDate the start of the range
++     * @param endDate the end of the range
++     */
++    virtual void loadEventsForDateRange(const QDate &startDate, const QDate &endDate) = 0;
++
++Q_SIGNALS:
++    /**
++     * Emitted when the plugin has loaded the events data
++     *
++     * @param data A hash containing a QDate key for the event
++     *             in the value, CalendarEvents::EventData, which holds all
++     *             the details for the given event
++     *             It's a multihash as there can be multiple events
++     *             in the same day
++     *             For multi-day events, insert just one with the key
++     *             being the startdate of the event
++     */
++    void dataReady(const QMultiHash<QDate, CalendarEvents::EventData> &data);
++
++    /**
++     * Should be emitted when there is a modification of an event
++     * that was previously returned via the dataReady() signal
++     *
++     * @param event The modified event data
++     */
++    void eventModified(const CalendarEvents::EventData &modifiedEvent);
++
++    /**
++     * Should be emitted when the plugin removes some event
++     * from its collection
++     *
++     * @param uid The uid of the event that was removed
++     */
++    void eventRemoved(const QString &uid);
++};
++
++}
++
++Q_DECLARE_INTERFACE(CalendarEvents::CalendarEventsPlugin, "org.kde.CalendarEventsPlugin")
++
++#endif
+diff -Nur kdeclarative-5.16.0/src/calendarevents/CMakeLists.txt kdeclarative-5.17.0/src/calendarevents/CMakeLists.txt
+--- kdeclarative-5.16.0/src/calendarevents/CMakeLists.txt	1970-01-01 08:00:00.000000000 +0800
++++ kdeclarative-5.17.0/src/calendarevents/CMakeLists.txt	2015-12-07 05:21:30.000000000 +0800
+@@ -0,0 +1,33 @@
++set(calendar-integration_SRCS
++    calendareventsplugin.cpp
++    eventdata_p.cpp
++)
++
++add_library(KF5CalendarEvents SHARED ${calendar-integration_SRCS})
++generate_export_header(KF5CalendarEvents BASE_NAME CalendarEvents)
++add_library(KF5::CalendarEvents ALIAS KF5CalendarEvents)
++
++target_link_libraries(KF5CalendarEvents PUBLIC Qt5::Core)
++
++target_include_directories(KF5CalendarEvents INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KDeclarative>")
++set_target_properties(KF5CalendarEvents PROPERTIES VERSION ${KDECLARATIVE_VERSION_STRING}
++                                                SOVERSION ${KDECLARATIVE_SOVERSION}
++                                                EXPORT_NAME CalendarEvents
++)
++
++install(TARGETS KF5CalendarEvents EXPORT KF5DeclarativeTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
++
++ecm_generate_headers(CalendarEvents_CamelCase_HEADERS
++  HEADER_NAMES
++  CalendarEventsPlugin
++
++  PREFIX CalendarEvents
++  REQUIRED_HEADERS calendareventsplugin.h
++)
++install(FILES ${CalendarEvents_CamelCase_HEADERS} DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KDeclarative/CalendarEvents COMPONENT Devel)
++
++install (FILES
++        calendareventsplugin.h
++        calendarevents_export.h
++        DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KDeclarative/calendarevents COMPONENT Devel
++)
+diff -Nur kdeclarative-5.16.0/src/calendarevents/eventdata_p.cpp kdeclarative-5.17.0/src/calendarevents/eventdata_p.cpp
+--- kdeclarative-5.16.0/src/calendarevents/eventdata_p.cpp	1970-01-01 08:00:00.000000000 +0800
++++ kdeclarative-5.17.0/src/calendarevents/eventdata_p.cpp	2015-12-07 05:21:30.000000000 +0800
+@@ -0,0 +1,170 @@
++/*
++    Copyright (C) 2015 Martin Klapetek <mklapetek@kde.org>
++
++    This program is free software; you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation; either version 2 of the License, or
++    (at your option) any later version.
++
++    This program is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++
++    You should have received a copy of the GNU General Public License along
++    with this program; if not, write to the Free Software Foundation, Inc.,
++    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++*/
++
++#include "calendareventsplugin.h"
++
++#include <QSharedData>
++
++class CalendarEvents::EventData::Private : public QSharedData {
++public:
++    Private() : isAllDay(false), isMinor(false) {};
++    Private(const Private &other)
++        : QSharedData(other)
++    {
++        startDateTime = other.startDateTime;
++        endDateTime = other.endDateTime;
++        title = other.title;
++        description = other.description;
++        uid = other.uid;
++        eventColor = other.eventColor;
++        type = other.type;
++        isAllDay = other.isAllDay;
++        isMinor = other.isMinor;
++    };
++    ~Private() {};
++    QDateTime startDateTime;    // Start of the event
++    QDateTime endDateTime;      // End of the event
++    QString title;              // Title of the event
++    QString description;        // Additional info of the event
++    QString uid;                // An internal event id, useful mostly just for the eventModified/Removed signals
++    QString eventColor;         // Optional color of the event in the HTML hex format, eg. #AARRGGBB or #RRGGBB
++    EventType type;             // Type of the event
++    bool isAllDay;              // True if the event takes all day, then it won't be displayed with any time
++    bool isMinor;               // A minor holiday that will not create a colored entry in the calendar
++};
++
++//---------------------------------------------------
++
++namespace CalendarEvents {
++
++EventData::EventData()
++    : d(new Private())
++{
++}
++
++EventData::EventData(const EventData &other)
++    : d(other.d)
++{
++}
++
++EventData::~EventData()
++{
++}
++
++EventData& EventData::operator=(const EventData &other)
++{
++    if (this == &other) {
++        return *this;
++    }
++
++    d = other.d;
++    return *this;
++}
++
++QDateTime EventData::startDateTime() const
++{
++    return d->startDateTime;
++}
++
++void EventData::setStartDateTime(const QDateTime &startDateTime)
++{
++    d->startDateTime = startDateTime;
++}
++
++QDateTime EventData::endDateTime() const
++{
++    return d->endDateTime;
++}
++
++void EventData::setEndDateTime(const QDateTime &endDateTime)
++{
++    d->endDateTime = endDateTime;
++}
++
++bool EventData::isAllDay() const
++{
++    return d->isAllDay;
++}
++
++void EventData::setIsAllDay(bool isAllDay)
++{
++    d->isAllDay = isAllDay;
++}
++
++bool EventData::isMinor() const
++{
++    return d->isMinor;
++}
++
++void EventData::setIsMinor(bool isMinor)
++{
++    d->isMinor = isMinor;
++}
++
++QString EventData::title() const
++{
++    return d->title;
++}
++
++void EventData::setTitle(const QString &title)
++{
++    d->title = title;
++}
++
++QString EventData::description() const
++{
++    return d->description;
++}
++
++void EventData::setDescription(const QString &description)
++{
++    d->description = description;
++}
++
++QString EventData::uid() const
++{
++    return d->uid;
++}
++
++void EventData::setUid(const QString &uid)
++{
++    d->uid = uid;
++}
++
++EventData::EventType EventData::type() const
++{
++    return d->type;
++}
++
++void EventData::setEventType(EventData::EventType type)
++{
++    d->type = type;
++}
++
++QString EventData::eventColor() const
++{
++    return d->eventColor;
++}
++
++void EventData::setEventColor(const QString &color)
++{
++    d->eventColor = color;
++}
++
++}
+diff -Nur kdeclarative-5.16.0/src/CMakeLists.txt kdeclarative-5.17.0/src/CMakeLists.txt
+--- kdeclarative-5.16.0/src/CMakeLists.txt	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/src/CMakeLists.txt	2015-12-07 05:21:30.000000000 +0800
+@@ -4,4 +4,5 @@
+ 
+ add_subdirectory(quickaddons)
+ add_subdirectory(qmlcontrols)
+-add_subdirectory(kpackagelauncherqml)
+\ No newline at end of file
++add_subdirectory(kpackagelauncherqml)
++add_subdirectory(calendarevents)
+diff -Nur kdeclarative-5.16.0/src/kdeclarative/CMakeLists.txt kdeclarative-5.17.0/src/kdeclarative/CMakeLists.txt
+--- kdeclarative-5.16.0/src/kdeclarative/CMakeLists.txt	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/src/kdeclarative/CMakeLists.txt	2015-12-07 05:21:30.000000000 +0800
+@@ -4,7 +4,6 @@
+   qmlobject.cpp
+   qmlobjectsharedengine.cpp
+   kdeclarative.cpp
+-  private/rootcontext.cpp
+   private/kiconprovider.cpp
+   private/kioaccessmanagerfactory.cpp
+   private/qmlobject_p.h
+diff -Nur kdeclarative-5.16.0/src/kdeclarative/kdeclarative.cpp kdeclarative-5.17.0/src/kdeclarative/kdeclarative.cpp
+--- kdeclarative-5.16.0/src/kdeclarative/kdeclarative.cpp	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/src/kdeclarative/kdeclarative.cpp	2015-12-07 05:21:30.000000000 +0800
+@@ -19,7 +19,6 @@
+ 
+ #include "kdeclarative.h"
+ #include "private/kdeclarative_p.h"
+-#include "private/rootcontext_p.h"
+ #include "private/kiconprovider_p.h"
+ #include "private/kioaccessmanagerfactory_p.h"
+ #include "qmlobject.h"
+@@ -40,8 +39,7 @@
+ QStringList KDeclarativePrivate::s_runtimePlatform;
+ 
+ KDeclarativePrivate::KDeclarativePrivate()
+-    : initialized(false),
+-      contextObj(0)
++    : contextObj(0)
+ {
+ }
+ 
+@@ -60,7 +58,6 @@
+     if (d->declarativeEngine.data() == engine) {
+         return;
+     }
+-    d->initialized = false;
+     d->declarativeEngine = engine;
+ }
+ 
+@@ -72,9 +69,6 @@
+ #ifndef KDECLARATIVE_NO_DEPRECATED
+ void KDeclarative::initialize()
+ {
+-    //FIXME: remove this or find a similar hack for qml2
+-
+-    d->initialized = true;
+ }
+ #endif
+ 
+@@ -89,7 +83,7 @@
+     /*Create a context object for the root qml context.
+       in this way we can register global functions, in this case the i18n() family*/
+     if (!d->contextObj) {
+-        d->contextObj = new RootContext(d->declarativeEngine.data());
++        d->contextObj = new KLocalizedContext(d->declarativeEngine.data());
+     }
+ 
+     //If the engine is in a qmlObject take the qmlObject rootContext instead of the engine one.
+@@ -100,7 +94,7 @@
+     }
+ 
+     if (!d->translationDomain.isNull()) {
+-        d->contextObj->setProperty("translationDomain", d->translationDomain);
++        d->contextObj->setTranslationDomain(d->translationDomain);
+     }
+ 
+     /* Tell the engine to search for platform-specific imports first
+@@ -122,14 +116,14 @@
+     }
+ 
+     // setup ImageProvider for KDE icons
+-    d->declarativeEngine.data()->addImageProvider(QString(QStringLiteral("icon")), new KIconProvider);
++    d->declarativeEngine.data()->addImageProvider(QStringLiteral("icon"), new KIconProvider);
+ }
+ 
+ void KDeclarative::setTranslationDomain(const QString &translationDomain)
+ {
+     d->translationDomain = translationDomain;
+     if (d->contextObj) {
+-        d->contextObj->setProperty("translationDomain", d->translationDomain);
++        d->contextObj->setTranslationDomain(d->translationDomain);
+     }
+ }
+ 
+diff -Nur kdeclarative-5.16.0/src/kdeclarative/private/kdeclarative_p.h kdeclarative-5.17.0/src/kdeclarative/private/kdeclarative_p.h
+--- kdeclarative-5.16.0/src/kdeclarative/private/kdeclarative_p.h	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/src/kdeclarative/private/kdeclarative_p.h	2015-12-07 05:21:30.000000000 +0800
+@@ -21,10 +21,10 @@
+ #define KDECLARATIVE_P_H
+ 
+ #include "kdeclarative.h"
+-#include "rootcontext_p.h"
+ #include "qmlobject.h"
+ 
+ #include <QtCore/QPointer>
++#include <KLocalizedContext>
+ 
+ namespace KDeclarative {
+ 
+@@ -34,10 +34,9 @@
+     KDeclarativePrivate();
+ 
+     QPointer<QQmlEngine> declarativeEngine;
+-    bool initialized;
+     QString translationDomain;
+     static QStringList s_runtimePlatform;
+-    QPointer<RootContext> contextObj;
++    QPointer<KLocalizedContext> contextObj;
+     QPointer<QmlObject> qmlObj;
+ };
+ 
+diff -Nur kdeclarative-5.16.0/src/kdeclarative/private/rootcontext.cpp kdeclarative-5.17.0/src/kdeclarative/private/rootcontext.cpp
+--- kdeclarative-5.16.0/src/kdeclarative/private/rootcontext.cpp	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/src/kdeclarative/private/rootcontext.cpp	1970-01-01 08:00:00.000000000 +0800
+@@ -1,430 +0,0 @@
+-/*
+- *   Copyright 2013 Marco Martin <mart@kde.org>
+- *
+- *   This program is free software; you can redistribute it and/or modify
+- *   it under the terms of the GNU Library General Public License as
+- *   published by the Free Software Foundation; either version 2, or
+- *   (at your option) any later version.
+- *
+- *   This program is distributed in the hope that it will be useful,
+- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *   GNU General Public License for more details
+- *
+- *   You should have received a copy of the GNU Library General Public
+- *   License along with this program; if not, write to the
+- *   Free Software Foundation, Inc.,
+- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+- */
+-
+-// Undefine this because we don't want our i18n*() method names to be turned into i18nd*()
+-#undef TRANSLATION_DOMAIN
+-
+-#include "rootcontext_p.h"
+-
+-#include <QDebug>
+-
+-#include <klocalizedstring.h>
+-
+-namespace KDeclarative {
+-
+-RootContext::RootContext(QObject *parent)
+-    : QObject(parent)
+-{
+-}
+-
+-RootContext::~RootContext()
+-{
+-}
+-
+-QString RootContext::i18n(const QString &message, const QString &param1, const QString &param2, const QString &param3, const QString &param4, const QString &param5, const QString &param6, const QString &param7, const QString &param8, const QString &param9, const QString &param10) const
+-{
+-    if (message.isNull()) {
+-        qWarning() << "i18n() needs at least one parameter";
+-        return QString();
+-    }
+-
+-    KLocalizedString trMessage;
+-    if (!m_translationDomain.isNull()) {
+-        trMessage = ki18nd(m_translationDomain.toUtf8().constData(), message.toUtf8().constData());
+-    } else {
+-        trMessage = ki18n(message.toUtf8().constData());
+-    }
+-
+-    if (!param1.isNull()) {
+-        trMessage = trMessage.subs(param1);
+-    }
+-    if (!param2.isNull()) {
+-        trMessage = trMessage.subs(param2);
+-    }
+-    if (!param3.isNull()) {
+-        trMessage = trMessage.subs(param3);
+-    }
+-    if (!param4.isNull()) {
+-        trMessage = trMessage.subs(param4);
+-    }
+-    if (!param5.isNull()) {
+-        trMessage = trMessage.subs(param5);
+-    }
+-    if (!param6.isNull()) {
+-        trMessage = trMessage.subs(param6);
+-    }
+-    if (!param7.isNull()) {
+-        trMessage = trMessage.subs(param7);
+-    }
+-    if (!param8.isNull()) {
+-        trMessage = trMessage.subs(param8);
+-    }
+-    if (!param9.isNull()) {
+-        trMessage = trMessage.subs(param9);
+-    }
+-    if (!param10.isNull()) {
+-        trMessage = trMessage.subs(param10);
+-    }
+-
+-    return trMessage.toString();
+-}
+-
+-QString RootContext::i18nc(const QString &context, const QString &message, const QString &param1, const QString &param2, const QString &param3, const QString &param4, const QString &param5, const QString &param6, const QString &param7, const QString &param8, const QString &param9, const QString &param10) const
+-{
+-    if (context.isNull() || message.isNull()) {
+-        qWarning() << "i18nc() needs at least two arguments";
+-        return QString();
+-    }
+-
+-    KLocalizedString trMessage;
+-    if (!m_translationDomain.isNull()) {
+-        trMessage = ki18ndc(m_translationDomain.toUtf8().constData(), context.toUtf8().constData(), message.toUtf8().constData());
+-    } else {
+-        trMessage = ki18nc(context.toUtf8().constData(), message.toUtf8().constData());
+-    }
+-
+-    if (!param1.isNull()) {
+-        trMessage = trMessage.subs(param1);
+-    }
+-    if (!param2.isNull()) {
+-        trMessage = trMessage.subs(param2);
+-    }
+-    if (!param3.isNull()) {
+-        trMessage = trMessage.subs(param3);
+-    }
+-    if (!param4.isNull()) {
+-        trMessage = trMessage.subs(param4);
+-    }
+-    if (!param5.isNull()) {
+-        trMessage = trMessage.subs(param5);
+-    }
+-    if (!param6.isNull()) {
+-        trMessage = trMessage.subs(param6);
+-    }
+-    if (!param7.isNull()) {
+-        trMessage = trMessage.subs(param7);
+-    }
+-    if (!param8.isNull()) {
+-        trMessage = trMessage.subs(param8);
+-    }
+-    if (!param9.isNull()) {
+-        trMessage = trMessage.subs(param9);
+-    }
+-    if (!param10.isNull()) {
+-        trMessage = trMessage.subs(param10);
+-    }
+-
+-    return trMessage.toString();
+-}
+-
+-QString RootContext::i18np(const QString &singular, const QString &plural, const QString &param1, const QString &param2, const QString &param3, const QString &param4, const QString &param5, const QString &param6, const QString &param7, const QString &param8, const QString &param9, const QString &param10) const
+-{
+-    if (singular.isNull() || plural.isNull()) {
+-        qWarning() << "i18np() needs at least two arguments";
+-        return QString();
+-    }
+-
+-    KLocalizedString trMessage;
+-    if (!m_translationDomain.isNull()) {
+-        trMessage = ki18ndp(m_translationDomain.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
+-    } else {
+-        trMessage = ki18np(singular.toUtf8().constData(), plural.toUtf8().constData());
+-    }
+-
+-    if (!param1.isNull()) {
+-        bool ok;
+-        int num = param1.toInt(&ok);
+-        if (ok) {
+-            trMessage = trMessage.subs(num);
+-        } else {
+-            trMessage = trMessage.subs(param1);
+-        }
+-    }
+-    if (!param2.isNull()) {
+-        trMessage = trMessage.subs(param2);
+-    }
+-    if (!param3.isNull()) {
+-        trMessage = trMessage.subs(param3);
+-    }
+-    if (!param4.isNull()) {
+-        trMessage = trMessage.subs(param4);
+-    }
+-    if (!param5.isNull()) {
+-        trMessage = trMessage.subs(param5);
+-    }
+-    if (!param6.isNull()) {
+-        trMessage = trMessage.subs(param6);
+-    }
+-    if (!param7.isNull()) {
+-        trMessage = trMessage.subs(param7);
+-    }
+-    if (!param8.isNull()) {
+-        trMessage = trMessage.subs(param8);
+-    }
+-    if (!param9.isNull()) {
+-        trMessage = trMessage.subs(param9);
+-    }
+-    if (!param10.isNull()) {
+-        trMessage = trMessage.subs(param10);
+-    }
+-
+-    return trMessage.toString();
+-}
+-
+-QString RootContext::i18ncp(const QString &context, const QString &singular, const QString &plural, const QString &param1, const QString &param2, const QString &param3, const QString &param4, const QString &param5, const QString &param6, const QString &param7, const QString &param8, const QString &param9, const QString &param10) const
+-{
+-    if (context.isNull() || singular.isNull() || plural.isNull()) {
+-        qWarning() << "i18ncp() needs at least three arguments";
+-        return QString();
+-    }
+-
+-    KLocalizedString trMessage;
+-    if (!m_translationDomain.isNull()) {
+-        trMessage = ki18ndcp(m_translationDomain.toUtf8().constData(), context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
+-    } else {
+-        trMessage = ki18ncp(context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
+-    }
+-
+-    if (!param1.isNull()) {
+-        bool ok;
+-        int num = param1.toInt(&ok);
+-        if (ok) {
+-            trMessage = trMessage.subs(num);
+-        } else {
+-            trMessage = trMessage.subs(param1);
+-        }
+-    }
+-    if (!param2.isNull()) {
+-        trMessage = trMessage.subs(param2);
+-    }
+-    if (!param3.isNull()) {
+-        trMessage = trMessage.subs(param3);
+-    }
+-    if (!param4.isNull()) {
+-        trMessage = trMessage.subs(param4);
+-    }
+-    if (!param5.isNull()) {
+-        trMessage = trMessage.subs(param5);
+-    }
+-    if (!param6.isNull()) {
+-        trMessage = trMessage.subs(param6);
+-    }
+-    if (!param7.isNull()) {
+-        trMessage = trMessage.subs(param7);
+-    }
+-    if (!param8.isNull()) {
+-        trMessage = trMessage.subs(param8);
+-    }
+-    if (!param9.isNull()) {
+-        trMessage = trMessage.subs(param9);
+-    }
+-    if (!param10.isNull()) {
+-        trMessage = trMessage.subs(param10);
+-    }
+-
+-    return trMessage.toString();
+-}
+-
+-QString RootContext::i18nd(const QString &domain, const QString &message, const QString &param1, const QString &param2, const QString &param3, const QString &param4, const QString &param5, const QString &param6, const QString &param7, const QString &param8, const QString &param9, const QString &param10) const
+-{
+-    if (domain.isNull() || message.isNull()) {
+-        qWarning() << "i18nd() needs at least two parameters";
+-        return QString();
+-    }
+-
+-    KLocalizedString trMessage = ki18nd(domain.toUtf8().constData(), message.toUtf8().constData());
+-
+-    if (!param1.isNull()) {
+-        trMessage = trMessage.subs(param1);
+-    }
+-    if (!param2.isNull()) {
+-        trMessage = trMessage.subs(param2);
+-    }
+-    if (!param3.isNull()) {
+-        trMessage = trMessage.subs(param3);
+-    }
+-    if (!param4.isNull()) {
+-        trMessage = trMessage.subs(param4);
+-    }
+-    if (!param5.isNull()) {
+-        trMessage = trMessage.subs(param5);
+-    }
+-    if (!param6.isNull()) {
+-        trMessage = trMessage.subs(param6);
+-    }
+-    if (!param7.isNull()) {
+-        trMessage = trMessage.subs(param7);
+-    }
+-    if (!param8.isNull()) {
+-        trMessage = trMessage.subs(param8);
+-    }
+-    if (!param9.isNull()) {
+-        trMessage = trMessage.subs(param9);
+-    }
+-    if (!param10.isNull()) {
+-        trMessage = trMessage.subs(param10);
+-    }
+-
+-    return trMessage.toString();
+-}
+-
+-QString RootContext::i18ndc(const QString &domain, const QString &context, const QString &message, const QString &param1, const QString &param2, const QString &param3, const QString &param4, const QString &param5, const QString &param6, const QString &param7, const QString &param8, const QString &param9, const QString &param10) const
+-{
+-    if (domain.isNull() || context.isNull() || message.isNull()) {
+-        qWarning() << "i18ndc() needs at least three arguments";
+-        return QString();
+-    }
+-
+-    KLocalizedString trMessage = ki18ndc(domain.toUtf8().constData(), context.toUtf8().constData(), message.toUtf8().constData());
+-
+-    if (!param1.isNull()) {
+-        trMessage = trMessage.subs(param1);
+-    }
+-    if (!param2.isNull()) {
+-        trMessage = trMessage.subs(param2);
+-    }
+-    if (!param3.isNull()) {
+-        trMessage = trMessage.subs(param3);
+-    }
+-    if (!param4.isNull()) {
+-        trMessage = trMessage.subs(param4);
+-    }
+-    if (!param5.isNull()) {
+-        trMessage = trMessage.subs(param5);
+-    }
+-    if (!param6.isNull()) {
+-        trMessage = trMessage.subs(param6);
+-    }
+-    if (!param7.isNull()) {
+-        trMessage = trMessage.subs(param7);
+-    }
+-    if (!param8.isNull()) {
+-        trMessage = trMessage.subs(param8);
+-    }
+-    if (!param9.isNull()) {
+-        trMessage = trMessage.subs(param9);
+-    }
+-    if (!param10.isNull()) {
+-        trMessage = trMessage.subs(param10);
+-    }
+-
+-    return trMessage.toString();
+-}
+-
+-QString RootContext::i18ndp(const QString &domain, const QString &singular, const QString &plural, const QString &param1, const QString &param2, const QString &param3, const QString &param4, const QString &param5, const QString &param6, const QString &param7, const QString &param8, const QString &param9, const QString &param10) const
+-{
+-    if (domain.isNull() || singular.isNull() || plural.isNull()) {
+-        qWarning() << "i18ndp() needs at least three arguments";
+-        return QString();
+-    }
+-
+-    KLocalizedString trMessage = ki18ndp(domain.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
+-
+-    if (!param1.isNull()) {
+-        bool ok;
+-        int num = param1.toInt(&ok);
+-        if (ok) {
+-            trMessage = trMessage.subs(num);
+-        } else {
+-            trMessage = trMessage.subs(param1);
+-        }
+-    }
+-    if (!param2.isNull()) {
+-        trMessage = trMessage.subs(param2);
+-    }
+-    if (!param3.isNull()) {
+-        trMessage = trMessage.subs(param3);
+-    }
+-    if (!param4.isNull()) {
+-        trMessage = trMessage.subs(param4);
+-    }
+-    if (!param5.isNull()) {
+-        trMessage = trMessage.subs(param5);
+-    }
+-    if (!param6.isNull()) {
+-        trMessage = trMessage.subs(param6);
+-    }
+-    if (!param7.isNull()) {
+-        trMessage = trMessage.subs(param7);
+-    }
+-    if (!param8.isNull()) {
+-        trMessage = trMessage.subs(param8);
+-    }
+-    if (!param9.isNull()) {
+-        trMessage = trMessage.subs(param9);
+-    }
+-    if (!param10.isNull()) {
+-        trMessage = trMessage.subs(param10);
+-    }
+-
+-    return trMessage.toString();
+-}
+-
+-QString RootContext::i18ndcp(const QString &domain, const QString &context, const QString &singular, const QString &plural, const QString &param1, const QString &param2, const QString &param3, const QString &param4, const QString &param5, const QString &param6, const QString &param7, const QString &param8, const QString &param9, const QString &param10) const
+-{
+-    if (domain.isNull() || context.isNull() || singular.isNull() || plural.isNull()) {
+-        qWarning() << "i18ndcp() needs at least four arguments";
+-        return QString();
+-    }
+-
+-    KLocalizedString trMessage = ki18ndcp(domain.toUtf8().constData(), context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
+-
+-    if (!param1.isNull()) {
+-        bool ok;
+-        int num = param1.toInt(&ok);
+-        if (ok) {
+-            trMessage = trMessage.subs(num);
+-        } else {
+-            trMessage = trMessage.subs(param1);
+-        }
+-    }
+-    if (!param2.isNull()) {
+-        trMessage = trMessage.subs(param2);
+-    }
+-    if (!param3.isNull()) {
+-        trMessage = trMessage.subs(param3);
+-    }
+-    if (!param4.isNull()) {
+-        trMessage = trMessage.subs(param4);
+-    }
+-    if (!param5.isNull()) {
+-        trMessage = trMessage.subs(param5);
+-    }
+-    if (!param6.isNull()) {
+-        trMessage = trMessage.subs(param6);
+-    }
+-    if (!param7.isNull()) {
+-        trMessage = trMessage.subs(param7);
+-    }
+-    if (!param8.isNull()) {
+-        trMessage = trMessage.subs(param8);
+-    }
+-    if (!param9.isNull()) {
+-        trMessage = trMessage.subs(param9);
+-    }
+-    if (!param10.isNull()) {
+-        trMessage = trMessage.subs(param10);
+-    }
+-
+-    return trMessage.toString();
+-}
+-
+-}
+-
+-#include <moc_rootcontext_p.cpp>
+diff -Nur kdeclarative-5.16.0/src/kdeclarative/private/rootcontext_p.h kdeclarative-5.17.0/src/kdeclarative/private/rootcontext_p.h
+--- kdeclarative-5.16.0/src/kdeclarative/private/rootcontext_p.h	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/src/kdeclarative/private/rootcontext_p.h	1970-01-01 08:00:00.000000000 +0800
+@@ -1,61 +0,0 @@
+-/*
+- *   Copyright 2011 Marco Martin <mart@kde.org>
+- *
+- *   This program is free software; you can redistribute it and/or modify
+- *   it under the terms of the GNU Library General Public License as
+- *   published by the Free Software Foundation; either version 2, or
+- *   (at your option) any later version.
+- *
+- *   This program is distributed in the hope that it will be useful,
+- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *   GNU General Public License for more details
+- *
+- *   You should have received a copy of the GNU Library General Public
+- *   License along with this program; if not, write to the
+- *   Free Software Foundation, Inc.,
+- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+- */
+-
+-#ifndef ROOTCONTEXT_H
+-#define ROOTCONTEXT_H
+-
+-#include <QObject>
+-
+-namespace KDeclarative {
+-
+-class RootContext : public QObject
+-{
+-    Q_OBJECT
+-    Q_PROPERTY(QString translationDomain MEMBER m_translationDomain NOTIFY translationDomainChanged)
+-
+-public:
+-    RootContext(QObject *parent = 0);
+-    ~RootContext();
+-
+-    Q_INVOKABLE QString i18n(const QString &message, const QString &param1 = QString(), const QString &param2 = QString(), const QString &param3 = QString(), const QString &param4 = QString(), const QString &param5 = QString(), const QString &param6 = QString(), const QString &param7 = QString(), const QString &param8 = QString(), const QString &param9 = QString(), const QString &param10 = QString()) const;
+-
+-    Q_INVOKABLE QString i18nc(const QString &context, const QString &message, const QString &param1 = QString(), const QString &param2 = QString(), const QString &param3 = QString(), const QString &param4 = QString(), const QString &param5 = QString(), const QString &param6 = QString(), const QString &param7 = QString(), const QString &param8 = QString(), const QString &param9 = QString(), const QString &param10 = QString()) const;
+-
+-    Q_INVOKABLE QString i18np(const QString &singular, const QString &plural, const QString &param1 = QString(), const QString &param2 = QString(), const QString &param3 = QString(), const QString &param4 = QString(), const QString &param5 = QString(), const QString &param6 = QString(), const QString &param7 = QString(), const QString &param8 = QString(), const QString &param9 = QString(), const QString &param10 = QString()) const;
+-
+-    Q_INVOKABLE QString i18ncp(const QString &context, const QString &singular, const QString &plural, const QString &param1 = QString(), const QString &param2 = QString(), const QString &param3 = QString(), const QString &param4 = QString(), const QString &param5 = QString(), const QString &param6 = QString(), const QString &param7 = QString(), const QString &param8 = QString(), const QString &param9 = QString(), const QString &param10 = QString()) const;
+-
+-    Q_INVOKABLE QString i18nd(const QString &domain, const QString &message, const QString &param1 = QString(), const QString &param2 = QString(), const QString &param3 = QString(), const QString &param4 = QString(), const QString &param5 = QString(), const QString &param6 = QString(), const QString &param7 = QString(), const QString &param8 = QString(), const QString &param9 = QString(), const QString &param10 = QString()) const;
+-
+-    Q_INVOKABLE QString i18ndc(const QString &domain, const QString &context, const QString &message, const QString &param1 = QString(), const QString &param2 = QString(), const QString &param3 = QString(), const QString &param4 = QString(), const QString &param5 = QString(), const QString &param6 = QString(), const QString &param7 = QString(), const QString &param8 = QString(), const QString &param9 = QString(), const QString &param10 = QString()) const;
+-
+-    Q_INVOKABLE QString i18ndp(const QString &domain, const QString &singular, const QString &plural, const QString &param1 = QString(), const QString &param2 = QString(), const QString &param3 = QString(), const QString &param4 = QString(), const QString &param5 = QString(), const QString &param6 = QString(), const QString &param7 = QString(), const QString &param8 = QString(), const QString &param9 = QString(), const QString &param10 = QString()) const;
+-
+-    Q_INVOKABLE QString i18ndcp(const QString &domain, const QString &context, const QString &singular, const QString &plural, const QString &param1 = QString(), const QString &param2 = QString(), const QString &param3 = QString(), const QString &param4 = QString(), const QString &param5 = QString(), const QString &param6 = QString(), const QString &param7 = QString(), const QString &param8 = QString(), const QString &param9 = QString(), const QString &param10 = QString()) const;
+-
+-Q_SIGNALS:
+-    void translationDomainChanged(const QString&);
+-
+-private:
+-    QString m_translationDomain;
+-};
+-
+-}
+-
+-#endif
+diff -Nur kdeclarative-5.16.0/src/kdeclarative/qmlobjectsharedengine.cpp kdeclarative-5.17.0/src/kdeclarative/qmlobjectsharedengine.cpp
+--- kdeclarative-5.16.0/src/kdeclarative/qmlobjectsharedengine.cpp	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/src/kdeclarative/qmlobjectsharedengine.cpp	2015-12-07 05:21:30.000000000 +0800
+@@ -27,9 +27,6 @@
+ 
+ #include <qdebug.h>
+ #include <kdeclarative.h>
+-#include <KPackage/PackageLoader>
+-
+-
+ 
+ namespace KDeclarative {
+ 
 diff -Nur kdeclarative-5.16.0/src/qmlcontrols/draganddrop/DeclarativeDragArea.cpp kdeclarative-5.17.0/src/qmlcontrols/draganddrop/DeclarativeDragArea.cpp
 --- kdeclarative-5.16.0/src/qmlcontrols/draganddrop/DeclarativeDragArea.cpp	2015-11-08 20:15:14.000000000 +0800
 +++ kdeclarative-5.17.0/src/qmlcontrols/draganddrop/DeclarativeDragArea.cpp	2015-12-07 05:21:30.000000000 +0800
@@ -10,3 +1215,33 @@ diff -Nur kdeclarative-5.16.0/src/qmlcontrols/draganddrop/DeclarativeDragArea.cp
      } else {
          m_delegateImage = image.value<QIcon>().pixmap(QSize(48, 48)).toImage();
      }
+diff -Nur kdeclarative-5.16.0/tests/helloworld/metadata.desktop kdeclarative-5.17.0/tests/helloworld/metadata.desktop
+--- kdeclarative-5.16.0/tests/helloworld/metadata.desktop	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/tests/helloworld/metadata.desktop	2015-12-07 05:21:30.000000000 +0800
+@@ -3,9 +3,11 @@
+ Encoding=UTF-8
+ Keywords=
+ Name=hello world
++Name[ast]=hola mundiu
+ Name[ca]=hola món
+ Name[ca@valencia]=hola món
+ Name[cs]=hello world
++Name[da]=Hej verden
+ Name[de]=Hallo Welt
+ Name[el]=hello world
+ Name[en_GB]=hello world
+diff -Nur kdeclarative-5.16.0/tests/helloworldnowindow/metadata.desktop kdeclarative-5.17.0/tests/helloworldnowindow/metadata.desktop
+--- kdeclarative-5.16.0/tests/helloworldnowindow/metadata.desktop	2015-11-08 20:15:14.000000000 +0800
++++ kdeclarative-5.17.0/tests/helloworldnowindow/metadata.desktop	2015-12-07 05:21:30.000000000 +0800
+@@ -3,9 +3,11 @@
+ Encoding=UTF-8
+ Keywords=
+ Name=hello world
++Name[ast]=hola mundiu
+ Name[ca]=hola món
+ Name[ca@valencia]=hola món
+ Name[cs]=hello world
++Name[da]=Hej verden
+ Name[de]=Hallo Welt
+ Name[el]=hello world
+ Name[en_GB]=hello world
