@@ -6,7 +6,7 @@
 Name:           kf5-%{framework}
 Summary:        A Tier 2 KDE Framework for extracting file metadata
 Version:        5.16.0
-Release:        3
+Release:        4
 
 # # KDE e.V. may determine that future LGPL versions are accepted
 License:        LGPLv2 or LGPLv3
@@ -18,10 +18,9 @@ URL:            https://www.kde.org
 %else
 %global stable stable
 %endif
-Source0:        http://download.kde.org/%{stable}/frameworks/%{framework}-%{version}.tar.xz
+Source0: http://download.kde.org/%{stable}/frameworks/%{framework}-%{version}.tar.xz
 
-# https://git.reviewboard.kde.org/r/126140/
-Patch0: kfilemetadata-taglib.diff
+Patch0: kfilemetadata-backport-from-5.17.patch
 
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
@@ -88,6 +87,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/KFileMetaData
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
+- Backport from 5.17
+
 * Wed Nov 25 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Backport patch from git reviewboard
 

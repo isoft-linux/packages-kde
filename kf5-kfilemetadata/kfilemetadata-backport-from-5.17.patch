@@ -1,0 +1,574 @@
+diff -Nur kfilemetadata-5.16.0/po/ast/kfilemetadata.po kfilemetadata-5.17.0/po/ast/kfilemetadata.po
+--- kfilemetadata-5.16.0/po/ast/kfilemetadata.po	2015-11-08 20:22:32.000000000 +0800
++++ kfilemetadata-5.17.0/po/ast/kfilemetadata.po	2015-12-07 05:25:43.000000000 +0800
+@@ -7,7 +7,7 @@
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-04-18 09:10+0000\n"
+-"PO-Revision-Date: 2015-04-06 16:10+0100\n"
++"PO-Revision-Date: 2015-11-16 19:53+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+ "Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+@@ -18,7 +18,6 @@
+ "X-Generator: Lokalize 2.0\n"
+ 
+ #: src/propertyinfo.cpp:47
+-#, fuzzy
+ msgctxt "@label music album"
+ msgid "Album"
+ msgstr "Álbum"
+diff -Nur kfilemetadata-5.16.0/po/nb/kfilemetadata.po kfilemetadata-5.17.0/po/nb/kfilemetadata.po
+--- kfilemetadata-5.16.0/po/nb/kfilemetadata.po	2015-11-08 20:22:32.000000000 +0800
++++ kfilemetadata-5.17.0/po/nb/kfilemetadata.po	2015-12-07 05:25:43.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of kfilemetadata to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2014.
+ msgid ""
+ msgstr ""
+diff -Nur kfilemetadata-5.16.0/po/nn/kfilemetadata.po kfilemetadata-5.17.0/po/nn/kfilemetadata.po
+--- kfilemetadata-5.16.0/po/nn/kfilemetadata.po	2015-11-08 20:22:32.000000000 +0800
++++ kfilemetadata-5.17.0/po/nn/kfilemetadata.po	2015-12-07 05:25:43.000000000 +0800
+@@ -1,10 +1,12 @@
++# Translation of kfilemetadata to Norwegian Nynorsk
++#
+ # Karl Ove Hufthammer <karl@huftis.org>, 2015.
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: \n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-04-18 09:10+0000\n"
+-"PO-Revision-Date: 2015-09-12 19:08+0100\n"
++"PO-Revision-Date: 2015-11-10 20:24+0100\n"
+ "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+ "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
+ "Language: nn\n"
+@@ -35,314 +37,314 @@
+ #: src/propertyinfo.cpp:65
+ msgctxt "@label"
+ msgid "Aspect Ratio"
+-msgstr ""
++msgstr "Breidd/høgd-forhold"
+ 
+ #: src/propertyinfo.cpp:71
+ msgctxt "@label"
+ msgid "Author"
+-msgstr ""
++msgstr "Forfattar"
+ 
+ #: src/propertyinfo.cpp:77
+ msgctxt "@label"
+ msgid "Bitrate"
+-msgstr ""
++msgstr "Bitrate"
+ 
+ #: src/propertyinfo.cpp:83
+ msgctxt "@label"
+ msgid "Channels"
+-msgstr ""
++msgstr "Kanalar"
+ 
+ #: src/propertyinfo.cpp:89
+ msgctxt "@label"
+ msgid "Comment"
+-msgstr ""
++msgstr "Merknad"
+ 
+ #: src/propertyinfo.cpp:96
+ msgctxt "@label"
+ msgid "Composer"
+-msgstr ""
++msgstr "Komponist"
+ 
+ #: src/propertyinfo.cpp:103
+ msgctxt "@label"
+ msgid "Copyright"
+-msgstr ""
++msgstr "Opphavsrett"
+ 
+ #: src/propertyinfo.cpp:110
+ msgctxt "@label"
+ msgid "Creation Date"
+-msgstr ""
++msgstr "Opprettingsdato"
+ 
+ #: src/propertyinfo.cpp:116
+ msgctxt "@label"
+ msgid "Duration"
+-msgstr ""
++msgstr "Tid"
+ 
+ #: src/propertyinfo.cpp:127
+ msgctxt "@label"
+ msgid "Frame Rate"
+-msgstr ""
++msgstr "Bilete per sekund"
+ 
+ #: src/propertyinfo.cpp:133
+ msgctxt "@label"
+ msgid "Software used to Generate the document"
+-msgstr ""
++msgstr "Programvare brukt til å laga dokumentet"
+ 
+ #: src/propertyinfo.cpp:140
+ msgctxt "@label music genre"
+ msgid "Genre"
+-msgstr ""
++msgstr "Sjanger"
+ 
+ #: src/propertyinfo.cpp:147
+ msgctxt "@label"
+ msgid "Height"
+-msgstr ""
++msgstr "Høgd"
+ 
+ #: src/propertyinfo.cpp:153
+ msgctxt "@label EXIF"
+ msgid "Image Date Time"
+-msgstr ""
++msgstr "Bilete: dato og klokkeslett"
+ 
+ #: src/propertyinfo.cpp:159
+ msgctxt "@label EXIF"
+ msgid "Image Make"
+-msgstr ""
++msgstr "Bilete: utstyrsprodusent"
+ 
+ #: src/propertyinfo.cpp:166
+ msgctxt "@label EXIF"
+ msgid "Image Model"
+-msgstr ""
++msgstr "Bilete: utstyrsmodell"
+ 
+ #: src/propertyinfo.cpp:173
+ msgctxt "@label EXIF"
+ msgid "Image Orientation"
+-msgstr ""
++msgstr "Biletretning"
+ 
+ #: src/propertyinfo.cpp:179
+ msgctxt "@label"
+ msgid "Keywords"
+-msgstr ""
++msgstr "Nøkkelord"
+ 
+ #: src/propertyinfo.cpp:186
+ msgctxt "@label"
+ msgid "Language"
+-msgstr ""
++msgstr "Språk"
+ 
+ #: src/propertyinfo.cpp:193
+ msgctxt "@label number of lines"
+ msgid "Line Count"
+-msgstr ""
++msgstr "Linjetal"
+ 
+ #: src/propertyinfo.cpp:199
+ msgctxt "@label"
+ msgid "Lyricist"
+-msgstr ""
++msgstr "Tekstforfattar"
+ 
+ #: src/propertyinfo.cpp:206
+ msgctxt "@label"
+ msgid "Page Count"
+-msgstr ""
++msgstr "Sidetal"
+ 
+ #: src/propertyinfo.cpp:212
+ msgctxt "@label EXIF"
+ msgid "Photo Aperture Value"
+-msgstr ""
++msgstr "Photo: blenderopning"
+ 
+ #: src/propertyinfo.cpp:218
+ msgctxt "@label EXIF"
+ msgid "Photo Original Date Time"
+-msgstr ""
++msgstr "Foto: opphavleg dato og klokkeslett"
+ 
+ #: src/propertyinfo.cpp:224
+ msgctxt "@label EXIF"
+ msgid "Photo Exposure Bias"
+-msgstr ""
++msgstr "Foto: eksponeringsbias"
+ 
+ #: src/propertyinfo.cpp:230
+ msgctxt "@label EXIF"
+ msgid "Photo Exposure Time"
+-msgstr ""
++msgstr "Foto: lukkertid"
+ 
+ #: src/propertyinfo.cpp:236
+ msgctxt "@label EXIF"
+ msgid "Photo Flash"
+-msgstr ""
++msgstr "Foto: blits"
+ 
+ #: src/propertyinfo.cpp:242
+ msgctxt "@label EXIF"
+ msgid "Photo F Number"
+-msgstr ""
++msgstr "Foto: F-nummer"
+ 
+ #: src/propertyinfo.cpp:248
+ msgctxt "@label EXIF"
+ msgid "Photo Focal Length"
+-msgstr ""
++msgstr "Foto: brennvidd"
+ 
+ #: src/propertyinfo.cpp:254
+ msgctxt "@label EXIF"
+ msgid "Photo Focal Length 35mm"
+-msgstr ""
++msgstr "Foto: brennvidd 35 mm"
+ 
+ #: src/propertyinfo.cpp:260
+ msgctxt "@label EXIF"
+ msgid "Photo GPS Latitude"
+-msgstr ""
++msgstr "Foto: GPS-breiddegrad"
+ 
+ #: src/propertyinfo.cpp:266
+ msgctxt "@label EXIF"
+ msgid "Photo GPS Longitude"
+-msgstr ""
++msgstr "Foto: GPS-lengdegrad"
+ 
+ #: src/propertyinfo.cpp:272
+ msgctxt "@label EXIF"
+ msgid "Photo GPS Altitude"
+-msgstr ""
++msgstr "Foto: GPS-høgd"
+ 
+ #: src/propertyinfo.cpp:278
+ msgctxt "@label EXIF"
+ msgid "Photo ISO Speed Rating"
+-msgstr ""
++msgstr "Foto: ISO-verdi"
+ 
+ #: src/propertyinfo.cpp:284
+ msgctxt "@label EXIF"
+ msgid "Photo Metering Mode"
+-msgstr ""
++msgstr "Foto: lysmåling"
+ 
+ #: src/propertyinfo.cpp:290
+ msgctxt "@label EXIF"
+ msgid "Photo X Dimension"
+-msgstr ""
++msgstr "Foto: vassrett oppløysing"
+ 
+ #: src/propertyinfo.cpp:296
+ msgctxt "@label EXIF"
+ msgid "Photo Y Dimension"
+-msgstr ""
++msgstr "Foto: loddrett oppløysing"
+ 
+ #: src/propertyinfo.cpp:302
+ msgctxt "@label EXIF"
+ msgid "Photo Saturation"
+-msgstr ""
++msgstr "Foto: fargemetting"
+ 
+ #: src/propertyinfo.cpp:308
+ msgctxt "@label EXIF"
+ msgid "Photo Sharpness"
+-msgstr ""
++msgstr "Foto: skarpleik"
+ 
+ #: src/propertyinfo.cpp:314
+ msgctxt "@label EXIF"
+ msgid "Photo White Balance"
+-msgstr ""
++msgstr "Foto: kvitbalanse"
+ 
+ #: src/propertyinfo.cpp:320
+ msgctxt "@label"
+ msgid "Publisher"
+-msgstr ""
++msgstr "Utgjevar"
+ 
+ #: src/propertyinfo.cpp:326
+ msgctxt "@label"
+ msgid "Release Year"
+-msgstr ""
++msgstr "Utgjevingsår"
+ 
+ #: src/propertyinfo.cpp:332
+ msgctxt "@label"
+ msgid "Sample Rate"
+-msgstr ""
++msgstr "Samplingsrate"
+ 
+ #: src/propertyinfo.cpp:338
+ msgctxt "@label"
+ msgid "Subject"
+-msgstr ""
++msgstr "Emne"
+ 
+ #: src/propertyinfo.cpp:345
+ msgctxt "@label"
+ msgid "Title"
+-msgstr ""
++msgstr "Tittel"
+ 
+ #: src/propertyinfo.cpp:351
+ msgctxt "@label music track number"
+ msgid "Track Number"
+-msgstr ""
++msgstr "Spornummer"
+ 
+ #: src/propertyinfo.cpp:357
+ msgctxt "@label"
+ msgid "Width"
+-msgstr ""
++msgstr "Breidd"
+ 
+ #: src/propertyinfo.cpp:363
+ msgctxt "@label number of words"
+ msgid "Word Count"
+-msgstr ""
++msgstr "Ordteljing"
+ 
+ #: src/propertyinfo.cpp:370
+ msgctxt "@label number of translatable strings"
+ msgid "Translatable Units"
+-msgstr ""
++msgstr "Omsetbare einingar"
+ 
+ #: src/propertyinfo.cpp:377
+ msgctxt "@label number of translated strings"
+ msgid "Translations"
+-msgstr ""
++msgstr "Omsetjingar"
+ 
+ #: src/propertyinfo.cpp:385
+ msgctxt "@label number of fuzzy translated strings"
+ msgid "Draft Translations"
+-msgstr ""
++msgstr "Omsetjingsframlegg"
+ 
+ #: src/propertyinfo.cpp:392
+ msgctxt "@label translation author"
+ msgid "Author"
+-msgstr ""
++msgstr "Forfattar"
+ 
+ #: src/propertyinfo.cpp:399
+ msgctxt "@label translations last update"
+ msgid "Last Update"
+-msgstr ""
++msgstr "Sist oppdatert"
+ 
+ #: src/propertyinfo.cpp:406
+ msgctxt "@label date of template creation8"
+ msgid "Template Creation"
+-msgstr ""
++msgstr "Mal oppretta"
+ 
+ #: src/typeinfo.cpp:47
+ msgctxt "@label"
+ msgid "Archive"
+-msgstr ""
++msgstr "Arkiv"
+ 
+ #: src/typeinfo.cpp:52
+ msgctxt "@label"
+ msgid "Audio"
+-msgstr ""
++msgstr "Lyd"
+ 
+ #: src/typeinfo.cpp:57
+ msgctxt "@label"
+ msgid "Document"
+-msgstr ""
++msgstr "Dokument"
+ 
+ #: src/typeinfo.cpp:62
+ msgctxt "@label"
+ msgid "Image"
+-msgstr ""
++msgstr "Bilete"
+ 
+ #: src/typeinfo.cpp:67
+ msgctxt "@label"
+ msgid "Presentation"
+-msgstr ""
++msgstr "Presentasjon"
+ 
+ #: src/typeinfo.cpp:72
+ msgctxt "@label"
+ msgid "Spreadsheet"
+-msgstr ""
++msgstr "Rekneark"
+ 
+ #: src/typeinfo.cpp:77
+ msgctxt "@label"
+ msgid "Text"
+-msgstr ""
++msgstr "Tekst"
+ 
+ #: src/typeinfo.cpp:82
+ msgctxt "@label"
+ msgid "Video"
+-msgstr ""
++msgstr "Video"
+ 
+ #: src/typeinfo.cpp:87
+ msgctxt "@label"
+ msgid "Folder"
+-msgstr ""
++msgstr "Mappe"
+diff -Nur kfilemetadata-5.16.0/src/extractors/taglibextractor.cpp kfilemetadata-5.17.0/src/extractors/taglibextractor.cpp
+--- kfilemetadata-5.16.0/src/extractors/taglibextractor.cpp	2015-11-08 20:22:32.000000000 +0800
++++ kfilemetadata-5.17.0/src/extractors/taglibextractor.cpp	2015-12-07 05:25:43.000000000 +0800
+@@ -39,6 +39,11 @@
+ 
+ using namespace KFileMetaData;
+ 
++static QString t2q(const TagLib::String& t)
++{
++    return QString::fromWCharArray((const wchar_t*)t.toCWString(), t.length());
++}
++
+ TagLibExtractor::TagLibExtractor(QObject* parent)
+     : ExtractorPlugin(parent)
+ {
+@@ -52,6 +57,9 @@
+     types << QStringLiteral("audio/mpeg");
+     types << QStringLiteral("audio/mpeg3"); types << QStringLiteral("audio/x-mpeg");
+ 
++    // M4A
++    types << QStringLiteral("audio/mp4");
++
+     // FLAC
+     types << QStringLiteral("audio/flac");
+ 
+@@ -84,7 +92,7 @@
+     const QString fileUrl = result->inputUrl();
+     const QString mimeType = result->inputMimetype();
+ 
+-    TagLib::FileRef file(fileUrl.toUtf8().data(), true);
++    TagLib::FileRef file(fileUrl.toUtf8().constData(), true);
+     if (file.isNull()) {
+         return;
+     }
+@@ -100,7 +108,7 @@
+ 
+     // Handling multiple tags in mpeg files.
+     if ((mimeType == QLatin1String("audio/mpeg")) || (mimeType == QLatin1String("audio/mpeg3")) || (mimeType == QLatin1String("audio/x-mpeg"))) {
+-        TagLib::MPEG::File mpegFile(fileUrl.toUtf8().data(), true);
++        TagLib::MPEG::File mpegFile(fileUrl.toUtf8().constData(), true);
+         if (mpegFile.ID3v2Tag() && !mpegFile.ID3v2Tag()->isEmpty()) {
+             TagLib::ID3v2::FrameList lstID3v2;
+ 
+@@ -165,7 +173,7 @@
+ 
+         // FLAC files.
+         if (mimeType == QLatin1String("audio/flac")) {
+-            TagLib::FLAC::File flacFile(fileUrl.toUtf8().data(), true);
++            TagLib::FLAC::File flacFile(fileUrl.toUtf8().constData(), true);
+             if (flacFile.xiphComment() && !flacFile.xiphComment()->isEmpty()) {
+                 lstOgg = flacFile.xiphComment()->fieldListMap();
+             }
+@@ -173,7 +181,7 @@
+ 
+         // Vorbis files.
+         if (mimeType == QLatin1String("audio/ogg") || mimeType == QLatin1String("audio/x-vorbis+ogg")) {
+-            TagLib::Ogg::Vorbis::File oggFile(fileUrl.toUtf8().data(), true);
++            TagLib::Ogg::Vorbis::File oggFile(fileUrl.toUtf8().constData(), true);
+             if (oggFile.tag() && !oggFile.tag()->isEmpty()) {
+                 lstOgg = oggFile.tag()->fieldListMap();
+             }
+@@ -181,7 +189,7 @@
+ 
+         // Opus files.
+         if (mimeType == QLatin1String("audio/opus") || mimeType == QLatin1String("audio/x-opus+ogg")) {
+-            TagLib::Ogg::Opus::File opusFile(fileUrl.toUtf8().data(), true);
++            TagLib::Ogg::Opus::File opusFile(fileUrl.toUtf8().constData(), true);
+             if (opusFile.tag() && !opusFile.tag()->isEmpty()) {
+                 lstOgg = opusFile.tag()->fieldListMap();
+             }
+@@ -237,7 +245,7 @@
+ 
+     // Handling multiple tags in Musepack files.
+     if (mimeType == QLatin1String("audio/x-musepack")) {
+-        TagLib::MPC::File mpcFile(fileUrl.toUtf8().data(), true);
++        TagLib::MPC::File mpcFile(fileUrl.toUtf8().constData(), true);
+         if (mpcFile.tag() && !mpcFile.tag()->isEmpty()) {
+             TagLib::APE::ItemListMap lstMusepack = mpcFile.APETag()->itemListMap();
+             TagLib::APE::ItemListMap::ConstIterator itMPC;
+@@ -287,12 +295,12 @@
+     }
+ 
+     if (!tags->isEmpty()) {
+-        QString title = QString::fromUtf8(tags->title().toCString(true));
++        QString title = t2q(tags->title());
+         if (!title.isEmpty()) {
+             result->add(Property::Title, title);
+         }
+ 
+-        QString comment = QString::fromUtf8(tags->comment().toCString(true));
++        QString comment = t2q(tags->comment());
+         if (!comment.isEmpty()) {
+             result->add(Property::Comment, comment);
+         }
+@@ -302,13 +310,13 @@
+         }
+ 
+         for (uint i = 0; i < genres.size(); i++) {
+-            QString genre = QString::fromUtf8(genres[i].toCString(true)).trimmed();
++            QString genre = t2q(genres[i]).trimmed();
+ 
+             // Convert from int
+             bool ok = false;
+             int genreNum = genre.toInt(&ok);
+             if (ok) {
+-                genre = QString::fromUtf8(TagLib::ID3v1::genre(genreNum).toCString(true));
++                genre = t2q(TagLib::ID3v1::genre(genreNum));
+             }
+ 
+             result->add(Property::Genre, genre);
+@@ -316,9 +324,9 @@
+ 
+         QString artistString;
+         if (artists.isEmpty()) {
+-            artistString = QString::fromUtf8(tags->artist().toCString(true));
++            artistString = t2q(tags->artist());
+         } else {
+-            artistString = QString::fromUtf8(artists.toCString(true)).trimmed();
++            artistString = t2q(artists).trimmed();
+         }
+ 
+         QStringList artists = contactsFromString(artistString);
+@@ -326,23 +334,23 @@
+             result->add(Property::Artist, artist);
+         }
+ 
+-        QString composersString = QString::fromUtf8(composers.toCString(true)).trimmed();
++        QString composersString = t2q(composers).trimmed();
+         QStringList composers = contactsFromString(composersString);
+         foreach(const QString& comp, composers) {
+             result->add(Property::Composer, comp);
+         }
+ 
+-        QString lyricistsString = QString::fromUtf8(lyricists.toCString(true)).trimmed();
++        QString lyricistsString = t2q(lyricists).trimmed();
+         QStringList lyricists = contactsFromString(lyricistsString);
+         foreach(const QString& lyr, lyricists) {
+             result->add(Property::Lyricist, lyr);
+         }
+ 
+-        QString album = QString::fromUtf8(tags->album().toCString(true));
++        QString album = t2q(tags->album());
+         if (!album.isEmpty()) {
+             result->add(Property::Album, album);
+ 
+-            QString albumArtistsString = QString::fromUtf8(albumArtists.toCString(true)).trimmed();
++            QString albumArtistsString = t2q(albumArtists).trimmed();
+             QStringList albumArtists = contactsFromString(albumArtistsString);
+             foreach(const QString& res, albumArtists) {
+                 result->add(Property::AlbumArtist, res);
