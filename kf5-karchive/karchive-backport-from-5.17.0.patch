@@ -1,0 +1,593 @@
+diff -Nur karchive-5.16.0/autotests/CMakeLists.txt karchive-5.17.0/autotests/CMakeLists.txt
+--- karchive-5.16.0/autotests/CMakeLists.txt	2015-11-09 15:55:01.000000000 +0800
++++ karchive-5.17.0/autotests/CMakeLists.txt	2015-12-06 21:58:26.000000000 +0800
+@@ -3,6 +3,7 @@
+ include(ECMAddTests)
+ 
+ find_package(Qt5Test ${REQUIRED_QT_VERSION} CONFIG QUIET)
++find_package(Qt5Network)
+ 
+ if(NOT Qt5Test_FOUND)
+     message(STATUS "Qt5Test not found, autotests will not be built.")
+@@ -29,3 +30,29 @@
+ )
+ target_include_directories(klimitediodevicetest
+     PRIVATE $<TARGET_PROPERTY:KF5Archive,INTERFACE_INCLUDE_DIRECTORIES>)
++
++########## kcompressiondevicetest ##############
++if (Qt5Network_FOUND)
++    ecm_add_test(
++        kcompressiondevicetest.cpp
++        LINK_LIBRARIES KF5::Archive Qt5::Test Qt5::Network
++    )
++
++    get_filename_component(topdir ${CMAKE_CURRENT_SOURCE_DIR}/.. ABSOLUTE)
++
++    execute_process(
++        COMMAND ${CMAKE_COMMAND} -E tar czf
++        ${CMAKE_CURRENT_BINARY_DIR}/kcompressiondevice_test.tar.gz examples
++        WORKING_DIRECTORY ${topdir})
++    execute_process(
++        COMMAND ${CMAKE_COMMAND} -E tar cjf
++        ${CMAKE_CURRENT_BINARY_DIR}/kcompressiondevice_test.tar.bz2 examples
++        WORKING_DIRECTORY ${topdir})
++
++    if (LIBLZMA_FOUND)
++        execute_process(
++            COMMAND ${CMAKE_COMMAND} -E tar cJf
++            ${CMAKE_CURRENT_BINARY_DIR}/kcompressiondevice_test.tar.xz examples
++            WORKING_DIRECTORY ${topdir})
++    endif()
++endif()
+diff -Nur karchive-5.16.0/autotests/kcompressiondevicetest.cpp karchive-5.17.0/autotests/kcompressiondevicetest.cpp
+--- karchive-5.16.0/autotests/kcompressiondevicetest.cpp	1970-01-01 08:00:00.000000000 +0800
++++ karchive-5.17.0/autotests/kcompressiondevicetest.cpp	2015-12-06 21:58:26.000000000 +0800
+@@ -0,0 +1,147 @@
++/* This file is part of the KDE project
++   Copyright (C) 2015 Luiz Romário Santana Rios <luizromario@gmail.com>
++
++   This library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Library General Public
++   License as published by the Free Software Foundation; either
++   version 2 of the License, or (at your option) any later version.
++
++   This library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Library General Public License for more details.
++
++   You should have received a copy of the GNU Library General Public License
++   along with this library; see the file COPYING.LIB.  If not, write to
++   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++   Boston, MA 02110-1301, USA.
++*/
++
++#include "kcompressiondevicetest.h"
++
++#include <config-compression.h>
++
++#include <QBuffer>
++#include <QDir>
++#include <QDirIterator>
++#include <QTemporaryDir>
++#include <QTest>
++#include <QNetworkReply>
++#include <QNetworkRequest>
++
++QTEST_MAIN(KCompressionDeviceTest)
++
++QNetworkReply *KCompressionDeviceTest::getArchive(const QString &extension)
++{
++    const QString kcompressionTest = QString("kcompressiondevice_test.%1").arg(extension);
++    QNetworkReply *r = qnam.get(
++                QNetworkRequest(
++                    QUrl::fromLocalFile(
++                        QFINDTESTDATA(kcompressionTest))));
++
++    QEventLoop l;
++    connect(&qnam, &QNetworkAccessManager::finished, &l, &QEventLoop::quit);
++    l.exec();
++
++    return r;
++}
++
++QString KCompressionDeviceTest::formatExtension(KCompressionDevice::CompressionType type) const
++{
++    switch (type) {
++    case KCompressionDevice::GZip:
++        return "tar.gz";
++    case KCompressionDevice::BZip2:
++        return "tar.bz2";
++    case KCompressionDevice::Xz:
++        return "tar.xz";
++    default:
++        return QString();
++    }
++}
++
++void KCompressionDeviceTest::setDeviceToArchive(
++        QIODevice *d,
++        KCompressionDevice::CompressionType type)
++{
++    KCompressionDevice *devRawPtr = new KCompressionDevice(d, true, type);
++    archive.reset(new KTar(devRawPtr));
++    device.reset(devRawPtr);
++}
++
++void KCompressionDeviceTest::testBufferedDevice(KCompressionDevice::CompressionType type)
++{
++    QNetworkReply *r = getArchive(formatExtension(type));
++    const QByteArray data = r->readAll();
++    QVERIFY(!data.isEmpty());
++    QBuffer *b = new QBuffer;
++    b->setData(data);
++
++    setDeviceToArchive(b, type);
++    testExtraction();
++}
++
++void KCompressionDeviceTest::testExtraction()
++{
++    QTemporaryDir temp;
++    QDir::setCurrent(temp.path());
++
++    QVERIFY(archive->open(QIODevice::ReadOnly));
++    QVERIFY(archive->directory()->copyTo("."));
++    QVERIFY(QDir("examples").exists());
++    QVERIFY(QDir("examples/bzip2gzip").exists());
++    QVERIFY(QDir("examples/helloworld").exists());
++    QVERIFY(QDir("examples/tarlocalfiles").exists());
++    QVERIFY(QDir("examples/unzipper").exists());
++
++    QVector<QString> fileList;
++    fileList
++            << "examples/bzip2gzip/CMakeLists.txt"
++            << "examples/bzip2gzip/main.cpp"
++            << "examples/helloworld/CMakeLists.txt"
++            << "examples/helloworld/helloworld.pro"
++            << "examples/helloworld/main.cpp"
++            << "examples/tarlocalfiles/CMakeLists.txt"
++            << "examples/tarlocalfiles/main.cpp"
++            << "examples/unzipper/CMakeLists.txt"
++            << "examples/unzipper/main.cpp";
++
++    foreach (const QString s, fileList) {
++        QFileInfo extractedFile(s);
++        QFileInfo sourceFile(QFINDTESTDATA("../" + s));
++
++        QVERIFY(extractedFile.exists());
++        QCOMPARE(extractedFile.size(), sourceFile.size());
++    }
++}
++
++void KCompressionDeviceTest::regularKTarUsage()
++{
++    archive.reset(new KTar(QFINDTESTDATA("kcompressiondevice_test.tar.gz")));
++    device.reset();
++
++    testExtraction();
++}
++
++void KCompressionDeviceTest::testGZipBufferedDevice()
++{
++    testBufferedDevice(KCompressionDevice::GZip);
++}
++
++void KCompressionDeviceTest::testBZip2BufferedDevice()
++{
++#if HAVE_BZIP2_SUPPORT
++    testBufferedDevice(KCompressionDevice::BZip2);
++#else
++    QSKIP("This test needs bzip2 support");
++#endif
++}
++
++void KCompressionDeviceTest::testXzBufferedDevice()
++{
++#if HAVE_XZ_SUPPORT
++    testBufferedDevice(KCompressionDevice::Xz);
++#else
++    QSKIP("This test needs xz support");
++#endif
++}
+diff -Nur karchive-5.16.0/autotests/kcompressiondevicetest.h karchive-5.17.0/autotests/kcompressiondevicetest.h
+--- karchive-5.16.0/autotests/kcompressiondevicetest.h	1970-01-01 08:00:00.000000000 +0800
++++ karchive-5.17.0/autotests/kcompressiondevicetest.h	2015-12-06 21:58:26.000000000 +0800
+@@ -0,0 +1,59 @@
++/* This file is part of the KDE project
++   Copyright (C) 2015 Luiz Romário Santana Rios <luizromario@gmail.com>
++
++   This library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Library General Public
++   License as published by the Free Software Foundation; either
++   version 2 of the License, or (at your option) any later version.
++
++   This library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Library General Public License for more details.
++
++   You should have received a copy of the GNU Library General Public License
++   along with this library; see the file COPYING.LIB.  If not, write to
++   the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++   Boston, MA 02110-1301, USA.
++*/
++
++#ifndef KCOMPRESSIONDEVICETEST_H
++#define KCOMPRESSIONDEVICETEST_H
++
++#include <QtCore/QObject>
++
++#include <QNetworkAccessManager>
++#include <QScopedPointer>
++
++#include <KTar>
++#include <KCompressionDevice>
++
++class QNetworkReply;
++
++class KCompressionDeviceTest : public QObject
++{
++    Q_OBJECT
++
++private:
++    QNetworkReply *getArchive(const QString &extension);
++    QString formatExtension(KCompressionDevice::CompressionType type) const;
++
++    void setDeviceToArchive(
++            QIODevice *d,
++            KCompressionDevice::CompressionType type);
++
++    void testBufferedDevice(KCompressionDevice::CompressionType type);
++    void testExtraction();
++
++    QNetworkAccessManager qnam;
++    QScopedPointer<KCompressionDevice> device;
++    QScopedPointer<KTar> archive;
++
++private Q_SLOTS:
++    void regularKTarUsage();
++    void testGZipBufferedDevice();
++    void testBZip2BufferedDevice();
++    void testXzBufferedDevice();
++};
++
++#endif
+diff -Nur karchive-5.16.0/autotests/kfiltertest.cpp karchive-5.17.0/autotests/kfiltertest.cpp
+--- karchive-5.16.0/autotests/kfiltertest.cpp	2015-11-09 15:55:01.000000000 +0800
++++ karchive-5.17.0/autotests/kfiltertest.cpp	2015-12-06 21:58:26.000000000 +0800
+@@ -233,6 +233,15 @@
+     const QByteArray read = flt.readAll();
+     QCOMPARE(read.size(), expectedData.size());
+     QCOMPARE(read, expectedData);
++
++    // Now using QBuffer
++    file.seek(0);
++    QByteArray compressedData = file.readAll();
++    QVERIFY(!compressedData.isEmpty());
++    QBuffer buffer(&compressedData);
++    KCompressionDevice device(&buffer, false, type);
++    QVERIFY(device.open(QIODevice::ReadOnly));
++    QCOMPARE(device.readAll(), expectedData);
+ }
+ 
+ void KFilterTest::test_readall()
+diff -Nur karchive-5.16.0/src/karchive.cpp karchive-5.17.0/src/karchive.cpp
+--- karchive-5.16.0/src/karchive.cpp	2015-11-09 15:55:01.000000000 +0800
++++ karchive-5.17.0/src/karchive.cpp	2015-12-06 21:58:26.000000000 +0800
+@@ -410,7 +410,7 @@
+         QString username = ::getCurrentUserName();
+         QString groupname = ::getCurrentGroupName();
+ 
+-        d->rootDir = new KArchiveDirectory(this, QStringLiteral("/"), (int)(0777 + S_IFDIR), QDateTime(), username, groupname, QString());
++        d->rootDir = new KArchiveDirectory(this, QStringLiteral("/"), int(0777 + S_IFDIR), QDateTime(), username, groupname, QString());
+     }
+     return d->rootDir;
+ }
+@@ -434,7 +434,8 @@
+         if (ent->isDirectory())
+             //qDebug() << "found it";
+         {
+-            return (KArchiveDirectory *) ent;
++            const KArchiveDirectory *dir = static_cast<const KArchiveDirectory *>(ent);
++            return const_cast<KArchiveDirectory *>(dir);
+         } else {
+             //qWarning() << "Found" << path << "but it's not a directory";
+         }
+diff -Nur karchive-5.16.0/src/kcompressiondevice.cpp karchive-5.17.0/src/kcompressiondevice.cpp
+--- karchive-5.16.0/src/kcompressiondevice.cpp	2015-11-09 15:55:01.000000000 +0800
++++ karchive-5.17.0/src/kcompressiondevice.cpp	2015-12-06 21:58:26.000000000 +0800
+@@ -66,21 +66,18 @@
+     switch (type) {
+     case KCompressionDevice::GZip:
+         return new KGzipFilter;
+-        break;
+     case KCompressionDevice::BZip2:
+ #if HAVE_BZIP2_SUPPORT
+         return new KBzip2Filter;
+ #else
+         return 0;
+ #endif
+-        break;
+     case KCompressionDevice::Xz:
+ #if HAVE_XZ_SUPPORT
+         return new KXzFilter;
+ #else
+         return 0;
+ #endif
+-        break;
+     case KCompressionDevice::None:
+         return new KNoneFilter;
+     }
+@@ -182,7 +179,7 @@
+         return true;
+     }
+ 
+-    //qDebug() << "seek(" << pos << ") called";
++    //qDebug() << "seek(" << pos << ") called, current pos=" << ioIndex;
+ 
+     Q_ASSERT(d->filter->mode() == QIODevice::ReadOnly);
+ 
+@@ -196,20 +193,22 @@
+         return d->filter->device()->reset();
+     }
+ 
+-    if (ioIndex > pos) { // we can start from here
+-        pos = pos - ioIndex;
++    qint64 bytesToRead;
++    if (ioIndex < pos) { // we can start from here
++        bytesToRead = pos - ioIndex;
+     } else {
+         // we have to start from 0 ! Ugly and slow, but better than the previous
+         // solution (KTarGz was allocating everything into memory)
+         if (!seek(0)) { // recursive
+             return false;
+         }
++        bytesToRead = pos;
+     }
+ 
+-    //qDebug() << "reading " << pos << " dummy bytes";
+-    QByteArray dummy(qMin(pos, (qint64)3 * BUFFER_SIZE), 0);
++    //qDebug() << "reading " << bytesToRead << " dummy bytes";
++    QByteArray dummy(qMin(bytesToRead, qint64(3 * BUFFER_SIZE)), 0);
+     d->bIgnoreData = true;
+-    bool result = (read(dummy.data(), pos) == pos);
++    const bool result = (read(dummy.data(), bytesToRead) == bytesToRead);
+     d->bIgnoreData = false;
+     QIODevice::seek(pos);
+     return result;
+@@ -242,7 +241,7 @@
+ 
+     qint64 outBufferSize;
+     if (d->bIgnoreData) {
+-        outBufferSize = qMin(maxlen, (qint64)3 * BUFFER_SIZE);
++        outBufferSize = qMin(maxlen, static_cast<qint64>(3 * BUFFER_SIZE));
+     } else {
+         outBufferSize = maxlen;
+     }
+@@ -281,7 +280,7 @@
+         // We got that much data since the last time we went here
+         uint outReceived = availOut - filter->outBufferAvailable();
+         //qDebug() << "avail_out = " << filter->outBufferAvailable() << " result=" << d->result << " outReceived=" << outReceived;
+-        if (availOut < (uint)filter->outBufferAvailable()) {
++        if (availOut < uint(filter->outBufferAvailable())) {
+             //qWarning() << " last availOut " << availOut << " smaller than new avail_out=" << filter->outBufferAvailable() << " !";
+         }
+ 
+@@ -360,7 +359,6 @@
+                     //qWarning() << "KCompressionDevice::write. Could only write " << size << " out of " << towrite << " bytes";
+                     return 0; // indicate an error (happens on disk full)
+                 }
+-                //else
+                 //qDebug() << " wrote " << size << " bytes";
+             }
+             if (d->result == KFilterBase::End) {
+diff -Nur karchive-5.16.0/src/kgzipfilter.cpp karchive-5.17.0/src/kgzipfilter.cpp
+--- karchive-5.16.0/src/kgzipfilter.cpp	2015-11-09 15:55:01.000000000 +0800
++++ karchive-5.17.0/src/kgzipfilter.cpp	2015-12-06 21:58:26.000000000 +0800
+@@ -20,17 +20,13 @@
+ #include "kgzipfilter.h"
+ 
+ #include <time.h>
++
+ #include <zlib.h>
+ #include <QDebug>
+ #include <QtCore/QIODevice>
+ 
+ /* gzip flag byte */
+-#define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
+-#define HEAD_CRC     0x02 /* bit 1 set: header CRC present */
+-#define EXTRA_FIELD  0x04 /* bit 2 set: extra field present */
+ #define ORIG_NAME    0x08 /* bit 3 set: original file name present */
+-#define COMMENT      0x10 /* bit 4 set: file comment present */
+-#define RESERVED     0xE0 /* bits 5..7: reserved */
+ 
+ // #define DEBUG_GZIP
+ 
+@@ -45,9 +41,9 @@
+         , crc(0)
+         , isInitialized(false)
+     {
+-        zStream.zalloc = (alloc_func)0;
+-        zStream.zfree = (free_func)0;
+-        zStream.opaque = (voidpf)0;
++        zStream.zalloc = static_cast<alloc_func>(0);
++        zStream.zfree = static_cast<free_func>(0);
++        zStream.opaque = static_cast<voidpf>(0);
+     }
+ 
+     z_stream zStream;
+@@ -74,13 +70,10 @@
+     switch (filterFlags()) {
+     case NoHeaders:
+         return init(mode, RawDeflate);
+-        break;
+     case WithHeaders:
+         return init(mode, GZipHeader);
+-        break;
+     case ZlibHeaders:
+         return init(mode, ZlibHeader);
+-        break;
+     }
+     return false;
+ }
+@@ -174,7 +167,7 @@
+ #endif
+     // Assume not compressed until we see a gzip header
+     d->compressed = false;
+-    Bytef *p = d->zStream.next_in;
++    const Bytef *p = d->zStream.next_in;
+     int i = d->zStream.avail_in;
+     if ((i -= 10)  < 0) {
+         return false;    // Need at least 10 bytes
+@@ -192,58 +185,6 @@
+         return false;
+     }
+ 
+-#if 0
+-    int method = *p++;
+-    int flags = *p++;
+-    if ((method != Z_DEFLATED) || (flags & RESERVED) != 0) {
+-        return false;
+-    }
+-    p += 6;
+-    if ((flags & EXTRA_FIELD) != 0) { // skip extra field
+-        if ((i -= 2) < 0) {
+-            return false;    // Need at least 2 bytes
+-        }
+-        int len = *p++;
+-        len += (*p++) << 8;
+-        if ((i -= len) < 0) {
+-            return false;    // Need at least len bytes
+-        }
+-        p += len;
+-    }
+-    if ((flags & ORIG_NAME) != 0) { // skip original file name
+-#ifdef DEBUG_GZIP
+-        qDebug() << "ORIG_NAME=" << (char *)p;
+-#endif
+-        while ((i > 0) && (*p)) {
+-            i--;
+-            p++;
+-        }
+-        if (--i <= 0) {
+-            return false;
+-        }
+-        p++;
+-    }
+-    if ((flags & COMMENT) != 0) { // skip comment
+-        while ((i > 0) && (*p)) {
+-            i--;
+-            p++;
+-        }
+-        if (--i <= 0) {
+-            return false;
+-        }
+-        p++;
+-    }
+-    if ((flags & HEAD_CRC) != 0) { // skip the header crc
+-        if ((i -= 2) < 0) {
+-            return false;
+-        }
+-        p += 2;
+-    }
+-
+-    d->zStream.avail_in = i;
+-    d->zStream.next_in = p;
+-#endif
+-
+     d->compressed = true;
+ #ifdef DEBUG_GZIP
+     qDebug() << "header OK";
+@@ -253,13 +194,13 @@
+ 
+ /* Output a 16 bit value, lsb first */
+ #define put_short(w) \
+-    *p++ = (uchar) ((w) & 0xff); \
+-    *p++ = (uchar) ((ushort)(w) >> 8);
++    *p++ = uchar((w) & 0xff); \
++    *p++ = uchar(ushort(w) >> 8);
+ 
+ /* Output a 32 bit value to the bit stream, lsb first */
+ #define put_long(n) \
+     put_short((n) & 0xffff); \
+-    put_short(((ulong)(n)) >> 16);
++    put_short((ulong(n)) >> 16);
+ 
+ bool KGzipFilter::writeHeader(const QByteArray &fileName)
+ {
+@@ -307,7 +248,7 @@
+ void KGzipFilter::setOutBuffer(char *data, uint maxlen)
+ {
+     d->zStream.avail_out = maxlen;
+-    d->zStream.next_out = (Bytef *) data;
++    d->zStream.next_out = reinterpret_cast<Bytef *>(data);
+ }
+ void KGzipFilter::setInBuffer(const char *data, uint size)
+ {
+@@ -315,7 +256,7 @@
+     qDebug() << "avail_in=" << size;
+ #endif
+     d->zStream.avail_in = size;
+-    d->zStream.next_in = (Bytef *) data;
++    d->zStream.next_in = reinterpret_cast<Bytef *>(const_cast<char *>(data));
+ }
+ int KGzipFilter::inBufferAvailable() const
+ {
+@@ -382,7 +323,7 @@
+     Q_ASSERT(d->compressed);
+     Q_ASSERT(d->mode == QIODevice::WriteOnly);
+ 
+-    Bytef *p = d->zStream.next_in;
++    const Bytef *p = d->zStream.next_in;
+     ulong len = d->zStream.avail_in;
+ #ifdef DEBUG_GZIP
+     qDebug() << "  calling deflate with avail_in=" << inBufferAvailable() << " avail_out=" << outBufferAvailable();
+diff -Nur karchive-5.16.0/src/ktar.cpp karchive-5.17.0/src/ktar.cpp
+--- karchive-5.16.0/src/ktar.cpp	2015-11-09 15:55:01.000000000 +0800
++++ karchive-5.17.0/src/ktar.cpp	2015-12-06 21:58:26.000000000 +0800
+@@ -403,7 +403,7 @@
+             while (*p == ' ') {
+                 ++p;
+             }
+-            int access = (int)strtol(p, &dummy, 8);
++            int access = strtol(p, &dummy, 8);
+ 
+             // read user and group
+             QString user = QString::fromLocal8Bit(buffer + 0x109);
+@@ -415,7 +415,7 @@
+             while (*p == ' ') {
+                 ++p;
+             }
+-            uint time = (int)strtol(p, &dummy, 8);
++            uint time = strtol(p, &dummy, 8);
+ 
+             // read type flag
+             char typeflag = buffer[0x9c];
+@@ -756,7 +756,7 @@
+     // zero out the rest (except for what gets filled anyways)
+     memset(buffer + 0x9d, 0, 0x200 - 0x9d);
+ 
+-    QByteArray permstr = QByteArray::number((unsigned int)perm, 8);
++    QByteArray permstr = QByteArray::number(static_cast<unsigned int>(perm), 8);
+     permstr = permstr.rightJustified(6, '0');
+     d->fillBuffer(buffer, permstr.constData(), size, mtime, 0x30, uname.constData(), gname.constData());
+ 
+@@ -812,7 +812,7 @@
+     // zero out the rest (except for what gets filled anyways)
+     memset(buffer + 0x9d, 0, 0x200 - 0x9d);
+ 
+-    QByteArray permstr = QByteArray::number((unsigned int)perm, 8);
++    QByteArray permstr = QByteArray::number(static_cast<unsigned int>(perm), 8);
+     permstr = permstr.rightJustified(6, ' ');
+     d->fillBuffer(buffer, permstr.constData(), 0, mtime, 0x35, uname.constData(), gname.constData());
+ 
+@@ -872,7 +872,7 @@
+     // zero out the rest
+     memset(buffer + 0x9d + 100, 0, 0x200 - 100 - 0x9d);
+ 
+-    QByteArray permstr = QByteArray::number((unsigned int)perm, 8);
++    QByteArray permstr = QByteArray::number(static_cast<unsigned int>(perm), 8);
+     permstr = permstr.rightJustified(6, ' ');
+     d->fillBuffer(buffer, permstr.constData(), 0, mtime, 0x32, uname.constData(), gname.constData());
+ 
