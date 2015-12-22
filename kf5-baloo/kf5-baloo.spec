@@ -18,8 +18,8 @@ Source0: http://download.kde.org/%{stable}/frameworks/5.16/%{framework}-%{versio
 
 Source1: 97-kde-baloo-filewatch-inotify.conf
 
-#backport from git
-Patch0: baloo-to-git.patch
+#backport from 5.17.0 
+Patch0: baloo-update-to-5.17.0.patch
 
 #simple chinese support for baloo filename index/search.
 Patch10: baloo-rude-chinese-support.patch
@@ -183,7 +183,7 @@ fi
 
 %changelog
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-10
-- Re-enable inotify watch setting
+- backport from 5.17
 
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-9
 - Disable max inofity watch settings
