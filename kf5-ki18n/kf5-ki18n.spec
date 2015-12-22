@@ -29,6 +29,7 @@ BuildRequires:  gettext
 BuildRequires:  perl
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtscript-devel
+BuildRequires:  qt5-qtdeclarative-devel
 
 Requires:       kf5-filesystem
 
