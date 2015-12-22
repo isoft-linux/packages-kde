@@ -1,0 +1,615 @@
+diff -Nur kwallet-5.16.0/po/ast/kwalletd5.po kwallet-5.17.0/po/ast/kwalletd5.po
+--- kwallet-5.16.0/po/ast/kwalletd5.po	2015-11-08 20:37:30.000000000 +0800
++++ kwallet-5.17.0/po/ast/kwalletd5.po	2015-12-07 05:40:43.000000000 +0800
+@@ -9,9 +9,9 @@
+ "Project-Id-Version: kdebase-runtime\n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-09-10 09:06+0000\n"
+-"PO-Revision-Date: 2015-07-01 19:55+0100\n"
++"PO-Revision-Date: 2015-11-16 00:29+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+-"Language-Team: Asturian <alminsitradores@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+diff -Nur kwallet-5.16.0/po/ast/kwallet-query.po kwallet-5.17.0/po/ast/kwallet-query.po
+--- kwallet-5.16.0/po/ast/kwallet-query.po	1970-01-01 08:00:00.000000000 +0800
++++ kwallet-5.17.0/po/ast/kwallet-query.po	2015-12-07 05:40:43.000000000 +0800
+@@ -0,0 +1,122 @@
++# Copyright (C) YEAR This_file_is_part_of_KDE
++# This file is distributed under the same license as the PACKAGE package.
++#
++# enolp <enolp@softastur.org>, 2015.
++msgid ""
++msgstr ""
++"Project-Id-Version: \n"
++"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
++"POT-Creation-Date: 2015-06-16 11:56+0000\n"
++"PO-Revision-Date: 2015-11-16 18:41+0100\n"
++"Last-Translator: enolp <enolp@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
++"Language: ast_ES\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=n != 1;\n"
++"X-Generator: Lokalize 2.0\n"
++
++msgctxt "NAME OF TRANSLATORS"
++msgid "Your names"
++msgstr "Softastur"
++
++msgctxt "EMAIL OF TRANSLATORS"
++msgid "Your emails"
++msgstr "alministradores@softastur.org"
++
++#: main.cpp:37
++msgid "kwallet-query"
++msgstr ""
++
++#: main.cpp:38 main.cpp:40
++msgid "KWallet query interface"
++msgstr ""
++
++#: main.cpp:42
++msgid "(c) 2015, The KDE Developers"
++msgstr ""
++
++#: main.cpp:46
++msgid "verbose output"
++msgstr ""
++
++#: main.cpp:47
++msgid "list password entries"
++msgstr ""
++
++#: main.cpp:48
++msgid "reads the secrets from the given <entry>"
++msgstr ""
++
++#: main.cpp:48 main.cpp:49
++msgid "Entry"
++msgstr ""
++
++#: main.cpp:49
++msgid ""
++"write secrets to the given <entry>. The values are read from the standard "
++"input. IMPORTANT: previous wallet entry value will be overwritten!"
++msgstr ""
++
++#: main.cpp:50
++msgid "specify the folder in the wallet <folder>"
++msgstr ""
++
++#: main.cpp:50
++msgid "Folder"
++msgstr ""
++
++#: main.cpp:53
++msgid "wallet"
++msgstr ""
++
++#: main.cpp:53
++msgid "The wallet to query"
++msgstr ""
++
++#: main.cpp:63
++msgid "Missing argument"
++msgstr ""
++
++#: main.cpp:67
++msgid "Too many arguments given"
++msgstr ""
++
++#: main.cpp:74
++msgid "Only one mode (list, read or write) can be set. Aborting"
++msgstr ""
++
++#: main.cpp:80
++msgid "Please specify the mode (list or read)."
++msgstr ""
++
++#: querydriver.cpp:60
++#, kde-format
++msgid "Wallet %1 not found"
++msgstr ""
++
++#: querydriver.cpp:80
++#, kde-format
++msgid "Failed to open wallet %1. Aborting"
++msgstr ""
++
++#: querydriver.cpp:113 querydriver.cpp:127
++#, kde-format
++msgid "The folder %1 does not exist!"
++msgstr ""
++
++#: querydriver.cpp:136
++#, kde-format
++msgid "Failed to read entry %1 value from the %2 wallet."
++msgstr ""
++
++#: querydriver.cpp:146 querydriver.cpp:160
++#, kde-format
++msgid "Failed to read entry %1 value from the %2 wallet"
++msgstr ""
++
++#: querydriver.cpp:184 querydriver.cpp:198
++#, kde-format
++msgid "Failed to write entry %1 value to %2 wallet"
++msgstr ""
+diff -Nur kwallet-5.16.0/po/ca@valencia/kwalletd5.po kwallet-5.17.0/po/ca@valencia/kwalletd5.po
+--- kwallet-5.16.0/po/ca@valencia/kwalletd5.po	2015-11-08 20:37:30.000000000 +0800
++++ kwallet-5.17.0/po/ca@valencia/kwalletd5.po	2015-12-07 05:40:43.000000000 +0800
+@@ -316,8 +316,8 @@
+ "<qt>The application '<b>%1</b>' has requested to open the wallet '<b>%2</"
+ "b>'. Please enter the password for this wallet below.</qt>"
+ msgstr ""
+-"<qt>L'aplicació «<b>%1</b>» ha demanat d'obrir la cartera «<b>%2</b>». Si "
+-"vos plau, introduïu la contrasenya per a la cartera de sota.</qt>"
++"<qt>L'aplicació «<b>%1</b>» ha demanat d'obrir la cartera «<b>%2</b>». Per "
++"favor, introduïu la contrasenya per a la cartera de sota.</qt>"
+ 
+ #. i18n( "&Open" ), "wallet-open"));
+ #: kwalletd.cpp:632 kwalletd.cpp:774 kwalletd.cpp:892 kwalletd.cpp:1021
+@@ -390,9 +390,9 @@
+ "choose a password for this wallet, or cancel to deny the application's "
+ "request.</qt>"
+ msgstr ""
+-"<qt>El KDE ha demanat de crear una cartera nova anomenada «<b>%1</b>». Si "
+-"vos plau, trieu una contrasenya per a esta cartera, o cancel·leu per a "
+-"rebutjar la petició de l'aplicació.</qt>"
++"<qt>El KDE ha demanat de crear una cartera nova anomenada «<b>%1</b>». Per "
++"favor, trieu una contrasenya per a esta cartera, o cancel·leu per a rebutjar "
++"la petició de l'aplicació.</qt>"
+ 
+ #: kwalletd.cpp:767
+ #, kde-format
+diff -Nur kwallet-5.16.0/po/da/kwallet-query.po kwallet-5.17.0/po/da/kwallet-query.po
+--- kwallet-5.16.0/po/da/kwallet-query.po	1970-01-01 08:00:00.000000000 +0800
++++ kwallet-5.17.0/po/da/kwallet-query.po	2015-12-07 05:40:43.000000000 +0800
+@@ -0,0 +1,124 @@
++# Copyright (C) YEAR This_file_is_part_of_KDE
++# This file is distributed under the same license as the PACKAGE package.
++#
++# Martin Schlander <mschlander@opensuse.org>, 2015.
++msgid ""
++msgstr ""
++"Project-Id-Version: \n"
++"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
++"POT-Creation-Date: 2015-06-16 11:56+0000\n"
++"PO-Revision-Date: 2015-11-23 21:16+0100\n"
++"Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
++"Language-Team: Danish <kde-i18n-doc@kde.org>\n"
++"Language: da\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=2; plural=n != 1;\n"
++"X-Generator: Lokalize 2.0\n"
++
++msgctxt "NAME OF TRANSLATORS"
++msgid "Your names"
++msgstr "Martin Schlander"
++
++msgctxt "EMAIL OF TRANSLATORS"
++msgid "Your emails"
++msgstr "mschlander@opensuse.org"
++
++#: main.cpp:37
++msgid "kwallet-query"
++msgstr "kwallet-query"
++
++#: main.cpp:38 main.cpp:40
++msgid "KWallet query interface"
++msgstr "Grænseflade til KWallet-forespørgsel"
++
++#: main.cpp:42
++msgid "(c) 2015, The KDE Developers"
++msgstr "(c) 015, KDE-udviklerne"
++
++#: main.cpp:46
++msgid "verbose output"
++msgstr "udførligt output"
++
++#: main.cpp:47
++msgid "list password entries"
++msgstr "oplist adgangskode-indgange"
++
++#: main.cpp:48
++msgid "reads the secrets from the given <entry>"
++msgstr "læser hemmelighederne fra den givne <indgang>"
++
++#: main.cpp:48 main.cpp:49
++msgid "Entry"
++msgstr "Indgang"
++
++#: main.cpp:49
++msgid ""
++"write secrets to the given <entry>. The values are read from the standard "
++"input. IMPORTANT: previous wallet entry value will be overwritten!"
++msgstr ""
++"skriv hemmeligheder til den givne <indgang>. Værdierne læses fra standard "
++"input. VIGTIGT: tidligere tegnebogsindganges værdier vil blive overskrevet!"
++
++#: main.cpp:50
++msgid "specify the folder in the wallet <folder>"
++msgstr "angiv mappen tegnebogen <mappe>"
++
++#: main.cpp:50
++msgid "Folder"
++msgstr "Mappe"
++
++#: main.cpp:53
++msgid "wallet"
++msgstr "tegnebog"
++
++#: main.cpp:53
++msgid "The wallet to query"
++msgstr "Den tegnebog der skal forespørges"
++
++#: main.cpp:63
++msgid "Missing argument"
++msgstr "Manglende argument"
++
++#: main.cpp:67
++msgid "Too many arguments given"
++msgstr "For mange argumenter angivet"
++
++#: main.cpp:74
++msgid "Only one mode (list, read or write) can be set. Aborting"
++msgstr "Kun en tilstand (list, read eller write) kan sættes. Afbryder"
++
++#: main.cpp:80
++msgid "Please specify the mode (list or read)."
++msgstr "Vælg tilstand (list eller read)."
++
++#: querydriver.cpp:60
++#, kde-format
++msgid "Wallet %1 not found"
++msgstr "Tegnebogen %1 blev ikke fundet"
++
++#: querydriver.cpp:80
++#, kde-format
++msgid "Failed to open wallet %1. Aborting"
++msgstr "Kunne ikke åbne tegnebogen %1. Afbryder"
++
++#: querydriver.cpp:113 querydriver.cpp:127
++#, kde-format
++msgid "The folder %1 does not exist!"
++msgstr "Mappen %1 findes ikke!"
++
++#: querydriver.cpp:136
++#, kde-format
++msgid "Failed to read entry %1 value from the %2 wallet."
++msgstr "Kunne ikke læse værdien for indgangen %1 fra tegnebogen %2."
++
++#: querydriver.cpp:146 querydriver.cpp:160
++#, kde-format
++msgid "Failed to read entry %1 value from the %2 wallet"
++msgstr "Kunne ikke læse værdien for indgangen %1 fra tegnebogen %2"
++
++#: querydriver.cpp:184 querydriver.cpp:198
++#, kde-format
++msgid "Failed to write entry %1 value to %2 wallet"
++msgstr "Kunne ikke skrive værdien for indgangen %1 til tegnebogen %2"
+diff -Nur kwallet-5.16.0/po/nb/kwalletd5.po kwallet-5.17.0/po/nb/kwalletd5.po
+--- kwallet-5.16.0/po/nb/kwalletd5.po	2015-11-08 20:37:30.000000000 +0800
++++ kwallet-5.17.0/po/nb/kwalletd5.po	2015-12-07 05:40:43.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of kwalletd5 to Norwegian Bokmål
++#
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2008, 2009, 2013, 2014, 2015.
+ msgid ""
+ msgstr ""
+diff -Nur kwallet-5.16.0/src/api/KWallet/kwallet.cpp kwallet-5.17.0/src/api/KWallet/kwallet.cpp
+--- kwallet-5.16.0/src/api/KWallet/kwallet.cpp	2015-11-08 20:37:30.000000000 +0800
++++ kwallet-5.17.0/src/api/KWallet/kwallet.cpp	2015-12-07 05:40:43.000000000 +0800
+@@ -61,8 +61,9 @@
+     // KSecretsService infrastructure. It's value can be changed via the
+     // the Wallet configuration module in System Settings
+     bool m_useKSecretsService;
+-    org::kde::KWallet *m_wallet;
++    org::kde::KWallet *m_wallet_deamon;
+     KConfigGroup m_cgroup;
++    bool m_walletEnabled;
+ };
+ 
+ Q_GLOBAL_STATIC(KWalletDLauncher, walletLauncher)
+@@ -294,12 +295,14 @@
+         }
+     } else {
+ #endif
+-        QDBusReply<QStringList> r = walletLauncher()->getInterface().wallets();
++        if (walletLauncher()->m_walletEnabled) {
++            QDBusReply<QStringList> r = walletLauncher()->getInterface().wallets();
+ 
+-        if (!r.isValid()) {
+-            qDebug() << "Invalid DBus reply: " << r.error();
+-        } else {
+-            result = r;
++            if (!r.isValid()) {
++                qDebug() << "Invalid DBus reply: " << r.error();
++            } else {
++                result = r;
++            }
+         }
+ #if HAVE_KSECRETSSERVICE
+     }
+@@ -325,7 +328,9 @@
+         coll->deleteLater();
+     } else {
+ #endif
+-        walletLauncher()->getInterface().changePassword(name, (qlonglong)w, appid());
++        if (walletLauncher()->m_walletEnabled) {
++            walletLauncher()->getInterface().changePassword(name, (qlonglong)w, appid());
++        }
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -338,14 +343,7 @@
+         return walletLauncher()->m_cgroup.readEntry("Enabled", true);
+     } else {
+ #endif
+-        QDBusReply<bool> r = walletLauncher()->getInterface().isEnabled();
+-
+-        if (!r.isValid()) {
+-            qDebug() << "Invalid DBus reply: " << r.error();
+-            return false;
+-        } else {
+-            return r;
+-        }
++        return walletLauncher()->m_walletEnabled;
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -386,14 +384,16 @@
+         return 0;
+     } else {
+ #endif
+-        QDBusReply<int> r = walletLauncher()->getInterface().close(name, force);
++        if (walletLauncher()->m_walletEnabled) {
++            QDBusReply<int> r = walletLauncher()->getInterface().close(name, force);
+ 
+-        if (!r.isValid()) {
+-            qDebug() << "Invalid DBus reply: " << r.error();
+-            return -1;
+-        } else {
+-            return r;
+-        }
++            if (!r.isValid()) {
++                qDebug() << "Invalid DBus reply: " << r.error();
++                return -1;
++            } else {
++                return r;
++            }
++        } else return -1;
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -411,14 +411,16 @@
+         return deleteJob->error();
+     } else {
+ #endif
+-        QDBusReply<int> r = walletLauncher()->getInterface().deleteWallet(name);
++        if (walletLauncher->m_walletEnabled) {
++            QDBusReply<int> r = walletLauncher()->getInterface().deleteWallet(name);
+ 
+-        if (!r.isValid()) {
+-            qDebug() << "Invalid DBus reply: " << r.error();
+-            return -1;
+-        } else {
+-            return r;
+-        }
++            if (!r.isValid()) {
++                qDebug() << "Invalid DBus reply: " << r.error();
++                return -1;
++            } else {
++                return r;
++            }
++        } else return -1;
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -430,6 +432,11 @@
+         qDebug() << "Pass a valid window to KWallet::Wallet::openWallet().";
+     }
+ 
++    if (!walletLauncher()->m_walletEnabled) {
++        qDebug() << "User disabled the wallet system so returning 0 here.";
++        return 0;
++    }
++
+ #if HAVE_KSECRETSSERVICE
+     if (walletLauncher()->m_useKSecretsService) {
+         Wallet *wallet = new Wallet(-1, name);
+@@ -539,14 +546,16 @@
+         return true;
+     } else {
+ #endif
+-        QDBusReply<bool> r = walletLauncher()->getInterface().disconnectApplication(wallet, app);
++        if (walletLauncher()->m_walletEnabled) {
++            QDBusReply<bool> r = walletLauncher()->getInterface().disconnectApplication(wallet, app);
+ 
+-        if (!r.isValid()) {
+-            qDebug() << "Invalid DBus reply: " << r.error();
+-            return false;
+-        } else {
+-            return r;
+-        }
++            if (!r.isValid()) {
++                qDebug() << "Invalid DBus reply: " << r.error();
++                return false;
++            } else {
++                return r;
++            }
++        } else return -1;
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -560,13 +569,15 @@
+         return QStringList();
+     } else {
+ #endif
+-        QDBusReply<QStringList> r = walletLauncher()->getInterface().users(name);
+-        if (!r.isValid()) {
+-            qDebug() << "Invalid DBus reply: " << r.error();
+-            return QStringList();
+-        } else {
+-            return r;
+-        }
++        if (walletLauncher()->m_walletEnabled) {
++            QDBusReply<QStringList> r = walletLauncher()->getInterface().users(name);
++            if (!r.isValid()) {
++                qDebug() << "Invalid DBus reply: " << r.error();
++                return QStringList();
++            } else {
++                return r;
++            }
++        } else return QStringList();
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -1546,13 +1557,15 @@
+         }
+     } else {
+ #endif
+-        QDBusReply<bool> r = walletLauncher()->getInterface().folderDoesNotExist(wallet, folder);
+-        if (!r.isValid()) {
+-            qDebug() << "Invalid DBus reply: " << r.error();
+-            return false;
+-        } else {
+-            return r;
+-        }
++        if (walletLauncher()->m_walletEnabled) {
++            QDBusReply<bool> r = walletLauncher()->getInterface().folderDoesNotExist(wallet, folder);
++            if (!r.isValid()) {
++                qDebug() << "Invalid DBus reply: " << r.error();
++                return false;
++            } else {
++                return r;
++            }
++        } else return false;
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -1570,13 +1583,15 @@
+         return false;
+     } else {
+ #endif
+-        QDBusReply<bool> r = walletLauncher()->getInterface().keyDoesNotExist(wallet, folder, key);
+-        if (!r.isValid()) {
+-            qDebug() << "Invalid DBus reply: " << r.error();
+-            return false;
+-        } else {
+-            return r;
+-        }
++        if (walletLauncher()->m_walletEnabled) {
++            QDBusReply<bool> r = walletLauncher()->getInterface().keyDoesNotExist(wallet, folder, key);
++            if (!r.isValid()) {
++                qDebug() << "Invalid DBus reply: " << r.error();
++                return false;
++            } else {
++                return r;
++            }
++        } else return false;
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -1588,16 +1603,23 @@
+ }
+ 
+ KWalletDLauncher::KWalletDLauncher()
+-    : m_wallet(0),
+-      m_cgroup(KSharedConfig::openConfig(QStringLiteral("kwalletrc"), KConfig::NoGlobals)->group("Wallet"))
++    : m_wallet_deamon(0)
++    , m_cgroup(KSharedConfig::openConfig(QStringLiteral("kwalletrc")
++    , KConfig::NoGlobals)->group("Wallet"))
++    , m_walletEnabled(false)
+ {
+     m_useKSecretsService = m_cgroup.readEntry("UseKSecretsService", false);
++    m_walletEnabled = m_cgroup.readEntry("Enabled", true);
++    if (!m_walletEnabled) {
++        qDebug() << "The wallet service was disabled by the user";
++        return;
++    }
+ #if HAVE_KSECRETSSERVICE
+     if (m_useKSecretsService) {
+         // NOOP
+     } else {
+ #endif
+-        m_wallet = new org::kde::KWallet(QString::fromLatin1(s_kwalletdServiceName), QStringLiteral("/modules/kwalletd5"), QDBusConnection::sessionBus());
++        m_wallet_deamon = new org::kde::KWallet(QString::fromLatin1(s_kwalletdServiceName), QStringLiteral("/modules/kwalletd5"), QDBusConnection::sessionBus());
+ #if HAVE_KSECRETSSERVICE
+     }
+ #endif
+@@ -1605,20 +1627,19 @@
+ 
+ KWalletDLauncher::~KWalletDLauncher()
+ {
+-    delete m_wallet;
++    delete m_wallet_deamon;
+ }
+ 
+ org::kde::KWallet &KWalletDLauncher::getInterface()
+ {
+ //    Q_ASSERT(!m_useKSecretsService);
+-    Q_ASSERT(m_wallet != 0);
++    Q_ASSERT(m_wallet_deamon != 0);
+ 
+     // check if kwalletd is already running
+     QDBusConnectionInterface *bus = QDBusConnection::sessionBus().interface();
+     if (!bus->isServiceRegistered(QString::fromLatin1(s_kwalletdServiceName))) {
+         // not running! check if it is enabled.
+-        bool walletEnabled = m_cgroup.readEntry("Enabled", true);
+-        if (walletEnabled) {
++        if (m_walletEnabled) {
+             // wallet is enabled! try launching it
+             QDBusReply<void> reply = bus->startService(s_kwalletdServiceName);
+             if (!reply.isValid()) {
+@@ -1635,7 +1656,7 @@
+         }
+     }
+ 
+-    return *m_wallet;
++    return *m_wallet_deamon;
+ }
+ 
+ } // namespace KWallet
+diff -Nur kwallet-5.16.0/src/api/KWallet/kwallet.h kwallet-5.17.0/src/api/KWallet/kwallet.h
+--- kwallet-5.16.0/src/api/KWallet/kwallet.h	2015-11-08 20:37:30.000000000 +0800
++++ kwallet-5.17.0/src/api/KWallet/kwallet.h	2015-12-07 05:40:43.000000000 +0800
+@@ -149,6 +149,8 @@
+      *           associate with.
+      *  @return Returns a pointer to the wallet if successful,
+      *          or a null pointer on error or if rejected.
++     *          A null pointer can also be returned if user choose to
++     *          deactivate the wallet system.
+      */
+     static Wallet *openWallet(const QString &name, WId w, OpenType ot = Synchronous);
+ 
+diff -Nur kwallet-5.16.0/src/runtime/kwalletd/main.cpp kwallet-5.17.0/src/runtime/kwalletd/main.cpp
+--- kwallet-5.16.0/src/runtime/kwalletd/main.cpp	2015-11-08 20:37:30.000000000 +0800
++++ kwallet-5.17.0/src/runtime/kwalletd/main.cpp	2015-12-07 05:40:43.000000000 +0800
+@@ -187,7 +187,7 @@
+ 
+     KWalletD walletd;
+     MigrationAgent migrationAgent(&walletd, hash);
+-    KDBusService dbusUniqueInstance(KDBusService::Unique | KDBusService::NoExitOnFailure);
++    KDBusService dbusUniqueInstance(KDBusService::Unique);
+ 
+     // NOTE: the command should be parsed only after KDBusService instantiation
+     QCommandLineParser cmdParser;
+@@ -204,11 +204,6 @@
+         return (0);
+     }
+ 
+-    if (!dbusUniqueInstance.isRegistered()) {
+-        qDebug() << "kwalletd is already running!";
+-        return 1;
+-    }
+-
+     qDebug() << "kwalletd5 started";
+ 
+ #ifndef Q_OS_WIN
