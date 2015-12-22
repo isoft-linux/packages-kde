@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 addon for Qt declarative
 
 License:        GPLv2+ and MIT
@@ -80,6 +80,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_bindir}/kpackagelauncherqml
 %{_kf5_libdir}/libKF5Declarative.so.*
 %{_kf5_libdir}/libKF5QuickAddons.so.*
+%{_kf5_libdir}/libKF5CalendarEvents.so.*
 %{_kf5_qmldir}/org/kde/draganddrop
 %{_kf5_qmldir}/org/kde/kcoreaddons
 %{_kf5_qmldir}/org/kde/kquickcontrols
@@ -93,12 +94,16 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/KDeclarative
 %{_kf5_libdir}/libKF5Declarative.so
 %{_kf5_libdir}/libKF5QuickAddons.so
+%{_kf5_libdir}/libKF5CalendarEvents.so
 %{_kf5_libdir}/cmake/KF5Declarative
 %{_kf5_archdatadir}/mkspecs/modules/qt_KDeclarative.pri
 %{_kf5_archdatadir}/mkspecs/modules/qt_QuickAddons.pri
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-5
+- Include missing files
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
 - More backport
 
