@@ -1,0 +1,792 @@
+diff -Nur ki18n-5.16.0/autotests/CMakeLists.txt ki18n-5.17.0/autotests/CMakeLists.txt
+--- ki18n-5.16.0/autotests/CMakeLists.txt	2015-11-08 20:24:31.000000000 +0800
++++ ki18n-5.17.0/autotests/CMakeLists.txt	2015-12-07 05:27:43.000000000 +0800
+@@ -2,7 +2,12 @@
+ 
+ include(ECMAddTests)
+ 
+-find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test Concurrent)
++find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test Qml Concurrent)
++
++ecm_add_test(ki18ndeclarativetest.cpp
++    TEST_NAME "ki18n-declarativetest"
++    LINK_LIBRARIES Qt5::Test Qt5::Qml KF5::I18n
++)
+ 
+ ecm_add_test(klocalizedstringtest.cpp
+     TEST_NAME "ki18n-klocalizedstringtest"
+diff -Nur ki18n-5.16.0/autotests/ki18ndeclarativetest.cpp ki18n-5.17.0/autotests/ki18ndeclarativetest.cpp
+--- ki18n-5.16.0/autotests/ki18ndeclarativetest.cpp	1970-01-01 08:00:00.000000000 +0800
++++ ki18n-5.17.0/autotests/ki18ndeclarativetest.cpp	2015-12-07 05:27:43.000000000 +0800
+@@ -0,0 +1,49 @@
++/*  This file is part of the KDE libraries
++    Copyright (C) 2006 Chusslove Illich <caslav.ilic@gmx.net>
++
++    This library is free software; you can redistribute it and/or
++    modify it under the terms of the GNU Library General Public
++    License as published by the Free Software Foundation; either
++    version 2 of the License, or (at your option) any later version.
++
++    This library is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++    Library General Public License for more details.
++
++    You should have received a copy of the GNU Library General Public License
++    along with this library; see the file COPYING.LIB.  If not, write to
++    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
++    Boston, MA 02110-1301, USA.
++*/
++
++#include <QQmlEngine>
++#include <QQmlComponent>
++#include <QQmlContext>
++#include <QTest>
++
++#include <KLocalizedContext>
++
++class KI18nDeclarativeTest : public QObject
++{
++Q_OBJECT
++
++private Q_SLOTS:
++    void testLocalizedContext() {
++        KLocalizedContext ctx;
++        QUrl input = QUrl::fromLocalFile(QFINDTESTDATA("test.qml"));
++
++        QQmlEngine engine;
++        engine.rootContext()->setContextObject(&ctx);
++        QQmlComponent component(&engine, input, QQmlComponent::PreferSynchronous);
++        QObject *object = component.create();
++
++        QVERIFY(object);
++        QVERIFY(!component.isLoading());
++        QCOMPARE(object->property("testString").toString(), QStringLiteral("Awesome"));
++    }
++};
++
++QTEST_MAIN(KI18nDeclarativeTest)
++
++#include "ki18ndeclarativetest.moc"
+diff -Nur ki18n-5.16.0/autotests/test.qml ki18n-5.17.0/autotests/test.qml
+--- ki18n-5.16.0/autotests/test.qml	1970-01-01 08:00:00.000000000 +0800
++++ ki18n-5.17.0/autotests/test.qml	2015-12-07 05:27:43.000000000 +0800
+@@ -0,0 +1,6 @@
++import QtQml 2.1
++
++QtObject
++{
++    readonly property string testString: i18n("Awesome")
++}
+diff -Nur ki18n-5.16.0/docs/programmers-guide.md ki18n-5.17.0/docs/programmers-guide.md
+--- ki18n-5.16.0/docs/programmers-guide.md	2015-11-08 20:24:31.000000000 +0800
++++ ki18n-5.17.0/docs/programmers-guide.md	2015-12-07 05:27:43.000000000 +0800
+@@ -1229,7 +1229,7 @@
+ source to create the catalog template `fooapp.pot`:
+ 
+ ~~~
+-find -name \*.cpp -o -name \*.h | sort \
++find -name \*.cpp -o -name \*.h -o -name \*.qml | sort \
+ | xargs xgettext $EXTOPTS -o fooapp.pot
+ ~~~
+ 
+diff -Nur ki18n-5.16.0/po/ast/ki18n5.po ki18n-5.17.0/po/ast/ki18n5.po
+--- ki18n-5.16.0/po/ast/ki18n5.po	2015-11-08 20:24:31.000000000 +0800
++++ ki18n-5.17.0/po/ast/ki18n5.po	2015-12-07 05:27:43.000000000 +0800
+@@ -7,9 +7,9 @@
+ "Project-Id-Version: kdelibs4-1\n"
+ "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+ "POT-Creation-Date: 2015-01-26 07:50+0000\n"
+-"PO-Revision-Date: 2015-07-11 16:23+0100\n"
++"PO-Revision-Date: 2015-11-11 00:18+0100\n"
+ "Last-Translator: enolp <enolp@softastur.org>\n"
+-"Language-Team: Asturian <alminsitradores@softastur.org>\n"
++"Language-Team: Asturian <kde-i18n-doc@kde.org>\n"
+ "Language: ast\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=UTF-8\n"
+@@ -85,7 +85,6 @@
+ msgstr "Supr"
+ 
+ #: kuitmarkup.cpp:331
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Delete"
+ msgstr "Desaniciar"
+@@ -131,25 +130,21 @@
+ msgstr "Hyper"
+ 
+ #: kuitmarkup.cpp:339
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Ins"
+ msgstr "Inx"
+ 
+ #: kuitmarkup.cpp:340
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Insert"
+ msgstr "Inxertar"
+ 
+ #: kuitmarkup.cpp:341
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Left"
+ msgstr "Esquierda"
+ 
+ #: kuitmarkup.cpp:342
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Menu"
+ msgstr "Menú"
+@@ -214,7 +209,6 @@
+ msgstr ""
+ 
+ #: kuitmarkup.cpp:353
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Right"
+ msgstr "Drecha"
+@@ -237,7 +231,6 @@
+ msgstr "Espaciu"
+ 
+ #: kuitmarkup.cpp:357
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Super"
+ msgstr "Super"
+@@ -249,13 +242,11 @@
+ msgstr "PetSis"
+ 
+ #: kuitmarkup.cpp:359
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Tab"
+ msgstr "Tabulador"
+ 
+ #: kuitmarkup.cpp:360
+-#, fuzzy
+ msgctxt "keyboard-key-name"
+ msgid "Up"
+ msgstr "Arriba"
+diff -Nur ki18n-5.16.0/po/nb/ki18n5.po ki18n-5.17.0/po/nb/ki18n5.po
+--- ki18n-5.16.0/po/nb/ki18n5.po	2015-11-08 20:24:31.000000000 +0800
++++ ki18n-5.17.0/po/nb/ki18n5.po	2015-12-07 05:27:43.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of ki18n5 to Norwegian Bokmål
++#
+ # Knut Yrvin <knut.yrvin@gmail.com>, 2002, 2003, 2004, 2005.
+ # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+ # Eskild Hustvedt <zerodogg@skolelinux.no>, 2004, 2005.
+diff -Nur ki18n-5.16.0/po/se/ki18n5.po ki18n-5.17.0/po/se/ki18n5.po
+--- ki18n-5.16.0/po/se/ki18n5.po	2015-11-08 20:24:31.000000000 +0800
++++ ki18n-5.17.0/po/se/ki18n5.po	2015-12-07 05:27:43.000000000 +0800
+@@ -1,3 +1,5 @@
++# Translation of ki18n5 to Northern Sami
++#
+ # Børre Gaup <boerre@skolelinux.no>, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012.
+ msgid ""
+ msgstr ""
+diff -Nur ki18n-5.16.0/src/CMakeLists.txt ki18n-5.17.0/src/CMakeLists.txt
+--- ki18n-5.16.0/src/CMakeLists.txt	2015-11-08 20:24:31.000000000 +0800
++++ ki18n-5.17.0/src/CMakeLists.txt	2015-12-07 05:27:43.000000000 +0800
+@@ -4,6 +4,7 @@
+     kcatalog.cpp
+     kuitmarkup.cpp
+     common_helpers.cpp
++    klocalizedcontext.cpp
+     main.cpp
+ )
+ 
+@@ -28,6 +29,7 @@
+ 
+ ecm_generate_headers(KI18n_HEADERS
+   HEADER_NAMES
++    KLocalizedContext
+     KLocalizedString
+     KLocalizedTranslator
+     KuitMarkup
+diff -Nur ki18n-5.16.0/src/kcatalog_p.h ki18n-5.17.0/src/kcatalog_p.h
+--- ki18n-5.16.0/src/kcatalog_p.h	2015-11-08 20:24:31.000000000 +0800
++++ ki18n-5.17.0/src/kcatalog_p.h	2015-12-07 05:27:43.000000000 +0800
+@@ -124,7 +124,7 @@
+     static QSet<QString> availableCatalogLanguages(const QByteArray &domain);
+ 
+ private:
+-    Q_DISABLE_COPY(KCatalog);
++    Q_DISABLE_COPY(KCatalog)
+ 
+     KCatalogPrivate *const d;
+ };
+diff -Nur ki18n-5.16.0/src/klocalizedcontext.cpp ki18n-5.17.0/src/klocalizedcontext.cpp
+--- ki18n-5.16.0/src/klocalizedcontext.cpp	1970-01-01 08:00:00.000000000 +0800
++++ ki18n-5.17.0/src/klocalizedcontext.cpp	2015-12-07 05:27:43.000000000 +0800
+@@ -0,0 +1,428 @@
++/*
++ *   Copyright 2013 Marco Martin <mart@kde.org>
++ *
++ *   This program is free software; you can redistribute it and/or modify
++ *   it under the terms of the GNU Library General Public License as
++ *   published by the Free Software Foundation; either version 2, or
++ *   (at your option) any later version.
++ *
++ *   This program is distributed in the hope that it will be useful,
++ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *   GNU General Public License for more details
++ *
++ *   You should have received a copy of the GNU Library General Public
++ *   License along with this program; if not, write to the
++ *   Free Software Foundation, Inc.,
++ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
++ */
++
++// Undefine this because we don't want our i18n*() method names to be turned into i18nd*()
++#undef TRANSLATION_DOMAIN
++
++#include "klocalizedcontext.h"
++
++#include <QDebug>
++
++#include <klocalizedstring.h>
++
++class KLocalizedContextPrivate
++{
++public:
++    QString m_translationDomain;
++};
++
++KLocalizedContext::KLocalizedContext(QObject *parent)
++    : QObject(parent)
++    , d_ptr(new KLocalizedContextPrivate)
++{
++}
++
++KLocalizedContext::~KLocalizedContext()
++{
++    delete d_ptr;
++}
++
++QString KLocalizedContext::translationDomain() const
++{
++    Q_D(const KLocalizedContext);
++    return d->m_translationDomain;
++}
++
++void KLocalizedContext::setTranslationDomain(const QString &domain)
++{
++    Q_D(KLocalizedContext);
++    if (domain != d->m_translationDomain) {
++        d->m_translationDomain = domain;
++        Q_EMIT translationDomainChanged(domain);
++    }
++}
++
++static void subsVariant(KLocalizedString &trMessage, const QVariant &value)
++{
++    switch(value.type()) {
++        case QVariant::String:
++            trMessage = trMessage.subs(value.value<QString>());
++            break;
++        case QVariant::Int:
++            trMessage = trMessage.subs(value.toInt());
++            break;
++        case QVariant::Double:
++            trMessage = trMessage.subs(value.toDouble());
++            break;
++        case QVariant::Char:
++            trMessage = trMessage.subs(value.toChar());
++            break;
++        default:
++            if (value.canConvert(QVariant::String)) {
++                trMessage = trMessage.subs(value.toString());
++            } else {
++                trMessage = trMessage.subs(QStringLiteral("???"));
++                qWarning() << "couldn't convert" << value << "to translate";
++            }
++
++    }
++}
++
++static void resolveMessage(KLocalizedString &trMessage,
++                           const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                           const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10 = QString())
++{
++    if (!param1.isNull()) {
++        subsVariant(trMessage, param1);
++    }
++    if (!param2.isNull()) {
++        subsVariant(trMessage, param2);
++    }
++    if (!param3.isNull()) {
++        subsVariant(trMessage, param3);
++    }
++    if (!param4.isNull()) {
++        subsVariant(trMessage, param4);
++    }
++    if (!param5.isNull()) {
++        subsVariant(trMessage, param5);
++    }
++    if (!param6.isNull()) {
++        subsVariant(trMessage, param6);
++    }
++    if (!param7.isNull()) {
++        subsVariant(trMessage, param7);
++    }
++    if (!param8.isNull()) {
++        subsVariant(trMessage, param8);
++    }
++    if (!param9.isNull()) {
++        subsVariant(trMessage, param9);
++    }
++    if (!param10.isNull()) {
++        subsVariant(trMessage, param10);
++    }
++}
++
++QString KLocalizedContext::i18n(const QString &message,
++                                const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (message.isEmpty()) {
++        qWarning() << "i18n() needs at least one parameter";
++        return QString();
++    }
++
++    Q_D(const KLocalizedContext);
++    KLocalizedString trMessage;
++    if (!d->m_translationDomain.isEmpty()) {
++        trMessage = ki18nd(d->m_translationDomain.toUtf8().constData(), message.toUtf8().constData());
++    } else {
++        trMessage = ki18n(message.toUtf8().constData());
++    }
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::i18nc(const QString &context, const QString &message,
++                                 const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                 const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (context.isEmpty() || message.isEmpty()) {
++        qWarning() << "i18nc() needs at least two arguments";
++        return QString();
++    }
++
++    Q_D(const KLocalizedContext);
++    KLocalizedString trMessage;
++    if (!d->m_translationDomain.isEmpty()) {
++        trMessage = ki18ndc(d->m_translationDomain.toUtf8().constData(), context.toUtf8().constData(), message.toUtf8().constData());
++    } else {
++        trMessage = ki18nc(context.toUtf8().constData(), message.toUtf8().constData());
++    }
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::i18np(const QString &singular, const QString &plural,
++                                 const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                 const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (singular.isEmpty() || plural.isEmpty()) {
++        qWarning() << "i18np() needs at least two arguments";
++        return QString();
++    }
++
++    Q_D(const KLocalizedContext);
++    KLocalizedString trMessage;
++    if (!d->m_translationDomain.isEmpty()) {
++        trMessage = ki18ndp(d->m_translationDomain.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++    } else {
++        trMessage = ki18np(singular.toUtf8().constData(), plural.toUtf8().constData());
++    }
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::i18ncp(const QString &context, const QString &singular, const QString &plural,
++                                  const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                  const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (context.isEmpty() || singular.isEmpty() || plural.isEmpty()) {
++        qWarning() << "i18ncp() needs at least three arguments";
++        return QString();
++    }
++
++    Q_D(const KLocalizedContext);
++    KLocalizedString trMessage;
++    if (!d->m_translationDomain.isEmpty()) {
++        trMessage = ki18ndcp(d->m_translationDomain.toUtf8().constData(), context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++    } else {
++        trMessage = ki18ncp(context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++    }
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::i18nd(const QString &domain, const QString &message,
++                                 const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                 const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (domain.isEmpty() || message.isEmpty()) {
++        qWarning() << "i18nd() needs at least two parameters";
++        return QString();
++    }
++
++    KLocalizedString trMessage = ki18nd(domain.toUtf8().constData(), message.toUtf8().constData());
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::i18ndc(const QString &domain, const QString &context, const QString &message,
++                                  const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                  const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (domain.isEmpty() || context.isEmpty() || message.isEmpty()) {
++        qWarning() << "i18ndc() needs at least three arguments";
++        return QString();
++    }
++
++    KLocalizedString trMessage = ki18ndc(domain.toUtf8().constData(), context.toUtf8().constData(), message.toUtf8().constData());
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::i18ndp(const QString &domain, const QString &singular, const QString &plural,
++                                  const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                  const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (domain.isEmpty() || singular.isEmpty() || plural.isEmpty()) {
++        qWarning() << "i18ndp() needs at least three arguments";
++        return QString();
++    }
++
++    KLocalizedString trMessage = ki18ndp(domain.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::i18ndcp(const QString &domain, const QString &context, const QString &singular, const QString &plural,
++                                   const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                   const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (domain.isEmpty() || context.isEmpty() || singular.isEmpty() || plural.isEmpty()) {
++        qWarning() << "i18ndcp() needs at least four arguments";
++        return QString();
++    }
++
++    KLocalizedString trMessage = ki18ndcp(domain.toUtf8().constData(), context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++/////////////////////////
++
++QString KLocalizedContext::xi18n(const QString &message,
++                                const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (message.isEmpty()) {
++        qWarning() << "xi18n() needs at least one parameter";
++        return QString();
++    }
++
++    Q_D(const KLocalizedContext);
++    KLocalizedString trMessage;
++    if (!d->m_translationDomain.isEmpty()) {
++        trMessage = kxi18nd(d->m_translationDomain.toUtf8().constData(), message.toUtf8().constData());
++    } else {
++        trMessage = kxi18n(message.toUtf8().constData());
++    }
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::xi18nc(const QString &context, const QString &message,
++                                 const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                 const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (context.isEmpty() || message.isEmpty()) {
++        qWarning() << "xi18nc() needs at least two arguments";
++        return QString();
++    }
++
++    Q_D(const KLocalizedContext);
++    KLocalizedString trMessage;
++    if (!d->m_translationDomain.isEmpty()) {
++        trMessage = kxi18ndc(d->m_translationDomain.toUtf8().constData(), context.toUtf8().constData(), message.toUtf8().constData());
++    } else {
++        trMessage = kxi18nc(context.toUtf8().constData(), message.toUtf8().constData());
++    }
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::xi18np(const QString &singular, const QString &plural,
++                                 const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                 const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (singular.isEmpty() || plural.isEmpty()) {
++        qWarning() << "xi18np() needs at least two arguments";
++        return QString();
++    }
++
++    Q_D(const KLocalizedContext);
++    KLocalizedString trMessage;
++    if (!d->m_translationDomain.isEmpty()) {
++        trMessage = kxi18ndp(d->m_translationDomain.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++    } else {
++        trMessage = kxi18np(singular.toUtf8().constData(), plural.toUtf8().constData());
++    }
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::xi18ncp(const QString &context, const QString &singular, const QString &plural,
++                                  const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                  const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (context.isEmpty() || singular.isEmpty() || plural.isEmpty()) {
++        qWarning() << "xi18ncp() needs at least three arguments";
++        return QString();
++    }
++
++    Q_D(const KLocalizedContext);
++    KLocalizedString trMessage;
++    if (!d->m_translationDomain.isEmpty()) {
++        trMessage = kxi18ndcp(d->m_translationDomain.toUtf8().constData(), context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++    } else {
++        trMessage = kxi18ncp(context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++    }
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::xi18nd(const QString &domain, const QString &message,
++                                 const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                 const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (domain.isEmpty() || message.isEmpty()) {
++        qWarning() << "xi18nd() needs at least two parameters";
++        return QString();
++    }
++
++    KLocalizedString trMessage = kxi18nd(domain.toUtf8().constData(), message.toUtf8().constData());
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::xi18ndc(const QString &domain, const QString &context, const QString &message,
++                                  const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                  const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (domain.isEmpty() || context.isEmpty() || message.isEmpty()) {
++        qWarning() << "x18ndc() needs at least three arguments";
++        return QString();
++    }
++
++    KLocalizedString trMessage = ki18ndc(domain.toUtf8().constData(), context.toUtf8().constData(), message.toUtf8().constData());
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::xi18ndp(const QString &domain, const QString &singular, const QString &plural,
++                                  const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                  const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (domain.isEmpty() || singular.isEmpty() || plural.isEmpty()) {
++        qWarning() << "xi18ndp() needs at least three arguments";
++        return QString();
++    }
++
++    KLocalizedString trMessage = ki18ndp(domain.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
++QString KLocalizedContext::xi18ndcp(const QString &domain, const QString &context, const QString &singular, const QString &plural,
++                                   const QVariant &param1, const QVariant &param2, const QVariant &param3, const QVariant &param4, const QVariant &param5,
++                                   const QVariant &param6, const QVariant &param7, const QVariant &param8, const QVariant &param9, const QVariant &param10) const
++{
++    if (domain.isEmpty() || context.isEmpty() || singular.isEmpty() || plural.isEmpty()) {
++        qWarning() << "xi18ndcp() needs at least four arguments";
++        return QString();
++    }
++
++    KLocalizedString trMessage = kxi18ndcp(domain.toUtf8().constData(), context.toUtf8().constData(), singular.toUtf8().constData(), plural.toUtf8().constData());
++
++    resolveMessage(trMessage, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10);
++
++    return trMessage.toString();
++}
++
+diff -Nur ki18n-5.16.0/src/klocalizedcontext.h ki18n-5.17.0/src/klocalizedcontext.h
+--- ki18n-5.16.0/src/klocalizedcontext.h	1970-01-01 08:00:00.000000000 +0800
++++ ki18n-5.17.0/src/klocalizedcontext.h	2015-12-07 05:27:43.000000000 +0800
+@@ -0,0 +1,136 @@
++/*
++ *   Copyright 2011 Marco Martin <mart@kde.org>
++ *   Copyright 2015 Aleix Pol Gonzalez <aleixpol@kde.org>
++ *
++ *   This program is free software; you can redistribute it and/or modify
++ *   it under the terms of the GNU Library General Public License as
++ *   published by the Free Software Foundation; either version 2, or
++ *   (at your option) any later version.
++ *
++ *   This program is distributed in the hope that it will be useful,
++ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *   GNU General Public License for more details
++ *
++ *   You should have received a copy of the GNU Library General Public
++ *   License along with this program; if not, write to the
++ *   Free Software Foundation, Inc.,
++ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
++ */
++
++#ifndef KLOCALIZEDCONTEXT_H
++#define KLOCALIZEDCONTEXT_H
++
++#include <QObject>
++#include <QVariant>
++#include <ki18n_export.h>
++
++/**
++ * This class is meant to be used to simplify integration of the KI18n framework
++ * in QML.
++ *
++ * The way to do so, is by creating this object and setting it as a context
++ * object:
++ *
++ * @code
++ * QQuickView* view = new QQuickView;
++ * view.engine()->rootContext()->setContextObject(new KLocalizedContext(view));
++ * @endcode
++ *
++ * Then i18n*() functions should be available for use from the code loaded in
++ * the engine, for the view.
++ *
++ * @since 5.17
++ */
++
++class KI18N_EXPORT KLocalizedContext : public QObject
++{
++    Q_OBJECT
++
++    /**
++     * This property only needs to be specified if the context is being run on a library.
++     * in an application there is no need to set the translation domain as the application's
++     * domain can be used.
++     */
++    Q_PROPERTY(QString translationDomain READ translationDomain WRITE setTranslationDomain NOTIFY translationDomainChanged)
++
++public:
++    explicit KLocalizedContext(QObject *parent = Q_NULLPTR);
++    ~KLocalizedContext() Q_DECL_OVERRIDE;
++
++    QString translationDomain() const;
++    void setTranslationDomain(const QString &domain);
++
++    Q_INVOKABLE QString i18n(const QString &message,
++                             const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                             const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString i18nc(const QString &context, const QString &message,
++                              const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                              const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString i18np(const QString &singular, const QString &plural,
++                              const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                              const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString i18ncp(const QString &context, const QString &singular, const QString &plural,
++                               const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                               const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString i18nd(const QString &domain, const QString &message,
++                              const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                              const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString i18ndc(const QString &domain, const QString &context, const QString &message,
++                               const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                               const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString i18ndp(const QString &domain, const QString &singular, const QString &plural,
++                               const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                               const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString i18ndcp(const QString &domain, const QString &context, const QString &singular, const QString &plural,
++                                const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                                const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString xi18n(const QString &message,
++                             const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                             const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString xi18nc(const QString &context, const QString &message,
++                              const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                              const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString xi18np(const QString &singular, const QString &plural,
++                              const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                              const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString xi18ncp(const QString &context, const QString &singular, const QString &plural,
++                               const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                               const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString xi18nd(const QString &domain, const QString &message,
++                              const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                              const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString xi18ndc(const QString &domain, const QString &context, const QString &message,
++                               const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                               const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString xi18ndp(const QString &domain, const QString &singular, const QString &plural,
++                               const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                               const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++    Q_INVOKABLE QString xi18ndcp(const QString &domain, const QString &context, const QString &singular, const QString &plural,
++                                const QVariant &p1 = QVariant(), const QVariant &p2 = QVariant(), const QVariant &p3 = QVariant(), const QVariant &p4 = QVariant(), const QVariant &p5 = QVariant(),
++                                const QVariant &p6 = QVariant(), const QVariant &p7 = QVariant(), const QVariant &p8 = QVariant(), const QVariant &p9 = QVariant(), const QVariant &p10 = QVariant()) const;
++
++Q_SIGNALS:
++    void translationDomainChanged(const QString& translationDomain);
++
++private:
++    class KLocalizedContextPrivate * const d_ptr;
++    Q_DECLARE_PRIVATE(KLocalizedContext)
++};
++
++#endif

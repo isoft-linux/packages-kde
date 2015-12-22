@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon for localization
 
 License:        LGPLv2+
@@ -20,8 +20,8 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 #ki18n5 for zh_CN/zh_TW/ja_JP
 Source1: ki18n5.js
 
-
-Patch0:         ki18n-less-warning-to-stdout.patch
+Patch0:  ki18n-backport-from-5.17.0.patch
+Patch1:  ki18n-less-warning-to-stdout.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
@@ -114,6 +114,9 @@ popd
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
+- Backport from 5.17.0
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
