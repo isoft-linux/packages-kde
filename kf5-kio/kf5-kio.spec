@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -16,26 +16,23 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+
+Patch0: kio-backport-from-5.17.patch
+
 #Remove "Link to Device" submenu from "Create New" menu.
-Patch0: kio-remove-Create_New-Link-to-Device.patch
+Patch1: kio-remove-Create_New-Link-to-Device.patch
 
 #Hide unwanted systemsettings entries, but it still can be called with "kcmshell5 modules".
-Patch1: kio-hide-unwanted-systemsettings-entries.patch
+Patch2: kio-hide-unwanted-systemsettings-entries.patch
 
 #https://git.reviewboard.kde.org/r/125885/
-Patch2: support-socks5-proxy.patch
-
-#https://git.reviewboard.kde.org/r/126085/
-Patch3: fix-filename-suggestion-changing-to-something-random-when-changing-save-as-mimetype.patch
-
-#https://git.reviewboard.kde.org/r/126164/
-Patch4: request-dbus-name-for-kioexec.patch
+Patch3: support-socks5-proxy.patch
 
 #to cover bug 12844
-Patch5: kio-adjust_trash_filepath.patch
+Patch6: kio-adjust_trash_filepath.patch
 
 # Fix cut and paste info myself issue.
-Patch6: 0001-cut-paste-into-myself.patch
+Patch7: 0001-cut-paste-into-myself.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -285,6 +282,9 @@ fi
 
 
 %changelog
+* Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-7
+- Backport from 5.17
+
 * Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix cut and paste info myself issue.
 
