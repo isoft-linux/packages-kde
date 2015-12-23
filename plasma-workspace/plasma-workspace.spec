@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        25
+Release:        26
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -23,6 +23,9 @@ Source10:       kde
 Source11:       startkde.cmake
 # Desktop file for Fedora Twenty Two look-and-feel package
 Source12:       metadata.desktop
+
+#add po file for kio_desktop changes, 'Trash' virtual UDSEntry need to be translated.
+Source20: kio_desktop-zh_CN.po
 
 ## downstream Patches
 Patch10: plasma-workspace-5.3.0-konsole-in-contextmenu.patch
@@ -267,6 +270,9 @@ Documentation and user manuals for %{name}.
 
 %prep
 %setup -q
+
+cp %{SOURCE20} po/zh_CN/kio_desktop.po
+
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
@@ -406,6 +412,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-26
+- Add kio_desktop po for zh_CN
+
 * Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-25
 - Drop trash.desktop, use virtual Trash UDSEntry
 
