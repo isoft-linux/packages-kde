@@ -1,0 +1,16 @@
+diff --git a/src/kpluginselector.cpp b/src/kpluginselector.cpp
+index 34a7897..3240cf9 100644
+--- a/src/kpluginselector.cpp
++++ b/src/kpluginselector.cpp
+@@ -317,10 +317,10 @@ void KPluginSelector::addPlugins(const QString &componentName,
+         return;
+     }
+ 
+-    Q_ASSERT(config);
+     if (!config) {
+         config = KSharedConfig::openConfig(componentName + QStringLiteral("rc"));
+     }
++    Q_ASSERT(config);
+ 
+     KConfigGroup cfgGroup(config, "KParts Plugins");
+     // qDebug() << "cfgGroup = " << &cfgGroup;

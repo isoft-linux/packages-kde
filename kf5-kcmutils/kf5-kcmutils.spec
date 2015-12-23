@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 addon with extra API to write KConfigModules
 
 License:        LGPLv2+
@@ -17,6 +17,9 @@ URL:            http://www.kde.org
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 Patch0:         fix-window-resize-render.patch
+
+# https://git.reviewboard.kde.org/r/126423/
+Patch1: kpluginselector-assert-rX.diff
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -51,8 +54,7 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n %{framework}-%{version}
-%patch0 -p1
+%autosetup -n %{framework}-%{version} -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -84,6 +86,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
+- Merge git fix back
+
 * Tue Dec 22 2015 xiaotian.wu@i-soft.com.cn - 5.16.0-3
 - apply patch fix-window-resize-render.patch
 
