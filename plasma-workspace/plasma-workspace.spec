@@ -376,9 +376,8 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_datadir}/xsessions/plasma.desktop
 
 %{_kf5_plugindir}/kio/desktop.so
-%{_datadir}/kio_desktop/Home.desktop
+%{_datadir}/kio_desktop/DesktopLinks/Home.desktop
 %{_datadir}/kio_desktop/directory.desktop
-%{_datadir}/kio_desktop/directory.trash
 
 # PAM
 %config %{_sysconfdir}/pam.d/kde
