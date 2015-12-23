@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        12
+Release:        13
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -165,6 +165,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-13
+- Backport patch from git
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-12
 - Rebase lunar calender patch
 
