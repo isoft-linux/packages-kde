@@ -1,0 +1,20 @@
+diff -Nur plasma-workspace-5.4.3/lookandfeel/contents/components/LogoutScreen.qml plasma-workspace-5.4.3n/lookandfeel/contents/components/LogoutScreen.qml
+--- plasma-workspace-5.4.3/lookandfeel/contents/components/LogoutScreen.qml	2015-11-05 20:49:30.000000000 +0800
++++ plasma-workspace-5.4.3n/lookandfeel/contents/components/LogoutScreen.qml	2015-12-22 10:57:37.205968906 +0800
+@@ -140,12 +140,15 @@
+                 id: commitButton
+                 Layout.preferredWidth: Math.max(commitButton.implicitWidth, cancelButton.implicitWidth)
+                 onClicked: root.currentAction()
+-                focus: true
++                focus: forceActiveFocus()
+ 
+                 function trigger() {
+                     if (commitButton.activeFocus) {
+                         root.currentAction()
+                     }
++                    if (cancelButton.activeFocus) {
++                        root.cancel()
++                    }
+                 }
+ 
+                 Controls.Action {
