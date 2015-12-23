@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with various classes on top of QtCore
 
 License:        GPLv2+ and GPLv2+
@@ -17,6 +17,9 @@ URL:            http://www.kde.org
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 Patch0: kcoreaddons-backport-from-5.17.0.patch
+
+# https://git.reviewboard.kde.org/r/126409/
+Patch1: kcoreaddons-desktopfileparser-useafterfree_r2.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -46,6 +49,7 @@ developing applications that use %{name}.
 %prep
 %setup -q -n %{framework}-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -89,6 +93,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
+- Merge git reviewboard fix back
+
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Backport from 5.17.0
 
