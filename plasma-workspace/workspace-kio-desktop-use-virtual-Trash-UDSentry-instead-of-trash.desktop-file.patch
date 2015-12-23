@@ -1,20 +1,25 @@
-Orig kio desktop created trash.desktop in $HOME/Desktop folder.
+Original kio_desktop depend on 'trash.desktop' to show TrashBin.
 
 But it's not reliable: 
 
-* 'trash.desktop' can be deleted, removed, renamed, etc.
-* may be conflict with other desktop shell, for example, GNOME, will show two Trash on desktop view.
-* A lot of dirty codes to handle this special desktop file in kio(for icons)/libkonq(for popup menu).
+* 'trash.desktop' can be deleted, removed, renamed, etc. even this file protected by KIO. but the ~/Desktop folder can be also deleted.
+* It may be conflict with other desktop shell, for example, GNOME, will show two Trash on desktop view.
+* A lot of dirty codes to handle this special desktop file in kio(for trash icon update)/libkonq(for popup menu)/plasma-desktop internallibkonq.
 
-This fix remove 'trash.desktop' file and use virtual UDSEntry created by kio_desktop to make a 'trashbin' in desktopview.
+This fix remove 'trash.desktop' file and use virtual UDSEntry created by kio_desktop to make a 'trashbin' in desktopview, and not broken any codes exists already.
 
+* It's a S_IFDIR, so can accect drop in directly.
+* It update trash icon itself.
+* The 'Properties' dialog show correct infomation of 'trash:/', for example, disk usage, instead of show properties of a desktop file.
+* No matter ~/Desktop dir exists or not, the 'Trash' will be there.
+ 
 NOTE:
 * 'kio_desktop.po' introduced for one i18n string 'trash'. It also can be readed from origial directory.trash file,
-  But we do not want to keep this file anymore.
+  But we do not want to keep that file anymore and po files can be converted from it.
 
 * Some special treatment about 'trash icon' updating in kio can be removed now, trash icon will updated itself.
 
-* 'trash.desktop' or any desktop file with Type="Link" and URL="trash:/" should be treated as 'normal' file if there is any specitial treatment before.
+* 'trash.desktop' or any desktop file with Type="Link" and URL="trash:/" should be treated as 'normal' file and no need specitial treatment anymore.
 
 diff -Nur plasma-workspace-5.4.3/kioslave/desktop/CMakeLists.txt plasma-workspace-5.4.3fix/kioslave/desktop/CMakeLists.txt
 --- plasma-workspace-5.4.3/kioslave/desktop/CMakeLists.txt	2015-11-05 20:49:30.000000000 +0800
