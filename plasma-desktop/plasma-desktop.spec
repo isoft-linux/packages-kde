@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        25
+Release:        26
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -111,6 +111,10 @@ Patch323: 0015-kcm-ksmserver-default-session.patch
 
 # Fix taskmanager font size when changed to oxygen theme.
 Patch324: 0016-taskmanager-font-size.patch
+
+#this two patch is needed by 'virtual trash UDSEntry' in plasma-workspace.
+Patch400: desktop-no-cut-copy-rename-delete-menu-item-on-desktop-virtual-trash-UDSentry.patch 
+Patch401: desktop-filter-out-trash-virtual-UDSEntry-when-select-from-desktop-view.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -359,6 +363,10 @@ fi
 
 
 %changelog
+* Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-26
+- Add patch #400 to remove menu items should not be associated to trash
+- Add patch #401 to filter out 'trash' from multiple selection of desktopview.
+
 * Fri Dec 18 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Filter user-trash-full for kickoff recent document.
 - Fix taskmanager font size issue when changed to oxygen theme.

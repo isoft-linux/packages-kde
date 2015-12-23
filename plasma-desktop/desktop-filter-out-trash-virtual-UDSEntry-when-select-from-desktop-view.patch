@@ -1,0 +1,13 @@
+diff -Nur plasma-desktop-5.4.3/containments/desktop/plugins/folder/foldermodel.cpp plasma-desktop-5.4.3n/containments/desktop/plugins/folder/foldermodel.cpp
+--- plasma-desktop-5.4.3/containments/desktop/plugins/folder/foldermodel.cpp	2015-12-23 14:54:30.435995809 +0800
++++ plasma-desktop-5.4.3n/containments/desktop/plugins/folder/foldermodel.cpp	2015-12-23 14:52:54.576991476 +0800
+@@ -1265,6 +1265,9 @@
+     foreach (const QModelIndex &index, m_selectionModel->selectedIndexes())
+     {
+         KFileItem item = itemForIndex(index);
++        // Filter out 'virtual trash UDSEntry' created in kio desktop.
++        if (item.url() == QUrl("trash:/"))
++            continue;
+ 
+         if (forTrash) {
+             // Prefer the local URL if there is one, since we can't trash remote URL's

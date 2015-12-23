@@ -1,0 +1,22 @@
+diff -Nur plasma-desktop-5.4.3/containments/desktop/plugins/folder/internallibkonq/konq_popupmenu.cpp plasma-desktop-5.4.3n/containments/desktop/plugins/folder/internallibkonq/konq_popupmenu.cpp
+--- plasma-desktop-5.4.3/containments/desktop/plugins/folder/internallibkonq/konq_popupmenu.cpp	2015-11-05 20:44:49.000000000 +0800
++++ plasma-desktop-5.4.3n/containments/desktop/plugins/folder/internallibkonq/konq_popupmenu.cpp	2015-12-23 13:29:16.417764616 +0800
+@@ -327,7 +327,7 @@
+     }
+     addGroup( "tabhandling" ); // includes a separator at the end
+ 
+-    if (m_itemFlags & KParts::BrowserExtension::ShowUrlOperations) {
++    if ((m_itemFlags & KParts::BrowserExtension::ShowUrlOperations) && !isCurrentTrash) {
+         if ( !currentDir && sReading ) {
+             if ( sDeleting ) {
+                 addNamedAction( "cut" );
+@@ -369,7 +369,8 @@
+ 
+     // This is used by KHTML, see khtml_popupmenu.rc (copy, selectAll, searchProvider etc.)
+     // and by DolphinPart (rename, trash, delete)
+-    addGroup( "editactions" );
++    if(!isCurrentTrash)
++        addGroup( "editactions" );
+ 
+     if (m_itemFlags & KParts::BrowserExtension::ShowTextSelectionItems) {
+         // OK, we have to stop here.
