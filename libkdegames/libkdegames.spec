@@ -1,7 +1,7 @@
 Name:    libkdegames
 Summary: Common code and data for many KDE games
 Version: 15.12.0
-Release: 2
+Release: 3
 
 # libKF5KDEGames is LGPLv2, libKF5KDEGamesPrivate is GPLv2+
 License: LGPLv2 and GPLv2+
@@ -13,6 +13,9 @@ URL:     https://projects.kde.org/projects/kde/kdegames/libkdegames
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/libkdegames-%{version}.tar.xz
+
+#https://git.reviewboard.kde.org/r/126383/
+Patch0: 0001-Avoid-crashy-dialogs.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -73,7 +76,7 @@ Requires: kf5-kwidgetsaddons-devel
 
 
 %prep
-%setup -q
+%autosetup -p1
 
 
 %build
@@ -108,6 +111,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-3
+- Merge git fix back
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update
 

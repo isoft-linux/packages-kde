@@ -1,0 +1,56 @@
+From 08c043a2dfedca4a4bd19eb1c64387bf0bb1041e Mon Sep 17 00:00:00 2001
+From: Frederik Schwarzer <schwarzer@kde.org>
+Date: Fri, 18 Dec 2015 13:44:51 +0100
+Subject: [PATCH] Avoid crashy dialogs.
+
+---
+ kgthemeselector.cpp                       | 7 ++++---
+ libkdegamesprivate/kgamethemeselector.cpp | 7 ++++---
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/kgthemeselector.cpp b/kgthemeselector.cpp
+index 9cd9c61..4d68957 100644
+--- a/kgthemeselector.cpp
++++ b/kgthemeselector.cpp
+@@ -156,15 +156,16 @@ void KgThemeSelector::Private::_k_updateProviderSelection()
+ 
+ void KgThemeSelector::Private::_k_showNewStuffDialog()
+ {
+-	KNS3::DownloadDialog dialog(q);
+-	dialog.exec();
+-	if (!dialog.changedEntries().isEmpty())
++	QPointer<KNS3::DownloadDialog> dialog(new KNS3::DownloadDialog(q));
++	dialog->exec();
++	if (dialog && !dialog->changedEntries().isEmpty())
+ 	{
+ 		m_provider->rediscoverThemes();
+ 		fillList();
+ 	}
+ 	//restore previous selection
+ 	_k_updateListSelection(m_provider->currentTheme());
++	delete dialog;
+ }
+ 
+ class KgThemeSelector::Dialog : public QDialog
+diff --git a/libkdegamesprivate/kgamethemeselector.cpp b/libkdegamesprivate/kgamethemeselector.cpp
+index ce3cf1f..6ed9db7 100644
+--- a/libkdegamesprivate/kgamethemeselector.cpp
++++ b/libkdegamesprivate/kgamethemeselector.cpp
+@@ -208,10 +208,11 @@ void KGameThemeSelector::KGameThemeSelectorPrivate::_k_updateThemeList(const QSt
+ 
+ void KGameThemeSelector::KGameThemeSelectorPrivate::_k_openKNewStuffDialog()
+ {
+-    KNS3::DownloadDialog dialog( q );
+-    dialog.exec();
+-    if ( !dialog.changedEntries().isEmpty() )
++    QPointer<KNS3::DownloadDialog> dialog(new KNS3::DownloadDialog( q ));
++    dialog->exec();
++    if ( dialog && !dialog->changedEntries().isEmpty() )
+         findThemes( ui.kcfg_Theme->text() );
++    delete dialog;
+ }
+ 
+ #include "moc_kgamethemeselector.cpp"
+-- 
+2.6.4
+
