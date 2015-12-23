@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        24
+Release:        25
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -33,10 +33,8 @@ Patch11: plasma-workspace-disable-gpsd.patch
 #Patch from Leslie Zhai
 Patch12: 0001-kscreenlocker-accounts-service.patch
 
-#from Cjacker, protect ~/Desktop(localized by xdg-user-dirs)
-#if it get deleted or Home.desktop/trash.desktop get deleted.
-#when desktop started, all will be restored.
-Patch13:  plasma-workspace-protect-home-Desktop-dir.patch
+# Drop ~/Desktop/trash.desktop, use virtual UDSEntry created by kio-desktop instead.
+Patch13: workspace-kio-desktop-use-virtual-Trash-UDSentry-instead-of-trash.desktop-file.patch
 
 #backporting of xembedsniproxy
 Patch20: 0000-backport-xembedsniproxy.patch
@@ -409,6 +407,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-25
+- Drop trash.desktop, use virtual Trash UDSEntry
+
 * Wed Dec 23 2015 fj <fujiang.zhu@i-soft.com.cn> - 5.4.3-24
 - set default focus on button for breezeblock
 
