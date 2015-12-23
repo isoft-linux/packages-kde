@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -33,6 +33,9 @@ Patch6: kio-adjust_trash_filepath.patch
 
 # Fix cut and paste info myself issue.
 Patch7: 0001-cut-paste-into-myself.patch
+
+# without this patch, you can use 'empty trash twice', then trash stop work.
+Patch8: kio-fix-trash-hang.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -282,6 +285,9 @@ fi
 
 
 %changelog
+* Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-8
+- Fix trash hang
+
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-7
 - Backport from 5.17
 

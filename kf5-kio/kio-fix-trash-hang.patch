@@ -1,0 +1,14 @@
+diff -Nur kio-5.16.0/src/core/emptytrashjob.cpp kio-5.16.0new/src/core/emptytrashjob.cpp
+--- kio-5.16.0/src/core/emptytrashjob.cpp	2015-11-08 20:26:59.000000000 +0800
++++ kio-5.16.0new/src/core/emptytrashjob.cpp	2015-12-22 22:13:06.806386994 +0800
+@@ -55,6 +55,10 @@
+ {
+     //KNotification::event("Trash: emptied", QString(), QPixmap(), 0, KNotification::DefaultEvent);
+     org::kde::KDirNotify::emitFilesAdded(QUrl(QStringLiteral("trash:/")));
++    Q_D(EmptyTrashJob);
++    //Return slave to the scheduler
++    SimpleJob::slotFinished();
++
+ }
+ 
+ KIO::EmptyTrashJob *KIO::emptyTrash()
