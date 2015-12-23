@@ -36,6 +36,15 @@ Patch3: 0002-hidden-status.patch
 # [Window Thumbnails] Don't crash if Composite is disabled
 Patch10: windowthumbcomposite.patch
 
+# https://git.reviewboard.kde.org/r/126449
+Patch11: create-applet-immutable.diff
+
+# https://git.reviewboard.kde.org/r/126443/
+Patch12: plasma-framework-urlinterceptor-memleak.diff
+
+# https://git.reviewboard.kde.org/r/126411/
+Patch13: plasma-framesvg-fix-cache.patch
+
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
 BuildRequires:  libXrender-devel

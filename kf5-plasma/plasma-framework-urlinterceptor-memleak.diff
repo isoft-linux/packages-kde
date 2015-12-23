@@ -1,0 +1,12 @@
+diff --git a/src/plasmaquick/packageurlinterceptor.cpp b/src/plasmaquick/packageurlinterceptor.cpp
+index e49fc35..5bd600c 100644
+--- a/src/plasmaquick/packageurlinterceptor.cpp
++++ b/src/plasmaquick/packageurlinterceptor.cpp
+@@ -60,6 +60,7 @@ PackageUrlInterceptor::PackageUrlInterceptor(QQmlEngine *engine, const Plasma::P
+ 
+ PackageUrlInterceptor::~PackageUrlInterceptor()
+ {
++    delete d;
+ }
+ 
+ void PackageUrlInterceptor::addAllowedPath(const QString &path)

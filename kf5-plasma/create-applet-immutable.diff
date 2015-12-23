@@ -1,0 +1,15 @@
+diff --git a/src/plasma/containment.cpp b/src/plasma/containment.cpp
+index 512cdc4..0beb196 100644
+--- a/src/plasma/containment.cpp
++++ b/src/plasma/containment.cpp
+@@ -364,7 +364,9 @@ void Containment::setLocation(Types::Location location)
+ Applet *Containment::createApplet(const QString &name, const QVariantList &args)
+ {
+     Plasma::Applet *applet = d->createApplet(name, args);
+-    emit appletCreated(applet);
++    if (applet) {
++        emit appletCreated(applet);
++    }
+     return applet;
+ }
+ 

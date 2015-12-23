@@ -1,0 +1,23 @@
+diff --git a/src/plasma/framesvg.cpp b/src/plasma/framesvg.cpp
+index 107e0e6..81187dc 100644
+--- a/src/plasma/framesvg.cpp
++++ b/src/plasma/framesvg.cpp
+@@ -500,12 +500,17 @@ QRegion FrameSvg::mask() const
+     QString id = d->cacheId(frame, QString());
+ 
+     QRegion* obj = frame->cachedMasks.object(id);
++    QRegion result;
+ 
+     if (!obj) {
+         obj = new QRegion(QBitmap(d->alphaMask().alphaChannel().createMaskFromColor(Qt::black)));
++        result = *obj;
+         frame->cachedMasks.insert(id, obj);
+     }
+-    return *obj;
++    else {
++        result = *obj;
++    }
++    return result;
+ }
+ 
+ void FrameSvg::setCacheAllRenderedFrames(bool cache)
