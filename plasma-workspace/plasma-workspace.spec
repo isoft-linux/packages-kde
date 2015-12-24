@@ -418,6 +418,10 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 * Thu Dec 24 2015 <ming.wang@i-soft.com.cn> - 5.4.3-28
 - Remove PartiallyChecked state of use24hFormat checkbox.
 
+* Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-28
+- Update trash patch, do not check trashdir, it's not enough.
+- we now ensure trashrc update in kio trash.
+
 * Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-27
 - Update trash patch, also check trash dir to determine is empty or not
 
