@@ -1,0 +1,29 @@
+These codes only for trash.desktop, it's a hack and spectial treatment
+With virtual Trash enabled, these codes can be removed.
+diff -Nur kio-5.16.0/src/core/kfileitem.cpp kio-5.16.0n/src/core/kfileitem.cpp
+--- kio-5.16.0/src/core/kfileitem.cpp	2015-11-08 20:26:59.000000000 +0800
++++ kio-5.16.0n/src/core/kfileitem.cpp	2015-12-23 19:44:57.708105773 +0800
+@@ -877,23 +877,6 @@
+ {
+     KDesktopFile cfg(path);
+     const QString icon = cfg.readIcon();
+-    if (cfg.hasLinkType()) {
+-        const KConfigGroup group = cfg.desktopGroup();
+-        const QString emptyIcon = group.readEntry("EmptyIcon");
+-        const QString type = cfg.readPath();
+-        if (!emptyIcon.isEmpty()) {
+-            const QString u = cfg.readUrl();
+-            const QUrl url(u);
+-            if (url.scheme() == QLatin1String("trash")) {
+-                // We need to find if the trash is empty, preferably without using a KIO job.
+-                // So instead kio_trash leaves an entry in its config file for us.
+-                KConfig trashConfig(QStringLiteral("trashrc"), KConfig::SimpleConfig);
+-                if (trashConfig.group("Status").readEntry("Empty", true)) {
+-                    return emptyIcon;
+-                }
+-            }
+-        }
+-    }
+     return icon;
+ }
+ 
