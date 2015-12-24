@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        27
+Release:        28
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -91,6 +91,9 @@ Patch51: disable-ignore-image-and-textonly-for-clipboard.patch
 
 # Set default focus on breezeblock on login page
 Patch52: setfocus-on-breezeblock.patch
+
+# remove PartiallyChecked state of use24hFormat checkbox
+Patch53: plasma-workspace-use24hFormat-no-partially-checked.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -301,6 +304,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch50 -p1
 %patch51 -p1
 %patch52 -p1
+%patch53 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -411,6 +415,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 24 2015 <ming.wang@i-soft.com.cn> - 5.4.3-28
+- Remove PartiallyChecked state of use24hFormat checkbox.
+
 * Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-27
 - Update trash patch, also check trash dir to determine is empty or not
 

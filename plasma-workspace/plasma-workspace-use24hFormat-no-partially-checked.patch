@@ -1,0 +1,47 @@
+diff -Nur plasma-workspace-clean/plasma-workspace-5.4.3/applets/digital-clock/package/contents/config/main.xml plasma-workspace-5.4.3/applets/digital-clock/package/contents/config/main.xml
+--- plasma-workspace-clean/plasma-workspace-5.4.3/applets/digital-clock/package/contents/config/main.xml	2015-11-05 20:49:30.000000000 +0800
++++ plasma-workspace-5.4.3/applets/digital-clock/package/contents/config/main.xml	2015-12-24 12:38:06.467555899 +0800
+@@ -45,8 +45,8 @@
+     <entry name="showWeekNumbers" type="Bool">
+       <default>false</default>
+     </entry>
+-    <entry name="use24hFormat" type="UInt">
+-        <default>1</default>
++    <entry name="use24hFormat" type="Bool">
++        <default>false</default>
+     </entry>
+   </group>
+ 
+diff -Nur plasma-workspace-clean/plasma-workspace-5.4.3/applets/digital-clock/package/contents/ui/configAppearance.qml plasma-workspace-5.4.3/applets/digital-clock/package/contents/ui/configAppearance.qml
+--- plasma-workspace-clean/plasma-workspace-5.4.3/applets/digital-clock/package/contents/ui/configAppearance.qml	2015-11-05 20:49:30.000000000 +0800
++++ plasma-workspace-5.4.3/applets/digital-clock/package/contents/ui/configAppearance.qml	2015-12-24 12:37:57.925555901 +0800
+@@ -43,7 +43,7 @@
+ 
+     property alias cfg_showDate: showDate.checked
+     property string cfg_dateFormat: "shortDate"
+-    property alias cfg_use24hFormat: use24hFormat.checkedState
++    property alias cfg_use24hFormat: use24hFormat.checked
+ 
+     onCfg_fontFamilyChanged: {
+         // HACK by the time we populate our model and/or the ComboBox is finished the value is still undefined
+diff -Nur plasma-workspace-clean/plasma-workspace-5.4.3/applets/digital-clock/package/contents/ui/DigitalClock.qml plasma-workspace-5.4.3/applets/digital-clock/package/contents/ui/DigitalClock.qml
+--- plasma-workspace-clean/plasma-workspace-5.4.3/applets/digital-clock/package/contents/ui/DigitalClock.qml	2015-11-05 20:49:30.000000000 +0800
++++ plasma-workspace-5.4.3/applets/digital-clock/package/contents/ui/DigitalClock.qml	2015-12-24 12:38:19.419555898 +0800
+@@ -45,7 +45,7 @@
+ 
+     property string lastSelectedTimezone: plasmoid.configuration.lastSelectedTimezone
+     property bool displayTimezoneAsCode: plasmoid.configuration.displayTimezoneAsCode
+-    property int use24hFormat: plasmoid.configuration.use24hFormat
++    property bool use24hFormat: plasmoid.configuration.use24hFormat
+ 
+     property string lastDate: ""
+     property int tzOffset
+@@ -504,7 +504,7 @@
+         }
+ 
+         // add "AM/PM" either if the setting is the default and locale uses it OR if the user unchecked "use 24h format"
+-        if ((main.use24hFormat == Qt.PartiallyChecked && !uses24hFormatByDefault) || main.use24hFormat == Qt.Unchecked) {
++        if (!main.use24hFormat) {
+             result += " " + amPm;
+         }
+ 
