@@ -1,7 +1,23 @@
 diff -Nur kio-5.16.0/src/ioslaves/trash/trashimpl.cpp kio-5.16.0n/src/ioslaves/trash/trashimpl.cpp
 --- kio-5.16.0/src/ioslaves/trash/trashimpl.cpp	2015-11-08 20:26:59.000000000 +0800
-+++ kio-5.16.0n/src/ioslaves/trash/trashimpl.cpp	2015-12-24 09:50:01.068175635 +0800
-@@ -804,20 +804,20 @@
++++ kio-5.16.0n/src/ioslaves/trash/trashimpl.cpp	2015-12-24 09:57:21.352195539 +0800
+@@ -794,6 +794,15 @@
+     m_lastErrorMessage = s;
+ }
+ 
++//Sometimes for unknown reason, trashrc not updated.
++//Try: 
++//1, empty trash and modify 'Empty' in trashrc to false manually
++//2, empty trash again
++//3, modify trashrc to false if true manually.
++//4, empty trash again, the trashrc not updated.
++//
++//Make sure trashrc will update ASAP.
++
+ bool TrashImpl::isEmpty() const
+ {
+     // For each known trash directory...
+@@ -804,20 +813,18 @@
      for (; it != m_trashDirectories.constEnd(); ++it) {
          QString infoPath = it.value();
          infoPath += QLatin1String("/info");
@@ -17,17 +33,14 @@ diff -Nur kio-5.16.0/src/ioslaves/trash/trashimpl.cpp kio-5.16.0n/src/ioslaves/t
 -                //qDebug() << ep->d_name << "in" << infoPath << "-> not empty";
 -                return false; // not empty
 -            }
--        }
-+        if( QDir(infoPath).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() != 0 )
++        if( QDir(infoPath).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() != 0 ) {
++            KConfigGroup group = m_config.group("Status");
++            group.writeEntry("Empty", false);
++            m_config.sync();
 +            return false; // not empty
+         }
      }
 +
-+    //Sometimes for unknown reason, trashrc not updated.
-+    //Try: 
-+    //1, empty trash and modify 'Empty' in trashrc to false manually
-+    //2, empty trash again
-+    //3, modify trashrc to false if true manually.
-+    //4, empty trash again, the trashrc not updated.
 +    KConfigGroup group = m_config.group("Status");
 +    group.writeEntry("Empty", true);
 +    m_config.sync();

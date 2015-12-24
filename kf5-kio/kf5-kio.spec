@@ -42,8 +42,8 @@ Patch8: kio-fix-trash-hang.patch
 # remove this codes, also slightly improved performance.  
 Patch9: kio-no-need-specitial-treatment-for-trash.desktop.patch
 
-#for unkown reason, the trashrc sometimes not updated.
-Patch10: ensure-trashrc-updated.patch
+#for unknown reason, the trashrc sometimes not updated.
+Patch10: make-sure-trashrc-updated-asap.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
