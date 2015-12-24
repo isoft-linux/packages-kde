@@ -183,7 +183,7 @@ diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/kio_desktop.cpp plasma-worksp
 +    //read 'trashrc' to set the icon.
 +    KConfig config("trashrc");
 +    KConfigGroup cg(&config, "Status");
-+    bool configEmpty = cg.readEntry("Empty", true);
++    bool empty = cg.readEntry("Empty", true);
 +
 +    //trashrc is not reliable, if io load is high
 +    //The updating of this file will be very slow, Also check trash folder here.
@@ -193,7 +193,7 @@ diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/kio_desktop.cpp plasma-worksp
 +    if( QDir(trashFileDir).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() == 0 )
 +        trashDirEmpty = true;
 +    */
-+    if(/*trashDirEmpty ||*/ configEmpty)
++    if(/*trashDirEmpty ||*/ empty)
 +       entry.insert( KIO::UDSEntry::UDS_ICON_NAME, QStringLiteral("user-trash"));
 +    else
 +       entry.insert( KIO::UDSEntry::UDS_ICON_NAME, QStringLiteral("user-trash-full"));
