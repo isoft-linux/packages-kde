@@ -1,6 +1,6 @@
-diff -Nur plasma-workspace-clean/plasma-workspace-5.4.3/klipper/generalconfig.ui plasma-workspace-5.4.3/klipper/generalconfig.ui
---- plasma-workspace-clean/plasma-workspace-5.4.3/klipper/generalconfig.ui	2015-11-05 20:49:30.000000000 +0800
-+++ plasma-workspace-5.4.3/klipper/generalconfig.ui	2015-12-24 17:53:51.013480519 +0800
+diff -Nur plasma-workspace-5.4.3/klipper/generalconfig.ui plasma-workspace-5.4.3n/klipper/generalconfig.ui
+--- plasma-workspace-5.4.3/klipper/generalconfig.ui	2015-12-24 18:37:13.847721203 +0800
++++ plasma-workspace-5.4.3n/klipper/generalconfig.ui	2015-12-24 18:40:39.857740253 +0800
 @@ -19,13 +19,6 @@
      </widget>
     </item>
@@ -12,6 +12,6 @@ diff -Nur plasma-workspace-clean/plasma-workspace-5.4.3/klipper/generalconfig.ui
 -    </widget>
 -   </item>
 -   <item>
-     <widget class="QCheckBox" name="kcfg_IgnoreImages">
-      <property name="text">
-       <string>Ignore images</string>
+     <widget class="QGroupBox" name="selection_group">
+      <property name="title">
+       <string>Selection and Clipboard</string>
