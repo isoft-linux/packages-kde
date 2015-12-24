@@ -1,7 +1,7 @@
 Name:    dolphin 
 Summary: KDE File Manager
 Version: 15.12.0
-Release: 3
+Release: 4
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
@@ -34,6 +34,9 @@ Patch6: dolphin-hide-rating-when-search.patch
 
 # Fix baloosearch move to trash reload issue
 Patch7: 0001-move-to-trash-reload.patch
+
+# show correct context menu in 'dolphin desktop:/' for trash
+Patch8: dolphin-kio-desktop-trash-context-menu.patch
 
 BuildRequires: cmake
 BuildRequires: extra-cmake-modules
@@ -111,6 +114,7 @@ developing applications that use %{name}.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 mkdir %{_target_platform}
@@ -167,6 +171,9 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so
 
 %changelog
+* Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-4
+- Show correct context menu in dolphin desktop:/ for trash
+
 * Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix baloosearch move to trash reload issue.
 
