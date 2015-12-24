@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution with abstraction for system notifications
 
 License:        LGPLv2+
@@ -16,6 +16,13 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+
+# KDEBUG-357091 QSystemTrayIcon has no API to control status 
+# http://code.qt.io/cgit/qt/qtbase.git/tree/src/platformsupport/dbustray/qdbustrayicon.cpp#n76
+# so if default status is Passive, QSystemTrayIcon will be hided into systemtray
+# applet's ExpandedRepresentation area, it is visible only by click on the 
+# expanding triangle.
+Patch0: 0001-default-status-active.patch
 
 BuildRequires:  libX11-devel
 
@@ -49,6 +56,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -85,6 +93,9 @@ mkdir -p %{buildroot}/%{_kf5_datadir}/knotifications5
 
 
 %changelog
+* Thu Dec 24 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix KDEBUG-357091 QSystemTrayIcon default status is Active now.
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
