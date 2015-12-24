@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        13
+Release:        14
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -44,6 +44,9 @@ Patch12: plasma-framework-urlinterceptor-memleak.diff
 
 # https://git.reviewboard.kde.org/r/126411/
 Patch13: plasma-framesvg-fix-cache.patch
+
+# https://git.reviewboard.kde.org/r/126471
+Patch14: not-emit-statuschanged-if-no-change.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -165,6 +168,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-14
+- Patch14: Don't emit statusChanged if it hasn't changed
+
 * Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-13
 - Backport patch from git
 

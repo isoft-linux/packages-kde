@@ -1,0 +1,14 @@
+diff --git a/src/plasma/applet.cpp b/src/plasma/applet.cpp
+index 0b7ef5632c1accb3373aa8f2f57a7880e5f3640d..4ce2d28f47d88fb9d22f447fbc93688ecbf74e3d 100644
+--- a/src/plasma/applet.cpp
++++ b/src/plasma/applet.cpp
+@@ -453,6 +453,9 @@ Types::ItemStatus Applet::status() const
+ 
+ void Applet::setStatus(const Types::ItemStatus status)
+ {
++    if (status == d->itemStatus) {
++        return;
++    }
+     d->itemStatus = status;
+     emit statusChanged(status);
+ }
