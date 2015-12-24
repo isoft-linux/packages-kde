@@ -1,8 +1,10 @@
-diff --git a/containments/desktop/package/contents/ui/FolderView.qml b/containments/desktop/package/contents/ui/FolderView.qml
-index 578ec87..a3da781 100644
---- a/containments/desktop/package/contents/ui/FolderView.qml
-+++ b/containments/desktop/package/contents/ui/FolderView.qml
-@@ -670,6 +670,16 @@ Item {
+According to http://doc.qt.io/qt-5/qkeysequence.html:
+StandardKey.Cut under KDE includes "Ctrl+X, F20, Shift+Del", Obviously it's not match shortcut scheme of KDE.
+Here we use: Ctrl+X for cut, Shift+Del for Delete directly.
+diff -Nur plasma-desktop-5.4.3/containments/desktop/package/contents/ui/FolderView.qml plasma-desktop-5.4.3key/containments/desktop/package/contents/ui/FolderView.qml
+--- plasma-desktop-5.4.3/containments/desktop/package/contents/ui/FolderView.qml	2015-11-05 20:44:49.000000000 +0800
++++ plasma-desktop-5.4.3key/containments/desktop/package/contents/ui/FolderView.qml	2015-12-23 23:06:12.535035377 +0800
+@@ -670,6 +670,16 @@
                      } else if (event.key == Qt.Key_End) {
                          currentIndex = count - 1;
                          updateSelection(event.modifiers);
@@ -10,20 +12,19 @@ index 578ec87..a3da781 100644
 +                        dir.copy();
 +                    } else if (event.matches(StandardKey.Paste)) {
 +                        dir.paste();
-+                    } else if (event.modifiers && Qt.ShiftModifier) {
-+                        if (event.key == Qt.Key_Delete) {
++                    } else if (event.modifiers & Qt.ControlModifier) {
++                        if (event.key == Qt.Key_X)
++                            dir.cut();
++                    } else if (event.modifiers & Qt.ShiftModifier) {
++                        if (event.key == Qt.Key_Delete)
 +                            dir.deleteSelected();
-+                        }
-+                    } else if (event.matches(StandardKey.Cut)) {
-+                        dir.cut();
                      }
                  }
  
-diff --git a/containments/desktop/plugins/folder/foldermodel.h b/containments/desktop/plugins/folder/foldermodel.h
-index 5d7f886..46bc0dc 100644
---- a/containments/desktop/plugins/folder/foldermodel.h
-+++ b/containments/desktop/plugins/folder/foldermodel.h
-@@ -191,6 +191,11 @@ class FolderModel : public QSortFilterProxyModel
+diff -Nur plasma-desktop-5.4.3/containments/desktop/plugins/folder/foldermodel.h plasma-desktop-5.4.3key/containments/desktop/plugins/folder/foldermodel.h
+--- plasma-desktop-5.4.3/containments/desktop/plugins/folder/foldermodel.h	2015-11-05 20:44:49.000000000 +0800
++++ plasma-desktop-5.4.3key/containments/desktop/plugins/folder/foldermodel.h	2015-12-23 23:05:56.792034665 +0800
+@@ -191,6 +191,11 @@
          bool isDir(const QModelIndex &index, const KDirModel *dirModel) const;
          bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
  
@@ -35,7 +36,7 @@ index 5d7f886..46bc0dc 100644
      Q_SIGNALS:
          void urlChanged() const;
          void resolvedUrlChanged() const;
-@@ -220,13 +225,9 @@ class FolderModel : public QSortFilterProxyModel
+@@ -220,13 +225,9 @@
          void statResult(KJob *job);
          void evictFromIsDirCache(const KFileItemList &items);
          void selectionChanged(QItemSelection selected, QItemSelection deselected);

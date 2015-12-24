@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        26
+Release:        27
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -112,9 +112,13 @@ Patch323: 0015-kcm-ksmserver-default-session.patch
 # Fix taskmanager font size when changed to oxygen theme.
 Patch324: 0016-taskmanager-font-size.patch
 
-#this two patch is needed by 'virtual trash UDSEntry' in plasma-workspace.
+#this three patch is needed by 'virtual trash UDSEntry' in plasma-workspace.
 Patch400: desktop-no-cut-copy-rename-delete-menu-item-on-desktop-virtual-trash-UDSentry.patch 
 Patch401: desktop-filter-out-trash-virtual-UDSEntry-when-select-from-desktop-view.patch
+Patch402: plasma-desktop-drop-the-trash.desktop-spectial-treatment.patch
+
+#Fix https://bugs.kde.org/show_bug.cgi?id=357100
+Patch410: plasma-desktop-fix-Show-Original-Dir-in-DesktopView.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -339,11 +343,11 @@ fi
 %{_datadir}/polkit-1/actions/org.kde.fontinst.policy
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmclock.policy
 # kcm_touchpad
-#%{_bindir}/kcm-touchpad-list-devices
-#%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_touchpad.so
-#%{_datadir}/config.kcfg/touchpad.kcfg
-#%{_datadir}/config.kcfg/touchpaddaemon.kcfg
-#%{_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
+# {_bindir}/kcm-touchpad-list-devices
+# {_kf5_qtplugindir}/plasma/dataengine/plasma_engine_touchpad.so
+# {_datadir}/config.kcfg/touchpad.kcfg
+# {_datadir}/config.kcfg/touchpaddaemon.kcfg
+# {_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
 
 %files doc
 %lang(ca) %{_docdir}/HTML/ca/kcontrol/
@@ -363,6 +367,11 @@ fi
 
 
 %changelog
+* Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-27
+- Patch #402, Drop trash.desktop specitial treatment
+- Patch #410, Fix a bug of link file in DesktopView
+- Update patch #318 to support Cut and Delete correctly.
+
 * Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-26
 - Add patch #400 to remove menu items should not be associated to trash
 - Add patch #401 to filter out 'trash' from multiple selection of desktopview.

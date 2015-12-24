@@ -1,0 +1,15 @@
+Set DesktopView show desktop folder.
+create a link to ~ in ~/Desktop.
+Right click popup menu to activate "Show original directory" should open '/home' instead of "desktop:/home".
+diff -Nur plasma-desktop-5.4.3/containments/desktop/plugins/folder/internallibkonq/konq_popupmenu.cpp plasma-desktop-5.4.3.fix/containments/desktop/plugins/folder/internallibkonq/konq_popupmenu.cpp
+--- plasma-desktop-5.4.3/containments/desktop/plugins/folder/internallibkonq/konq_popupmenu.cpp	2015-12-23 21:47:37.329252500 +0800
++++ plasma-desktop-5.4.3.fix/containments/desktop/plugins/folder/internallibkonq/konq_popupmenu.cpp	2015-12-23 21:47:09.163251227 +0800
+@@ -623,7 +623,7 @@
+ {
+     const KFileItem item = m_popupItemProperties.items().first();
+     const QString dest = item.linkDest();
+-    QUrl destUrl = m_sViewURL;
++    QUrl destUrl = m_sViewURL.toLocalFile();
+     if (dest.startsWith('/')) {
+         destUrl.setPath(dest);
+     } else {
