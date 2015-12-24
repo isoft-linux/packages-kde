@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        29
+Release:        30
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -94,6 +94,9 @@ Patch52: setfocus-on-breezeblock.patch
 
 # remove PartiallyChecked state of use24hFormat checkbox
 Patch53: plasma-workspace-use24hFormat-no-partially-checked.patch
+
+# remove checkbox kcfg_PreventEmptyClipboard
+Patch54: plsm-wksp-remove-checkbox-kcfg_PreventEmptyClipboard.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -305,6 +308,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch51 -p1
 %patch52 -p1
 %patch53 -p1
+%patch54 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -415,6 +419,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 24 2015 <ming.wang@i-soft.com.cn> - 5.4.3-30
+- Remove checkbox kcfg_PreventEmptyClipboard.
+
 * Thu Dec 24 2015 <ming.wang@i-soft.com.cn> - 5.4.3-28
 - Remove PartiallyChecked state of use24hFormat checkbox.
 
