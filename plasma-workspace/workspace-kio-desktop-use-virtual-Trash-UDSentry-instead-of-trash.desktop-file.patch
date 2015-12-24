@@ -188,12 +188,12 @@ diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/kio_desktop.cpp plasma-worksp
 +    //trashrc is not reliable, if io load is high
 +    //The updating of this file will be very slow, Also check trash folder here.
 +    //Try: '1, empty trash, 2, change 'Empty' in ~/.config/trashrc to false, 3,logout and re-login' 
-+    bool trashDirEmpty = false;
++    /*bool trashDirEmpty = false;
 +    QString trashFileDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + '/' + "Trash/files";
 +    if( QDir(trashFileDir).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() == 0 )
 +        trashDirEmpty = true;
-+
-+    if(trashDirEmpty || configEmpty)
++    */
++    if(/*trashDirEmpty ||*/ configEmpty)
 +       entry.insert( KIO::UDSEntry::UDS_ICON_NAME, QStringLiteral("user-trash"));
 +    else
 +       entry.insert( KIO::UDSEntry::UDS_ICON_NAME, QStringLiteral("user-trash-full"));

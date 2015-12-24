@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        27
+Release:        28
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -411,6 +411,10 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-28
+- Update trash patch, do not check trashdir, it's not enough.
+- we now ensure trashrc update in kio trash.
+
 * Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-27
 - Update trash patch, also check trash dir to determine is empty or not
 
