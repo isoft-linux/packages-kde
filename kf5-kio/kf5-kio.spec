@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -41,6 +41,9 @@ Patch8: kio-fix-trash-hang.patch
 # After vitual trash implemented in kio desktop, there is no such desktop anymore.
 # remove this codes, also slightly improved performance.  
 Patch9: kio-no-need-specitial-treatment-for-trash.desktop.patch
+
+#for unkown reason, the trashrc sometimes not updated.
+Patch10: ensure-trashrc-updated.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -217,8 +220,6 @@ fi
 %{_kf5_datadir}/kservices5/useragent.desktop
 %{_kf5_datadir}/kservices5/*.protocol
 %{_kf5_datadir}/kservices5/http_cache_cleaner.desktop
-#%dir %{_kf5_datadir}/kservices5/kded/
-#%{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservices5/kcmtrash.desktop
 %{_kf5_datadir}/kservices5/useragentstrings
 %{_kf5_datadir}/knotifications5/proxyscout.*
@@ -290,6 +291,9 @@ fi
 
 
 %changelog
+* Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-10
+- Ensure trashrc updated
+
 * Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-9
 - Drop trash.desktop specitial treatment codes
 
