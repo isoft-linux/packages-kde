@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        26
+Release:        27
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -184,7 +184,6 @@ BuildRequires:  kf5-kactivities-devel
 
 BuildRequires:  libqalculate-devel
 
-#for patch13
 BuildRequires: qt5-qtaccountsservice-devel >= 0.6.0
 Requires: qt5-qtaccountsservice >= 0.6.0
 
@@ -412,6 +411,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-27
+- Update trash patch, also check trash dir to determine is empty or not
+
 * Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-26
 - Add kio_desktop po for zh_CN
 

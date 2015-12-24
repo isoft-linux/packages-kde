@@ -1,29 +1,6 @@
-Original kio_desktop depend on 'trash.desktop' to show TrashBin.
-
-But it's not reliable: 
-
-* 'trash.desktop' can be deleted, removed, renamed, etc. even this file protected by KIO. but the ~/Desktop folder can be also deleted.
-* It may be conflict with other desktop shell, for example, GNOME, will show two Trash on desktop view.
-* A lot of dirty codes to handle this special desktop file in kio(for trash icon update)/libkonq(for popup menu)/plasma-desktop internallibkonq.
-
-This fix remove 'trash.desktop' file and use virtual UDSEntry created by kio_desktop to make a 'trashbin' in desktopview, and not broken any codes exists already.
-
-* It's a S_IFDIR, so can accect drop in directly.
-* It update trash icon itself.
-* The 'Properties' dialog show correct infomation of 'trash:/', for example, disk usage, instead of show properties of a desktop file.
-* No matter ~/Desktop dir exists or not, the 'Trash' will be there.
- 
-NOTE:
-* 'kio_desktop.po' introduced for one i18n string 'trash'. It also can be readed from origial directory.trash file,
-  But we do not want to keep that file anymore and po files can be converted from it.
-
-* Some special treatment about 'trash icon' updating in kio can be removed now, trash icon will updated itself.
-
-* 'trash.desktop' or any desktop file with Type="Link" and URL="trash:/" should be treated as 'normal' file and no need specitial treatment anymore.
-
-diff -Nur plasma-workspace-5.4.3/kioslave/desktop/CMakeLists.txt plasma-workspace-5.4.3fix/kioslave/desktop/CMakeLists.txt
---- plasma-workspace-5.4.3/kioslave/desktop/CMakeLists.txt	2015-11-05 20:49:30.000000000 +0800
-+++ plasma-workspace-5.4.3fix/kioslave/desktop/CMakeLists.txt	2015-12-23 15:34:02.770103057 +0800
+diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/CMakeLists.txt plasma-workspace-5.4.3/kioslave/desktop/CMakeLists.txt
+--- plasma-workspace-5.4.3n/kioslave/desktop/CMakeLists.txt	2015-12-24 09:16:39.125085132 +0800
++++ plasma-workspace-5.4.3/kioslave/desktop/CMakeLists.txt	2015-12-24 09:16:51.212085678 +0800
 @@ -1,5 +1,7 @@
  add_subdirectory(tests)
  
@@ -40,9 +17,9 @@ diff -Nur plasma-workspace-5.4.3/kioslave/desktop/CMakeLists.txt plasma-workspac
 +install(FILES directory.desktop DESTINATION ${DATA_INSTALL_DIR}/kio_desktop)
  install(FILES Home.desktop DESTINATION ${DATA_INSTALL_DIR}/kio_desktop/DesktopLinks)
  
-diff -Nur plasma-workspace-5.4.3/kioslave/desktop/desktopnotifier.cpp plasma-workspace-5.4.3fix/kioslave/desktop/desktopnotifier.cpp
---- plasma-workspace-5.4.3/kioslave/desktop/desktopnotifier.cpp	2015-11-05 20:49:30.000000000 +0800
-+++ plasma-workspace-5.4.3fix/kioslave/desktop/desktopnotifier.cpp	2015-12-23 15:33:29.849101569 +0800
+diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/desktopnotifier.cpp plasma-workspace-5.4.3/kioslave/desktop/desktopnotifier.cpp
+--- plasma-workspace-5.4.3n/kioslave/desktop/desktopnotifier.cpp	2015-12-24 09:16:39.125085132 +0800
++++ plasma-workspace-5.4.3/kioslave/desktop/desktopnotifier.cpp	2015-12-24 09:16:51.212085678 +0800
 @@ -54,9 +54,11 @@
      Q_UNUSED(path)
  
@@ -58,9 +35,9 @@ diff -Nur plasma-workspace-5.4.3/kioslave/desktop/desktopnotifier.cpp plasma-wor
      } else {
          // Emitting FilesAdded forces a re-read of the dir
          KUrl url("desktop:/");
-diff -Nur plasma-workspace-5.4.3/kioslave/desktop/directory.trash plasma-workspace-5.4.3fix/kioslave/desktop/directory.trash
---- plasma-workspace-5.4.3/kioslave/desktop/directory.trash	2015-11-05 20:49:30.000000000 +0800
-+++ plasma-workspace-5.4.3fix/kioslave/desktop/directory.trash	1970-01-01 08:00:00.000000000 +0800
+diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/directory.trash plasma-workspace-5.4.3/kioslave/desktop/directory.trash
+--- plasma-workspace-5.4.3n/kioslave/desktop/directory.trash	2015-12-24 09:16:39.125085132 +0800
++++ plasma-workspace-5.4.3/kioslave/desktop/directory.trash	1970-01-01 08:00:00.000000000 +0800
 @@ -1,71 +0,0 @@
 -[Desktop Entry]
 -Encoding=UTF-8
@@ -133,17 +110,17 @@ diff -Nur plasma-workspace-5.4.3/kioslave/desktop/directory.trash plasma-workspa
 -URL=trash:/
 -OnlyShowIn=KDE;
 -
-diff -Nur plasma-workspace-5.4.3/kioslave/desktop/ExtraDesktop.sh plasma-workspace-5.4.3fix/kioslave/desktop/ExtraDesktop.sh
---- plasma-workspace-5.4.3/kioslave/desktop/ExtraDesktop.sh	2015-11-05 20:49:30.000000000 +0800
-+++ plasma-workspace-5.4.3fix/kioslave/desktop/ExtraDesktop.sh	1970-01-01 08:00:00.000000000 +0800
+diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/ExtraDesktop.sh plasma-workspace-5.4.3/kioslave/desktop/ExtraDesktop.sh
+--- plasma-workspace-5.4.3n/kioslave/desktop/ExtraDesktop.sh	2015-12-24 09:16:39.125085132 +0800
++++ plasma-workspace-5.4.3/kioslave/desktop/ExtraDesktop.sh	1970-01-01 08:00:00.000000000 +0800
 @@ -1,4 +0,0 @@
 -#! /bin/sh
 -#This file has output in separate line each file with a .desktop syntax
 -#that needs to be translated but has a non .desktop extension
 -find -name \*.trash -print
-diff -Nur plasma-workspace-5.4.3/kioslave/desktop/kio_desktop.cpp plasma-workspace-5.4.3fix/kioslave/desktop/kio_desktop.cpp
---- plasma-workspace-5.4.3/kioslave/desktop/kio_desktop.cpp	2015-11-05 20:49:30.000000000 +0800
-+++ plasma-workspace-5.4.3fix/kioslave/desktop/kio_desktop.cpp	2015-12-23 15:35:20.420106567 +0800
+diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/kio_desktop.cpp plasma-workspace-5.4.3/kioslave/desktop/kio_desktop.cpp
+--- plasma-workspace-5.4.3n/kioslave/desktop/kio_desktop.cpp	2015-12-24 09:16:39.125085132 +0800
++++ plasma-workspace-5.4.3/kioslave/desktop/kio_desktop.cpp	2015-12-24 09:22:51.658101973 +0800
 @@ -43,7 +43,7 @@
      {
          // necessary to use other kio slaves
@@ -182,69 +159,96 @@ diff -Nur plasma-workspace-5.4.3/kioslave/desktop/kio_desktop.cpp plasma-workspa
          }
      }
  #endif
-@@ -161,6 +154,59 @@
+@@ -159,8 +152,75 @@
+     return true;
+ }
  
++void DesktopProtocol::createVirtualTrash()
++{
++    KIO::UDSEntry entry;
++    entry.insert( KIO::UDSEntry::UDS_NAME, QStringLiteral( "Trash" ));
++
++    //introduce a string need i18n here.
++    entry.insert( KIO::UDSEntry::UDS_DISPLAY_NAME, i18n("Trash"));
++
++    //Set its type to S_IFDIR to accept file drop in.
++    //Also, "Properties" via right-click popup menu will display trash usage correctly(stat trash:/ via kio).
++    entry.insert( KIO::UDSEntry::UDS_FILE_TYPE, S_IFDIR );
++    entry.insert( KIO::UDSEntry::UDS_MIME_TYPE, QStringLiteral("inode/directory"));
++    entry.insert( KIO::UDSEntry::UDS_ACCESS, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH );
++
++    entry.insert( KIO::UDSEntry::UDS_URL, QStringLiteral("trash:/"));
++
++    //monitor desktop:/ in 'desktopnotifier.cpp' to receive notify.
++    //read 'trashrc' to set the icon.
++    KConfig config("trashrc");
++    KConfigGroup cg(&config, "Status");
++    bool configEmpty = cg.readEntry("Empty", true);
++
++    //trashrc is not reliable, if io load is high
++    //The updating of this file will be very slow, Also check trash folder here.
++    //Try: '1, empty trash, 2, change 'Empty' in ~/.config/trashrc to false, 3,logout and re-login' 
++    bool trashDirEmpty = false;
++    QString trashFileDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + '/' + "Trash/files";
++    if( QDir(trashFileDir).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() == 0 )
++        trashDirEmpty = true;
++
++    if(trashDirEmpty || configEmpty)
++       entry.insert( KIO::UDSEntry::UDS_ICON_NAME, QStringLiteral("user-trash"));
++    else
++       entry.insert( KIO::UDSEntry::UDS_ICON_NAME, QStringLiteral("user-trash-full"));
++
++    //owner/group and permissions 
++    QString m_userName,m_groupName;
++    struct passwd *user = getpwuid(getuid());
++    if (user) {
++        m_userName = QString::fromLatin1(user->pw_name);
++    }
++    struct group *grp = getgrgid(getgid());
++    if (grp) {
++        m_groupName = QString::fromLatin1(grp->gr_name);
++    }
++    entry.insert(KIO::UDSEntry::UDS_USER, m_userName);
++    entry.insert(KIO::UDSEntry::UDS_GROUP, m_groupName);
++    entry.insert(KIO::UDSEntry::UDS_ACCESS, 0700);
++
++    //Important, fake localpath to "trash:/" will avoid a lot of issues
++    //when pressing 'Ctrl+c' or 'Delete' key after selecting files include this 'virtual trash UDS'
++    //with localpath set to 'trash:/':
++    //When 'delete': will say 'trash:/' not exist.
++    //When 'Ctrl+c': will not copy files in trash.
++    //When 'Ctrl+v' to 'Virual trash UDS entry': will not work.
++    //Just as we expected.
++    entry.insert(KIO::UDSEntry::UDS_LOCAL_PATH, QStringLiteral("trash:/"));
++    
++    //list it.
++    listEntry(entry);
++}
++
  void DesktopProtocol::listDir(const QUrl &url)
  {
 +    //create virtual trash UDS only under root of 'desktop:/'
 +    if(url.path() == "" || url.path() == "/") {
-+        KIO::UDSEntry entry;
-+        entry.insert( KIO::UDSEntry::UDS_NAME, QStringLiteral( "Trash" ));
-+
-+        //introduce a string need i18n here.
-+        entry.insert( KIO::UDSEntry::UDS_DISPLAY_NAME, i18n("Trash"));
-+
-+        //Set its type to S_IFDIR to accept file drop in.
-+        //Also, "Properties" via right-click popup menu will display trash usage correctly(stat trash:/ via kio).
-+        entry.insert( KIO::UDSEntry::UDS_FILE_TYPE, S_IFDIR );
-+        entry.insert( KIO::UDSEntry::UDS_MIME_TYPE, QStringLiteral("inode/directory"));
-+        entry.insert( KIO::UDSEntry::UDS_ACCESS, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH );
-+
-+        entry.insert( KIO::UDSEntry::UDS_URL, QStringLiteral("trash:/"));
-+
-+        //monitor desktop:/ in 'desktopnotifier.cpp' to receive notify.
-+        //read 'trashrc' to set the icon.
-+        KConfig config("trashrc");
-+        KConfigGroup cg(&config, "Status");
-+        bool empty = cg.readEntry("Empty", true);
-+        if(empty)
-+           entry.insert( KIO::UDSEntry::UDS_ICON_NAME, QStringLiteral("user-trash"));
-+        else
-+           entry.insert( KIO::UDSEntry::UDS_ICON_NAME, QStringLiteral("user-trash-full"));
-+
-+        //owner/group and permissions 
-+        QString m_userName,m_groupName;
-+        struct passwd *user = getpwuid(getuid());
-+        if (user) {
-+            m_userName = QString::fromLatin1(user->pw_name);
-+        }
-+        struct group *grp = getgrgid(getgid());
-+        if (grp) {
-+            m_groupName = QString::fromLatin1(grp->gr_name);
-+        }
-+        entry.insert(KIO::UDSEntry::UDS_USER, m_userName);
-+        entry.insert(KIO::UDSEntry::UDS_GROUP, m_groupName);
-+        entry.insert(KIO::UDSEntry::UDS_ACCESS, 0700);
-+
-+        //Important, fake localpath to "trash:/" will avoid a lot of issues
-+        //when pressing 'Ctrl+c' or 'Delete' key after selecting files include this 'virtual trash UDS'
-+        //with localpath set to 'trash:/':
-+        //When 'delete': will say 'trash:/' not exist.
-+        //When 'Ctrl+c': will not copy files in trash.
-+        //When 'Ctrl+v' to 'Virual trash UDS entry': will not work.
-+        //Just as we expected.
-+        entry.insert(KIO::UDSEntry::UDS_LOCAL_PATH, QStringLiteral("trash:/"));
-+        
-+        //list it.
-+        listEntry(entry);
++        createVirtualTrash();
 +    }
 +
      KIO::ForwardingSlaveBase::listDir(url);
  
      KUrl actual;
-diff -Nur plasma-workspace-5.4.3/kioslave/desktop/Messages.sh plasma-workspace-5.4.3fix/kioslave/desktop/Messages.sh
---- plasma-workspace-5.4.3/kioslave/desktop/Messages.sh	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3fix/kioslave/desktop/Messages.sh	2015-12-23 15:35:57.699108252 +0800
+diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/kio_desktop.h plasma-workspace-5.4.3/kioslave/desktop/kio_desktop.h
+--- plasma-workspace-5.4.3n/kioslave/desktop/kio_desktop.h	2015-12-24 09:16:39.125085132 +0800
++++ plasma-workspace-5.4.3/kioslave/desktop/kio_desktop.h	2015-12-24 09:18:51.982091138 +0800
+@@ -30,6 +30,7 @@
+     virtual ~DesktopProtocol();
+ 
+ protected:
++    void createVirtualTrash();
+     void checkLocalInstall();
+     QString desktopFile(KIO::UDSEntry&) const;
+     virtual bool rewriteUrl(const QUrl &url, QUrl &newUrl);
+diff -Nur plasma-workspace-5.4.3n/kioslave/desktop/Messages.sh plasma-workspace-5.4.3/kioslave/desktop/Messages.sh
+--- plasma-workspace-5.4.3n/kioslave/desktop/Messages.sh	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3/kioslave/desktop/Messages.sh	2015-12-24 09:16:51.214085678 +0800
 @@ -0,0 +1,2 @@
 +#! /usr/bin/env bash
 +$XGETTEXT `find . -name "*.cc" -o -name "*.cpp" -o -name "*.h"` -o $podir/kio_desktop.pot
