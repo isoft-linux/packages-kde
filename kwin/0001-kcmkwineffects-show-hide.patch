@@ -1,0 +1,15 @@
+diff --git a/kcmkwin/kwincompositing/qml/Video.qml b/kcmkwin/kwincompositing/qml/Video.qml
+index 17c4b8d..56c8724 100644
+--- a/kcmkwin/kwincompositing/qml/Video.qml
++++ b/kcmkwin/kwincompositing/qml/Video.qml
+@@ -31,8 +31,10 @@ Multimedia.Video {
+         if (videoItem.visible === true) {
+             videoItem.stop();
+             videoItem.visible = false;
++            videoItem.height = 0;
+         } else {
+             videoItem.visible = true;
++            videoItem.height = 400;
+             videoItem.play();
+         }
+     }

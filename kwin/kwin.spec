@@ -2,7 +2,7 @@
 
 Name:           kwin
 Version:        5.4.3
-Release:        5
+Release:        6
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -38,6 +38,9 @@ Patch2: 0001-Add-rule-to-protect-the-focus-on-a-window.patch
 #The menu will still there.
 
 Patch3: kwin-close-windowmenu-rightclick-popup.patch
+
+# Fix kcmkwineffects preview Video hide/show issue.
+Patch4: 0001-kcmkwineffects-show-hide.patch
 
 # Base
 BuildRequires:  cmake
@@ -249,6 +252,9 @@ fi
 
 
 %changelog
+* Fri Dec 25 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix kcmkwineffects preview Video hide/show issue.
+
 * Wed Nov 25 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-5
 - Partial fix right-click popup menu issue
 
