@@ -1,0 +1,27 @@
+diff --git a/daemon/actions/bundled/handlebuttoneventsconfig.cpp b/daemon/actions/bundled/handlebuttoneventsconfig.cpp
+index 5d78ff0..75ebd98 100644
+--- a/daemon/actions/bundled/handlebuttoneventsconfig.cpp
++++ b/daemon/actions/bundled/handlebuttoneventsconfig.cpp
+@@ -70,7 +70,8 @@ void HandleButtonEventsConfig::load()
+     configGroup().config()->reparseConfiguration();
+ 
+     if (m_lidCloseCombo) {
+-        m_lidCloseCombo->setCurrentIndex(m_lidCloseCombo->findData(QVariant::fromValue(configGroup().readEntry<uint>("lidAction", 0))));
++        int index = m_lidCloseCombo->findData(QVariant::fromValue(configGroup().readEntry<uint>("lidAction", 0)));
++        m_lidCloseCombo->setCurrentIndex(index == -1 ? 0 : index);
+     }
+     if (m_triggerLidActionWhenExternalMonitorPresent) {
+         m_triggerLidActionWhenExternalMonitorPresent->setChecked(configGroup().readEntry<bool>("triggerLidActionWhenExternalMonitorPresent", false));
+@@ -98,12 +99,6 @@ QList< QPair< QString, QWidget* > > HandleButtonEventsConfig::buildUi()
+ 
+         foreach (QComboBox *box, boxes) {
+             box->addItem(QIcon::fromTheme("dialog-cancel"), i18n("Do nothing"), (uint)SuspendSession::None);
+-            if (methods.contains(Solid::PowerManagement::SuspendState)) {
+-                box->addItem(QIcon::fromTheme("system-suspend"), i18n("Sleep"), (uint)SuspendSession::ToRamMode);
+-            }
+-            if (methods.contains(Solid::PowerManagement::HibernateState)) {
+-                box->addItem(QIcon::fromTheme("system-suspend-hibernate"), i18n("Hibernate"), (uint)SuspendSession::ToDiskMode);
+-            }
+             box->addItem(QIcon::fromTheme("system-shutdown"), i18n("Shutdown"), (uint)SuspendSession::ShutdownMode);
+             box->addItem(QIcon::fromTheme("system-lock-screen"), i18n("Lock screen"), (uint)SuspendSession::LockScreenMode);
+             if (box != m_lidCloseCombo) {
