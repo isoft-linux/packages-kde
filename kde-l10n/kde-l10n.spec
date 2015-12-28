@@ -4,7 +4,7 @@
 Name:    kde-l10n
 Summary: Internationalization support for KDE
 Version: 15.12.0
-Release: 4 
+Release: 5 
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -41,6 +41,8 @@ Source27: ark.po.zh_CN
 
 #updated spectacle zh_CN po
 Source28: spectacle-zh_CN.po
+
+Source29: ksystemlog.po.zh_CN
 
 Source1000: subdirs-kde-l10n
 
@@ -166,6 +168,7 @@ cp %{SOURCE24} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/libksane.po
 cp %{SOURCE25} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/skanlite.po
 cp %{SOURCE26} %{name}-zh_CN-%{version}/5/zh_CN/messages/applications/konsole.po
 cp %{SOURCE27} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdeutils/ark.po
+cp %{SOURCE29} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdeadmin/ksystemlog.po
 
 #update spectacle zh_CN po
 rm -rf %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/spectacle.po
@@ -407,6 +410,9 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/ki18n5/
 
 
 %changelog
+* Mon Dec 28 2015 kun.li@i-soft.com.cn - 15.12.0-5
+- add ksystemlog.po localization
+
 * Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-4
 - Fix okular menu i18n
 
