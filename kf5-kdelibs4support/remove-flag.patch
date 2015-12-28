@@ -1,0 +1,19 @@
+Index: kdelibs4support-5.16.0/src/kdeui/k4timezonewidget.cpp
+===================================================================
+--- kdelibs4support-5.16.0.orig/src/kdeui/k4timezonewidget.cpp
++++ kdelibs4support-5.16.0/src/kdeui/k4timezonewidget.cpp
+@@ -118,10 +118,10 @@ K4TimeZoneWidget::K4TimeZoneWidget(QWidg
+         listItem->setData(Private::CityColumn, Private::ZoneRole, tzName);   // store complete path in custom role
+ 
+         // Locate the flag from /l10n/%1/kf5_flag.png.
+-        QString flag = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString("locale/l10n/%1/flag.png").arg(zone.countryCode().toLower()));
+-        if (QFile::exists(flag)) {
+-            listItem->setIcon(Private::RegionColumn, QPixmap(flag));
+-        }
++        //QString flag = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString("locale/l10n/%1/flag.png").arg(zone.countryCode().toLower()));
++        //if (QFile::exists(flag)) {
++        //    listItem->setIcon(Private::RegionColumn, QPixmap(flag));
++        //}
+     }
+ }
+ 
