@@ -1,0 +1,71 @@
+commit 7ed7304baba4077925267505119ed1d4f591a801
+Author: Michael Pyne <mpyne@kde.org>
+Date:   Thu Dec 24 23:43:48 2015 -0500
+
+    Use proper deleters for libxcb structs.
+    
+    Coverity noted we were mismatching new Foo with free(foo), which is
+    undefined behavior (CID 1340556). While I was fixing that I noticed we
+    have the same issue with QScopedPointer<>: when using QSP to track
+    objects returned by libxcb, we must use free() to release memory, not
+    C++ delete. (e.g. see
+    http://xcb.freedesktop.org/manual/group__XCB____API.html#ga6727f2bfb24769655e52d1f1c50f58fe)
+    QScopedPointer will do this if we use QScopedPointerPodDeleter.
+
+diff --git a/xembed-sni-proxy/sniproxy.cpp b/xembed-sni-proxy/sniproxy.cpp
+index ae6eab7..fa02f73 100644
+--- a/xembed-sni-proxy/sniproxy.cpp
++++ b/xembed-sni-proxy/sniproxy.cpp
+@@ -88,7 +88,8 @@ SNIProxy::SNIProxy(xcb_window_t wid, QObject* parent):
+     auto c = QX11Info::connection();
+ 
+     auto cookie = xcb_get_geometry(c, m_windowId);
+-    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
++    QScopedPointer<xcb_get_geometry_reply_t, QScopedPointerPodDeleter>
++        clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
+ 
+     //create a container window
+     auto screen = xcb_setup_roots_iterator (xcb_get_setup (c)).data;
+@@ -239,7 +240,8 @@ QImage SNIProxy::getImageNonComposite() const
+ {
+     auto c = QX11Info::connection();
+     auto cookie = xcb_get_geometry(c, m_windowId);
+-    QScopedPointer<xcb_get_geometry_reply_t> geom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
++    QScopedPointer<xcb_get_geometry_reply_t, QScopedPointerPodDeleter>
++        geom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
+ 
+     xcb_image_t *image = xcb_image_get(c, m_windowId, 0, 0, geom->width, geom->height, 0xFFFFFF, XCB_IMAGE_FORMAT_Z_PIXMAP);
+ 
+@@ -402,10 +404,12 @@ void SNIProxy::sendClick(uint8_t mouseButton, int x, int y)
+     auto c = QX11Info::connection();
+ 
+     auto cookieSize = xcb_get_geometry(c, m_windowId);
+-    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookieSize, Q_NULLPTR));
++    QScopedPointer<xcb_get_geometry_reply_t, QScopedPointerPodDeleter>
++        clientGeom(xcb_get_geometry_reply(c, cookieSize, Q_NULLPTR));
+ 
+     auto cookie = xcb_query_pointer(c, m_windowId);
+-    QScopedPointer<xcb_query_pointer_reply_t> pointer(xcb_query_pointer_reply(c, cookie, Q_NULLPTR));
++    QScopedPointer<xcb_query_pointer_reply_t, QScopedPointerPodDeleter>
++        pointer(xcb_query_pointer_reply(c, cookie, Q_NULLPTR));
+     /*qCDebug(SNIPROXY) << "samescreen" << pointer->same_screen << endl
+ 	<< "root x*y" << pointer->root_x << pointer->root_y << endl
+ 	<< "win x*y" << pointer->win_x << pointer->win_y;*/
+@@ -450,7 +454,7 @@ void SNIProxy::sendClick(uint8_t mouseButton, int x, int y)
+         event->detail = mouseButton;
+ 
+         xcb_send_event(c, false, m_windowId, XCB_EVENT_MASK_BUTTON_PRESS, (char *) event);
+-        free(event);
++        delete event;
+     }
+ 
+     //mouse up
+@@ -471,7 +475,7 @@ void SNIProxy::sendClick(uint8_t mouseButton, int x, int y)
+         event->detail = mouseButton;
+ 
+         xcb_send_event(c, false, m_windowId, XCB_EVENT_MASK_BUTTON_RELEASE, (char *) event);
+-        free(event);
++        delete event;
+     }
+ 
+ #ifndef VISUAL_DEBUG

@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 module with porting aid from KDELibs 4
 License:        GPLv2+ and LGPLv2+ and BSD
 URL:            https://projects.kde.org/projects/frameworks/kdelibs4support
@@ -18,6 +18,7 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/porti
 
 Patch0: kdelibs4support-to-5.17.patch
 Patch1: kdelibs4support-hide-kcm_ssl.patch
+Patch2: remove-flag.patch
 
 BuildRequires:  ca-certificates
 BuildRequires:  libX11-devel
@@ -110,6 +111,7 @@ developing applications that use %{name}.
 %setup -q -n %{framework}-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 mkdir %{_target_platform}
@@ -184,6 +186,9 @@ rm -rf %{buildroot}%{_sysconfdir}/xdg/kdebugrc
 
 
 %changelog
+* Mon Dec 28 2015 xiaotian.wu@i-soft.com.cn - 5.16.0-4
+- add patch to remove flags.
+
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Backport from 5.17.0
 

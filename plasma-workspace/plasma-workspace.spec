@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        31
+Release:        32
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -42,11 +42,13 @@ Patch13: workspace-kio-desktop-use-virtual-Trash-UDSentry-instead-of-trash.deskt
 #backporting of xembedsniproxy
 Patch20: 0000-backport-xembedsniproxy.patch
 #all this patches already upstreamed.
-Patch21: 0001-xembedsniproxy-fix-always-segfault.patch
+Patch21: plasma-workspace-sni-fix.diff
 Patch22: 0002-xembedsniproxy-workaround-for-java-systemtray.patch
-Patch23: 0003-xembedsniproxy-crop-large-transparent-border.patch
-Patch24: 0004-xembedsniproxy-workaround-for-totally-transparent-xcb-image.patch
-Patch25: xembedsniproxy-dirty-fix-for-isoft-startup.patch
+
+#these three patches disabled now.
+#Patch23: 0003-xembedsniproxy-crop-large-transparent-border.patch
+#Patch24: 0004-xembedsniproxy-workaround-for-totally-transparent-xcb-image.patch
+#Patch25: xembedsniproxy-dirty-fix-for-isoft-startup.patch
 
 #Add isoft logo for splash
 Patch30: 0003-splash-isoft-logo.patch
@@ -289,9 +291,6 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
-%patch23 -p1
-%patch24 -p1
-%patch25 -p1
 
 %patch30 -p1
 
@@ -425,6 +424,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %changelog
 * Tue Dec 29 2015 <ming.wang@i-soft.com.cn> - 5.4.3-32
 - Hide timezone widget of analogclock when width less than  text's width.
+
+* Tue Dec 29 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-31
+- Update xembed sni proxy backport codes to git master, drop some dirty patches
 
 * Thu Dec 24 2015 <ming.wang@i-soft.com.cn> - 5.4.3-30
 - Remove checkbox kcfg_PreventEmptyClipboard.
