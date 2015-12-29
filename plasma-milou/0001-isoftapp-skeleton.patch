@@ -81,7 +81,7 @@ index 6d60bf2..b85a2c9 100644
      }
  }
 diff --git a/lib/sourcesmodel.cpp b/lib/sourcesmodel.cpp
-index 65c69b3..e3cdbfc 100644
+index 65c69b3..dc1eca6 100644
 --- a/lib/sourcesmodel.cpp
 +++ b/lib/sourcesmodel.cpp
 @@ -25,6 +25,7 @@
@@ -103,7 +103,7 @@ index 65c69b3..e3cdbfc 100644
 +                                               this);
 +    connect(m_isoftapp, &org::isoftlinux::Isoftapp::SearchChanged,
 +            [this](const QString &pkgName, qlonglong status){
-+        if (m_pkgList.size() < 10) {
++        if (m_pkgList.size() < 5) {
 +            Q_FOREACH (const pkg_t &pkg, m_pkgList) {
 +                if (pkg.pkgName == pkgName)
 +                    return;
@@ -200,7 +200,15 @@ index 65c69b3..e3cdbfc 100644
      }
  
      return QVariant();
-@@ -180,6 +241,8 @@ void SourcesModel::setQueryString(const QString& str)
+@@ -172,6 +233,7 @@ void SourcesModel::setQueryString(const QString& str)
+     m_queryString = str;
+     if (m_queryString.isEmpty()) {
+         clear();
++        m_pkgList.clear();
+         return;
+     }
+ 
+@@ -180,6 +242,8 @@ void SourcesModel::setQueryString(const QString& str)
      m_manager->setSingleMode(!m_runner.isEmpty());
      m_manager->launchQuery(m_queryString, m_runner);
  
@@ -209,7 +217,7 @@ index 65c69b3..e3cdbfc 100644
      // We avoid clearing the model instantly, and instead wait for the results
      // to show up, and only then do we clear the model. In the event
      // where there are no results, we wait for a predefined time before
-@@ -192,6 +255,12 @@ void SourcesModel::slotResetTimeout()
+@@ -192,6 +256,12 @@ void SourcesModel::slotResetTimeout()
      if (!m_modelPopulated) {
          clear();
      }
@@ -222,19 +230,11 @@ index 65c69b3..e3cdbfc 100644
  }
  
  void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
-@@ -254,6 +323,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
+@@ -254,6 +324,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
      qStableSort(m_types.begin(), m_types.end(), sortFunc);
  
      m_modelPopulated = true;
 +    m_size += m_pkgList.size();
-     endResetModel();
- }
- 
-@@ -346,6 +416,7 @@ void SourcesModel::clear()
-     m_queryString.clear();
-     m_manager->reset();
-     m_manager->matchSessionComplete();
-+    m_pkgList.clear();
      endResetModel();
  }
  

@@ -2,7 +2,7 @@
 
 Name:           plasma-%{base_name}
 Version:        5.4.3
-Release:        4
+Release:        5
 Summary:        A dedicated KDE search application built on top of Baloo
 
 License:        GPLv2+
@@ -82,6 +82,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 * Tue Dec 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Implemented isoftapp dbus interface integration skeleton.
 - Fix search term size is zero issue.
+- Max search count is five.
 
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
