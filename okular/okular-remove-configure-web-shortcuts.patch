@@ -1,0 +1,21 @@
+diff -Nur okular/ui/pageview.cpp okular-n/ui/pageview.cpp
+--- okular/ui/pageview.cpp	2015-12-29 17:06:26.867765452 +0800
++++ okular-n/ui/pageview.cpp	2015-12-29 17:08:22.670765438 +0800
+@@ -4252,12 +4252,12 @@
+                 webShortcutsMenu->addAction( action );
+             }
+ 
+-            webShortcutsMenu->addSeparator();
++//            webShortcutsMenu->addSeparator();
+ 
+-            action = new QAction( i18n( "Configure Web Shortcuts..." ), webShortcutsMenu );
+-            action->setIcon( QIcon::fromTheme( QStringLiteral("configure") ) );
+-            connect( action, &QAction::triggered, this, &PageView::slotConfigureWebShortcuts );
+-            webShortcutsMenu->addAction( action );
++//            action = new QAction( i18n( "Configure Web Shortcuts..." ), webShortcutsMenu );
++//            action->setIcon( QIcon::fromTheme( QStringLiteral("configure") ) );
++//            connect( action, &QAction::triggered, this, &PageView::slotConfigureWebShortcuts );
++//            webShortcutsMenu->addAction( action );
+ 
+             menu->addMenu(webShortcutsMenu);
+         }

@@ -6,7 +6,7 @@
 Name:    okular 
 Summary: A document viewer
 Version: 15.12.0 
-Release: 2.git%{?dist}
+Release: 3.git%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -37,6 +37,9 @@ Patch5: disable-trimview-submenu-when-no-page.patch
 
 #KDE applications already in 15.12.0, bump okular version to match it, even we use git codes.
 Patch6: okular-bump-version-to-match-kde-application-release.patch
+
+# remove action "Configure Web Shortcuts"
+Patch7: okular-remove-configure-web-shortcuts.patch
 
 %if 0%{?chm}
 BuildRequires: chmlib-devel
@@ -142,6 +145,7 @@ Summary: A kioslave for displaying WinHelp files
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -246,6 +250,9 @@ fi
 
 
 %changelog
+* Tue Dec 29 2015 ming.wang@i-soft.com.cn - 15.12.0-3.git
+- Fixed bug 13013. Remove action "Configure Web Shortcuts".
+
 * Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2.git
 - Various fix, bump version to 15.12.0
 
