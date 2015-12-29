@@ -16,6 +16,8 @@ URL:            https://projects.kde.org/kde/workspace/milou
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{base_name}-%{version}.tar.xz
 
+Source1:        org.isoftlinux.Isoftapp.xml
+
 # isoftapp dbus interface integration skeleton.
 Patch0: 0001-isoftapp-skeleton.patch
 
@@ -45,6 +47,8 @@ Provides:       kde-plasma-milou = %{version}-%{release}
 
 %prep
 %setup -q -n %{base_name}-%{version}
+
+install -Dpm 644 %{SOURCE1} ./lib/org.isoftlinux.Isoftapp.xml
 
 %patch0 -p1
 

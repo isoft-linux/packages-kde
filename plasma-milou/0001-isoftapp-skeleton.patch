@@ -81,7 +81,7 @@ index 6d60bf2..b85a2c9 100644
      }
  }
 diff --git a/lib/sourcesmodel.cpp b/lib/sourcesmodel.cpp
-index 65c69b3..c44ca81 100644
+index 65c69b3..50905b4 100644
 --- a/lib/sourcesmodel.cpp
 +++ b/lib/sourcesmodel.cpp
 @@ -25,6 +25,7 @@
@@ -243,7 +243,7 @@ index 65c69b3..c44ca81 100644
 +
 +void SourcesModel::Uninstall(const QString &pkgName)
 +{
-+    m_isoftapp->Remove(pkgName);
++    m_isoftapp->Remove(pkgName, false);
 +}
 diff --git a/lib/sourcesmodel.h b/lib/sourcesmodel.h
 index 6c2d205..3ac3c0b 100644
