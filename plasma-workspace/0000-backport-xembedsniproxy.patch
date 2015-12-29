@@ -1,6 +1,6 @@
-diff -Nur plasma-workspace-5.4.3/CMakeLists.txt plasma-workspace-5.4.3new/CMakeLists.txt
---- plasma-workspace-5.4.3/CMakeLists.txt	2015-11-26 16:56:01.725974635 +0800
-+++ plasma-workspace-5.4.3new/CMakeLists.txt	2015-11-26 16:56:19.799974311 +0800
+diff -Nur plasma-workspace-5.4.3/CMakeLists.txt plasma-workspace-5.4.3n/CMakeLists.txt
+--- plasma-workspace-5.4.3/CMakeLists.txt	2015-12-27 13:36:21.915959529 +0800
++++ plasma-workspace-5.4.3n/CMakeLists.txt	2015-12-27 13:37:24.447958410 +0800
 @@ -49,6 +49,7 @@
  include(CheckIncludeFiles)
  include(FeatureSummary)
@@ -9,7 +9,7 @@ diff -Nur plasma-workspace-5.4.3/CMakeLists.txt plasma-workspace-5.4.3new/CMakeL
  
  find_package(KF5Activities ${KF5_MIN_VERSION})
  set_package_properties(KF5Activities PROPERTIES DESCRIPTION "management of Plasma activities"
-@@ -168,6 +169,8 @@
+@@ -170,6 +171,8 @@
  add_subdirectory(drkonqi)
  endif()
  
@@ -18,9 +18,9 @@ diff -Nur plasma-workspace-5.4.3/CMakeLists.txt plasma-workspace-5.4.3new/CMakeL
  add_subdirectory(soliduiserver)
  feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
  
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/CMakeLists.txt plasma-workspace-5.4.3new/xembed-sni-proxy/CMakeLists.txt
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/CMakeLists.txt plasma-workspace-5.4.3n/xembed-sni-proxy/CMakeLists.txt
 --- plasma-workspace-5.4.3/xembed-sni-proxy/CMakeLists.txt	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/CMakeLists.txt	2015-11-26 16:56:35.532974030 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/CMakeLists.txt	2015-12-27 13:36:31.433959359 +0800
 @@ -0,0 +1,67 @@
 +project(xembedsniproxy)
 +
@@ -89,10 +89,44 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/CMakeLists.txt plasma-workspac
 +install(TARGETS xembedsniproxy ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 +install(FILES xembedsniproxy.desktop DESTINATION ${KDE_INSTALL_AUTOSTARTDIR})
 +
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/fdoselectionmanager.cpp
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/Readme.md plasma-workspace-5.4.3n/xembed-sni-proxy/Readme.md
+--- plasma-workspace-5.4.3/xembed-sni-proxy/Readme.md	1970-01-01 08:00:00.000000000 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/Readme.md	2015-12-27 13:36:31.433959359 +0800
+@@ -0,0 +1,30 @@
++##XEmbed SNI Proxy
++
++The goal of this project is to make xembed system trays available in Plasma.
++
++This is to allow legacy apps (xchat, pidgin, tuxguitar) etc. system trays[1] available in Plasma which only supports StatusNotifierItem [2].
++
++Ideally we also want this to work in an xwayland session, making X system tray icons available even when plasmashell only has a wayland connection.
++
++This project should be portable onto all other DEs that speak SNI.
++
++##How it works (in theory)
++
++* We register a window as a system tray container
++* We render embeded windows composited offscreen
++* We render contents into an image and send this over DBus via the SNI protocol
++* XDamage events trigger a repaint
++* Activate and context menu events are replyed via X send event into the embedded container as left and right clicks
++
++There are a few extra hacks in the real code to deal with some toolkits being awkward.
++
++##Build instructions
++
++    cmake .
++    make
++    sudo make install
++
++After building, run `xembedsniproxy`.
++
++[1] http://standards.freedesktop.org/systemtray-spec/systemtray-spec-latest.html
++[2] http://www.freedesktop.org/wiki/Specifications/StatusNotifierItem/
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp plasma-workspace-5.4.3n/xembed-sni-proxy/fdoselectionmanager.cpp
 --- plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/fdoselectionmanager.cpp	2015-11-26 16:56:35.533974030 +0800
-@@ -0,0 +1,182 @@
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/fdoselectionmanager.cpp	2015-12-27 13:36:31.433959359 +0800
+@@ -0,0 +1,186 @@
 +/*
 + * Registers as a embed container
 + * Copyright (C) 2015 <davidedmundson@kde.org> David Edmundson
@@ -145,6 +179,18 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp plasma
 +{
 +    qCDebug(SNIPROXY) << "starting";
 +
++    //we may end up calling QCoreApplication::quit() in this method, at which point we need the event loop running
++    QTimer::singleShot(0, this, &FdoSelectionManager::init);
++}
++
++FdoSelectionManager::~FdoSelectionManager()
++{
++    qCDebug(SNIPROXY) << "closing";
++    m_selectionOwner->release();
++}
++
++void FdoSelectionManager::init()
++{
 +    //load damage extension
 +    xcb_connection_t *c = QX11Info::connection();
 +    xcb_prefetch_extension_data(c, &xcb_damage_id);
@@ -160,16 +206,10 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp plasma
 +
 +    qApp->installNativeEventFilter(this);
 +
-+    m_selectionOwner->claim(false);
 +    connect(m_selectionOwner, &KSelectionOwner::claimedOwnership, this, &FdoSelectionManager::onClaimedOwnership);
 +    connect(m_selectionOwner, &KSelectionOwner::failedToClaimOwnership, this, &FdoSelectionManager::onFailedToClaimOwnership);
 +    connect(m_selectionOwner, &KSelectionOwner::lostOwnership, this, &FdoSelectionManager::onLostOwnership);
-+}
-+
-+FdoSelectionManager::~FdoSelectionManager()
-+{
-+    qCDebug(SNIPROXY) << "closing";
-+    m_selectionOwner->release();
++    m_selectionOwner->claim(false);
 +}
 +
 +void FdoSelectionManager::addDamageWatch(xcb_window_t client)
@@ -273,12 +313,10 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.cpp plasma
 +    qCWarning(SNIPROXY) << "lost ownership of Systray Manager";
 +    qApp->exit(-1);
 +}
-+
-+
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.h plasma-workspace-5.4.3new/xembed-sni-proxy/fdoselectionmanager.h
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.h plasma-workspace-5.4.3n/xembed-sni-proxy/fdoselectionmanager.h
 --- plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.h	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/fdoselectionmanager.h	2015-11-26 16:56:35.533974030 +0800
-@@ -0,0 +1,62 @@
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/fdoselectionmanager.h	2015-12-27 13:36:31.433959359 +0800
+@@ -0,0 +1,63 @@
 +/*
 + * Registers as a embed container
 + * Copyright (C) 2015 <davidedmundson@kde.org> David Edmundson
@@ -328,6 +366,7 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.h plasma-w
 +    void onLostOwnership();
 +
 +private:
++    void init();
 +    void addDamageWatch(xcb_window_t client);
 +    void dock(xcb_window_t embed_win);
 +    void undock(xcb_window_t client);
@@ -341,9 +380,9 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/fdoselectionmanager.h plasma-w
 +
 +
 +#endif
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/main.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/main.cpp
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/main.cpp plasma-workspace-5.4.3n/xembed-sni-proxy/main.cpp
 --- plasma-workspace-5.4.3/xembed-sni-proxy/main.cpp	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/main.cpp	2015-11-26 16:56:35.533974030 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/main.cpp	2015-12-27 13:36:31.433959359 +0800
 @@ -0,0 +1,72 @@
 +/*
 + * Main
@@ -418,9 +457,9 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/main.cpp plasma-workspace-5.4.
 +    return rc;
 +}
 \ No newline at end of file
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierItem.xml plasma-workspace-5.4.3new/xembed-sni-proxy/org.kde.StatusNotifierItem.xml
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierItem.xml plasma-workspace-5.4.3n/xembed-sni-proxy/org.kde.StatusNotifierItem.xml
 --- plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierItem.xml	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/org.kde.StatusNotifierItem.xml	2015-11-26 16:56:35.533974030 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/org.kde.StatusNotifierItem.xml	2015-12-27 13:36:31.433959359 +0800
 @@ -0,0 +1,96 @@
 +<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 +<node>
@@ -518,9 +557,9 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierItem.xml
 +
 +  </interface>
 +</node>
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml plasma-workspace-5.4.3new/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml plasma-workspace-5.4.3n/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml
 --- plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml	2015-11-26 16:56:35.533974030 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/org.kde.StatusNotifierWatcher.xml	2015-12-27 13:36:31.433959359 +0800
 @@ -0,0 +1,42 @@
 +<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 +<node>
@@ -564,43 +603,9 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/org.kde.StatusNotifierWatcher.
 +    </signal>
 +  </interface>
 +</node>
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/Readme.md plasma-workspace-5.4.3new/xembed-sni-proxy/Readme.md
---- plasma-workspace-5.4.3/xembed-sni-proxy/Readme.md	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/Readme.md	2015-11-26 16:56:35.533974030 +0800
-@@ -0,0 +1,30 @@
-+##XEmbed SNI Proxy
-+
-+The goal of this project is to make xembed system trays available in Plasma.
-+
-+This is to allow legacy apps (xchat, pidgin, tuxguitar) etc. system trays[1] available in Plasma which only supports StatusNotifierItem [2].
-+
-+Ideally we also want this to work in an xwayland session, making X system tray icons available even when plasmashell only has a wayland connection.
-+
-+This project should be portable onto all other DEs that speak SNI.
-+
-+##How it works (in theory)
-+
-+* We register a window as a system tray container
-+* We render embeded windows composited offscreen
-+* We render contents into an image and send this over DBus via the SNI protocol
-+* XDamage events trigger a repaint
-+* Activate and context menu events are replyed via X send event into the embedded container as left and right clicks
-+
-+There are a few extra hacks in the real code to deal with some toolkits being awkward.
-+
-+##Build instructions
-+
-+    cmake .
-+    make
-+    sudo make install
-+
-+After building, run `xembedsniproxy`.
-+
-+[1] http://standards.freedesktop.org/systemtray-spec/systemtray-spec-latest.html
-+[2] http://www.freedesktop.org/wiki/Specifications/StatusNotifierItem/
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/snidbus.cpp
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.cpp plasma-workspace-5.4.3n/xembed-sni-proxy/snidbus.cpp
 --- plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.cpp	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/snidbus.cpp	2015-11-26 16:56:35.533974030 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/snidbus.cpp	2015-12-27 13:36:31.433959359 +0800
 @@ -0,0 +1,148 @@
 +/*
 + * SNI DBus Serialisers
@@ -751,9 +756,9 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.cpp plasma-workspace-5
 +    return argument;
 +}
 \ No newline at end of file
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.h plasma-workspace-5.4.3new/xembed-sni-proxy/snidbus.h
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.h plasma-workspace-5.4.3n/xembed-sni-proxy/snidbus.h
 --- plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.h	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/snidbus.h	2015-11-26 16:56:35.533974030 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/snidbus.h	2015-12-27 13:36:31.433959359 +0800
 @@ -0,0 +1,65 @@
 +/*
 + * SNI Dbus serialisers
@@ -820,10 +825,10 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/snidbus.h plasma-workspace-5.4
 +Q_DECLARE_METATYPE(KDbusToolTipStruct)
 +
 +#endif // SNIDBUS_H
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.cpp
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-5.4.3n/xembed-sni-proxy/sniproxy.cpp
 --- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:56:35.533974030 +0800
-@@ -0,0 +1,404 @@
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/sniproxy.cpp	2015-12-27 13:36:31.433959359 +0800
+@@ -0,0 +1,481 @@
 +/*
 + * Holds one embedded window, registers as DBus entry
 + * Copyright (C) 2015 <davidedmundson@kde.org> David Edmundson
@@ -859,7 +864,7 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-
 +#include <QGuiApplication>
 +#include <QTimer>
 +
-+#include <QPainter>
++#include <QBitmap>
 +
 +#include <KWindowSystem>
 +#include <netwm.h>
@@ -1017,48 +1022,51 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-
 +void SNIProxy::update()
 +{
 +    const QImage image = getImageNonComposite();
++    if (image.isNull()) {
++        qCDebug(SNIPROXY) << "No xembed icon for" << m_windowId << Title();
++        return;
++    }
 +
 +    int w = image.width();
 +    int h = image.height();
 +
-+    // check for the center and sub-center pixels first and avoid full image scan
-+    bool isTransparentImage = qAlpha(image.pixel(w >> 1, h >> 1)) + qAlpha(image.pixel(w >> 2, h >> 2)) == 0;
-+
-+    // skip scan altogether if sub-center pixel found to be opaque
-+    // and break out from the outer loop too on full scan
-+    for (int x = 0; x < w && isTransparentImage; ++x) {
-+	for (int y = 0; y < h; ++y) {
-+	    if (qAlpha(image.pixel(x, y))) {
-+		// Found an opaque pixel.
-+		isTransparentImage = false;
-+		break;
-+	    }
-+	}
++    m_pixmap = QPixmap::fromImage(image);
++    if (w != s_embedSize || h != s_embedSize) {
++        qCDebug(SNIPROXY) << "Scaling pixmap of window" << m_windowId << Title() << "from w*h" << w << h;
++        m_pixmap = m_pixmap.scaled(s_embedSize, s_embedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 +    }
-+
-+    // Update icon only if it is at least partially opaque.
-+    // This is just a workaround for X11 bug: xembed icon may suddenly
-+    // become transparent for a one or few frames. Reproducible at least
-+    // with WINE applications.
-+    if (!isTransparentImage) {
-+        m_pixmap = QPixmap::fromImage(image);
-+	if (w != s_embedSize || h != s_embedSize) {
-+	    qCDebug(SNIPROXY) << "Scaling pixmap of window" << m_windowId << Title() << "from w*h" << w << h;
-+	    m_pixmap = m_pixmap.scaled(s_embedSize, s_embedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-+	}
-+        emit NewIcon();
-+        emit NewToolTip();
-+    }
-+    else {
-+        qCDebug(SNIPROXY) << "Skip transparent xembed icon for" << m_windowId << Title();
-+    }
++    emit NewIcon();
++    emit NewToolTip();
 +}
 +
 +void sni_cleanup_xcb_image(void *data) {
 +    xcb_image_destroy(static_cast<xcb_image_t*>(data));
 +}
 +
-+QImage SNIProxy::getImageNonComposite()
++bool SNIProxy::isTransparentImage(const QImage& image) const
++{
++    int w = image.width();
++    int h = image.height();
++
++    // check for the center and sub-center pixels first and avoid full image scan
++    if (! (qAlpha(image.pixel(w >> 1, h >> 1)) + qAlpha(image.pixel(w >> 2, h >> 2)) == 0))
++        return false;
++
++    // skip scan altogether if sub-center pixel found to be opaque
++    // and break out from the outer loop too on full scan
++    for (int x = 0; x < w; ++x) {
++        for (int y = 0; y < h; ++y) {
++            if (qAlpha(image.pixel(x, y))) {
++                // Found an opaque pixel.
++                return false;
++            }
++        }
++    }
++
++    return true;
++}
++
++QImage SNIProxy::getImageNonComposite() const
 +{
 +    auto c = QX11Info::connection();
 +    auto cookie = xcb_get_geometry(c, m_windowId);
@@ -1066,9 +1074,83 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-
 +
 +    xcb_image_t *image = xcb_image_get(c, m_windowId, 0, 0, geom->width, geom->height, 0xFFFFFF, XCB_IMAGE_FORMAT_Z_PIXMAP);
 +
-+    QImage qimage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
++    // Don't hook up cleanup yet, we may use a different QImage after all
++    QImage naiveConversion = QImage(image->data, image->width, image->height, QImage::Format_ARGB32);
 +
-+    return qimage;
++    if (isTransparentImage(naiveConversion)) {
++        QImage elaborateConversion = QImage(convertFromNative(image));
++
++        // Update icon only if it is at least partially opaque.
++        // This is just a workaround for X11 bug: xembed icon may suddenly
++        // become transparent for a one or few frames. Reproducible at least
++        // with WINE applications.
++        if (isTransparentImage(elaborateConversion)) {
++            qCDebug(SNIPROXY) << "Skip transparent xembed icon for" << m_windowId << Title();
++            return QImage();
++        } else
++            return elaborateConversion;
++    } else {
++        // Now we are sure we can eventually delete the xcb_image_t with this version
++        return QImage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
++    }
++}
++
++QImage SNIProxy::convertFromNative(xcb_image_t *xcbImage) const
++{
++    QImage::Format format = QImage::Format_Invalid;
++
++    switch (xcbImage->depth) {
++    case 1:
++        format = QImage::Format_MonoLSB;
++        break;
++    case 16:
++        format = QImage::Format_RGB16;
++        break;
++    case 24:
++        format = QImage::Format_RGB32;
++        break;
++    case 30: {
++        // Qt doesn't have a matching image format. We need to convert manually
++        quint32 *pixels = reinterpret_cast<quint32 *>(xcbImage->data);
++        for (uint i = 0; i < (xcbImage->size / 4); i++) {
++            int r = (pixels[i] >> 22) & 0xff;
++            int g = (pixels[i] >> 12) & 0xff;
++            int b = (pixels[i] >>  2) & 0xff;
++
++            pixels[i] = qRgba(r, g, b, 0xff);
++        }
++        // fall through, Qt format is still Format_ARGB32_Premultiplied
++    }
++    case 32:
++        format = QImage::Format_ARGB32_Premultiplied;
++        break;
++    default:
++        return QImage(); // we don't know
++    }
++
++    QImage image(xcbImage->data, xcbImage->width, xcbImage->height, xcbImage->stride, format, sni_cleanup_xcb_image, xcbImage);
++
++    if (image.isNull()) {
++        return QImage();
++    }
++
++    if (format == QImage::Format_RGB32 && xcbImage->bpp == 32)
++    {
++        QImage m = image.createHeuristicMask();
++        QBitmap mask(QPixmap::fromImage(m));
++        QPixmap p = QPixmap::fromImage(image);
++        p.setMask(mask);
++        image = p.toImage();
++    }
++
++    // work around an abort in QImage::color
++    if (image.format() == QImage::Format_MonoLSB) {
++        image.setColorCount(2);
++        image.setColor(0, QColor(Qt::white).rgb());
++        image.setColor(1, QColor(Qt::black).rgb());
++    }
++
++    return image;
 +}
 +
 +//____________properties__________
@@ -1228,10 +1310,10 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-
 +    xcb_configure_window(c, m_containerWid, XCB_CONFIG_WINDOW_STACK_MODE, stackBelowData);
 +#endif
 +}
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.h
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h plasma-workspace-5.4.3n/xembed-sni-proxy/sniproxy.h
 --- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/sniproxy.h	2015-11-26 16:56:35.533974030 +0800
-@@ -0,0 +1,152 @@
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/sniproxy.h	2015-12-27 13:36:31.434959359 +0800
+@@ -0,0 +1,155 @@
 +/*
 + * Holds one embedded window, registers as DBus entry
 + * Copyright (C) 2015 <davidedmundson@kde.org> David Edmundson
@@ -1262,6 +1344,7 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h plasma-workspace-5.
 +#include <QPixmap>
 +
 +#include <xcb/xcb.h>
++#include <xcb/xcb_image.h>
 +
 +#include "snidbus.h"
 +
@@ -1374,7 +1457,9 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h plasma-workspace-5.
 +
 +private:
 +    void sendClick(uint8_t mouseButton, int x, int y);
-+    QImage getImageNonComposite();
++    QImage getImageNonComposite() const;
++    bool isTransparentImage(const QImage &image) const;
++    QImage convertFromNative(xcb_image_t *xcbImage) const;
 +
 +    QDBusConnection m_dbus;
 +    xcb_window_t m_windowId;
@@ -1384,9 +1469,9 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.h plasma-workspace-5.
 +};
 +
 +#endif // SNIPROXY_H
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xcbutils.h plasma-workspace-5.4.3new/xembed-sni-proxy/xcbutils.h
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xcbutils.h plasma-workspace-5.4.3n/xembed-sni-proxy/xcbutils.h
 --- plasma-workspace-5.4.3/xembed-sni-proxy/xcbutils.h	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/xcbutils.h	2015-11-26 16:56:35.533974030 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/xcbutils.h	2015-12-27 13:36:31.434959359 +0800
 @@ -0,0 +1,126 @@
 +/********************************************************************
 +Copyright (C) 2012, 2013 Martin Graesslin <mgraesslin@kde.org>
@@ -1514,10 +1599,10 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xcbutils.h plasma-workspace-5.
 +} // namespace Xcb
 +
 +#endif // KWIN_XCB_UTILS_H
-diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xembedsniproxy.desktop plasma-workspace-5.4.3new/xembed-sni-proxy/xembedsniproxy.desktop
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xembedsniproxy.desktop plasma-workspace-5.4.3n/xembed-sni-proxy/xembedsniproxy.desktop
 --- plasma-workspace-5.4.3/xembed-sni-proxy/xembedsniproxy.desktop	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-workspace-5.4.3new/xembed-sni-proxy/xembedsniproxy.desktop	2015-11-26 16:56:35.534974030 +0800
-@@ -0,0 +1,26 @@
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/xembedsniproxy.desktop	2015-12-27 13:36:31.434959359 +0800
+@@ -0,0 +1,33 @@
 +[Desktop Entry]
 +Exec=xembedsniproxy
 +Name=XembedSniProxy
@@ -1529,7 +1614,9 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xembedsniproxy.desktop plasma-
 +Name[es]=XembedSniProxy
 +Name[fi]=XembedSniProxy
 +Name[gl]=XembedSniProxy
++Name[it]=XembedSniProxy
 +Name[ko]=XembedSniProxy
++Name[lt]=XembedSniProxy
 +Name[nl]=XembedSniProxy
 +Name[nn]=XembedSniProxy
 +Name[pl]=XembedSniProxy
@@ -1537,9 +1624,14 @@ diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/xembedsniproxy.desktop plasma-
 +Name[pt_BR]=XembedSniProxy
 +Name[sk]=XembedSniProxy
 +Name[sl]=XembedSniProxy
++Name[sr]=Иксембед‑сни‑прокси
++Name[sr@ijekavian]=Иксембед‑сни‑прокси
++Name[sr@ijekavianlatin]=XembedSniProxy
++Name[sr@latin]=XembedSniProxy
 +Name[sv]=XembedSniProxy
 +Name[uk]=XembedSniProxy
 +Name[x-test]=xxXembedSniProxyxx
++Name[zh_CN]=XembedSniProxy
 +Type=Application
 +X-KDE-StartupNotify=false
 +OnlyShowIn=KDE;
