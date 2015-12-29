@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        27
+Release:        28
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -236,6 +236,9 @@ BuildArch: noarch
 %prep
 %autosetup -p1
 
+#remove accidential installed .orig files.
+find . -name *.orig|xargs rm -rf
+
 %build
 mkdir %{_target_platform}
 pushd %{_target_platform}
@@ -367,6 +370,9 @@ fi
 
 
 %changelog
+* Tue Dec 29 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-28
+- Remove orig files installed accidently.
+
 * Wed Dec 23 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-27
 - Patch #402, Drop trash.desktop specitial treatment
 - Patch #410, Fix a bug of link file in DesktopView
