@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        30
+Release:        31
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -97,6 +97,9 @@ Patch53: plasma-workspace-use24hFormat-no-partially-checked.patch
 
 # remove checkbox kcfg_PreventEmptyClipboard
 Patch54: plsm-wksp-remove-checkbox-kcfg_PreventEmptyClipboard.patch
+
+# hide timezone widget of analogclock when width less than  text's width.
+Patch55: plsm-wksp-hide-analogclock-timezone.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -309,6 +312,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch52 -p1
 %patch53 -p1
 %patch54 -p1
+%patch55 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -419,6 +423,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Tue Dec 29 2015 <ming.wang@i-soft.com.cn> - 5.4.3-32
+- Hide timezone widget of analogclock when width less than  text's width.
+
 * Thu Dec 24 2015 <ming.wang@i-soft.com.cn> - 5.4.3-30
 - Remove checkbox kcfg_PreventEmptyClipboard.
 

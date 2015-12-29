@@ -1,0 +1,21 @@
+diff -Nur plasma-workspace-5.4.3/applets/analog-clock/contents/ui/analogclock.qml plasma-workspace-5.4.3n/applets/analog-clock/contents/ui/analogclock.qml
+--- plasma-workspace-5.4.3/applets/analog-clock/contents/ui/analogclock.qml	2015-11-05 20:49:30.000000000 +0800
++++ plasma-workspace-5.4.3n/applets/analog-clock/contents/ui/analogclock.qml	2015-12-29 11:59:39.629211212 +0800
+@@ -100,7 +100,7 @@
+             width: parent.width
+             anchors {
+                 top: parent.top
+-                bottom: showTimezone ? timezoneBg.top : parent.bottom
++                bottom: timezoneBg.visible ? timezoneBg.top : parent.bottom
+             }
+ 
+             PlasmaCore.SvgItem {
+@@ -180,7 +180,7 @@
+             imagePath: "widgets/background"
+             width: childrenRect.width + margins.right + margins.left
+             height: childrenRect.height + margins.top + margins.bottom
+-            visible: showTimezone
++            visible: showTimezone && clock.width > width
+             Text {
+                 id: timezoneText
+                 x: timezoneBg.margins.left
