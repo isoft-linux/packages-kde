@@ -1,0 +1,302 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 30fd719..1d9f95e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.8.12)
+ find_package(ECM 1.2.0 REQUIRED NO_MODULE)
+ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+ 
+-find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Script Qml Quick Widgets Test)
++find_package(Qt5 REQUIRED NO_MODULE COMPONENTS Script Qml Quick Widgets Test DBus)
+ find_package(KF5 REQUIRED COMPONENTS CoreAddons I18n Declarative Service Plasma Runner)
+ 
+ include(FeatureSummary)
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 1123b60..3b6246d 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -6,15 +6,22 @@ set (lib_SRCS
+     sourcesmodel.cpp
+ )
+ 
++qt5_add_dbus_interface(lib_SRCS
++    ${CMAKE_CURRENT_SOURCE_DIR}/org.isoftlinux.Isoftapp.xml
++    isoftapp-generated
++)
++
+ add_library(milou SHARED ${lib_SRCS})
+ set_target_properties(milou PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${PROJECT_VERSION_MAJOR} )
+ 
+ target_link_libraries (milou
+     Qt5::Qml
+     Qt5::Quick
++    Qt5::DBus
+     KF5::Service
+     KF5::Plasma
+     KF5::Runner
++    KF5::I18n
+ )
+ 
+ install(
+diff --git a/lib/qml/ResultDelegate.qml b/lib/qml/ResultDelegate.qml
+index 6d60bf2..b85a2c9 100644
+--- a/lib/qml/ResultDelegate.qml
++++ b/lib/qml/ResultDelegate.qml
+@@ -82,7 +82,7 @@ MouseArea {
+             anchors.left: parent.left
+             anchors.right: parent.right
+             anchors.leftMargin: Globals.CategoryWidth
+-            height: typePixmap.height
++            height: appButton.height
+ 
+             QtExtra.QIconItem {
+                 id: typePixmap
+@@ -102,7 +102,7 @@ MouseArea {
+                 elide: Text.ElideMiddle
+                 maximumLineCount: 1
+ 
+-                Layout.maximumWidth: parent.width - displayLabel.x
++                Layout.maximumWidth: parent.width - displayLabel.x - appButton.width - 10
+             }
+ 
+             PlasmaComponents.Label {
+@@ -118,6 +118,19 @@ MouseArea {
+                 maximumLineCount: 1
+                 Layout.fillWidth: true
+             }
++
++            PlasmaComponents.Button {
++                id: appButton
++                text: model.isAppStoreInstalled ? i18n("Uninstall") : i18n("Install")
++                visible: model.isAppStore
++                onClicked: {
++                    if (text == i18n("Uninstall")) {
++                        resultModel.Uninstall(displayLabel.text);
++                    } else {
++                        resultModel.Install(displayLabel.text);
++                    }
++                }
++            }
+         }
+     }
+ }
+diff --git a/lib/sourcesmodel.cpp b/lib/sourcesmodel.cpp
+index 65c69b3..c44ca81 100644
+--- a/lib/sourcesmodel.cpp
++++ b/lib/sourcesmodel.cpp
+@@ -25,6 +25,7 @@
+ #include <KConfig>
+ #include <KDirWatch>
+ #include <KSharedConfig>
++#include <KLocalizedString>
+ 
+ #include <QModelIndex>
+ #include <QSet>
+@@ -47,10 +48,32 @@ SourcesModel::SourcesModel(QObject* parent)
+     m_resetTimer.setSingleShot(true);
+     m_resetTimer.setInterval(500);
+     connect(&m_resetTimer, SIGNAL(timeout()), this, SLOT(slotResetTimeout()));
++
++    m_isoftapp = new org::isoftlinux::Isoftapp("org.isoftlinux.Isoftapp",
++                                               "/org/isoftlinux/Isoftapp",
++                                               QDBusConnection::systemBus(),
++                                               this);
++    connect(m_isoftapp, &org::isoftlinux::Isoftapp::SearchChanged,
++            [this](const QString &pkgName, qlonglong status){
++        if (m_pkgList.size() < 10) {
++            Q_FOREACH (const pkg_t &pkg, m_pkgList) {
++                if (pkg.pkgName == pkgName)
++                    return;
++            }
++            pkg_t pkg;
++            pkg.pkgName = pkgName;
++            pkg.status = status;
++            m_pkgList.append(pkg);
++        }
++    });
+ }
+ 
+ SourcesModel::~SourcesModel()
+ {
++    if (m_isoftapp) {
++        delete m_isoftapp;
++        m_isoftapp = Q_NULLPTR;
++    }
+ }
+ 
+ QHash<int, QByteArray> SourcesModel::roleNames() const
+@@ -62,6 +85,8 @@ QHash<int, QByteArray> SourcesModel::roleNames() const
+     roles.insert(PreviewTypeRole, "previewType");
+     roles.insert(PreviewUrlRole, "previewUrl");
+     roles.insert(PreviewLabelRole, "previewLabel");
++    roles.insert(AppStoreRole, "isAppStore");
++    roles.insert(AppStoreStatusRole, "isAppStoreInstalled");
+ 
+     return roles;
+ }
+@@ -84,6 +109,36 @@ Plasma::QueryMatch SourcesModel::fetchMatch(int row) const
+     return Plasma::QueryMatch(0);
+ }
+ 
++QString SourcesModel::getPkgName(int row) const
++{
++    if (m_pkgList.size() == 0)
++        return QString("Unknown");
++    if (m_pkgList.size() <= row) {
++        if (row - m_pkgList.size() < m_pkgList.size())
++            return m_pkgList[row - m_pkgList.size()].pkgName;
++        else
++            return m_pkgList[m_pkgList.size() - 1].pkgName;
++    } else {
++        return m_pkgList[row].pkgName;
++    }
++    return QString("Unknown");
++}
++
++bool SourcesModel::getPkgStatus(int row) const
++{
++    if (m_pkgList.size() == 0)
++        return false;
++    if (m_pkgList.size() <= row) {
++        if (row - m_pkgList.size() < m_pkgList.size())
++            return !m_pkgList[row - m_pkgList.size()].status;
++        else
++            return !m_pkgList[m_pkgList.size() - 1].status;
++    } else {
++        return !m_pkgList[row].status;
++    }
++    return false;
++}
++
+ QVariant SourcesModel::data(const QModelIndex& index, int role) const
+ {
+     if (!index.isValid())
+@@ -97,13 +152,13 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
+ 
+     switch(role) {
+         case Qt::DisplayRole:
+-            return m.text();
++            return m.isValid() ? m.text() : getPkgName(index.row());
+ 
+         case Qt::DecorationRole:
+             return m.icon();
+ 
+         case TypeRole:
+-            return m.matchCategory();
++            return m.isValid() ? m.matchCategory() : i18n("AppStore");
+ 
+         case SubtextRole:
+             return m.subtext();
+@@ -121,6 +176,12 @@ QVariant SourcesModel::data(const QModelIndex& index, int role) const
+         case PreviewLabelRole:
+             return m.previewLabel();
+             */
++
++        case AppStoreRole:
++            return !m.isValid();
++
++        case AppStoreStatusRole:
++            return getPkgStatus(index.row());
+     }
+ 
+     return QVariant();
+@@ -180,6 +241,9 @@ void SourcesModel::setQueryString(const QString& str)
+     m_manager->setSingleMode(!m_runner.isEmpty());
+     m_manager->launchQuery(m_queryString, m_runner);
+ 
++    m_pkgList.clear();
++    m_isoftapp->Search(m_queryString);
++
+     // We avoid clearing the model instantly, and instead wait for the results
+     // to show up, and only then do we clear the model. In the event
+     // where there are no results, we wait for a predefined time before
+@@ -192,6 +256,12 @@ void SourcesModel::slotResetTimeout()
+     if (!m_modelPopulated) {
+         clear();
+     }
++
++    if (!m_modelPopulated) {
++        beginResetModel();
++        m_size += m_pkgList.size();
++        endResetModel();
++    }
+ }
+ 
+ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
+@@ -254,6 +324,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
+     qStableSort(m_types.begin(), m_types.end(), sortFunc);
+ 
+     m_modelPopulated = true;
++    m_size += m_pkgList.size();
+     endResetModel();
+ }
+ 
+@@ -385,3 +456,13 @@ void SourcesModel::reloadConfiguration()
+     KSharedConfig::openConfig("krunnerrc")->reparseConfiguration();
+     m_manager->reloadConfiguration();
+ }
++
++void SourcesModel::Install(const QString &pkgName)
++{
++    m_isoftapp->Install(pkgName);
++}
++
++void SourcesModel::Uninstall(const QString &pkgName)
++{
++    m_isoftapp->Remove(pkgName);
++}
+diff --git a/lib/sourcesmodel.h b/lib/sourcesmodel.h
+index 6c2d205..3ac3c0b 100644
+--- a/lib/sourcesmodel.h
++++ b/lib/sourcesmodel.h
+@@ -30,9 +30,15 @@
+ #include <KRunner/RunnerManager>
+ 
+ #include "milou_export.h"
++#include "isoftapp-generated.h"
+ 
+ namespace Milou {
+ 
++typedef struct {
++    QString pkgName;
++    int status;
++} pkg_t;
++
+ class MILOU_EXPORT SourcesModel : public QAbstractListModel
+ {
+     Q_OBJECT
+@@ -50,7 +56,9 @@ public:
+         DuplicateRole,
+         PreviewTypeRole,
+         PreviewUrlRole,
+-        PreviewLabelRole
++        PreviewLabelRole,
++        AppStoreRole,
++        AppStoreStatusRole
+     };
+ 
+     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+@@ -67,6 +75,9 @@ public:
+ 
+     virtual QHash<int, QByteArray> roleNames() const;
+ 
++    Q_INVOKABLE void Install(const QString &pkgName);
++    Q_INVOKABLE void Uninstall(const QString &pkgName);
++
+ signals:
+     /**
+      * This signal is emitted when a an InformationalMatch is run, and it is advised
+@@ -120,6 +131,13 @@ public:
+     /// Returns the number of visible rows before \p type
+     int fetchRowCount(const QString& type) const;
+     Plasma::QueryMatch fetchMatch(int row) const;
++
++private:
++    org::isoftlinux::Isoftapp *m_isoftapp;
++    QList<pkg_t> m_pkgList;
++
++    QString getPkgName(int row) const;
++    bool getPkgStatus(int row) const;
+ };
+ 
+ }
