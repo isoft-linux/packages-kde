@@ -81,7 +81,7 @@ index 6d60bf2..b85a2c9 100644
      }
  }
 diff --git a/lib/sourcesmodel.cpp b/lib/sourcesmodel.cpp
-index 65c69b3..9e136b9 100644
+index 65c69b3..d30713f 100644
 --- a/lib/sourcesmodel.cpp
 +++ b/lib/sourcesmodel.cpp
 @@ -25,6 +25,7 @@
@@ -208,17 +208,21 @@ index 65c69b3..9e136b9 100644
          return;
      }
  
-@@ -180,6 +242,9 @@ void SourcesModel::setQueryString(const QString& str)
+@@ -180,6 +242,13 @@ void SourcesModel::setQueryString(const QString& str)
      m_manager->setSingleMode(!m_runner.isEmpty());
      m_manager->launchQuery(m_queryString, m_runner);
  
-+    if (m_queryString.size() > 2)
++    if (m_queryString == "ISOFTAPP SEARCH OFF")
++        m_isoftappSearchOff = true;
++    else if (m_queryString == "ISOFTAPP SEARCH ON")
++        m_isoftappSearchOff = false;
++    if (m_queryString.size() > 2 && !m_isoftappSearchOff)
 +        m_isoftapp->Search(m_queryString);
 +
      // We avoid clearing the model instantly, and instead wait for the results
      // to show up, and only then do we clear the model. In the event
      // where there are no results, we wait for a predefined time before
-@@ -192,6 +257,12 @@ void SourcesModel::slotResetTimeout()
+@@ -192,6 +261,12 @@ void SourcesModel::slotResetTimeout()
      if (!m_modelPopulated) {
          clear();
      }
@@ -231,7 +235,7 @@ index 65c69b3..9e136b9 100644
  }
  
  void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
-@@ -254,6 +325,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
+@@ -254,6 +329,7 @@ void SourcesModel::slotMatchesChanged(const QList<Plasma::QueryMatch>& l)
      qStableSort(m_types.begin(), m_types.end(), sortFunc);
  
      m_modelPopulated = true;
@@ -239,7 +243,7 @@ index 65c69b3..9e136b9 100644
      endResetModel();
  }
  
-@@ -385,3 +457,13 @@ void SourcesModel::reloadConfiguration()
+@@ -385,3 +461,13 @@ void SourcesModel::reloadConfiguration()
      KSharedConfig::openConfig("krunnerrc")->reparseConfiguration();
      m_manager->reloadConfiguration();
  }
@@ -254,7 +258,7 @@ index 65c69b3..9e136b9 100644
 +    m_isoftapp->Remove(pkgName, false);
 +}
 diff --git a/lib/sourcesmodel.h b/lib/sourcesmodel.h
-index 6c2d205..3ac3c0b 100644
+index 6c2d205..3c0e21c 100644
 --- a/lib/sourcesmodel.h
 +++ b/lib/sourcesmodel.h
 @@ -30,9 +30,15 @@
@@ -294,13 +298,14 @@ index 6c2d205..3ac3c0b 100644
  signals:
      /**
       * This signal is emitted when a an InformationalMatch is run, and it is advised
-@@ -120,6 +131,13 @@ public:
+@@ -120,6 +131,14 @@ public:
      /// Returns the number of visible rows before \p type
      int fetchRowCount(const QString& type) const;
      Plasma::QueryMatch fetchMatch(int row) const;
 +
 +private:
 +    org::isoftlinux::Isoftapp *m_isoftapp;
++    bool m_isoftappSearchOff = false;
 +    QList<pkg_t> m_pkgList;
 +
 +    QString getPkgName(int row) const;

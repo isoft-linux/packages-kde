@@ -2,7 +2,7 @@
 
 Name:           plasma-%{base_name}
 Version:        5.4.3
-Release:        6
+Release:        7
 Summary:        A dedicated KDE search application built on top of Baloo
 
 License:        GPLv2+
@@ -79,6 +79,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Dec 30 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add ISOFTAPP SEARCH OFF/ON.
+
 * Tue Dec 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Implemented isoftapp dbus interface integration skeleton.
 - Fix search term size is zero issue.
