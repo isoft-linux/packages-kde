@@ -1,7 +1,7 @@
 Name:    knetwalk
 Summary: Network construction game
 Version: 15.12.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -13,6 +13,7 @@ URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 Patch0: knetwalk-tune-desktop.patch
+Patch1: knetwalk-fix-zh-i18n.patch 
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -52,6 +53,7 @@ turns as possible.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -100,6 +102,9 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 
 
 %changelog
+* Wed Dec 30 2015 kun.li@i-soft.com.cn - 15.12.0-3
+- add knetwalk-fix-zh-i18n.patch  
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update
 

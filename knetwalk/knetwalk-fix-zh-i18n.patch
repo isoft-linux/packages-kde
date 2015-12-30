@@ -1,0 +1,11 @@
+diff -Naur knetwalk-15.11.80.old/src/main.cpp knetwalk-15.11.80/src/main.cpp
+--- knetwalk-15.11.80.old/src/main.cpp	2015-12-30 16:17:57.242355334 +0800
++++ knetwalk-15.11.80/src/main.cpp	2015-12-30 16:18:53.352474862 +0800
+@@ -36,6 +36,7 @@
+ int main(int argc, char ** argv)
+ {
+     QApplication app(argc, argv);
++    KLocalizedString::setApplicationDomain("knetwalk");
+ 
+     Kdelibs4ConfigMigrator migrate(QStringLiteral("knetwalk"));
+     migrate.setConfigFiles(QStringList() << QStringLiteral("knetwalkrc"));
