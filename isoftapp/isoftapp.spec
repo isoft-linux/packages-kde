@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.1.3
+Version: 2.1.4
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -86,6 +86,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 - Made all methods multithread and threadsafe.
 - Improved search handler.
 - Implemented KRunner plugin.
+- Update UI.
 
 * Tue Dec 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - isoftapp system dbus service implementation by fujiang.
