@@ -2,7 +2,7 @@
 
 Name:           plasma-%{base_name}
 Version:        5.4.3
-Release:        7
+Release:        8
 Summary:        A dedicated KDE search application built on top of Baloo
 
 License:        GPLv2+
@@ -15,11 +15,6 @@ URL:            https://projects.kde.org/kde/workspace/milou
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{base_name}-%{version}.tar.xz
-
-Source1:        org.isoftlinux.Isoftapp.xml
-
-# isoftapp dbus interface integration skeleton.
-Patch0: 0001-isoftapp-skeleton.patch
 
 BuildRequires:  cmake
 BuildRequires:  qt5-qtbase-devel
@@ -37,7 +32,6 @@ BuildRequires:  kf5-kdeclarative-devel
 BuildRequires:  kf5-baloo-devel
 
 Requires:       kf5-filesystem
-Requires:       isoftapp
 
 Obsoletes:      kde-plasma-milou < 5.0.0
 Provides:       kde-plasma-milou = %{version}-%{release}
@@ -48,9 +42,6 @@ Provides:       kde-plasma-milou = %{version}-%{release}
 %prep
 %setup -q -n %{base_name}-%{version}
 
-install -Dpm 644 %{SOURCE1} ./lib/org.isoftlinux.Isoftapp.xml
-
-%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -81,6 +72,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %changelog
 * Wed Dec 30 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add ISOFTAPP SEARCH OFF/ON.
+- Remove isoftapp skeleton.
 
 * Tue Dec 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Implemented isoftapp dbus interface integration skeleton.
