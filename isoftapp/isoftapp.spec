@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.1.1
+Version: 2.1.2
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -76,6 +76,10 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_bindir}/isoftapp_systray
 
 %changelog
+* Wed Dec 30 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Made all methods multithread and threadsafe.
+- Improved search handler.
+
 * Tue Dec 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - isoftapp system dbus service implementation by fujiang.
 - Fix search hang issue by fujiang.
