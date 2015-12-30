@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.1.2
+Version: 2.1.3
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -7,7 +7,8 @@ License: GPLv2 or GPLv3
 URL: http://git.isoft.zhcn.cc/zhaixiang/isoftapp
 Source0: %{name}-%{version}.tar.bz2
 
-BuildRequires: cmake
+BuildRequires: kf5-rpm-macros
+BuildRequires: extra-cmake-modules
 BuildRequires: pkgconfig
 BuildRequires: gettext
 BuildRequires: glib2-devel
@@ -19,6 +20,9 @@ BuildRequires: libcurl-devel
 BuildRequires: sqlite-devel
 BuildRequires: qt5-qtbase-devel
 BuildRequires: qtsingleapplication-qt5-devel
+BuildRequires: kf5-krunner-devel
+BuildRequires: kf5-ki18n-devel
+BuildRequires: NetworkManager-glib-devel
 
 Requires: systemd
 
@@ -38,7 +42,7 @@ iSOFT AppStore Skeleton.
 %build
 mkdir -p %{_target_platform}
 pushd %{_target_platform}
-%{cmake} ..
+%{cmake_kf5} ..
 popd
 make %{?_smp_mflags} -C %{_target_platform}
 
@@ -74,11 +78,14 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_bindir}/isoftapp
 %{_bindir}/isoftapp-daemon
 %{_bindir}/isoftapp_systray
+%{_kf5_qtplugindir}/krunner_isoftapp.so
+%{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
 * Wed Dec 30 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Made all methods multithread and threadsafe.
 - Improved search handler.
+- Implemented KRunner plugin.
 
 * Tue Dec 29 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - isoftapp system dbus service implementation by fujiang.
