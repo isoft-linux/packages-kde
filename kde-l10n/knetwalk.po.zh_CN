@@ -1,0 +1,320 @@
+# translation of knetwalk.po to 简体中文
+# Copyright (C) 2007, 2008, 2009 Free Software Foundation, Inc.
+#
+# Ni Hui <shuizhuyuanluo@126.com>, 2007, 2008, 2009, 2010.
+# dalin <dalin.lin@gmail.com>, 2007.
+# Weng Xuetian <wengxt@gmail.com>, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: knetwalk\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2015-04-26 08:25+0000\n"
+"PO-Revision-Date: 2015-03-17 16:28-0700\n"
+"Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
+"Language-Team: Chinese Simplified <kde-china@kde.org>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "KDE 中国"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde-china@kde.org"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, width)
+#: customgame.ui:30
+msgid "Width of the grid"
+msgstr "网格宽度"
+
+#. i18n: ectx: property (text), widget (QLabel, width)
+#: customgame.ui:33
+msgid "Width:"
+msgstr "宽度："
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Wrapping)
+#: customgame.ui:56
+msgid "Wrap from left to right and from top to bottom"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Wrapping)
+#: customgame.ui:59
+msgid "Wrapping"
+msgstr "折行"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, height)
+#: customgame.ui:66
+msgid "Height of the grid"
+msgstr "网格高度"
+
+#. i18n: ectx: property (text), widget (QLabel, height)
+#: customgame.ui:69
+msgid "Height:"
+msgstr "高度："
+
+#: gameview.cpp:162
+msgid ""
+"Note: to win the game all terminals <strong>and all <em>cables</em></strong> "
+"need to be connected to the server!"
+msgstr ""
+"注意：要赢得游戏，您需要将所有终端电脑和<strong>所有<em>线缆</em></strong>都"
+"连接到服务器上！"
+
+#: gameview.cpp:165
+msgid "The game is not won yet!"
+msgstr "尚未赢得游戏！"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PlaySounds)
+#: general.ui:30
+msgid "Play sounds on actions"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_PlaySounds)
+#: general.ui:33
+msgid "Play Sounds"
+msgstr "播放声音"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label)
+#: general.ui:53
+msgid "Duration for cell to complete one rotation in milliseconds"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: general.ui:56
+msgid "Rotate Duration:"
+msgstr "旋转持续时间："
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Autolock)
+#: general.ui:63
+msgid "Automatically lock cell after rotation"
+msgstr "旋转后自动锁定格子"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_Autolock)
+#: general.ui:66
+msgid "Auto Lock"
+msgstr "自动锁定"
+
+#. i18n: ectx: label, entry (username), group (Preferences)
+#: knetwalk.kcfg:9
+msgid "Default user name"
+msgstr "默认用户名"
+
+#. i18n: ectx: label, entry (PlaySounds), group (General)
+#: knetwalk.kcfg:14
+msgid "Whether game sounds are played."
+msgstr "是否播放游戏声音。"
+
+#. i18n: ectx: label, entry (Autolock), group (General)
+#: knetwalk.kcfg:18
+msgid "Whether lock cell after rotation."
+msgstr "旋转后是否锁定格子。"
+
+#. i18n: ectx: label, entry (RotateDuration), group (General)
+#: knetwalk.kcfg:22
+msgid "Duration for cell to complete one rotation."
+msgstr ""
+
+#. i18n: ectx: label, entry (Width), group (Custom)
+#: knetwalk.kcfg:30
+msgid "The width of the board."
+msgstr "版面宽度。"
+
+#. i18n: ectx: label, entry (Height), group (Custom)
+#: knetwalk.kcfg:36
+msgid "The height of the board."
+msgstr "版面高度。"
+
+#. i18n: ectx: label, entry (Wrapping), group (Custom)
+#: knetwalk.kcfg:42
+msgid "Whether wrap from left to right and from top to bottom is enabled."
+msgstr ""
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: knetwalkui.rc:13
+msgid "Main Toolbar"
+msgstr "主工具栏"
+
+#: main.cpp:27
+msgid "KNetWalk, a game for system administrators."
+msgstr "KNetWalk，一款为系统管理员设计的游戏。"
+
+#: main.cpp:30
+msgid ""
+"(C) 2004-2005 Andi Peredri, ported to KDE by Thomas Nagy\n"
+"(C) 2007-2008 Fela Winkelmolen\n"
+"(C) 2013 Ashwin Rajeev"
+msgstr ""
+"(C) 2004-2005 Andi Peredri, 由 Thomas Nagy 移植到 KDE\n"
+"(C) 2007-2008 Fela Winkelmolen\n"
+"(C) 2013 Ashwin Rajeev"
+
+#: main.cpp:45
+msgid "KNetWalk"
+msgstr "KNetWalk"
+
+#: main.cpp:50
+msgid "Andi Peredri"
+msgstr "Andi Peredri"
+
+#: main.cpp:51
+msgid "original author"
+msgstr "原作者"
+
+#: main.cpp:54
+msgid "Thomas Nagy"
+msgstr "Thomas Nagy"
+
+#: main.cpp:55
+msgid "KDE port"
+msgstr "KDE 移植"
+
+#: main.cpp:58
+msgid "Ashwin Rajeev"
+msgstr "Ashwin Rajeev"
+
+#: main.cpp:59
+msgid "Port to QtQuick"
+msgstr "移植到 QtQuick"
+
+#: main.cpp:62
+msgid "Eugene Trounev"
+msgstr "Eugene Trounev"
+
+#: main.cpp:63
+msgid "icon design"
+msgstr "图标设计"
+
+#: main.cpp:66
+msgid "Brian Croom"
+msgstr "Brian Croom"
+
+#: main.cpp:67
+msgid "Port to use the QGraphicsView framework"
+msgstr "移植到 QGraphicsView 框架"
+
+#: mainwindow.cpp:96
+msgid "Custom"
+msgstr "自定义"
+
+#: mainwindow.cpp:144
+msgid "&Unlock All"
+msgstr "解锁全部(&U)"
+
+#: mainwindow.cpp:149
+msgid "Keyboard: Field right"
+msgstr "键盘：向右"
+
+#: mainwindow.cpp:154
+msgid "Keyboard: Field left"
+msgstr "键盘：向左"
+
+#: mainwindow.cpp:159
+msgid "Keyboard: Field up"
+msgstr "键盘：向上"
+
+#: mainwindow.cpp:164
+msgid "Keyboard: Field down"
+msgstr "键盘：向下"
+
+#: mainwindow.cpp:169
+msgid "Keyboard: Turn clockwise"
+msgstr "键盘：顺时针旋转"
+
+#: mainwindow.cpp:174
+msgid "Keyboard: Turn counterclockwise"
+msgstr "键盘：逆时针旋转"
+
+#: mainwindow.cpp:179
+msgid "Keyboard: Toggle lock"
+msgstr "键盘：切换锁定"
+
+#: mainwindow.cpp:190
+msgid "General"
+msgstr "常规"
+
+#: mainwindow.cpp:191
+msgid "Theme"
+msgstr "主题"
+
+#: mainwindow.cpp:192
+msgid "Custom Game"
+msgstr "自定义游戏"
+
+#: mainwindow.cpp:201 mainwindow.cpp:258
+msgid "Moves Penalty"
+msgstr "处罚移动"
+
+#: mainwindow.cpp:262
+#, kde-format
+msgid "Your score was %1, you did not make it to the high score list."
+msgid_plural "Your score was %1, you did not make it to the high score list."
+msgstr[0] "您的得分是 %1，无法进入高分榜。"
+
+#: mainwindow.cpp:287
+#, kde-format
+msgctxt "Number of mouse clicks"
+msgid "Moves: %1"
+msgstr "步数：%1"
+
+#: mainwindow.cpp:288
+#, kde-format
+msgctxt "Time elapsed"
+msgid "Time: %1"
+msgstr "时间：%1"
+
+#: qml/main.qml:76
+msgid "Paused"
+msgstr "已暂停"
+
+#~ msgid "Fela Winkelmolen"
+#~ msgstr "Fela Winkelmolen"
+
+#~ msgid "current maintainer"
+#~ msgstr "当前维护者"
+
+#~ msgid "Game is paused."
+#~ msgstr "游戏已暂停。"
+
+#~ msgid ""
+#~ "<h3>Rules of Game</h3><p>You are the system administrator and your goal "
+#~ "is to connect each terminal and each cable to the central server.</"
+#~ "p><p>Click the right mouse button to turn the cable in a clockwise "
+#~ "direction, and the left mouse button to turn the cable in a "
+#~ "counterclockwise direction.</p><p>Start the LAN with as few turns as "
+#~ "possible!</p>"
+#~ msgstr ""
+#~ "<h3>游戏规则</h3><p>您是一名系统管理员，您的目标是将每台计算机连接到中央服"
+#~ "务器。</p><p>点击鼠标右键以顺时针方向转动设备，鼠标左键以逆时针方向转动设"
+#~ "备。</p><p>请用尽可能少的转动使局域网运作起来！</p>"
+
+#~ msgid "New Game"
+#~ msgstr "新游戏"
+
+#~ msgid "The graphical theme to be used."
+#~ msgstr "要使用的图形主题。"
+
+#~ msgid "Start with Easy difficulty level"
+#~ msgstr "以简单难度开始"
+
+#~ msgid "Start with Medium difficulty level"
+#~ msgstr "以中级难度开始"
+
+#~ msgid "Start with Hard difficulty level"
+#~ msgstr "以困难难度开始"
+
+#~ msgid "Start with Very Hard difficulty level"
+#~ msgstr "以非常困难难度开始"
+
+#~ msgid "The difficulty level."
+#~ msgstr "难度等级"
+
+#~ msgid "Use &Keyboard"
+#~ msgstr "使用键盘(&K)"
+
+#~ msgid "Failed to load \"%1\" theme. Please check your installation."
+#~ msgstr "装入“%1”主题失败。请检查您的安装。"

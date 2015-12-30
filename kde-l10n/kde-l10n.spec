@@ -4,7 +4,7 @@
 Name:    kde-l10n
 Summary: Internationalization support for KDE
 Version: 15.12.0
-Release: 6 
+Release: 7 
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -44,6 +44,7 @@ Source28: spectacle-zh_CN.po
 
 Source29: ksystemlog.po.zh_CN
 Source30: okular.po.zh_CN 
+Source31: knetwalk.po.zh_CN 
 
 Source1000: subdirs-kde-l10n
 
@@ -171,6 +172,7 @@ cp %{SOURCE26} %{name}-zh_CN-%{version}/5/zh_CN/messages/applications/konsole.po
 cp %{SOURCE27} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdeutils/ark.po
 cp %{SOURCE29} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdeadmin/ksystemlog.po
 cp %{SOURCE30} %{name}-zh_CN-%{version}/4/zh_CN/messages/kdegraphics/okular.po
+cp %{SOURCE31} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegames/knetwalk.po
 
 #update spectacle zh_CN po
 rm -rf %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/spectacle.po
@@ -412,6 +414,9 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/ki18n5/
 
 
 %changelog
+* Wed Dec 30 2015 kun.li@i-soft.com.cn - 15.12.0-7
+- add knetwalk.po.zh_CN localization 
+
 * Tue Dec 29 2015 kun.li@i-soft.com.cn - 15.12.0-6
 - add ark.po.zh_CN localization 
 
