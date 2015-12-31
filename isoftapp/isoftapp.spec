@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.1.5
+Version: 2.1.6
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -86,6 +86,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %changelog
 * Thu Dec 31 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add install/remove pkg handler.
+- Fix isoftapp update issue.
 
 * Wed Dec 30 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Made all methods multithread and threadsafe.
