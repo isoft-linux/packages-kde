@@ -1,6 +1,6 @@
-diff -Nur plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp plasma-workspace/xembed-sni-proxy/sniproxy.cpp
---- plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:42:02.109989671 +0800
-+++ plasma-workspace/xembed-sni-proxy/sniproxy.cpp	2015-11-26 16:42:49.277988826 +0800
+diff -Nur plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp plasma-workspace-5.4.3n/xembed-sni-proxy/sniproxy.cpp
+--- plasma-workspace-5.4.3/xembed-sni-proxy/sniproxy.cpp	2015-12-31 12:09:15.504111793 +0800
++++ plasma-workspace-5.4.3n/xembed-sni-proxy/sniproxy.cpp	2015-12-31 12:13:42.086107019 +0800
 @@ -74,6 +74,13 @@
      m_dbus(QDBusConnection::connectToBus(QDBusConnection::SessionBus, QStringLiteral("XembedSniProxy%1").arg(s_serviceCount++))),
      m_windowId(wid)
@@ -8,25 +8,26 @@ diff -Nur plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp plasma-workspace/xe
 +    auto c = QX11Info::connection();
 +
 +    auto cookie = xcb_get_geometry(c, m_windowId);
-+    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
++    QScopedPointer<xcb_get_geometry_reply_t, QScopedPointerPodDeleter>
++        clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
 +
 +    if (clientGeom && clientGeom->width > 0) {
-+
      //create new SNI
      new StatusNotifierItemAdaptor(this);
      m_dbus.registerObject(QStringLiteral("/StatusNotifierItem"), this);
-@@ -85,10 +92,6 @@
+@@ -85,11 +92,6 @@
          qCWarning(SNIPROXY) << "could not register SNI:" << reply.error().message();
      }
  
 -    auto c = QX11Info::connection();
 -
 -    auto cookie = xcb_get_geometry(c, m_windowId);
--    QScopedPointer<xcb_get_geometry_reply_t> clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
+-    QScopedPointer<xcb_get_geometry_reply_t, QScopedPointerPodDeleter>
+-        clientGeom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
  
      //create a container window
      auto screen = xcb_setup_roots_iterator (xcb_get_setup (c)).data;
-@@ -181,6 +184,7 @@
+@@ -182,6 +184,7 @@
      //not ideal, but it works better than nothing
      //test with xchat before changing
      QTimer::singleShot(500, this, &SNIProxy::update);
@@ -34,21 +35,20 @@ diff -Nur plasma-workspace.git/xembed-sni-proxy/sniproxy.cpp plasma-workspace/xe
  }
  
  SNIProxy::~SNIProxy()
-@@ -237,11 +241,12 @@
-     auto c = QX11Info::connection();
-     auto cookie = xcb_get_geometry(c, m_windowId);
-     QScopedPointer<xcb_get_geometry_reply_t> geom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
--
--    xcb_image_t *image = xcb_image_get(c, m_windowId, 0, 0, geom->width, geom->height, 0xFFFFFF, XCB_IMAGE_FORMAT_Z_PIXMAP);
--
--    QImage qimage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
--
-+    QImage qimage;
+@@ -245,6 +248,7 @@
+     QScopedPointer<xcb_get_geometry_reply_t, QScopedPointerPodDeleter>
+         geom(xcb_get_geometry_reply(c, cookie, Q_NULLPTR));
+ 
 +    if(geom) {
-+        xcb_image_t *image = xcb_image_get(c, m_windowId, 0, 0, geom->width, geom->height, 0xFFFFFF, XCB_IMAGE_FORMAT_Z_PIXMAP);
-+        if(image)
-+            qimage = QImage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
-+    }
-     return qimage;
+     xcb_image_t *image = xcb_image_get(c, m_windowId, 0, 0, geom->width, geom->height, 0xFFFFFF, XCB_IMAGE_FORMAT_Z_PIXMAP);
+ 
+     // Don't hook up cleanup yet, we may use a different QImage after all
+@@ -266,6 +270,8 @@
+         // Now we are sure we can eventually delete the xcb_image_t with this version
+         return QImage(image->data, image->width, image->height, image->stride, QImage::Format_ARGB32, sni_cleanup_xcb_image, image);
+     }
++    } else
++        return QImage();
  }
  
+ QImage SNIProxy::convertFromNative(xcb_image_t *xcbImage) const

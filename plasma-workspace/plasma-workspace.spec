@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        32
+Release:        33
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -41,9 +41,10 @@ Patch13: workspace-kio-desktop-use-virtual-Trash-UDSentry-instead-of-trash.deskt
 
 #backporting of xembedsniproxy
 Patch20: 0000-backport-xembedsniproxy.patch
+Patch21: 0001-xembedsniproxy-fix-always-segfault.patch
 #all this patches already upstreamed.
-Patch21: plasma-workspace-sni-fix.diff
-Patch22: 0002-xembedsniproxy-workaround-for-java-systemtray.patch
+Patch22: plasma-workspace-sni-fix.diff
+Patch23: 0002-xembedsniproxy-workaround-for-java-systemtray.patch
 
 #these three patches disabled now.
 #Patch23: 0003-xembedsniproxy-crop-large-transparent-border.patch
@@ -291,6 +292,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch20 -p1
 %patch21 -p1
 %patch22 -p1
+%patch23 -p1
 
 %patch30 -p1
 
@@ -422,6 +424,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 31 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-33
+- Fix xembed sni proxy always segfault
+
 * Tue Dec 29 2015 <ming.wang@i-soft.com.cn> - 5.4.3-32
 - Hide timezone widget of analogclock when width less than  text's width.
 
