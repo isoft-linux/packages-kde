@@ -41,10 +41,9 @@ Patch13: workspace-kio-desktop-use-virtual-Trash-UDSentry-instead-of-trash.deskt
 
 #backporting of xembedsniproxy
 Patch20: 0000-backport-xembedsniproxy.patch
-Patch21: 0001-xembedsniproxy-fix-always-segfault.patch
-#all this patches already upstreamed.
-Patch22: plasma-workspace-sni-fix.diff
-Patch23: 0002-xembedsniproxy-workaround-for-java-systemtray.patch
+Patch21: plasma-workspace-sni-fix.diff
+Patch22: 0002-xembedsniproxy-workaround-for-java-systemtray.patch
+Patch23: 0001-xembedsniproxy-fix-always-segfault.patch
 
 #these three patches disabled now.
 #Patch23: 0003-xembedsniproxy-crop-large-transparent-border.patch
