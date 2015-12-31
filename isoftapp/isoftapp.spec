@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.1.4
+Version: 2.1.5
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -22,6 +22,8 @@ BuildRequires: qt5-qtbase-devel
 BuildRequires: qtsingleapplication-qt5-devel
 BuildRequires: kf5-krunner-devel
 BuildRequires: kf5-ki18n-devel
+BuildRequires: kf5-kservice-devel
+BuildRequires: kf5-kdelibs4support-devel
 BuildRequires: NetworkManager-glib-devel
 
 Requires: systemd
@@ -82,6 +84,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Thu Dec 31 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add install/remove pkg handler.
+
 * Wed Dec 30 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Made all methods multithread and threadsafe.
 - Improved search handler.
