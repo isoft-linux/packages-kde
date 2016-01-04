@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        28
+Release:        29
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -119,6 +119,9 @@ Patch402: plasma-desktop-drop-the-trash.desktop-spectial-treatment.patch
 
 #Fix https://bugs.kde.org/show_bug.cgi?id=357100
 Patch410: plasma-desktop-fix-Show-Original-Dir-in-DesktopView.patch
+
+# Remove kuser.os info from kickoff
+Patch411: 0017-remove-kickoff-osinfo.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -370,6 +373,9 @@ fi
 
 
 %changelog
+* Mon Jan 04 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Remove kuser.os info from kickoff.
+
 * Tue Dec 29 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-28
 - Remove orig files installed accidently.
 
