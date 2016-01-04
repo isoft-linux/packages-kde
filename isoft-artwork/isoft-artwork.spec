@@ -1,7 +1,7 @@
 %define checksum e9c2c39e8c83745d65c0a1a575892d64
 Name:           isoft-artwork
 Version:        1.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        isoft linux artwork
 
 License:        GPL
@@ -24,9 +24,12 @@ rm -rf $RPM_BUILD_ROOT
 %make_install
 
 %files
-%{_datadir}/isoft-artwork/*
+%{_datadir}/*
 
 %changelog
+* Mon Jan 04 2016 xiaotian.wu@i-soft.com.cn - 1.2.2-2
+- rebuilt, add lost files.
+
 * Mon Jan 04 2016 xiaotian.wu@i-soft.com.cn - 1.2.2-1
 - new version
 
