@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.1.6
+Version: 2.1.7
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -84,6 +84,10 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Mon Jan 04 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix search issue by Leslie Zhai.
+- fujiang is fixing isoftapp-daemon segfault issue.
+
 * Thu Dec 31 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add install/remove pkg handler.
 - Fix isoftapp update issue.
