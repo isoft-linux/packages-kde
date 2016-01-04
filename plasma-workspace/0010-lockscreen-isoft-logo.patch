@@ -17,3 +17,37 @@ index 751b566..abc444f 100644
          m_model->appendRow(row);
      }
  
+diff --git a/lookandfeel/contents/lockscreen/LockScreen.qml b/lookandfeel/contents/lockscreen/LockScreen.qml
+index 4ce9a00..0860345 100644
+--- a/lookandfeel/contents/lockscreen/LockScreen.qml
++++ b/lookandfeel/contents/lockscreen/LockScreen.qml
+@@ -26,6 +26,7 @@ import org.kde.kscreenlocker 1.0
+ import org.kde.plasma.workspace.keyboardlayout 1.0
+ import "../components"
+ import "../osd"
++import QtAccountsService 1.0
+ 
+ Image {
+     id: root
+@@ -34,15 +35,19 @@ Image {
+     property UserSelect userSelect: null
+     signal clearPassword()
+ 
+-    source: backgroundPath || "../components/artwork/background.png"
++    source: userAccount.background != "" ? userAccount.background : backgroundPath || "../components/artwork/background.png"
+     fillMode: Image.PreserveAspectCrop
+ 
+     onStatusChanged: {
+         if (status == Image.Error) {
+-            source = "../components/artwork/background.png";
++            source = userAccount.background != "" ? userAccount.background : "../components/artwork/background.png";
+         }
+     }
+ 
++    UserAccount {
++        id: userAccount
++    }
++
+     Connections {
+         target: authenticator
+         onFailed: {
