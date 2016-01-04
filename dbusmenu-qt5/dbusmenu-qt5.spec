@@ -1,4 +1,4 @@
-%global snapshot 20140604
+%global snapshot 20150604 
 %global tarballversion 0.9.2
 
 Summary:        A Qt implementation of the DBusMenu protocol (Qt5 version)
@@ -13,7 +13,7 @@ URL:            https://launchpad.net/libdbusmenu-qt/
 # bzr branch lp:libdbusmenu-qt && mv libdbusmenu-qt{,5-%{version}} && \
 # tar -c libdbusmenu-qt5-0.9.2 | bzip2 -c > libdbusmenu-qt5-0.9.2-${snapshot}bzr.tar.bz2
 # Last upstream release does not include Qt5 support, so we need to use a snapshot
-Source0:        libdbusmenu-qt5-%{version}-%{snapshot}bzr.tar.bz2
+Source0:  libdbusmenu-qt-%{version}-%{snapshot}bzr.tar.gz
 
 BuildRequires:  cmake
 BuildRequires:  doxygen
@@ -35,7 +35,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 
 
 %prep
-%setup -q -n libdbusmenu-qt5-%{version}
+%setup -q -n libdbusmenu-qt-%{version}
 
 
 %build
