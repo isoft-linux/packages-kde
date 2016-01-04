@@ -1,0 +1,19 @@
+diff --git a/ksmserver/screenlocker/kcm/kcm.cpp b/ksmserver/screenlocker/kcm/kcm.cpp
+index 751b566..abc444f 100644
+--- a/ksmserver/screenlocker/kcm/kcm.cpp
++++ b/ksmserver/screenlocker/kcm/kcm.cpp
+@@ -149,7 +149,13 @@ void ScreenLockerKcm::load()
+     for (const KPackage::Package &pkg : pkgs) {
+         QStandardItem* row = new QStandardItem(pkg.metadata().name());
+         row->setData(pkg.metadata().pluginId(), PluginNameRole);
+-        row->setData(pkg.filePath("previews", "lockscreen.png"), ScreenhotRole);
++        QString lockscreenPath = pkg.filePath("previews", "lockscreen.png");
++        if (pkg.metadata().name() != "Oxygen") {
++            lockscreenPath = QFile::exists("/usr/share/isoft-artwork/lockscreen.png") ?
++                "/usr/share/isoft-artwork/lockscreen.png" :
++                pkg.filePath("previews", "lockscreen.png");
++        }
++        row->setData(lockscreenPath, ScreenhotRole);
+         m_model->appendRow(row);
+     }
+ 
