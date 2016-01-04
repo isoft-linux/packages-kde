@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        14
+Release:        15
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -47,6 +47,8 @@ Patch13: plasma-framesvg-fix-cache.patch
 
 # https://git.reviewboard.kde.org/r/126471
 Patch14: not-emit-statuschanged-if-no-change.patch
+
+Patch15: default-wallpaper-theme-carat.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -120,6 +122,7 @@ developing applications that use %{name}.
 #and use theme from 5.15.0
 rm -rf src/desktoptheme
 tar zxf %{SOURCE1} -C src
+%patch15 -p1
 
 %build
 mkdir %{_target_platform}
@@ -168,6 +171,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Jan 04 2016 xiaotian.wu@i-soft.com.cn - 5.16.0-15
+- change default wallpaper to carat.
+
 * Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-14
 - Patch14: Don't emit statusChanged if it hasn't changed
 
