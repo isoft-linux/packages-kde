@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        30
+Release:        31
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -125,6 +125,9 @@ Patch411: 0017-remove-kickoff-osinfo.patch
 
 # Use iSOFT logo by default for preview
 Patch412: 0018-previews-preview-isoft-logo.patch
+
+#Sync time zone
+Patch413: plsm-dskt-sync-timezone.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -376,6 +379,9 @@ fi
 
 
 %changelog
+* Mon Jan 04 2016 <ming.wang@i-soft.com.cn> - 5.4.3-31
+- Sync time zone.
+
 * Mon Jan 04 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Remove kuser.os info from kickoff.
 - Use iSOFT logo by default for preview.

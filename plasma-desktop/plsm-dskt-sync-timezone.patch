@@ -1,0 +1,44 @@
+diff -Nur plasma-desktop-5.4.3/kcms/dateandtime/dtime.cpp plasma-desktop-5.4.3n/kcms/dateandtime/dtime.cpp
+--- plasma-desktop-5.4.3/kcms/dateandtime/dtime.cpp	2015-11-05 20:44:49.000000000 +0800
++++ plasma-desktop-5.4.3n/kcms/dateandtime/dtime.cpp	2016-01-04 17:02:57.861495873 +0800
+@@ -141,6 +141,19 @@
+     }
+ }
+ 
++void Dtime::currentZone(const KTimeZone &tz)
++{
++    if (tz.abbreviations().isEmpty()) {
++        m_local->setText(i18nc("%1 is name of time zone", "Current local time zone: %1",
++                              K4TimeZoneWidget::displayName(tz)));
++    } else {
++        m_local->setText(i18nc("%1 is name of time zone, %2 is its abbreviation",
++                               "Current local time zone: %1 (%2)",
++                              K4TimeZoneWidget::displayName(tz),
++                              QString::fromUtf8(tz.abbreviations().first())));
++    }
++}
++
+ void Dtime::serverTimeCheck() {
+   // Enable time and date if the ntp utility is missing
+   bool enabled = ntpUtility.isEmpty() || !setDateTimeAuto->isChecked();
+@@ -243,6 +256,9 @@
+ 
+   tzonelist->setSelected(currentTimeZone, true);
+   emit timeChanged(false);
++
++  KTimeZone currzone = KSystemTimeZones::zone(currentTimeZone);
++  currentZone(currzone);
+ }
+ 
+ QString Dtime::selectedTimeZone() const
+diff -Nur plasma-desktop-5.4.3/kcms/dateandtime/dtime.h plasma-desktop-5.4.3n/kcms/dateandtime/dtime.h
+--- plasma-desktop-5.4.3/kcms/dateandtime/dtime.h	2015-11-05 20:44:49.000000000 +0800
++++ plasma-desktop-5.4.3n/kcms/dateandtime/dtime.h	2016-01-04 17:02:45.350495793 +0800
+@@ -70,6 +70,7 @@
+ 
+ private:
+   void currentZone();
++  void currentZone(const KTimeZone &tz);
+   void	findNTPutility();
+   QString	ntpUtility;
+ 
