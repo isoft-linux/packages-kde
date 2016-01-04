@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        33
+Release:        34
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -102,6 +102,9 @@ Patch54: plsm-wksp-remove-checkbox-kcfg_PreventEmptyClipboard.patch
 
 # hide timezone widget of analogclock when width less than  text's width.
 Patch55: plsm-wksp-hide-analogclock-timezone.patch
+
+# Use iSOFT logo by default for lockscreen
+Patch56: 0010-lockscreen-isoft-logo.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -313,6 +316,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch53 -p1
 %patch54 -p1
 %patch55 -p1
+%patch56 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -423,6 +427,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Jan 04 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Use iSOFT logo by default for lockscreen.
+
 * Thu Dec 31 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-33
 - Fix xembed sni proxy always segfault
 
