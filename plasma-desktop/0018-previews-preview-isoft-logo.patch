@@ -1,0 +1,19 @@
+diff --git a/kcms/lookandfeel/kcm.cpp b/kcms/lookandfeel/kcm.cpp
+index b5195ee..fad845c 100644
+--- a/kcms/lookandfeel/kcm.cpp
++++ b/kcms/lookandfeel/kcm.cpp
+@@ -175,7 +175,13 @@ void KCMLookandFeel::load()
+         }
+         QStandardItem* row = new QStandardItem(pkg.metadata().name());
+         row->setData(pkg.metadata().pluginName(), PluginNameRole);
+-        row->setData(pkg.filePath("previews", "preview.png"), ScreenhotRole);
++        QString previewPath = pkg.filePath("previews", "preview.png");
++        if (pkg.metadata().name() != "Oxygen") {
++            previewPath = QFile::exists("/usr/share/isoft-artwork/preview.png") ?
++                "/usr/share/isoft-artwork/preview.png" :
++                pkg.filePath("previews", "preview.png");
++        }
++        row->setData(previewPath, ScreenhotRole);
+ 
+         //What the package provides
+         row->setData(!pkg.filePath("splashmainscript").isEmpty(), HasSplashRole);

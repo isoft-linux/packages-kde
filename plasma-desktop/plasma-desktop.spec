@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        29
+Release:        30
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -122,6 +122,9 @@ Patch410: plasma-desktop-fix-Show-Original-Dir-in-DesktopView.patch
 
 # Remove kuser.os info from kickoff
 Patch411: 0017-remove-kickoff-osinfo.patch
+
+# Use iSOFT logo by default for preview
+Patch412: 0018-previews-preview-isoft-logo.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -375,6 +378,7 @@ fi
 %changelog
 * Mon Jan 04 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Remove kuser.os info from kickoff.
+- Use iSOFT logo by default for preview.
 
 * Tue Dec 29 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-28
 - Remove orig files installed accidently.
