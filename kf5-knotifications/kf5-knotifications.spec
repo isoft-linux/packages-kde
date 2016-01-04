@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution with abstraction for system notifications
 
 License:        LGPLv2+
@@ -22,7 +22,7 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 # so if default status is Passive, QSystemTrayIcon will be hided into systemtray
 # applet's ExpandedRepresentation area, it is visible only by click on the 
 # expanding triangle.
-#Patch0: 0001-default-status-active.patch
+Patch0: 0001-default-status-active.patch
 
 BuildRequires:  libX11-devel
 
@@ -37,6 +37,8 @@ BuildRequires:  kf5-kwindowsystem-devel >= %{version}
 BuildRequires:  kf5-kconfig-devel >= %{version}
 BuildRequires:  kf5-kcodecs-devel >= %{version}
 BuildRequires:  kf5-kcoreaddons-devel >= %{version}
+
+BuildRequires:  dbusmenu-qt5-devel
 
 Requires:       kf5-filesystem
 
@@ -56,6 +58,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -92,6 +95,9 @@ mkdir -p %{buildroot}/%{_kf5_datadir}/knotifications5
 
 
 %changelog
+* Thu Dec 31 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-5
+- Add buildrequires to dbusmenu-qt5
+
 * Thu Dec 31 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Drop set Active status by default patch.
 
