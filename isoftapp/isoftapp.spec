@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.1.7
+Version: 2.1.8
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -84,6 +84,10 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Tue Jan 05 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Rewrote match for KRunner plugin.
+- Add getDesktopName interface by fujiang.
+
 * Mon Jan 04 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix search issue by Leslie Zhai.
 - fujiang is fixing isoftapp-daemon segfault issue.
