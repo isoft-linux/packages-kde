@@ -1,0 +1,34 @@
+diff --git a/lookandfeel/contents/loginmanager/Main.qml b/lookandfeel/contents/loginmanager/Main.qml
+index 065a115..9011ffd 100644
+--- a/lookandfeel/contents/loginmanager/Main.qml
++++ b/lookandfeel/contents/loginmanager/Main.qml
+@@ -25,6 +25,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
+ import org.kde.plasma.components 2.0 as PlasmaComponents
+ 
+ import SddmComponents 2.0
++import QtAccountsService 1.0
+ 
+ import "./components"
+ 
+@@ -33,15 +34,19 @@ Image {
+     width: 1000
+     height: 1000
+ 
++    UserAccount {
++        id: userAccount
++    }
++
+     Repeater {
+         model: screenModel
+         Background {
+             x: geometry.x; y: geometry.y; width: geometry.width; height:geometry.height
+-            source: config.background
++            source: userAccount.background != "" ? userAccount.background : config.background
+             fillMode: Image.PreserveAspectCrop
+             onStatusChanged: {
+                 if (status == Image.Error && source != config.defaultBackground) {
+-                    source = config.defaultBackground
++                    source = userAccount.background != "" ? userAccount.background : config.defaultBackground
+                 }
+             }
+         }
