@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.1.8
+Version: 2.1.9
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -87,6 +87,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 * Tue Jan 05 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Rewrote match for KRunner plugin.
 - Add getDesktopName interface by fujiang.
+- Fix getDesktopName memleak by fujiang.
 
 * Mon Jan 04 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix search issue by Leslie Zhai.
