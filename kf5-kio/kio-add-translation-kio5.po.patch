@@ -1,0 +1,13 @@
+diff -Naur kio-5.16.0.old/po/zh_CN/kio5.po kio-5.16.0/po/zh_CN/kio5.po
+--- kio-5.16.0.old/po/zh_CN/kio5.po	2016-01-06 17:17:02.102750039 +0800
++++ kio-5.16.0/po/zh_CN/kio5.po	2016-01-06 17:17:27.143860935 +0800
+@@ -74,6 +74,9 @@
+ msgid "%1 kB"
+ msgstr "%1 kB"
+ 
++msgid "Can not paste here"
++msgstr "这里不能粘贴。"
++
+ #: core/global.cpp:81
+ #, kde-format
+ msgctxt "size in 10^6 bytes"

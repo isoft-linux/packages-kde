@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -44,6 +44,8 @@ Patch9: kio-no-need-specitial-treatment-for-trash.desktop.patch
 
 #for unknown reason, the trashrc sometimes not updated.
 Patch10: make-sure-trashrc-updated-asap.patch
+
+Patch11: kio-add-translation-kio5.po.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -291,6 +293,9 @@ fi
 
 
 %changelog
+* Wed Jan 06 2016 kun.li@i-soft.com.cn - 5.16.0-11
+- add zh_CN translation for kio5.po  
+
 * Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-10
 - Ensure trashrc updated
 
