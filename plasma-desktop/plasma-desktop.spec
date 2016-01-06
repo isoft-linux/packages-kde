@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        31
+Release:        32
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -128,6 +128,9 @@ Patch412: 0018-previews-preview-isoft-logo.patch
 
 #Sync time zone
 Patch413: plsm-dskt-sync-timezone.patch
+
+# Remove flags
+Patch414: remove-national-flags.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -379,6 +382,9 @@ fi
 
 
 %changelog
+* Wed Jan 06 2016 xiaotian.wu@i-soft.com.cn - 5.4.3-32
+- remove national flags.
+
 * Mon Jan 04 2016 <ming.wang@i-soft.com.cn> - 5.4.3-31
 - Sync time zone.
 

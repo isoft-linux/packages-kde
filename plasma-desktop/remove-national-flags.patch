@@ -1,0 +1,18 @@
+Index: plasma-desktop-5.4.3/kcms/formats/kcmformats.cpp
+===================================================================
+--- plasma-desktop-5.4.3.orig/kcms/formats/kcmformats.cpp
++++ plasma-desktop-5.4.3/kcms/formats/kcmformats.cpp
+@@ -124,12 +124,7 @@ void KCMFormats::addLocaleToCombo(QCombo
+     if (split.count() > 1) {
+         flagcode = split[1].toLower();
+     }
+-    QString flag(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kf5/locale/countries/%1/flag.png").arg(flagcode)));
+-    QIcon flagIcon;
+-    if (!flag.isEmpty()) {
+-        flagIcon = QIcon(flag);
+-    }
+-    combo->addItem(flagIcon, i18n("%1 - %2 (%3)", clabel, locale.nativeLanguageName(), locale.name()), cvalue);
++    combo->addItem(i18n("%1 - %2 (%3)", clabel, locale.nativeLanguageName(), locale.name()), cvalue);
+ }
+ 
+ void setCombo(QComboBox *combo, const QString &key)
