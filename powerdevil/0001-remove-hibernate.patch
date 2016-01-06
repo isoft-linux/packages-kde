@@ -1,0 +1,73 @@
+diff --git a/daemon/actions/bundled/handlebuttoneventsconfig.cpp b/daemon/actions/bundled/handlebuttoneventsconfig.cpp
+index 5d78ff0..d789b41 100644
+--- a/daemon/actions/bundled/handlebuttoneventsconfig.cpp
++++ b/daemon/actions/bundled/handlebuttoneventsconfig.cpp
+@@ -70,7 +70,8 @@ void HandleButtonEventsConfig::load()
+     configGroup().config()->reparseConfiguration();
+ 
+     if (m_lidCloseCombo) {
+-        m_lidCloseCombo->setCurrentIndex(m_lidCloseCombo->findData(QVariant::fromValue(configGroup().readEntry<uint>("lidAction", 0))));
++        int index = m_lidCloseCombo->findData(QVariant::fromValue(configGroup().readEntry<uint>("lidAction", 0)));
++        m_lidCloseCombo->setCurrentIndex(index == -1 ? 0 : index);
+     }
+     if (m_triggerLidActionWhenExternalMonitorPresent) {
+         m_triggerLidActionWhenExternalMonitorPresent->setChecked(configGroup().readEntry<bool>("triggerLidActionWhenExternalMonitorPresent", false));
+@@ -101,9 +102,6 @@ QList< QPair< QString, QWidget* > > HandleButtonEventsConfig::buildUi()
+             if (methods.contains(Solid::PowerManagement::SuspendState)) {
+                 box->addItem(QIcon::fromTheme("system-suspend"), i18n("Sleep"), (uint)SuspendSession::ToRamMode);
+             }
+-            if (methods.contains(Solid::PowerManagement::HibernateState)) {
+-                box->addItem(QIcon::fromTheme("system-suspend-hibernate"), i18n("Hibernate"), (uint)SuspendSession::ToDiskMode);
+-            }
+             box->addItem(QIcon::fromTheme("system-shutdown"), i18n("Shutdown"), (uint)SuspendSession::ShutdownMode);
+             box->addItem(QIcon::fromTheme("system-lock-screen"), i18n("Lock screen"), (uint)SuspendSession::LockScreenMode);
+             if (box != m_lidCloseCombo) {
+diff --git a/daemon/actions/bundled/suspendsessionconfig.cpp b/daemon/actions/bundled/suspendsessionconfig.cpp
+index e71e89f..35b18d5 100644
+--- a/daemon/actions/bundled/suspendsessionconfig.cpp
++++ b/daemon/actions/bundled/suspendsessionconfig.cpp
+@@ -62,7 +62,8 @@ void SuspendSessionConfig::load()
+     configGroup().config()->reparseConfiguration();
+ 
+     uint suspendType = configGroup().readEntry< uint >("suspendType", 0);
+-    m_comboBox->setCurrentIndex(m_comboBox->findData(suspendType));
++    int index = m_comboBox->findData(suspendType);
++    m_comboBox->setCurrentIndex(index == -1 ? 0 : index);
+     m_idleTime->setValue((configGroup().readEntry<int>("idleTime", 600000) / 60) / 1000);
+ }
+ 
+@@ -83,9 +84,6 @@ QList< QPair< QString, QWidget* > > SuspendSessionConfig::buildUi()
+     if (methods.contains(Solid::PowerManagement::SuspendState)) {
+         m_comboBox->addItem(QIcon::fromTheme("system-suspend"), i18n("Sleep"), (uint)SuspendSession::ToRamMode);
+     }
+-    if (methods.contains(Solid::PowerManagement::HibernateState)) {
+-        m_comboBox->addItem(QIcon::fromTheme("system-suspend-hibernate"), i18n("Hibernate"), (uint)SuspendSession::ToDiskMode);
+-    }
+     m_comboBox->addItem(QIcon::fromTheme("system-shutdown"), i18n("Shutdown"), (uint)SuspendSession::ShutdownMode);
+     m_comboBox->addItem(QIcon::fromTheme("system-lock-screen"), i18n("Lock screen"), (uint)SuspendSession::LockScreenMode);
+ 
+diff --git a/kcmodule/global/GeneralPage.cpp b/kcmodule/global/GeneralPage.cpp
+index c46b46f..ac1adde 100644
+--- a/kcmodule/global/GeneralPage.cpp
++++ b/kcmodule/global/GeneralPage.cpp
+@@ -105,9 +105,6 @@ void GeneralPage::fillUi()
+     if (methods.contains(Solid::PowerManagement::SuspendState)) {
+         BatteryCriticalCombo->addItem(QIcon::fromTheme("system-suspend"), i18n("Sleep"), PowerDevil::BundledActions::SuspendSession::ToRamMode);
+     }
+-    if (methods.contains(Solid::PowerManagement::HibernateState)) {
+-        BatteryCriticalCombo->addItem(QIcon::fromTheme("system-suspend-hibernate"), i18n("Hibernate"), PowerDevil::BundledActions::SuspendSession::ToDiskMode);
+-    }
+     BatteryCriticalCombo->addItem(QIcon::fromTheme("system-shutdown"), i18n("Shutdown"), PowerDevil::BundledActions::SuspendSession::ShutdownMode);
+ 
+     notificationsButton->setIcon(QIcon::fromTheme("preferences-desktop-notification"));
+@@ -138,8 +135,8 @@ void GeneralPage::load()
+ {
+     lowSpin->setValue(PowerDevilSettings::batteryLowLevel());
+     criticalSpin->setValue(PowerDevilSettings::batteryCriticalLevel());
+-
+-    BatteryCriticalCombo->setCurrentIndex(BatteryCriticalCombo->findData(PowerDevilSettings::batteryCriticalAction()));
++    int index = BatteryCriticalCombo->findData(PowerDevilSettings::batteryCriticalAction());
++    BatteryCriticalCombo->setCurrentIndex(index == -1 ? 1 : index);
+ }
+ 
+ void GeneralPage::configureNotifications()

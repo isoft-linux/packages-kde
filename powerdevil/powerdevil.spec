@@ -1,6 +1,6 @@
 Name:           powerdevil
 Version:        5.4.3
-Release:        5
+Release:        6
 Summary:        Manages the power consumption settings of a Plasma Shell
 
 License:        GPLv2+
@@ -21,7 +21,8 @@ Patch1:         do-not-ignore-brightness-key-during-animation.patch
 #https://quickgit.kde.org/?p=powerdevil.git&a=commit&h=4c66646761834236f6b14789162fe71f6179f472
 Patch2:         show-full-charged-msg-instead-of-not-charging-when-full.patch
 Patch3:         powerdevil-kcmmodule-activities.patch
-Patch4:         0001-remove-suspend.patch
+# Remove Hibernate but keep suspend
+Patch4:         0001-remove-hibernate.patch
  
 BuildRequires:  libxcb-devel
 BuildRequires:  xcb-util-keysyms-devel
@@ -105,6 +106,9 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Wed Jan 06 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Remove Hibernate but keep suspend.
+
 * Fri Dec 25 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Remove suspend for QA.
 
