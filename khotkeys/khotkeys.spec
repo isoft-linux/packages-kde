@@ -1,6 +1,6 @@
 Name:           khotkeys
 Version:        5.4.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Application to configure hotkeys in KDE
 
 License:        GPLv2+
@@ -25,6 +25,8 @@ Patch2: 0001-unselect-current-item-on-clicking-into-empty-space.patch
 Patch3: schedule-saving-to-next-event-cycle.patch
 #https://git.reviewboard.kde.org/r/125769/
 Patch4: use-dbus-mutex-to-prevent-write-back-outdated-configs.patch
+#backport git fix from 5.5.3
+Patch5: khotkey-compare.patch
  
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
@@ -67,7 +69,7 @@ developing applications that use %{name}.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-
+%patch5 -p1
 
 %build
 mkdir %{_target_platform}
@@ -108,6 +110,9 @@ rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/konqueror_gestures_kde321.khotkeys
 
 
 %changelog
+* Thu Jan 07 2016 Cjacker <cjacker@foxmail.com> - 5.4.3-6
+- Backport git fix of QString QKeySequence compare
+
 * Sat Dec 19 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-5
 - Remove all preset non-used hotkeys
 
