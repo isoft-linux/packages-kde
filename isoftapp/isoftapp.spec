@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.2.0
+Version: 2.2.1
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -84,6 +84,11 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Thu Jan 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix daemon segfault by fujiang.
+- Fix systray always show popup.
+- Improve match for krunner plugin by Cjacker.
+
 * Tue Jan 05 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Rewrote match for KRunner plugin.
 - Add getDesktopName interface by fujiang.
