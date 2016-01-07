@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        35
+Release:        36
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -44,6 +44,7 @@ Patch20: 0000-backport-xembedsniproxy.patch
 Patch21: plasma-workspace-sni-fix.diff
 Patch22: 0002-xembedsniproxy-workaround-for-java-systemtray.patch
 Patch23: 0001-xembedsniproxy-fix-always-segfault.patch
+Patch24: xembedsniproxy-dirty-fix-for-isoft-startup.patch
 
 #these three patches disabled now.
 #Patch23: 0003-xembedsniproxy-crop-large-transparent-border.patch
@@ -298,6 +299,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch21 -p1
 %patch22 -p1
 %patch23 -p1
+%patch24 -p1
 
 %patch30 -p1
 
@@ -431,6 +433,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Jan 07 2016 Cjacker <cjacker@foxmail.com> - 5.4.3-36
+- Fix rare empty tray and segfault
+
 * Tue Jan 05 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Use iSOFT background by default for loginmanager.
 
