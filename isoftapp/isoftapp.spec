@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.2.1
+Version: 2.2.2
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -88,6 +88,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 - Fix daemon segfault by fujiang.
 - Fix systray always show popup.
 - Improve match for krunner plugin by Cjacker.
+- Add NM status change support by fujiang.
 
 * Tue Jan 05 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Rewrote match for KRunner plugin.
