@@ -1,0 +1,13 @@
+diff --git a/kcms/kfontinst/kcmfontinst/KCmFontInst.cpp b/kcms/kfontinst/kcmfontinst/KCmFontInst.cpp
+index dd0aace..8682757 100644
+--- a/kcms/kfontinst/kcmfontinst/KCmFontInst.cpp
++++ b/kcms/kfontinst/kcmfontinst/KCmFontInst.cpp
+@@ -990,7 +990,7 @@ void CKCmFontInst::setStatusBar()
+                                   CGroupListItem::PERSONAL==type||CGroupListItem::SYSTEM==type);
+     itsDeleteGroupControl->setEnabled(isStd);
+     itsEnableGroupControl->setEnabled(disabled||partial);
+-    itsDisableGroupControl->setEnabled(isStd && (enabled||partial));
++    itsDisableGroupControl->setEnabled(enabled||partial);
+ 
+     itsGroupListView->controlMenu(itsDeleteGroupControl->isEnabled(),
+                                   itsEnableGroupControl->isEnabled(),

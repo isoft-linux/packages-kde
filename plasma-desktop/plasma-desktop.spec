@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        32
+Release:        33
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -131,6 +131,9 @@ Patch413: plsm-dskt-sync-timezone.patch
 
 # Remove flags
 Patch414: remove-national-flags.patch
+
+# Fix disable enabled font issue
+Patch415: 0019-fontinst-disable.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -382,6 +385,9 @@ fi
 
 
 %changelog
+* Thu Jan 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix disable enabled font issue.
+
 * Wed Jan 06 2016 xiaotian.wu@i-soft.com.cn - 5.4.3-32
 - remove national flags.
 
