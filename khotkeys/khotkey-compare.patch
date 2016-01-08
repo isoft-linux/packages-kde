@@ -1,0 +1,28 @@
+From: Kai Uwe Broulik <kde@privat.broulik.de>
+Date: Fri, 01 Jan 2016 22:27:12 +0000
+Subject: Fix comparison of QString to QKeySequence
+X-Git-Tag: v5.5.3
+X-Git-Url: http://quickgit.kde.org/?p=khotkeys.git&a=commitdiff&h=41697631fcca2be04598cf7ed8c0ce8a926fa1ad
+---
+Fix comparison of QString to QKeySequence
+
+QKeySequence operator QString() (which is deprecated, for good reason, as we can
+see) converts the QKeySequence to a native string whereas KGlobalAccel apparently
+uses portable text. This caused the string comparison to fail (at least if you were
+running non-English locale) and thus the KCM always notified us that our changes will
+be lost.
+
+This could be reproduced by having a global shortcut calling DBus, like the
+actions installed by Spectacle.
+---
+
+
+--- a/kcm_hotkeys/triggers/shortcut_trigger_widget.cpp
++++ b/kcm_hotkeys/triggers/shortcut_trigger_widget.cpp
+@@ -87,7 +87,7 @@
+ bool ShortcutTriggerWidget::isChanged() const
+     {
+     Q_ASSERT(trigger());
+-    return trigger()->primaryShortcut() != shortcut_trigger_ui.shortcut->keySequence();
++    return QKeySequence(trigger()->primaryShortcut(), QKeySequence::PortableText) != shortcut_trigger_ui.shortcut->keySequence();
+     }
