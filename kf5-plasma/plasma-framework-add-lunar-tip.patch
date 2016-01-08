@@ -1,3 +1,223 @@
+diff -Nur plasma-framework-5.16.0/po/zh_CN/libplasma5.po plasma-framework-5.16.0n/po/zh_CN/libplasma5.po
+--- plasma-framework-5.16.0/po/zh_CN/libplasma5.po	2015-12-22 15:07:43.587919934 +0800
++++ plasma-framework-5.16.0n/po/zh_CN/libplasma5.po	2015-12-22 15:07:58.725920757 +0800
+@@ -949,3 +949,7 @@
+ msgctxt "%1 is the name of the containment"
+ msgid "%1 Options"
+ msgstr "%1的选项"
++
++#: declarativeimports/calendar/lunar.cpp:90
++msgid "Lunar: %(NIAN)(Y)%(YUE)(M)%(RI)(D)"
++msgstr "农历: %(NIAN)年%(YUE)月%(RI)"
+diff -Nur plasma-framework-5.16.0/po/zh_TW/libplasma5.po plasma-framework-5.16.0n/po/zh_TW/libplasma5.po
+--- plasma-framework-5.16.0/po/zh_TW/libplasma5.po	2015-12-22 15:07:43.587919934 +0800
++++ plasma-framework-5.16.0n/po/zh_TW/libplasma5.po	2015-12-22 15:07:58.726920757 +0800
+@@ -949,3 +949,7 @@
+ msgctxt "%1 is the name of the containment"
+ msgid "%1 Options"
+ msgstr "%1 選項"
++
++#: declarativeimports/calendar/lunar.cpp:90
++msgid "Lunar: %(NIAN)(Y)%(YUE)(M)%(RI)(D)"
++msgstr "農歷: %(NIAN)年%(YUE)月%(RI)"
+diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp plasma-framework-5.16.0n/src/declarativeimports/calendar/calendarplugin.cpp
+--- plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2015-12-22 15:07:43.587919934 +0800
++++ plasma-framework-5.16.0n/src/declarativeimports/calendar/calendarplugin.cpp	2015-12-22 15:08:53.848923756 +0800
+@@ -20,6 +20,8 @@
+ #include "calendarplugin.h"
+ #include "calendardata.h"
+ #include "calendar.h"
++#include "lunar.h"
++
+ #include "eventdatadecorator.h"
+ #include "eventpluginsmanager.h"
+ 
+@@ -42,6 +44,7 @@
+     Q_ASSERT(uri == QLatin1String("org.kde.plasma.calendar"));
+     qmlRegisterType<CalendarData>(uri, 2, 0, "CalendarData");
+     qmlRegisterType<Calendar>(uri, 2, 0, "Calendar");
++    qmlRegisterType<Lunar>(uri, 2, 0, "Lunar");
+     qmlRegisterType<QAbstractItemModel>();
+     qmlRegisterType<QAbstractListModel>();
+     qmlRegisterSingletonType<EventPluginsManager>(uri, 2, 0, "EventPluginsManager", event_plugins_manager_provider);
+diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt plasma-framework-5.16.0n/src/declarativeimports/calendar/CMakeLists.txt
+--- plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt	2015-12-22 15:07:43.587919934 +0800
++++ plasma-framework-5.16.0n/src/declarativeimports/calendar/CMakeLists.txt	2015-12-22 15:09:51.441926889 +0800
+@@ -9,8 +9,13 @@
+     daysmodel.cpp
+     eventdatadecorator.cpp
+     eventpluginsmanager.cpp
++    lunar.cpp
+ )
+ 
++pkg_search_module(LUNARDATA REQUIRED lunar-date-2.0)
++
++include_directories(${LUNARDATA_INCLUDE_DIRS})
++
+ add_library(calendarplugin SHARED ${calendar_SRCS})
+ 
+ target_link_libraries(calendarplugin
+@@ -20,6 +25,7 @@
+     Qt5::Gui
+     KF5::I18n
+     KF5::CalendarEvents
++    ${LUNARDATA_LIBRARIES}
+ )
+ 
+ install(TARGETS calendarplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/plasma/calendar)
+diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp plasma-framework-5.16.0n/src/declarativeimports/calendar/lunar.cpp
+--- plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp	1970-01-01 08:00:00.000000000 +0800
++++ plasma-framework-5.16.0n/src/declarativeimports/calendar/lunar.cpp	2015-12-22 15:07:58.727920757 +0800
+@@ -0,0 +1,96 @@
++#include <lunar-date/lunar-date.h>
++#include <stdio.h>
++#include <locale.h>
++#include <lunar.h>
++#include <QVariant>
++#include <klocalizedstring.h>
++
++Lunar::Lunar(QObject *parent)
++    : QObject(parent), m_year(-1), m_month(-1), m_day(-1)
++{}
++
++Lunar::~Lunar()
++{}
++
++void Lunar::setYear(int y)
++{
++    m_year = y;
++    emit yearChanged();
++    get();
++    m_text = "okokok";
++}
++
++void Lunar::setMonth(int m)
++{
++    m_month = m + 1;
++    emit monthChanged();
++    get();
++}
++
++void Lunar::setDay(int d)
++{
++    m_day = d;
++    emit dayChanged();
++    get();
++}
++
++void Lunar::setFestival(const QString &fest)
++{
++    m_festival = fest;
++    emit festivalChanged();
++}
++
++void Lunar::setText(const QString &text)
++{
++    m_text = text;
++    emit textChanged();
++}
++
++QString Lunar::festival() const
++{
++    return m_festival;
++}
++
++QString Lunar::text() const
++{
++    return m_text;
++}
++
++int Lunar::year() const
++{
++    return m_year;
++}
++
++int Lunar::month() const
++{
++    return m_month;
++}
++
++int Lunar::day() const
++{
++    return m_day;
++}
++
++void Lunar::get()
++{
++    if (m_year < 0 || m_month < 0 || m_day < 0)
++    {
++        m_festival.clear();
++        m_text.clear();
++        return;
++    }
++
++    GError *err = NULL;
++    LunarDate *date = lunar_date_new();
++    lunar_date_set_solar_date(date, m_year, (GDateMonth)m_month, m_day, 0, &err);
++
++    m_festival = lunar_date_get_jieri(date, "\n");
++    QString format = i18n("Lunar: %(NIAN)(Y)%(YUE)(M)%(RI)(D)");
++    format += "\n" + m_festival;
++    m_text = lunar_date_strftime(date, format.toStdString().c_str());
++
++    emit festivalChanged();
++    emit textChanged();
++
++    lunar_date_free(date);
++}
+diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h plasma-framework-5.16.0n/src/declarativeimports/calendar/lunar.h
+--- plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h	1970-01-01 08:00:00.000000000 +0800
++++ plasma-framework-5.16.0n/src/declarativeimports/calendar/lunar.h	2015-12-22 15:07:58.728920758 +0800
+@@ -0,0 +1,49 @@
++#ifndef LUNAR_H
++#define LUNAR_H
++
++#include <QObject>
++#include <QString>
++
++class Lunar : public QObject
++{
++    Q_OBJECT
++    Q_PROPERTY(int year READ year WRITE setYear NOTIFY yearChanged)
++    Q_PROPERTY(int month READ month WRITE setMonth NOTIFY monthChanged)
++    Q_PROPERTY(int day READ day WRITE setDay NOTIFY dayChanged)
++    Q_PROPERTY(QString festival READ festival WRITE setFestival NOTIFY festivalChanged)
++    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
++
++public:
++    Lunar(QObject *parent = 0);
++    ~Lunar();
++
++    void setYear(int y);
++    void setMonth(int m);
++    void setDay(int d);
++    void setFestival(const QString &fest);
++    void setText(const QString &text);
++
++    int year() const;
++    int month() const;
++    int day() const;
++    QString festival() const;
++    QString text() const;
++
++Q_SIGNALS:
++    void yearChanged();
++    void monthChanged();
++    void dayChanged();
++    void festivalChanged();
++    void textChanged();
++
++private:
++    void get();
++
++private:
++    QString m_festival;
++    QString m_text;
++    int m_year;
++    int m_month;
++    int m_day;
++};
++#endif
 diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml plasma-framework-5.16.0n/src/declarativeimports/calendar/qml/DayDelegate.qml
 --- plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2016-01-08 09:50:16.405671644 +0800
 +++ plasma-framework-5.16.0n/src/declarativeimports/calendar/qml/DayDelegate.qml	2016-01-08 09:51:50.397671633 +0800
