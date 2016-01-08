@@ -1,7 +1,7 @@
 Name:    kpat
 Summary: A selection of solitaire card games
 Version: 15.12.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -13,6 +13,7 @@ URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%{version}.tar.xz
 Patch0: kpat-tune-desktop.patch
+Patch1: kpat-fix-zh-i18n.patch 
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
@@ -58,6 +59,7 @@ special order — moving, turning and reordering them.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 # fix icon mis-naming
 mv -f icons/hi64-apps-kpats.png icons/hi64-apps-kpat.png ||:
@@ -121,6 +123,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Fri Jan 08 2016 kun.li@i-soft.com.cn - 15.12.0-3
+- add kpat-fix-zh-i18n.patch 
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update
 
