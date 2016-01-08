@@ -6,7 +6,7 @@
 Name:    okular 
 Summary: A document viewer
 Version: 15.12.0 
-Release: 3.git%{?dist}
+Release: 4.git%{?dist}
 
 License: GPLv2
 URL:     https://projects.kde.org/projects/kde/kdegraphics/okular
@@ -40,6 +40,9 @@ Patch6: okular-bump-version-to-match-kde-application-release.patch
 
 # remove action "Configure Web Shortcuts"
 Patch7: okular-remove-configure-web-shortcuts.patch
+
+# remove mimetype text
+Patch8: okular-remove-mimetype-txt.patch
 
 %if 0%{?chm}
 BuildRequires: chmlib-devel
@@ -146,6 +149,7 @@ Summary: A kioslave for displaying WinHelp files
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -250,6 +254,9 @@ fi
 
 
 %changelog
+* Fri Jan 08 2016 <ming.wang@i-soft.com.cn> - 15.12.0-4.git
+- Remove mimetype text.
+
 * Tue Dec 29 2015 ming.wang@i-soft.com.cn - 15.12.0-3.git
 - Fixed bug 13013. Remove action "Configure Web Shortcuts".
 
