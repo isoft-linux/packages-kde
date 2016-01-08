@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        15
+Release:        16
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -171,6 +171,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Jan 08 2016 <ming.wang@i-soft.com.cn> - 5.16.0-16
+- Modify lunar tip on calendar.
+
 * Mon Jan 04 2016 xiaotian.wu@i-soft.com.cn - 5.16.0-15
 - change default wallpaper to carat.
 
