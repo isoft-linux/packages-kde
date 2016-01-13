@@ -20,6 +20,7 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/porti
 BuildArch: noarch
 
 BuildRequires: cmake
+BuildRequires: qt5-qtbase-devel
 BuildRequires: kf5-rpm-macros
 BuildRequires: extra-cmake-modules >= %{version}
 
@@ -95,6 +96,7 @@ fi
 %changelog
 * Wed Jan 13 2016 fj <fujiang.zhu@i-soft.com.cn>  - 2:5.16.0-4
 - Add new icons:security-high-red.svg(64*64,22*22)
+- Add BuildRequires: qt5-qtbase-devel
 
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 15.04.3-3
 - Rebuild for new 4.0 release
