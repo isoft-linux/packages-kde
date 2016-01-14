@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        34
+Release:        35
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -137,6 +137,9 @@ Patch415: 0019-fontinst-disable.patch
 
 # Fix folderview open with KWrite issue
 Patch416: 0020-folderview-open.patch
+
+# Fix folderview rename only by enter issue.
+Patch417: 0021-folderview-rename.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -390,6 +393,7 @@ fi
 %changelog
 * Thu Jan 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix folderview open with KWrite issue.
+- Fix folderview rename only by enter issue.
 
 * Thu Jan 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix disable enabled font issue.

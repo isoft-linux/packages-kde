@@ -1,0 +1,16 @@
+diff --git a/containments/desktop/package/contents/ui/FolderView.qml b/containments/desktop/package/contents/ui/FolderView.qml
+index 578ec87..e4c582d 100644
+--- a/containments/desktop/package/contents/ui/FolderView.qml
++++ b/containments/desktop/package/contents/ui/FolderView.qml
+@@ -938,6 +938,11 @@ Item {
+                 dir.rename(positioner.map(targetItem.index), text);
+                 targetItem = null;
+             }
++
++            onEditingFinished: {
++                dir.rename(positioner.map(targetItem.index), text);
++                targetItem = null;
++            }
+         }
+ 
+         Component.onCompleted: {
