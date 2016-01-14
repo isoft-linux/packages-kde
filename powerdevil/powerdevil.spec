@@ -1,6 +1,6 @@
 Name:           powerdevil
 Version:        5.4.3
-Release:        6
+Release:        7
 Summary:        Manages the power consumption settings of a Plasma Shell
 
 License:        GPLv2+
@@ -106,6 +106,9 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Thu Jan 14 2016 <ming.wang@i-soft.com.cn> - 5.4.3-7
+- Amend 5.4.3-4, Fixed logical conflit on Activity Settings.
+
 * Wed Jan 06 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Remove Hibernate but keep suspend.
 

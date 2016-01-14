@@ -1,16 +1,17 @@
-diff -Nur powerdevil-5.4.3-clean/kcmodule/activities/activitywidget.cpp powerdevil-5.4.3/kcmodule/activities/activitywidget.cpp
---- powerdevil-5.4.3-clean/kcmodule/activities/activitywidget.cpp	2015-12-15 22:53:14.138563518 -0600
-+++ powerdevil-5.4.3/kcmodule/activities/activitywidget.cpp	2015-12-16 02:04:00.829636484 -0600
-@@ -73,6 +73,8 @@
+diff -Nur powerdevil-5.4.3/kcmodule/activities/activitywidget.cpp powerdevil-5.4.3-n/kcmodule/activities/activitywidget.cpp
+--- powerdevil-5.4.3/kcmodule/activities/activitywidget.cpp	2015-11-05 20:52:06.000000000 +0800
++++ powerdevil-5.4.3-n/kcmodule/activities/activitywidget.cpp	2016-01-14 15:37:17.083346590 +0800
+@@ -73,6 +73,9 @@
      connect(m_ui->actLikeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setChanged()));
      connect(m_ui->alwaysActionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setChanged()));
      connect(m_ui->alwaysAfterSpin, SIGNAL(valueChanged(int)), this, SLOT(setChanged()));
++    connect(m_ui->noShutdownScreenBox, SIGNAL(toggled(bool)), this, SLOT(setChanged()));
 +    connect(m_ui->noShutdownPCBox, SIGNAL(toggled(bool)), this, SLOT(setChanged()));
 +    connect(m_ui->alwaysBox, SIGNAL(toggled(bool)), this, SLOT(setChanged()));
  
      connect(m_actionEditWidget, SIGNAL(changed(bool)), this, SIGNAL(changed(bool)));
  }
-@@ -91,6 +93,7 @@
+@@ -91,6 +94,7 @@
  
      QSet< Solid::PowerManagement::SleepState > methods = Solid::PowerManagement::supportedSleepStates();
  
@@ -18,14 +19,22 @@ diff -Nur powerdevil-5.4.3-clean/kcmodule/activities/activitywidget.cpp powerdev
      if (methods.contains(Solid::PowerManagement::SuspendState)) {
          m_ui->alwaysActionBox->addItem(QIcon::fromTheme("system-suspend"),
                                         i18n("Sleep"), (uint)SuspendSession::ToRamMode);
-@@ -183,6 +186,11 @@
+@@ -183,6 +187,19 @@
  
  void ActivityWidget::setChanged()
  {
-+    if (sender() == m_ui->noShutdownPCBox && m_ui->noShutdownPCBox->isChecked())
++    if (sender() == m_ui->noShutdownScreenBox && m_ui->noShutdownScreenBox->isChecked()) {
 +        m_ui->alwaysBox->setChecked(false);
-+    if (sender() == m_ui->alwaysBox && m_ui->alwaysBox->isChecked())
++    }
++
++    if (sender() == m_ui->noShutdownPCBox && m_ui->noShutdownPCBox->isChecked()) {
++        m_ui->alwaysBox->setChecked(false);
++    }
++
++    if (sender() == m_ui->alwaysBox && m_ui->alwaysBox->isChecked()) {
++        m_ui->noShutdownScreenBox->setChecked(false);
 +        m_ui->noShutdownPCBox->setChecked(false);
++    }
 +
      emit changed(true);
  }
