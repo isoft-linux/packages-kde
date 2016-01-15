@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with various classes on top of QtWidgets
 
 License:        GPLv2+ and LGPLv2+
@@ -17,6 +17,7 @@ URL:            http://www.kde.org
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 Patch0: kwidgetaddons-backport-from-5.17.patch
+Patch1: kwidgetaddons-kdatepicker-disedit.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
@@ -72,6 +73,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Fri Jan 15 2016 <ming.wang@i-soft.com.cn> - 5.16.0-4
+- Set KDatePicker disedit from lineedit.
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Backport from 5.17
 

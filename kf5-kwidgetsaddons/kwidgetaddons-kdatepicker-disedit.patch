@@ -1,0 +1,11 @@
+diff -Nur kwidgetsaddons-5.16.0/src/kdatepicker.cpp kwidgetsaddons-5.16.0-n/src/kdatepicker.cpp
+--- kwidgetsaddons-5.16.0/src/kdatepicker.cpp	2015-11-08 20:38:04.000000000 +0800
++++ kwidgetsaddons-5.16.0-n/src/kdatepicker.cpp	2016-01-15 14:44:41.674460855 +0800
+@@ -304,6 +304,7 @@
+     setFontSize(d->fontsize);
+     d->line->setValidator(d->val);
+     d->line->installEventFilter(this);
++    d->line->setFocusPolicy(Qt::NoFocus);
+     if (QApplication::isRightToLeft()) {
+         d->yearForward->setIcon(QIcon::fromTheme(QStringLiteral("arrow-left-double")));
+         d->yearBackward->setIcon(QIcon::fromTheme(QStringLiteral("arrow-right-double")));
