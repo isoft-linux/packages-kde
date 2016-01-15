@@ -1,0 +1,12 @@
+diff -Nur kitemviews-5.16.0/src/ktreewidgetsearchline.cpp kitemviews-5.16.0-n/src/ktreewidgetsearchline.cpp
+--- kitemviews-5.16.0/src/ktreewidgetsearchline.cpp	2016-01-15 16:35:03.561073181 +0800
++++ kitemviews-5.16.0-n/src/ktreewidgetsearchline.cpp	2016-01-15 16:32:50.389060866 +0800
+@@ -553,7 +553,7 @@
+                 keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return) {
+             QTreeWidget *first = d->treeWidgets.first();
+             if (first) {
+-//                QApplication::sendEvent(first, event);
++                QApplication::sendEvent(first, event);
+                 return true;
+             }
+         }

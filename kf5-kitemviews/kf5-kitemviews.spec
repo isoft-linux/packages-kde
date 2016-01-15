@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with item views
 
 License:        GPLv2+ and LGPLv2+
@@ -16,6 +16,7 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+Patch0: kitemviews-modify-ktreewidgetsearchline.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
@@ -71,6 +72,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Fri Jan 15 2016 <ming.wang@i-soft.com.cn> - 5.16.0-3
+- Modify KTreWwidgetSearchLine.
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
