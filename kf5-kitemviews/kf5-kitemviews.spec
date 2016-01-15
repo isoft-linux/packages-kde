@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.16.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with item views
 
 License:        GPLv2+ and LGPLv2+
@@ -41,6 +41,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -72,6 +73,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Fri Jan 15 2016 <ming.wang@i-soft.com.cn> - 5.16.0-4
+- Amend: Modify KTreWwidgetSearchLine.
+
 * Fri Jan 15 2016 <ming.wang@i-soft.com.cn> - 5.16.0-3
 - Modify KTreWwidgetSearchLine.
 
