@@ -2,7 +2,7 @@
 Summary:    The KDE libraries provide a powerful framework to make writing applications easier
 Name: kdelibs 
 Version: 4.14.15
-Release: 3
+Release: 4
 License: GPL
 Source0: %{name}-%{version}.tar.xz
 Source1: macros.kdelibs4
@@ -229,7 +229,7 @@ developing applications that use %{name}.
 %patch090 -p1 -R -b .return-not-break.-copy-paste-error
 %patch091 -p1 -R -b .coding-style-fixes.patch
 %patch092 -p1 -R -b .return-application-icons-properly
-
+%patch095 -p1
 
 %build
 mkdir build
@@ -326,6 +326,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jan 15 2016 <ming.wang@i-soft.com.cn> - 4.14.15-4
+- Amend: Set KDatePicker disedit from lineedit.
+
 * Fri Jan 15 2016 <ming.wang@i-soft.com.cn> - 4.14.15-3
 - Set KDatePicker disedit from lineedit.
 
