@@ -2,7 +2,7 @@
 Summary:    The KDE libraries provide a powerful framework to make writing applications easier
 Name: kdelibs 
 Version: 4.14.15
-Release: 2
+Release: 3
 License: GPL
 Source0: %{name}-%{version}.tar.xz
 Source1: macros.kdelibs4
@@ -85,6 +85,8 @@ Patch093: turn-the-packagekit-support-feature-off-by-default.patch
 # plasma5 places syncing problems
 Patch094: 0015-Remove-bookmarks-syncing-from-KFilePlacesModel-and-u.patch
 
+# Set KDatePicker disedit from lineedit
+Patch095: kdelibs-kdatepicker-disedit.patch
  
 Requires: qt4
 Requires: attica
@@ -324,6 +326,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jan 15 2016 <ming.wang@i-soft.com.cn> - 4.14.15-3
+- Set KDatePicker disedit from lineedit.
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 4.14.15-2
 - Update
 

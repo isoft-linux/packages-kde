@@ -1,0 +1,11 @@
+diff -Nur kdelibs-4.14.15/kdeui/widgets/kdatepicker.cpp kdelibs-4.14.15-n/kdeui/widgets/kdatepicker.cpp
+--- kdelibs-4.14.15/kdeui/widgets/kdatepicker.cpp	2015-12-08 23:49:30.000000000 +0800
++++ kdelibs-4.14.15-n/kdeui/widgets/kdatepicker.cpp	2016-01-15 15:07:42.982588584 +0800
+@@ -288,6 +288,7 @@
+     setFontSize( d->fontsize );
+     d->line->setValidator( d->val );
+     d->line->installEventFilter( this );
++    d->line->setFocusPolicy(Qt::NoFocus);
+     if ( QApplication::isRightToLeft() ) {
+         d->yearForward->setIcon( KIcon( QLatin1String( "arrow-left-double" ) ) );
+         d->yearBackward->setIcon( KIcon( QLatin1String( "arrow-right-double" ) ) );
