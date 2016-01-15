@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        36
+Release:        37
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -109,6 +109,9 @@ Patch56: 0010-lockscreen-isoft-logo.patch
 
 # Use iSOFT background by default for loginmanager
 Patch57: 0011-loginmanager-isoft.patch
+
+# Add plasmoid blacklist for PM
+Patch58: 0012-plasmoid-blacklist.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -323,6 +326,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch55 -p1
 %patch56 -p1
 %patch57 -p1
+%patch58 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -433,6 +437,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Fri Jan 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add plasmoid blacklist for PM.
+
 * Thu Jan 07 2016 Cjacker <cjacker@foxmail.com> - 5.4.3-36
 - Fix rare empty tray and segfault
 

@@ -1,0 +1,50 @@
+diff --git a/components/shellprivate/widgetexplorer/plasmaappletitemmodel.cpp b/components/shellprivate/widgetexplorer/plasmaappletitemmodel.cpp
+index 99e9add..ddd5743 100644
+--- a/components/shellprivate/widgetexplorer/plasmaappletitemmodel.cpp
++++ b/components/shellprivate/widgetexplorer/plasmaappletitemmodel.cpp
+@@ -219,6 +219,24 @@ PlasmaAppletItemModel::PlasmaAppletItemModel(QObject * parent)
+     setRoleNames(newRoleNames);
+ 
+     setSortRole(Qt::DisplayRole);
++
++    m_blackList
++        << "org.kde.plasma.battery"
++        << "org.kde.plasma.trash"
++        << "org.kde.plasma.bluetooth"
++        << "org.kde.plasma.mediacontroller"
++        << "org.kde.plasma.kimpanel"
++        << "org.kde.plasma.notifications"
++        << "org.kde.plasma.networkmanagement"
++        << "org.kde.plasma.webbrowser"
++        << "org.kde.plasma.folder"
++        << "org.kde.plasma.isoftupdate"
++        << "org.kde.plasma.systemtray"
++        << "org.kde.plasma.kicker"
++        << "org.kde.plasma.kickerdash"
++        << "org.kde.plasma.systemmonitor.diskactivity"
++        << "org.kde.plasma.systemmonitor.diskusage"
++        << "org.kde.plasma.konsoleprofiles";
+ }
+ 
+ void PlasmaAppletItemModel::populateModel(const QStringList &whatChanged)
+@@ -250,7 +268,7 @@ void PlasmaAppletItemModel::populateModel(const QStringList &whatChanged)
+ 
+     for (auto info : list) {
+         //qDebug() << info.pluginName() << "NoDisplay" << info.property("NoDisplay").toBool();
+-        if (!info.isValid() || info.property("NoDisplay").toBool() || info.category() == "Containments") {
++        if (!info.isValid() || info.property("NoDisplay").toBool() || info.category() == "Containments" || m_blackList.contains(info.pluginName())) {
+             // we don't want to show the hidden category
+             continue;
+         }
+diff --git a/components/shellprivate/widgetexplorer/plasmaappletitemmodel_p.h b/components/shellprivate/widgetexplorer/plasmaappletitemmodel_p.h
+index f9cc89f..3908df0 100644
+--- a/components/shellprivate/widgetexplorer/plasmaappletitemmodel_p.h
++++ b/components/shellprivate/widgetexplorer/plasmaappletitemmodel_p.h
+@@ -118,6 +118,7 @@ private:
+     QStringList m_favorites;
+     QStringList m_provides;
+     KConfigGroup m_configGroup;
++    QStringList m_blackList;
+ 
+ private Q_SLOTS:
+     void populateModel(const QStringList &whatChanged = QStringList());
