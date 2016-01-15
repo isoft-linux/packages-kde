@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        35
+Release:        36
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -140,6 +140,9 @@ Patch416: 0020-folderview-open.patch
 
 # Fix folderview rename only by enter issue.
 Patch417: 0021-folderview-rename.patch
+
+# Disable desktopview.
+Patch418: 0022-disable-desktopview.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -391,6 +394,9 @@ fi
 
 
 %changelog
+* Fri Jan 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Disable desktopview.
+
 * Thu Jan 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix folderview open with KWrite issue.
 - Fix folderview rename only by enter issue.
