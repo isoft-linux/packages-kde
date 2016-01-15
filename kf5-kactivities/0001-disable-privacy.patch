@@ -1,0 +1,43 @@
+diff --git a/src/workspace/settings/MainConfigurationWidget.cpp b/src/workspace/settings/MainConfigurationWidget.cpp
+index 036211e..f414bd8 100644
+--- a/src/workspace/settings/MainConfigurationWidget.cpp
++++ b/src/workspace/settings/MainConfigurationWidget.cpp
+@@ -44,11 +44,11 @@ MainConfigurationWidget::MainConfigurationWidget(QWidget *parent, QVariantList a
+ 
+     d->tabs->insertTab(0, d->tabActivities = new ActivitiesTab(d->tabs), i18n("Activities"));
+     d->tabs->insertTab(1, d->tabSwitching  = new SwitchingTab(d->tabs), i18n("Switching"));
+-    d->tabs->insertTab(2, d->tabPrivacy    = new PrivacyTab(d->tabs), i18n("Privacy"));
++    //d->tabs->insertTab(2, d->tabPrivacy    = new PrivacyTab(d->tabs), i18n("Privacy"));
+ 
+     connect(d->tabActivities, SIGNAL(changed()), this, SLOT(changed()));
+     connect(d->tabSwitching,  SIGNAL(changed()), this, SLOT(changed()));
+-    connect(d->tabPrivacy,    SIGNAL(changed()), this, SLOT(changed()));
++    //connect(d->tabPrivacy,    SIGNAL(changed()), this, SLOT(changed()));
+ }
+ 
+ MainConfigurationWidget::~MainConfigurationWidget()
+@@ -58,21 +58,21 @@ MainConfigurationWidget::~MainConfigurationWidget()
+ void MainConfigurationWidget::defaults()
+ {
+     d->tabActivities->defaults();
+-    d->tabPrivacy->defaults();
++    //d->tabPrivacy->defaults();
+     d->tabSwitching->defaults();
+ }
+ 
+ void MainConfigurationWidget::load()
+ {
+     d->tabActivities->load();
+-    d->tabPrivacy->load();
++    //d->tabPrivacy->load();
+     d->tabSwitching->load();
+ }
+ 
+ void MainConfigurationWidget::save()
+ {
+     d->tabActivities->save();
+-    d->tabPrivacy->save();
++    //d->tabPrivacy->save();
+     d->tabSwitching->save();
+ }
+ 
