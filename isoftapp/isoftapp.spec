@@ -1,6 +1,6 @@
 Name: isoftapp
-Version: 2.2.2
-Release: 2%{?dist}
+Version: 2.2.3
+Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
@@ -84,6 +84,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Fri Jan 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- krunner wait for daemon ready.
+
 * Tue Jan 12 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.2-2
 - Add check(console)
 
