@@ -1,6 +1,6 @@
 Name:           sddm
 Version:        0.13.0
-Release:        6
+Release:        7
 License:        GPLv2+
 Summary:        QML based X11 desktop manager
 
@@ -116,7 +116,7 @@ exit 0
 %{_tmpfilesdir}/sddm.conf
 %attr(0711, root, sddm) %dir %{_localstatedir}/run/sddm
 %attr(1770, sddm, sddm) %dir %{_localstatedir}/lib/sddm
-%{_unitdir}/sddm.service
+#%{_unitdir}/sddm.service
 %{_unitdir}/sddm-plymouth.service
 %{_qt5_archdatadir}/qml/SddmComponents/
 %dir %{_datadir}/sddm
@@ -133,6 +133,10 @@ exit 0
 %{_datadir}/sddm/themes/maui/
 
 %changelog
+* Fri Jan 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix autologin plymouth not quit issue.
+- Remove sddm.service.
+
 * Fri Dec 04 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix autologin user exists issue.
 
