@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        37
+Release:        38
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -112,6 +112,9 @@ Patch57: 0011-loginmanager-isoft.patch
 
 # Add plasmoid blacklist for PM
 Patch58: 0012-plasmoid-blacklist.patch
+
+# set shortcut enable:edit contents, prev history, next history
+Patch59: plsm-wksp-set-klipper-shortcut-enable.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -327,6 +330,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch56 -p1
 %patch57 -p1
 %patch58 -p1
+%patch59 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -437,6 +441,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Jan 18 2016 <ming.wang@i-soft.com.cn> - 5.4.3-38
+- set shortcut enable:edit contents, prev history, next history.
+
 * Fri Jan 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add plasmoid blacklist for PM.
 
