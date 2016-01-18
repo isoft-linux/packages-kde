@@ -1,11 +1,14 @@
 Name: isoftapp
 Version: 2.2.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
 URL: http://git.isoft.zhcn.cc/zhaixiang/isoftapp
 Source0: %{name}-%{version}.tar.bz2
+
+# default repo
+Source11: default.conf
 
 BuildRequires: kf5-rpm-macros
 BuildRequires: extra-cmake-modules
@@ -51,6 +54,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
+install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
+
 
 %find_lang org.isoftlinux.Isoftapp
 
@@ -84,6 +89,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Mon Jan 18 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Add default repo.
+
 * Fri Jan 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - krunner wait for daemon ready.
 
