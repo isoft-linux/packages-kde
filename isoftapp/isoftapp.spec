@@ -1,6 +1,6 @@
 Name: isoftapp
 Version: 2.2.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
@@ -70,6 +70,7 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 
 
 %files -f org.isoftlinux.Isoftapp.lang
+%{_sysconfdir}/isoftapp/default.conf
 %{_sysconfdir}/isoftapp/default.conf.example
 %{_sysconfdir}/isoftapp/config.d/other.conf.example
 %{_sysconfdir}/xdg/autostart/isoftapp_systray.desktop
