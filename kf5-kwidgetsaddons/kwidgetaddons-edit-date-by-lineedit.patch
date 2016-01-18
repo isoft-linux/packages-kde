@@ -1,0 +1,28 @@
+diff -Nur kwidgetsaddons-5.16.0/src/kdatepicker.cpp kwidgetsaddons-5.16.0-n/src/kdatepicker.cpp
+--- kwidgetsaddons-5.16.0/src/kdatepicker.cpp	2015-11-08 20:38:04.000000000 +0800
++++ kwidgetsaddons-5.16.0-n/src/kdatepicker.cpp	2016-01-18 17:01:42.414188736 +0800
+@@ -361,6 +361,12 @@
+             d->table->setFocus();
+             return true; // eat event
+         }
++
++        if ((k->key() == Qt::Key_Return) ||
++                (k->key() == Qt::Key_Enter)) {
++            lineEnterPressed();
++            return true; // eat event
++        }
+     }
+     return QFrame::eventFilter(o, e);
+ }
+@@ -544,7 +550,10 @@
+ 
+ void KDatePicker::lineEnterPressed()
+ {
+-    QDate newDate = QDate::fromString(d->line->text(), locale().dateFormat());
++//    QDate newDate = QDate::fromString(d->line->text(), locale().dateFormat());
++    QDate newDate = locale().toDate(d->line->text(), QLocale::ShortFormat);
++    int year = date().year() / 100 * 100 + newDate.year() % 100;
++    newDate.setDate(year, newDate.month(), newDate.day());
+ 
+     if (newDate.isValid()) {
+         emit(dateEntered(newDate));
