@@ -1,6 +1,6 @@
 diff -Nur plasma-workspace-5.4.3/klipper/klipper.cpp plasma-workspace-5.4.3-n/klipper/klipper.cpp
 --- plasma-workspace-5.4.3/klipper/klipper.cpp	2015-11-05 20:49:30.000000000 +0800
-+++ plasma-workspace-5.4.3-n/klipper/klipper.cpp	2016-01-18 14:39:18.228189756 +0800
++++ plasma-workspace-5.4.3-n/klipper/klipper.cpp	2016-01-18 17:15:07.945188640 +0800
 @@ -173,7 +173,7 @@
      m_editAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
      m_editAction->setText(i18n("&Edit Contents..."));
@@ -10,12 +10,13 @@ diff -Nur plasma-workspace-5.4.3/klipper/klipper.cpp plasma-workspace-5.4.3-n/kl
      connect(m_editAction, &QAction::triggered, this,
          [this]() {
              editData(m_history->first());
-@@ -196,10 +196,10 @@
+@@ -195,11 +195,11 @@
+     // Cycle through history
      m_cycleNextAction = m_collection->addAction(QStringLiteral("cycleNextAction"));
      m_cycleNextAction->setText(i18n("Next History Item"));
-     KGlobalAccel::setGlobalShortcut(m_cycleNextAction, QKeySequence());
--    connect(m_cycleNextAction, SIGNAL(triggered(bool)), SLOT(slotCycleNext()));
-+//    connect(m_cycleNextAction, SIGNAL(triggered(bool)), SLOT(slotCycleNext()));
+-    KGlobalAccel::setGlobalShortcut(m_cycleNextAction, QKeySequence());
++//    KGlobalAccel::setGlobalShortcut(m_cycleNextAction, QKeySequence());
+     connect(m_cycleNextAction, SIGNAL(triggered(bool)), SLOT(slotCycleNext()));
      m_cyclePrevAction = m_collection->addAction(QStringLiteral("cyclePrevAction"));
      m_cyclePrevAction->setText(i18n("Previous History Item"));
 -    KGlobalAccel::setGlobalShortcut(m_cyclePrevAction, QKeySequence());

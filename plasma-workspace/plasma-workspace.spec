@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        38
+Release:        39
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -441,6 +441,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Jan 18 2016 <ming.wang@i-soft.com.cn> - 5.4.3-39
+- Amend: set shortcut enable:edit contents, prev history, next history.
+
 * Mon Jan 18 2016 <ming.wang@i-soft.com.cn> - 5.4.3-38
 - set shortcut enable:edit contents, prev history, next history.
 
