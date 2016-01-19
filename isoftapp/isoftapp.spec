@@ -1,6 +1,6 @@
 Name: isoftapp
 Version: 2.2.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
@@ -90,6 +90,9 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Mon Jan 18 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.3-4
+- When updating db,do check if rpm installed or not; 
+
 * Mon Jan 18 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add default repo.
 
