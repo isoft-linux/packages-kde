@@ -4,7 +4,7 @@
 Name:           kscreen
 Epoch:          1
 Version:        5.4.3
-Release:        5
+Release:        6
 Summary:        KDE Display Management software
 
 License:        GPLv2 or GPLv3
@@ -107,6 +107,9 @@ fi
 
 
 %changelog
+* Tue Jan 19 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix i18n issue.
+
 * Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - KDEBUG-356228 QScreen issue workaround patch.
 

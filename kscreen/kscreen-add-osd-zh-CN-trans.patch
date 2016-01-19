@@ -1,7 +1,7 @@
 diff -Nur kscreen-5.4.3/po/zh_CN/kcm_displayconfiguration.po kscreen-5.4.3n/po/zh_CN/kcm_displayconfiguration.po
 --- kscreen-5.4.3/po/zh_CN/kcm_displayconfiguration.po	2015-11-05 20:38:14.000000000 +0800
 +++ kscreen-5.4.3n/po/zh_CN/kcm_displayconfiguration.po	2015-11-07 17:09:31.245539990 +0800
-@@ -190,4 +190,19 @@
+@@ -190,4 +190,23 @@
  
  #: src/widget.cpp:312
  msgid "Break Unified Outputs"
@@ -23,3 +23,7 @@ diff -Nur kscreen-5.4.3/po/zh_CN/kcm_displayconfiguration.po kscreen-5.4.3n/po/z
 +"你已经禁用自动弹出设置向导，但依然可以通过'XF86Display'热键唤出。如果不支持此"
 +"热键，可以设置热键或不要禁用该设置向导"
 +
++msgid ""
++"System Settings -> Shortcuts -> Global Keyboard Shortcuts -> KDE Daemon -> Switch Display"
++msgstr ""
++"系统设置 -> 快捷键 -> 全局键盘快捷键 -> KDE Daemon -> 切换显示器"
