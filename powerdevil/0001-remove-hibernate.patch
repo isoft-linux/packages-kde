@@ -46,6 +46,21 @@ index e71e89f..35b18d5 100644
      m_comboBox->addItem(QIcon::fromTheme("system-shutdown"), i18n("Shutdown"), (uint)SuspendSession::ShutdownMode);
      m_comboBox->addItem(QIcon::fromTheme("system-lock-screen"), i18n("Lock screen"), (uint)SuspendSession::LockScreenMode);
  
+diff --git a/kcmodule/activities/activitywidget.cpp b/kcmodule/activities/activitywidget.cpp
+index c3e9ce1..475b01e 100644
+--- a/kcmodule/activities/activitywidget.cpp
++++ b/kcmodule/activities/activitywidget.cpp
+@@ -95,10 +95,6 @@ void ActivityWidget::load()
+         m_ui->alwaysActionBox->addItem(QIcon::fromTheme("system-suspend"),
+                                        i18n("Sleep"), (uint)SuspendSession::ToRamMode);
+     }
+-    if (methods.contains(Solid::PowerManagement::HibernateState)) {
+-        m_ui->alwaysActionBox->addItem(QIcon::fromTheme("system-suspend-hibernate"),
+-                                       i18n("Hibernate"), (uint)SuspendSession::ToDiskMode);
+-    }
+     m_ui->alwaysActionBox->addItem(QIcon::fromTheme("system-shutdown"), i18n("Shutdown"), (uint)SuspendSession::ShutdownMode);
+ 
+     m_ui->actLikeComboBox->clear();
 diff --git a/kcmodule/global/GeneralPage.cpp b/kcmodule/global/GeneralPage.cpp
 index c46b46f..ac1adde 100644
 --- a/kcmodule/global/GeneralPage.cpp
