@@ -1,0 +1,21 @@
+diff --git a/wallpapers/image/image.cpp b/wallpapers/image/image.cpp
+index e18df00..590c227 100644
+--- a/wallpapers/image/image.cpp
++++ b/wallpapers/image/image.cpp
+@@ -36,6 +36,7 @@
+ #include <QTimer>
+ #include <QMimeDatabase>
+ #include <QImageReader>
++#include <QMessageBox>
+ 
+ #include <QDebug>
+ #include <KDirWatch>
+@@ -108,7 +109,7 @@ QString Image::photosPath() const
+ 
+ QString Image::wallpaperPath() const
+ {
+-    return m_wallpaperPath;
++    return QFile::exists(m_wallpaperPath) ? m_wallpaperPath : "/usr/share/isoft-artwork/background.png";
+ }
+ 
+ void Image::addUrl(const QString &url)

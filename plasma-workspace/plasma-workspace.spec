@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        39
+Release:        40
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -115,6 +115,9 @@ Patch58: 0012-plasmoid-blacklist.patch
 
 # set shortcut enable:edit contents, prev history, next history
 Patch59: plsm-wksp-set-klipper-shortcut-enable.patch
+
+# Fix switch to oxygen theme NO background issue.
+Patch60: 0013-oxygen-nobackground.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -331,6 +334,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch57 -p1
 %patch58 -p1
 %patch59 -p1
+%patch60 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -441,6 +445,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Jan 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Fix switch to oxygen theme NO background issue.
+
 * Mon Jan 18 2016 <ming.wang@i-soft.com.cn> - 5.4.3-39
 - Amend: set shortcut enable:edit contents, prev history, next history.
 
