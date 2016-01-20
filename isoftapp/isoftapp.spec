@@ -1,6 +1,6 @@
 Name: isoftapp
 Version: 2.2.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
@@ -90,6 +90,9 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Wed Jan 20 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.4-2
+- Add result info.
+
 * Tue Jan 19 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix update wrong uri issue.
 
