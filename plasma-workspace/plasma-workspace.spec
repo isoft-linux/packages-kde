@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.4.3
-Release:        40
+Release:        41
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -118,6 +118,9 @@ Patch59: plsm-wksp-set-klipper-shortcut-enable.patch
 
 # Fix switch to oxygen theme NO background issue.
 Patch60: 0013-oxygen-nobackground.patch
+
+# Disable drkonqi
+Patch61: 0014-disable-drkonqi.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -335,6 +338,7 @@ cp %{SOURCE20} po/zh_CN/kio_desktop.po
 %patch58 -p1
 %patch59 -p1
 %patch60 -p1
+%patch61 -p1
 
 mv startkde/startkde.cmake startkde/startkde.cmake.orig
 install -m644 -p %{SOURCE11} startkde/startkde.cmake
@@ -445,6 +449,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Jan 21 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Disable drkonqi.
+
 * Wed Jan 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix switch to oxygen theme NO background issue.
 
