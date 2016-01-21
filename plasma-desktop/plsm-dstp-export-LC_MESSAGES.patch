@@ -1,0 +1,40 @@
+diff -Nur plasma-desktop-5.4.3/kcms/formats/kcmformats.cpp plasma-desktop-5.4.3-n/kcms/formats/kcmformats.cpp
+--- plasma-desktop-5.4.3/kcms/formats/kcmformats.cpp	2016-01-21 11:27:42.585802441 +0800
++++ plasma-desktop-5.4.3-n/kcms/formats/kcmformats.cpp	2016-01-21 11:34:33.830802392 +0800
+@@ -226,6 +226,13 @@
+         } else {
+             m_config.writeEntry(lcCollate, collate);
+         }
++
++        const QString messages = qgetenv(lcMessages.toLatin1());
++        if (messages.isEmpty()) {
++            m_config.writeEntry(lcMessages, global);
++        } else {
++            m_config.writeEntry(lcMessages, messages);
++        }
+     }
+ 
+     m_config.sync();
+diff -Nur plasma-desktop-5.4.3/kcms/formats/writeexports.h plasma-desktop-5.4.3-n/kcms/formats/writeexports.h
+--- plasma-desktop-5.4.3/kcms/formats/writeexports.h	2015-11-05 20:44:49.000000000 +0800
++++ plasma-desktop-5.4.3-n/kcms/formats/writeexports.h	2016-01-21 11:31:14.272802416 +0800
+@@ -34,6 +34,7 @@
+ const static QString lcCtype = QStringLiteral("LC_CTYPE");
+ 
+ const static QString lcLanguage = QStringLiteral("LANGUAGE");
++const static QString lcMessages = QStringLiteral("LC_MESSAGES");
+ 
+ 
+ void writeExports()
+@@ -85,6 +86,11 @@
+         script.append(_export + lcCtype + QLatin1Char('=') + ctype + QLatin1Char('\n'));
+     }
+ 
++    const QString messages = formatsConfig.readEntry(lcMessages, QString());
++    if (!messages.isEmpty()) {
++        script.append(_export + lcMessages + QLatin1Char('=') + messages + QLatin1Char('\n'));
++    }
++
+     // Translations, uses LANGUAGE variable
+     const QString language = languageConfig.readEntry(lcLanguage, QString());
+     if (!language.isEmpty()) {

@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        36
+Release:        37
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -143,6 +143,9 @@ Patch417: 0021-folderview-rename.patch
 
 # Disable desktopview.
 Patch418: 0022-disable-desktopview.patch
+
+# Export LC_MESSAGES
+Patch419: plsm-dstp-export-LC_MESSAGES.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -394,6 +397,9 @@ fi
 
 
 %changelog
+* Thu Jan 21 2016 <ming.wang@i-soft.com.cn> - 5.4.3-37
+- Export LC_MESSAGE when formats setted.
+
 * Fri Jan 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Disable desktopview.
 
