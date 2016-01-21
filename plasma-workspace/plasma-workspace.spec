@@ -397,10 +397,10 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_kf5_datadir}/plasma/kcms
 %{_kf5_datadir}/solid
 %{_kf5_datadir}/kstyle
-%{_kf5_datadir}/drkonqi/debuggers/external/*
-%{_kf5_datadir}/drkonqi/debuggers/internal/*
-%{_kf5_datadir}/drkonqi/mappings
-%{_kf5_datadir}/drkonqi/pics/*.png
+#%{_kf5_datadir}/drkonqi/debuggers/external/*
+#%{_kf5_datadir}/drkonqi/debuggers/internal/*
+#%{_kf5_datadir}/drkonqi/mappings
+#%{_kf5_datadir}/drkonqi/pics/*.png
 %{_kf5_datadir}/kconf_update/*
 %{_sysconfdir}/xdg/*.knsrc
 %{_sysconfdir}/xdg/taskmanagerrulesrc
