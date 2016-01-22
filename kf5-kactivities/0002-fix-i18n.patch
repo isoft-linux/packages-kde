@@ -1,0 +1,13 @@
+diff --git a/src/workspace/settings/MainConfigurationWidget.cpp b/src/workspace/settings/MainConfigurationWidget.cpp
+index 036211e..56ce676 100644
+--- a/src/workspace/settings/MainConfigurationWidget.cpp
++++ b/src/workspace/settings/MainConfigurationWidget.cpp
+@@ -40,6 +40,8 @@ MainConfigurationWidget::MainConfigurationWidget(QWidget *parent, QVariantList a
+     : KCModule(parent, args)
+     , d()
+ {
++    KLocalizedString::setApplicationDomain("kactivities5");
++
+     d->setupUi(this);
+ 
+     d->tabs->insertTab(0, d->tabActivities = new ActivitiesTab(d->tabs), i18n("Activities"));
