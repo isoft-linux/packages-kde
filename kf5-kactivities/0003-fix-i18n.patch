@@ -1,0 +1,22 @@
+diff -Naur kactivities-5.16.0.old/po/zh_CN/kactivities5.po kactivities-5.16.0/po/zh_CN/kactivities5.po
+--- kactivities-5.16.0.old/po/zh_CN/kactivities5.po	2016-01-22 17:24:36.690147558 +0800
++++ kactivities-5.16.0/po/zh_CN/kactivities5.po	2016-01-22 17:23:19.883343253 +0800
+@@ -262,3 +262,6 @@
+ #: workspace/settings/ui/SwitchingTabBase.ui:36
+ msgid "Shortcuts"
+ msgstr "快捷键"
++
++msgid "Private - do not track usage for this activity"
++msgstr "隐私 - 不追踪此活动的使用"
+diff -Naur kactivities-5.16.0.old/src/workspace/settings/imports/qml/activityDialog/OtherTab.qml kactivities-5.16.0/src/workspace/settings/imports/qml/activityDialog/OtherTab.qml
+--- kactivities-5.16.0.old/src/workspace/settings/imports/qml/activityDialog/OtherTab.qml	2016-01-22 17:26:06.016993685 +0800
++++ kactivities-5.16.0/src/workspace/settings/imports/qml/activityDialog/OtherTab.qml	2016-01-22 17:19:15.982981517 +0800
+@@ -41,7 +41,7 @@
+         QtControls.CheckBox {
+             id: checkPrivate
+ 
+-            text: "Private - do not track usage for this activity"
++            text: i18n("Private - do not track usage for this activity")
+ 
+             width: parent.width
+         }

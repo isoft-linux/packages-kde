@@ -5,7 +5,7 @@
 Name:           kf5-%{framework}
 Summary:        A KDE Frameworks 5 Tier 3 to organize user work into separate activities
 Version:        5.16.0
-Release:        6%{?dist}
+Release:        7%{?dist}
 
 License:        GPLv2+ and LGPLv2+
 URL:            http://www.kde.org
@@ -21,6 +21,7 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 Patch0: kactivities-backport-from-5.17.0.patch
 Patch1: 0001-disable-privacy.patch
 Patch2: 0002-fix-i18n.patch
+Patch3: 0003-fix-i18n.patch
 
 BuildRequires:  boost-devel
 
@@ -70,6 +71,7 @@ Requires:       qt5-qtbase-devel
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -129,6 +131,9 @@ rm -rf %{buildroot}/%{_kf5_datadir}/kf5/kactivitymanagerd
 
 
 %changelog
+* Fri Jan 22 2016 kun.li@i-soft.com.cn - 5.16.0-7
+- Fix i18n zh_CN
+
 * Fri Jan 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix i18n issue.
 
