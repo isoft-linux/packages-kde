@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        37
+Release:        38
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -146,6 +146,9 @@ Patch418: 0022-disable-desktopview.patch
 
 # Export LC_MESSAGES
 Patch419: plsm-dstp-export-LC_MESSAGES.patch
+
+# set folder view's url
+Patch420: plsm-dstp-set-folder-view-url.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -397,6 +400,9 @@ fi
 
 
 %changelog
+* Thu Jan 28 2016 <ming.wang@i-soft.com.cn> - 5.4.3-38
+- Set folder view's url.
+
 * Thu Jan 21 2016 <ming.wang@i-soft.com.cn> - 5.4.3-37
 - Export LC_MESSAGE when formats setted.
 
