@@ -1,0 +1,13 @@
+diff --git a/containments/desktop/package/contents/ui/main.qml b/containments/desktop/package/contents/ui/main.qml
+index 26bd5d2..d1f6b59 100644
+--- a/containments/desktop/package/contents/ui/main.qml
++++ b/containments/desktop/package/contents/ui/main.qml
+@@ -61,7 +61,7 @@ DragDrop.DropArea {
+         return height
+     }
+ 
+-    property bool isFolder: (plasmoid.pluginName == "org.kde.plasma.folder")
++    property bool isFolder: (plasmoid.pluginName == "org.kde.plasma.folder") && plasmoid.availableScreenRect.x == 0
+     property bool isContainment: ("containmentType" in plasmoid)
+     property bool isPopup: (plasmoid.location != PlasmaCore.Types.Floating)
+ 
