@@ -1,8 +1,8 @@
 %global framework kio
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        11%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -16,36 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-Patch0: kio-backport-from-5.17.patch
-
-#Remove "Link to Device" submenu from "Create New" menu.
-Patch1: kio-remove-Create_New-Link-to-Device.patch
-
-#Hide unwanted systemsettings entries, but it still can be called with "kcmshell5 modules".
-Patch2: kio-hide-unwanted-systemsettings-entries.patch
-
-#https://git.reviewboard.kde.org/r/125885/
-Patch3: support-socks5-proxy.patch
-
-#to cover bug 12844
-Patch6: kio-adjust_trash_filepath.patch
-
-# Fix cut and paste info myself issue.
-Patch7: 0001-cut-paste-into-myself.patch
-
-# without this patch, you can use 'empty trash twice', then trash stop work.
-Patch8: kio-fix-trash-hang.patch
-
-# trash.desktop is a hack to provide Icon and EmptyIcon in one desktop file.
-# After vitual trash implemented in kio desktop, there is no such desktop anymore.
-# remove this codes, also slightly improved performance.  
-Patch9: kio-no-need-specitial-treatment-for-trash.desktop.patch
-
-#for unknown reason, the trashrc sometimes not updated.
-Patch10: make-sure-trashrc-updated-asap.patch
-
-Patch11: kio-add-translation-kio5.po.patch
 
 BuildRequires:  krb5-devel
 BuildRequires:  libacl-devel
@@ -293,6 +263,9 @@ fi
 
 
 %changelog
+* Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Wed Jan 06 2016 kun.li@i-soft.com.cn - 5.16.0-11
 - add zh_CN translation for kio5.po  
 
