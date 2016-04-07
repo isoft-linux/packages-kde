@@ -1,8 +1,8 @@
 %global framework sonnet
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        4%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 solution for spell checking
 
 License:        LGPLv2+
@@ -16,11 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-# Fix failed to save ignore word to ~/.config/KDE/Sonnet.conf issue
-Patch0: 0001-save-ignore-word-to-conf.patch
-# Fix misspelling issue: ignore word always return false
-Patch1: 0002-ignore-misspelling-false.patch
 
 BuildRequires:  libupnp-devel
 BuildRequires:  systemd-devel
@@ -67,8 +62,6 @@ GUI part of the Sonnet framework provides widgets with spell checking support.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
-%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -117,6 +110,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Fri Nov 27 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix failed to add ignore word to ~/.config/KDE/Sonnet.conf issue.
 - Fix misspelling issue: ignore word always return false.
