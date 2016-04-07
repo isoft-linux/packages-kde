@@ -1,8 +1,8 @@
 %global framework ki18n
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        3%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon for localization
 
 License:        LGPLv2+
@@ -16,12 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-#ki18n5 for zh_CN/zh_TW/ja_JP
-Source1: ki18n5.js
-
-Patch0:  ki18n-backport-from-5.17.0.patch
-Patch1:  ki18n-less-warning-to-stdout.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
@@ -64,11 +58,6 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 mkdir -p %{buildroot}%{_datadir}/locale/zh_CN/LC_SCRIPTS/ki18n5/
 mkdir -p %{buildroot}%{_datadir}/locale/zh_TW/LC_SCRIPTS/ki18n5/
 mkdir -p %{buildroot}%{_datadir}/locale/ja/LC_SCRIPTS/ki18n5/
-
-install -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/locale/zh_CN/LC_SCRIPTS/ki18n5/
-install -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/locale/zh_TW/LC_SCRIPTS/ki18n5/
-install -m 0644 %{SOURCE1} %{buildroot}%{_datadir}/locale/ja/LC_SCRIPTS/ki18n5/
-
 
 #remove below languages, they will be used to detect installed translations.
 #also they will affect nls settings in systemsettings.
@@ -115,6 +104,9 @@ popd
 
 
 %changelog
+* Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Backport from 5.17.0
 
