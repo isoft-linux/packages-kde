@@ -1,8 +1,8 @@
 %global framework kwidgetsaddons
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        6%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with various classes on top of QtWidgets
 
 License:        GPLv2+ and LGPLv2+
@@ -16,8 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-Patch0: kwidgetaddons-backport-from-5.17.patch
-Patch1: kwidgetaddons-edit-date-by-lineedit.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
@@ -42,7 +40,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -74,6 +71,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Mon Jan 18 2016 x - 5.16.0-6
 - Edit date by lineedit.
 
