@@ -4,15 +4,13 @@
 
 Name:            polkit-qt
 Version:         0.112.0
-Release:         8%{?dist}
+Release:         9%{?dist}
 Summary:         Qt bindings for PolicyKit
 
 License:         GPLv2+
 URL:             https://projects.kde.org/projects/kdesupport/polkit-qt-1 
 Source0:         http://download.kde.org/stable/apps/KDE4.x/admin/polkit-qt-1-%{version}.tar.bz2 
 Source1:         Doxyfile
-
-Patch0:          polkit-qt-0.95.1-install-cmake-find.patch
 
 ## upstream patches
 
@@ -71,11 +69,6 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %prep
 %setup -q -n %{name}-1-%{version}
-
-# temporary patch - installs FindPolkitQt-1.cmake until we decide how to deal with cmake 
-# module installation
-%patch0 -p1 -b .install-cmake-find
-
 %patch1 -p1
 
 %build
@@ -167,7 +160,7 @@ install -p -m644 -D %{SOURCE10} %{buildroot}%{rpm_macros_dir}/macros.polkit-qt
 
 %changelog
 * Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
-- Rebuild.
+- cmake find package.
 
 * Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Change ConsoleKit to systemd-logind to fix KDEBUG-356984.
