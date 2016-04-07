@@ -18,7 +18,7 @@ URL:            http://www.kde.org
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
 BuildRequires:  polkit-qt5-1-devel
-
+BuildRequires:  polkit-qt5-1
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
