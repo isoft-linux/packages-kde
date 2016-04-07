@@ -1,8 +1,8 @@
 %global framework kbookmarks
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        2%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 addon for bookmarks manipulation
 
 License:        LGPLv2+
