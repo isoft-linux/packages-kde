@@ -129,7 +129,7 @@ install -p -m644 -D %{SOURCE10} %{buildroot}%{rpm_macros_dir}/macros.polkit-qt
 %{_libdir}/pkgconfig/polkit-qt-gui-1.pc
 %{_libdir}/pkgconfig/polkit-qt-agent-1.pc
 %{_libdir}/cmake/PolkitQt-1/
-%{_datadir}/cmake/Modules/*.cmake
+#%{_datadir}/cmake/Modules/*.cmake
 
 %files doc
 %doc html/*
