@@ -1,7 +1,7 @@
 Name:           extra-cmake-modules
 Summary:        Additional modules for CMake build system
-Version:        5.16.0
-Release:        4 
+Version:        5.20.0
+Release:        1
 
 License:        BSD
 URL:            http://community.kde.org/KDE_Core/Platform_11/Buildsystem/FindFilesSurvey
@@ -14,7 +14,6 @@ URL:            http://community.kde.org/KDE_Core/Platform_11/Buildsystem/FindFi
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{name}-%{version}.tar.xz
-Patch0: extra-cmake-modules-backport-from-5.17.0.patch
 
 BuildArch:      noarch
 
@@ -29,7 +28,6 @@ Additional modules for CMake build system needed by KDE Frameworks.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -48,7 +46,11 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/ECM
 %{_mandir}/man7/*
 %{_docdir}/ECM/
+
 %changelog
+* Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Mon Dec 21 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
 - Backport from 5.17.0
 
