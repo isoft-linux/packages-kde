@@ -1,8 +1,8 @@
 %global framework kwallet
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        3%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for password management
 
 License:        LGPLv2+
@@ -16,11 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-Patch0: kwallet-backport-from-5.17.patch
-#create a default wallet with empty password when kwalletd launched initially.
-#By Cjacker.
-Patch1: kwalletd-create-empty-password-wallet-first-time-run.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -69,8 +64,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
-%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -115,6 +108,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Backport from 5.17.0
 
