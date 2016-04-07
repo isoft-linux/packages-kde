@@ -26,6 +26,7 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  libgcrypt-devel
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
+BuildRequires:  kf5-kconfigwidgets-devel >= %{version}
 BuildRequires:  kf5-kwindowsystem-devel >= %{version}
 BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kdbusaddons-devel >= %{version}
