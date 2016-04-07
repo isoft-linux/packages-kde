@@ -1,8 +1,8 @@
 %global framework kservice
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        8%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for advanced plugin and service introspection
 
 License:        GPLv2+ and LGPLv2+
@@ -16,21 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-# Add queryForCJK with kjieba support
-# !!!WARNING!!! kservice is so important! it CAN NOT depende on dbus service kjieba!
-#Patch0: 0001-query-for-cjk-with-kjieba.patch
-
-# Public KServiceOffer
-Patch1: 0002-public-kserviceoffer.patch
-
-# kde autostart in /etc/xdg/autostart support "condition", the format is:
-# rcfile:Group:Name:value
-# and kf5 kinit will try to load rcfile from ~/.config/
-# But kde4's config file located at ~/.kde/share/config/
-# but we can not try to find config file ~/.config first, and then ~/.kde/share/config. because there may exist two config file with same name.
-# so we choose to patch kde4 autostart desktop file to add 'kde4-' prefix to condition config file.
-Patch2: kservice-extend-to-find-way-to-support-kde4-autostart-condition.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -63,8 +48,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch1 -p1
-%patch2 -p1
 
 %build
 mkdir %{_target_platform}
@@ -107,6 +90,9 @@ mkdir -p %{buildroot}%{_kf5_datadir}/kservicetypes5
 
 
 %changelog
+* Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Fri Dec 18 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-8
 - Extend kautostart.cpp to support kde4 autostart desktop condition
 
