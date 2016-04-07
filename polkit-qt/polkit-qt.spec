@@ -4,7 +4,7 @@
 
 Name:            polkit-qt
 Version:         0.112.0
-Release:         7%{?dist}
+Release:         8%{?dist}
 Summary:         Qt bindings for PolicyKit
 
 License:         GPLv2+
@@ -166,6 +166,9 @@ install -p -m644 -D %{SOURCE10} %{buildroot}%{rpm_macros_dir}/macros.polkit-qt
 
 
 %changelog
+* Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
+- Rebuild.
+
 * Mon Dec 21 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Change ConsoleKit to systemd-logind to fix KDEBUG-356984.
 
