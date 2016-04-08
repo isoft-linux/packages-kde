@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.20.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -248,6 +248,7 @@ fi
 %{_kf5_bindir}/protocoltojson
 %{_kf5_includedir}/*
 %{_kf5_libdir}/*.so
+%{_kf5_libdir}/*.so.*
 %{_kf5_libdir}/cmake/KF5KIO/
 %{_kf5_archdatadir}/mkspecs/modules/qt_KIOCore.pri
 %{_kf5_archdatadir}/mkspecs/modules/qt_KIOFileWidgets.pri
@@ -263,6 +264,9 @@ fi
 
 
 %changelog
+* Fri Apr 08 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-2
+- missing *KIOGui.so.*
+
 * Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
 - Release 5.20.0
 
