@@ -1,8 +1,8 @@
 %global framework kdesu
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        2%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 integration with su
 
 License:        LGPLv2+
@@ -16,9 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-#if user in wheel group, use sudo as default command, fix 'need root password' issue.
-#also add '-E' arg to sudo, fix gtk/qt/kde theme issue.
-Patch0: kdesu-if-user-in-wheel-default-to-sudo.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -49,7 +46,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -83,6 +79,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Apr 08 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
