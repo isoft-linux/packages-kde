@@ -43,8 +43,7 @@ BuildRequires:  kf5-karchive-devel >= %{version}
 BuildRequires:  kf5-kconfigwidgets-devel >= %{version}
 BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kdbusaddons-devel >= %{version}
-#an import backport of calenderevent support
-BuildRequires:  kf5-kdeclarative-devel >= %{version}-5
+BuildRequires:  kf5-kdeclarative-devel >= %{version}
 BuildRequires:  kf5-kglobalaccel-devel >= %{version}
 BuildRequires:  kf5-kguiaddons-devel >= %{version}
 BuildRequires:  kf5-ki18n-devel >= %{version}
@@ -54,8 +53,7 @@ BuildRequires:  kf5-kservice-devel >= %{version}
 BuildRequires:  kf5-kwindowsystem-devel >= %{version}
 BuildRequires:  kf5-kxmlgui-devel >= %{version}
 BuildRequires:  kf5-kdoctools-devel >= %{version}
-#an import backport
-BuildRequires:  kf5-kpackage-devel >= %{version}-3
+BuildRequires:  kf5-kpackage-devel >= %{version}
 BuildRequires:  kf5-kdesu-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
 BuildRequires:  kf5-knotifications-devel >= %{version}
