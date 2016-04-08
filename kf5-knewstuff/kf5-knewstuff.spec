@@ -1,8 +1,8 @@
 %global framework knewstuff
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        3%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 module for downloading application assets
 
 License:        LGPLv2+
@@ -16,7 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-Patch0:  knewstuff-backport-from-5.17.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -57,7 +56,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -90,6 +88,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Apr 08 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Backport from 5.17
 
