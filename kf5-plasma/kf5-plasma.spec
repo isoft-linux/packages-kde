@@ -1,8 +1,8 @@
 %global framework plasma
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        18
+Version:        5.20.0
+Release:        1
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -16,39 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-framework-%{version}.tar.xz
-
-#plasma-5.16.0 changed the theme, it change the look and feel of entire desktop
-#we choose to use themes from 5.15.0
-Source1:        desktoptheme-from-plasma-5.15.0.tar.gz
-
-Patch0: plasma-framework-backport-from-5.17.patch
- 
-#By default, unlock widget and add widget can not appear at the same time in the menu.
-Patch1: plasma-framework-plasma-reset-action.patch
-
-# add lunar tip on calendar
-Patch2: plasma-framework-add-lunar-tip.patch
-
-# HiddenStatus implementation for plasmoid
-Patch3: 0002-hidden-status.patch
-
-# https://git.reviewboard.kde.org/r/126296/
-# [Window Thumbnails] Don't crash if Composite is disabled
-Patch10: windowthumbcomposite.patch
-
-# https://git.reviewboard.kde.org/r/126449
-Patch11: create-applet-immutable.diff
-
-# https://git.reviewboard.kde.org/r/126443/
-Patch12: plasma-framework-urlinterceptor-memleak.diff
-
-# https://git.reviewboard.kde.org/r/126411/
-Patch13: plasma-framesvg-fix-cache.patch
-
-# https://git.reviewboard.kde.org/r/126471
-Patch14: not-emit-statuschanged-if-no-change.patch
-
-Patch15: default-wallpaper-theme-carat.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -118,12 +85,6 @@ developing applications that use %{name}.
 %prep
 %autosetup -n %{framework}-framework-%{version}  -p1
 
-#we remove all theme provided by plasma-5.16.0, 
-#and use theme from 5.15.0
-rm -rf src/desktoptheme
-tar zxf %{SOURCE1} -C src
-%patch15 -p1
-
 %build
 mkdir %{_target_platform}
 pushd %{_target_platform}
@@ -171,6 +132,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Apr 08 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Fri Jan 08 2016 <ming.wang@i-soft.com.cn> - 5.16.0-18
 - Reset posotion of calendar tip.
 
