@@ -1,6 +1,6 @@
 %global framework kactivities
 
-%global build_main_package 0
+%global build_main_package 1
 
 Name:           kf5-%{framework}
 Summary:        A KDE Frameworks 5 Tier 3 to organize user work into separate activities
@@ -75,7 +75,6 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-#%find_lang kactivities5_qt --with-qt --all-name
 
 #drop this, confuse user.
 rm -rf %{buildroot}%{_kf5_datadir}/kservices5/kactivitymanagerd_fileitem_linking_plugin.desktop
@@ -91,7 +90,7 @@ rm -rf %{buildroot}/%{_kf5_datadir}/kf5/kactivitymanagerd
 %endif
 
 
-%if 0%{?build_main_package}
+%if !0%{?build_main_package}
 %files
 %doc README README.md README.packagers README.developers MAINTAINER
 %{_kf5_bindir}/kactivitymanagerd
@@ -107,7 +106,6 @@ rm -rf %{buildroot}/%{_kf5_datadir}/kf5/kactivitymanagerd
 %postun libs -p /sbin/ldconfig
 
 %files libs 
-#-f kactivities5_qt.lang
 %if !0%{?build_main_package}
 %doc README README.md README.packagers README.developers MAINTAINER
 %endif
