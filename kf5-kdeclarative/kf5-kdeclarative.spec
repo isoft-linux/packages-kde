@@ -23,8 +23,7 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
-# an import backport in ki18n 5.16.0-3
-BuildRequires:  kf5-ki18n-devel >= %{version}-3
+BuildRequires:  kf5-ki18n-devel >= %{version}
 
 BuildRequires:  kf5-kiconthemes-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
