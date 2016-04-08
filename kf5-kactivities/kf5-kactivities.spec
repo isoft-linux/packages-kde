@@ -1,6 +1,6 @@
 %global framework kactivities
 
-%global build_main_package 1
+%global build_main_package 0
 
 Name:           kf5-%{framework}
 Summary:        A KDE Frameworks 5 Tier 3 to organize user work into separate activities
