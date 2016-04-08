@@ -1,8 +1,8 @@
 %global framework kcmutils
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        4%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 addon with extra API to write KConfigModules
 
 License:        LGPLv2+
@@ -16,10 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-Patch0:         fix-window-resize-render.patch
-
-# https://git.reviewboard.kde.org/r/126423/
-Patch1: kpluginselector-assert-rX.diff
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -86,6 +82,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Apr 08 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-4
 - Merge git fix back
 
