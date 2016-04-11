@@ -3,8 +3,8 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.4.3
-Release:        41
+Version:        5.6.1
+Release:        1
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -16,111 +16,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-# This goes to PAM
-Source10:       kde
-# upstream startkde.kde, minus stuff we don't want or need, plus a minor bit of customization --rex
-Source11:       startkde.cmake
-# Desktop file for Fedora Twenty Two look-and-feel package
-Source12:       metadata.desktop
-
-#add po file for kio_desktop changes, 'Trash' virtual UDSEntry need to be translated.
-Source20: kio_desktop-zh_CN.po
-
-## downstream Patches
-Patch10: plasma-workspace-5.3.0-konsole-in-contextmenu.patch
-
-#always disable gpsd, most desktop had no need to run a gpsd service
-Patch11: plasma-workspace-disable-gpsd.patch
-
-#Patch from Leslie Zhai
-Patch12: 0001-kscreenlocker-accounts-service.patch
-
-# Drop ~/Desktop/trash.desktop, use virtual UDSEntry created by kio-desktop instead.
-Patch13: workspace-kio-desktop-use-virtual-Trash-UDSentry-instead-of-trash.desktop-file.patch
-
-#backporting of xembedsniproxy
-Patch20: 0000-backport-xembedsniproxy.patch
-Patch21: plasma-workspace-sni-fix.diff
-Patch22: 0002-xembedsniproxy-workaround-for-java-systemtray.patch
-Patch23: 0001-xembedsniproxy-fix-always-segfault.patch
-Patch24: xembedsniproxy-dirty-fix-for-isoft-startup.patch
-
-#these three patches disabled now.
-#Patch23: 0003-xembedsniproxy-crop-large-transparent-border.patch
-#Patch24: 0004-xembedsniproxy-workaround-for-totally-transparent-xcb-image.patch
-#Patch25: xembedsniproxy-dirty-fix-for-isoft-startup.patch
-
-#Add isoft logo for splash
-Patch30: 0003-splash-isoft-logo.patch
-
-#https://git.reviewboard.kde.org/r/125898/
-#fadeout text where buttons are. 
-Patch40: klippergradient3.patch
-
-#https://git.reviewboard.kde.org/r/124980/
-#Click outside of logout dialog, cancel logout dialog.
-Patch41: dismissonclickoutside3.patch 
-
-#https://git.reviewboard.kde.org/r/126016/
-#fix: properly recognise Plasma 5 KCM modules (wmClass=kcmshell5)
-Patch42: kcmshell5-show-correct-icon-in-taskbar.patch
-
-#https://git.reviewboard.kde.org/r/125997/
-#Catch other openGL error gracefully
-Patch43: catch-other-opengl-errors.patch 
-
-#http://git.reviewboard.kde.org/r/126042/
-Patch44: avoid-qmenu-exec-in-plasmoid-context-menu.patch
-
-#fix: spelling mistake:kwin vs KWin
-Patch45: plasma-workspace-taskwinjob-qdbus-kwin.patch
-
-#https://git.reviewboard.kde.org/r/126216/
-Patch46: do-not-produce-negative-struts-on-switching-screens.patch
-
-#Fix systemtray applet show/hide items settings issue
-Patch47: 0004-systemtray-applet-show-hide-items.patch
-
-# Hidden status implementation for plasmoid
-Patch48: 0005-systemtray-hidden-status.patch
-
-# Integrate some kservice's code into plasma-workspace/runners/services
-Patch49: 0007-query-for-cjk.patch
-
-# ksmserver starts with default empty session
-Patch50: 0008-ksmserver-default-session.patch
-Patch51: disable-ignore-image-and-textonly-for-clipboard.patch
-
-# Set default focus on breezeblock on login page
-Patch52: setfocus-on-breezeblock.patch
-
-# remove PartiallyChecked state of use24hFormat checkbox
-Patch53: plasma-workspace-use24hFormat-no-partially-checked.patch
-
-# remove checkbox kcfg_PreventEmptyClipboard
-Patch54: plsm-wksp-remove-checkbox-kcfg_PreventEmptyClipboard.patch
-
-# hide timezone widget of analogclock when width less than  text's width.
-Patch55: plsm-wksp-hide-analogclock-timezone.patch
-
-# Use iSOFT logo by default for lockscreen
-Patch56: 0010-lockscreen-isoft-logo.patch
-
-# Use iSOFT background by default for loginmanager
-Patch57: 0011-loginmanager-isoft.patch
-
-# Add plasmoid blacklist for PM
-Patch58: 0012-plasmoid-blacklist.patch
-
-# set shortcut enable:edit contents, prev history, next history
-Patch59: plsm-wksp-set-klipper-shortcut-enable.patch
-
-# Fix switch to oxygen theme NO background issue.
-Patch60: 0013-oxygen-nobackground.patch
-
-# Disable drkonqi
-Patch61: 0014-disable-drkonqi.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -300,49 +195,6 @@ Documentation and user manuals for %{name}.
 %prep
 %setup -q
 
-cp %{SOURCE20} po/zh_CN/kio_desktop.po
-
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-
-%patch20 -p1
-%patch21 -p1
-%patch22 -p1
-%patch23 -p1
-%patch24 -p1
-
-%patch30 -p1
-
-%patch40 -p1
-%patch41 -p1
-%patch42 -p1
-%patch43 -p1
-%patch44 -p1
-%patch45 -p1
-
-%patch46 -p1
-
-%patch47 -p1
-%patch48 -p1
-%patch49 -p1
-%patch50 -p1
-%patch51 -p1
-%patch52 -p1
-%patch53 -p1
-%patch54 -p1
-%patch55 -p1
-%patch56 -p1
-%patch57 -p1
-%patch58 -p1
-%patch59 -p1
-%patch60 -p1
-%patch61 -p1
-
-mv startkde/startkde.cmake startkde/startkde.cmake.orig
-install -m644 -p %{SOURCE11} startkde/startkde.cmake
-
 # omit conflicts with kf5-kxmlrpcclient-5.8
 rm -fv po/*/libkxmlrpcclient5.po
 
@@ -360,9 +212,6 @@ make %{?_smp_mflags} -C %{_target_platform}
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 chrpath --delete %{buildroot}/%{_kf5_qtplugindir}/phonon_platform/kde.so
-
-# Make kcheckpass work
-install -m455 -p -D %{SOURCE10} %{buildroot}%{_sysconfdir}/pam.d/kde
 
 #DO NOT display this menu item, already in plasma tray.
 echo "NoDisplay=true" >> $RPM_BUILD_ROOT%{_datadir}/applications/org.kde.klipper.desktop
@@ -449,6 +298,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
+- 5.6.1
+
 * Thu Jan 21 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Disable drkonqi.
 
