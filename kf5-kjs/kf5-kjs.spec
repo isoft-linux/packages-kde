@@ -1,8 +1,8 @@
 %global framework kjs
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        2%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 functional module with JavaScript interpret
 
 License:        GPLv2+ and BSD
@@ -82,6 +82,9 @@ chmod +x %{buildroot}/%{_kf5_datadir}/kf5/kjs/create_hash_table
 
 
 %changelog
+* Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
