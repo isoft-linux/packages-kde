@@ -1,8 +1,8 @@
 %global framework ktexteditor
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        5%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 with advanced embeddable text editor
 
 License:        LGPLv2+
@@ -16,7 +16,6 @@ URL:            https://projects.kde.org/projects/frameworks/ktexteditor
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-Patch0: ktexteditor-backport-from-5.17.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -59,8 +58,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch0 -p1
-
 
 %build
 mkdir %{_target_platform}
@@ -97,6 +94,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-5
 - Backport from 5.17.0
 
