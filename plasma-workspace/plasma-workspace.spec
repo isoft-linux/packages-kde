@@ -296,7 +296,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_libdir}/cmake/KSMServerDBusInterface
 %{_libdir}/cmake/LibKWorkspace
 %{_libdir}/cmake/LibTaskManager
-%{_libdir}/cmake/ScreenSaverDBusInterface
+#%{_libdir}/cmake/ScreenSaverDBusInterface
 
 # TODO split to subpackages
 # - KCM (?)
