@@ -1,6 +1,6 @@
 Name:           powerdevil
-Version:        5.4.3
-Release:        8
+Version:        5.6.1
+Release:        1
 Summary:        Manages the power consumption settings of a Plasma Shell
 
 License:        GPLv2+
@@ -13,16 +13,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/powerdevil
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-Patch0:         powerdevil-enable-upower.patch
-
-#https://git.reviewboard.kde.org/r/125182/
-Patch1:         do-not-ignore-brightness-key-during-animation.patch
-#https://quickgit.kde.org/?p=powerdevil.git&a=commit&h=4c66646761834236f6b14789162fe71f6179f472
-Patch2:         show-full-charged-msg-instead-of-not-charging-when-full.patch
-Patch3:         powerdevil-kcmmodule-activities.patch
-# Remove Hibernate but keep suspend
-Patch4:         0001-remove-hibernate.patch
  
 BuildRequires:  libxcb-devel
 BuildRequires:  xcb-util-keysyms-devel
@@ -62,12 +52,6 @@ of a daemon (a KDED module) and a KCModule for its configuration.
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch0 -p1 -b .enable-upower
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-
 %build
 
 mkdir -p %{_target_platform}
@@ -106,6 +90,9 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
+- 5.6.1
+
 * Tue Jan 19 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Remove Hibernate for activityWidget.
 
