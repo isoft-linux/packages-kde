@@ -17,6 +17,9 @@ URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
+# This goes to PAM
+Source10:       kde
+
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
 BuildRequires:  libGL-devel
@@ -215,6 +218,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 chrpath --delete %{buildroot}/%{_kf5_qtplugindir}/phonon_platform/kde.so
 
+# Make kcheckpass work
+install -m455 -p -D %{SOURCE10} %{buildroot}%{_sysconfdir}/pam.d/kde
+
 #DO NOT display this menu item, already in plasma tray.
 echo "NoDisplay=true" >> $RPM_BUILD_ROOT%{_datadir}/applications/org.kde.klipper.desktop
 
@@ -245,14 +251,14 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_kf5_datadir}/plasma/shareprovider
 %{_kf5_datadir}/plasma/wallpapers
 %{_kf5_datadir}/plasma/look-and-feel
-%{_kf5_datadir}/plasma/kcms
+#%{_kf5_datadir}/plasma/kcms
 %{_kf5_datadir}/solid
 %{_kf5_datadir}/kstyle
 #%{_kf5_datadir}/drkonqi/debuggers/external/*
 #%{_kf5_datadir}/drkonqi/debuggers/internal/*
 #%{_kf5_datadir}/drkonqi/mappings
 #%{_kf5_datadir}/drkonqi/pics/*.png
-%{_kf5_datadir}/kconf_update/*
+#%{_kf5_datadir}/kconf_update/*
 %{_sysconfdir}/xdg/*.knsrc
 %{_sysconfdir}/xdg/taskmanagerrulesrc
 %{_sysconfdir}/xdg/autostart/*.desktop
@@ -261,7 +267,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_datadir}/dbus-1/interfaces/*.xml
 %{_kf5_datadir}/kservices5/*.desktop
 %{_kf5_datadir}/kservices5/*.protocol
-%{_kf5_datadir}/kservices5/kded/*.desktop
+#%{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservicetypes5/*.desktop
 %{_kf5_datadir}/knotifications5/*.notifyrc
 %{_kf5_datadir}/config.kcfg/*
