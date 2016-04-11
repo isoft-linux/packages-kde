@@ -59,6 +59,7 @@ BuildRequires:  pkgconfig(libinput) >= 0.10
 BuildRequires:  pkgconfig(libudev)
 %endif
 BuildRequires:  pkgconfig(freetype2)
+BuildRequires:  pkgconfig(fontconfig)
 
 # KF5
 BuildRequires:  kf5-kcompletion-devel
