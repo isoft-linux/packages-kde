@@ -1,8 +1,8 @@
 %global framework kdewebkit
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        2%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 integration module for QtWebKit
 
 License:        LGPLv2+
