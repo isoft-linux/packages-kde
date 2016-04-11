@@ -87,6 +87,7 @@ BuildRequires:  kf5-kglobalaccel-devel >= 5.7
 BuildRequires:  kf5-networkmanager-qt-devel
 BuildRequires:  kf5-kxmlrpcclient-devel
 BuildRequires:  kf5-kinit-devel >= 5.10.0-3
+BuildRequires:  kscreenlocker-devel >= %{version}
 BuildRequires:  kf5-kemoticons-devel
 
 #git codes
