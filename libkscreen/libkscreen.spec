@@ -1,6 +1,6 @@
 Name:           libkscreen
-Version:        5.4.3
-Release:        2
+Version:        5.6.1
+Release:        1
 Summary:        KDE display configuration library
 
 License:        GPLv2+
@@ -14,9 +14,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/libkscreen
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-## upstreamable patches
-## upstream patches
 
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
@@ -86,6 +83,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
+- Release 5.6.1
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
