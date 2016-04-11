@@ -1,8 +1,8 @@
 %global         wayland 1
 
 Name:           kwin
-Version:        5.4.3
-Release:        6
+Version:        5.6.1
+Release:        1
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -18,29 +18,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/kwin
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-#https://git.reviewboard.kde.org/r/125659/
-#fix triple buffer re-detection and doublebuffer behavior (on nvidia at least)
-Patch0: kwin__fix_double_buffering.diff
-
-#https://git.reviewboard.kde.org/r/125228/
-#Desktop Grid overhaul
-Patch1: kwin-desktop-grid.patch
-
-#https://git.reviewboard.kde.org/r/126059/
-#Add rule to protect the focus on a window
-Patch2: 0001-Add-rule-to-protect-the-focus-on-a-window.patch
-
-#this is a partial fix of 'right click popup menu' not gain focus.
-#It's actually a critical issue, but very difficult to fix.
-#this patch only handle mouse click event on decoration.
-#But it 'right click menu popup', and click in the main window.
-#The menu will still there.
-
-Patch3: kwin-close-windowmenu-rightclick-popup.patch
-
-# Fix kcmkwineffects preview Video hide/show issue.
-Patch4: 0001-kcmkwineffects-show-hide.patch
 
 # Base
 BuildRequires:  cmake
@@ -252,6 +229,9 @@ fi
 
 
 %changelog
+* Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
+- Release 5.6.1
+
 * Fri Dec 25 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix kcmkwineffects preview Video hide/show issue.
 
