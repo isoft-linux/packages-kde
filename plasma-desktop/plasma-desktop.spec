@@ -59,8 +59,7 @@ BuildRequires:  plasma-workspace-devel
 BuildRequires:  kwin-devel
 
 # Optional
-BuildRequires:  kf5-kactivities
-BuildRequires:  kf5-kactivities-devel
+BuildRequires:  kf5-kactivities-devel >= %{version}
 BuildRequires:  libcanberra-devel
 BuildRequires:  boost-devel
 BuildRequires:  pulseaudio-libs-devel
