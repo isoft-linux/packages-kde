@@ -19,7 +19,7 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
-#BuildRequires:  libXScrnSaver-devel
+BuildRequires:  libXScrnSaver-devel
 #BuildRequires:  libXext-devel
 
 BuildRequires:  kf5-rpm-macros
