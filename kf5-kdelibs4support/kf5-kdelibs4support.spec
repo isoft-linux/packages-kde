@@ -49,6 +49,7 @@ BuildRequires:  kf5-kunitconversion-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
 BuildRequires:  kf5-kwindowsystem-devel >= %{version}
 BuildRequires:  kf5-kxmlgui-devel >= %{version}
+BuildRequires:  kf5-kded-devel >= %{version}
 
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:       ca-certificates
