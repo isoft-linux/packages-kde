@@ -23,6 +23,7 @@ BuildRequires:  libxcb-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
+BuildRequires:  kf5-kwayland-devel
 
 Requires:       kf5-filesystem
 
