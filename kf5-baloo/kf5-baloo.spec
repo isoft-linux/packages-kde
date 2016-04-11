@@ -1,8 +1,8 @@
 %define         framework baloo
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        11
+Version:        5.20.0
+Release:        1
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -17,19 +17,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/baloo
 Source0: http://download.kde.org/%{stable}/frameworks/5.16/%{framework}-%{version}.tar.xz
 
 Source1: 97-kde-baloo-filewatch-inotify.conf
-
-#backport from 5.17.0 
-Patch0: baloo-update-to-5.17.0.patch
-
-#simple chinese support for baloo filename index/search.
-Patch10: baloo-rude-chinese-support.patch
-#extend to support all CJKV
-Patch11: baloo-extend-to-support-all-CJKV.patch
-#use kjieba to segment Chinese
-Patch12: baloo-enable-kjieba.patch 
-
-#enable pinyin and pinyin initial letter support for Chinese.
-Patch13: baloo-add-pinyin-support.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -89,11 +76,6 @@ Summary:        Runtime libraries for %{name}
 
 %prep
 %setup -qn %{framework}-%{version}
-%patch0 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
 
 %build
 mkdir %{_target_platform}
@@ -182,6 +164,9 @@ fi
 
 
 %changelog
+* Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- Release 5.20.0
+
 * Tue Dec 22 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-11
 - Backport from 5.17.0
 
