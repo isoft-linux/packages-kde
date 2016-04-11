@@ -39,7 +39,7 @@ BuildRequires:  kf5-plasma-devel
 BuildRequires:  kf5-knotifyconfig-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  libkscreen-devel >= %{version}
-BuildRequires:  kf5-kactivities-devel >= %{version}
+BuildRequires:  kf5-kactivities-devel
 
 BuildRequires:  plasma-workspace-devel
 
