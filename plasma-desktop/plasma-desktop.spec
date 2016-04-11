@@ -1,6 +1,6 @@
 Name:           plasma-desktop
-Version:        5.4.3
-Release:        38
+Version:        5.6.1
+Release:        1
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -13,142 +13,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/plasma-desktop
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-## downstream patches
-# adjust default kickoff favorites: -preferred_browser(buggy) +konqueror +konsole +apper
-Patch100: plasma-desktop-default_favorites.patch
-# FIXME: make upstreamable, fix dup'd PREFIX KAUTH_HELPER_INSTALL_DIR when using absolute paths
-#Patch101: plasma-desktop-fix-fontinst-service-path.patch
-# Default to Folder containment (rather than Desktop)
-Patch102: plasma-desktop-default-layout.patch
-
-#patches from Leslie Zhai
-Patch200: 0001-kickoff-accounts-service.patch  
-Patch201: plasma-desktop-kickoff-face-click-open-user_account.patch
-# Cancelable when disable fontinst
-Patch202: 0002-cancel-fontinst.patch
-# Replace trolltech for fontinst
-Patch203: 0003-kfontinst-replace-trolltech.patch
-# Port kauth for fontinst and use asynchronous interface of KJob
-Patch204: 0004-kfontinst-port-kauth.patch
-# Add faceIcon for kicker
-# TEMP disabled by Cjacker, please do not enable it until reviewed.
-Patch205: 0005-kicker-add-faceicon.patch
-
-#add showdesktop to panel
-Patch300: plasma-desktop-add-showdesktop-to-panel-by-default.patch
-
-#By default, lock the panel.
-Patch301: plasma-desktop-default-locked.patch
-
-#increase the default panel height.
-Patch302: plasma-desktop-increase-default-panel-height.patch
-
-#tweak some default settings
-Patch303: plasma-desktop-tweak.patch
-
-#hide desktopath modules from systemsettings, but still can be used as "kcmshell5 desktoppath"
-Patch304: plasma-desktop-hide-desktoppath-from-systemsettings.patch
-
-#remove formats/translation setting module, it's crappy and buggy.
-#we use our own 'kcmlocale' now.
-
-Patch305: plasma-desktop-say-goodbye-to-crappy-and-buggy-locale-setting.patch
-
-Patch306: plasma-desktop-disable-kcm-mouse-and-touchpad.patch
-
-Patch307: plasma-desktop-kickoff-sync-url.patch
-
-# Kickoff isoft-logo
-Patch308: 0006-kickoff-isoft-logo.patch
-
-# Kicker isoft-logo
-Patch309: 0007-kicker-isoft-logo.patch
-
-# uninstall kcm-kemail.desktop
-Patch310: plasma-desktop-uninstall-component-kcm-kemail.patch
-
-#https://git.reviewboard.kde.org/r/125908/
-Patch311: plasmadesktop-scrollabletasktooltip.diff
-
-# Open history documents with bash script
-# But it needs to distinguish between *.desktop and general file
-# Fix open systrayed application twice issue
-Patch312: plasma-desktop-startup-history-documents.patch
-
-# kcm_splashscreen use isoft logo
-Patch313: 0008-preview-splash-isoft-logo.patch
-
-# https://git.reviewboard.kde.org/r/126079/
-Patch314: fix-kde-bug-355365.patch
-
-# https://git.reviewboard.kde.org/r/124675/
-Patch315: fix-kde-bug-311991.patch
-
-# https://git.reviewboard.kde.org/r/126162/
-Patch316: taskmanager-tooltipdelegate.diff
-
-# Fix DnD file to Trash access denied issue
-Patch317: 0009-dnd-file-to-trash.patch
-
-# Add desktop folderview ctrl+c, ctrl+v, ctrl+x support
-Patch318: 0010-desktop-folderview-shortcut.patch
-
-# Remove leave unchaged kcm_keyboard, there is ONLY ON or OFF.
-#Patch319: 0011-remove-numlock-unchanged.patch
-
-# Remove icons advance setting KDEBUG-356712
-Patch320: 0012-drop-icons-advance-setting.patch
-
-# Remove suspend 
-Patch321: 0013-remove-suspend.patch
-
-# Fix recent document icon issue.
-Patch322: 0014-kickoff-recentdoc-icon.patch
-
-# kcmsmserver starts with default session.
-Patch323: 0015-kcm-ksmserver-default-session.patch
-
-# Fix taskmanager font size when changed to oxygen theme.
-Patch324: 0016-taskmanager-font-size.patch
-
-#this three patch is needed by 'virtual trash UDSEntry' in plasma-workspace.
-Patch400: desktop-no-cut-copy-rename-delete-menu-item-on-desktop-virtual-trash-UDSentry.patch 
-Patch401: desktop-filter-out-trash-virtual-UDSEntry-when-select-from-desktop-view.patch
-Patch402: plasma-desktop-drop-the-trash.desktop-spectial-treatment.patch
-
-#Fix https://bugs.kde.org/show_bug.cgi?id=357100
-Patch410: plasma-desktop-fix-Show-Original-Dir-in-DesktopView.patch
-
-# Remove kuser.os info from kickoff
-Patch411: 0017-remove-kickoff-osinfo.patch
-
-# Use iSOFT logo by default for preview
-Patch412: 0018-previews-preview-isoft-logo.patch
-
-#Sync time zone
-Patch413: plsm-dskt-sync-timezone.patch
-
-# Remove flags
-Patch414: remove-national-flags.patch
-
-# Fix disable enabled font issue
-Patch415: 0019-fontinst-disable.patch
-
-# Fix folderview open with KWrite issue
-Patch416: 0020-folderview-open.patch
-
-# Fix folderview rename only by enter issue.
-Patch417: 0021-folderview-rename.patch
-
-# Disable desktopview.
-Patch418: 0022-disable-desktopview.patch
-
-# Export LC_MESSAGES
-Patch419: plsm-dstp-export-LC_MESSAGES.patch
-
-# set folder view's url
-Patch420: plsm-dstp-set-folder-view-url.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -400,6 +264,9 @@ fi
 
 
 %changelog
+* Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
+- 5.6.1
+
 * Thu Jan 28 2016 <ming.wang@i-soft.com.cn> - 5.4.3-38
 - Set folder view's url.
 
