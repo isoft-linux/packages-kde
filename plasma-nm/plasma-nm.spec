@@ -21,6 +21,7 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qttools-devel
 
+BuildRequires:  qca-qt5-devel
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kwindowsystem-devel
 BuildRequires:  kf5-kservice-devel
