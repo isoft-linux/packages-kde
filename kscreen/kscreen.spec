@@ -74,10 +74,10 @@ fi
 %{_bindir}/kscreen-console
 #%{_bindir}/kscreen-osd
 %{_kf5_qtplugindir}/kcm_kscreen.so
-%{_kf5_qtplugindir}/kded_kscreen.so
+%{_kf5_qtplugindir}/kf5/kded/kscreen.so
 %{_datadir}/kcm_kscreen/
 %{_kf5_datadir}/kservices5/kcm_kscreen.desktop
-%{_kf5_datadir}/kservices5/kded/kscreen.desktop
+#%{_kf5_datadir}/kservices5/kded/kscreen.desktop
 %{_datadir}/icons/hicolor/*/actions/*
 
 
