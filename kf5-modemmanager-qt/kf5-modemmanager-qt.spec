@@ -1,8 +1,8 @@
 %global framework modemmanager-qt
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        2%{?dist}
+Version:        5.20.0
+Release:        1%{?dist}
 Summary:        A Tier 1 KDE Frameworks module wrapping ModemManager DBus API
 
 License:        LGPLv2+
@@ -74,6 +74,9 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_archdatadir}/mkspecs/modules/qt_ModemManagerQt.pri
 
 %changelog
+* Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
+- 5.20.0
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
