@@ -41,9 +41,10 @@ BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  libkscreen-devel >= %{version}
 BuildRequires:  kf5-kactivities-devel
 
-BuildRequires:  plasma-workspace-devel
+BuildRequires:  plasma-workspace-devel >= %{version}
 
 Requires:       kf5-filesystem
+Requires:       libkscreen >= %{version}
 
 %description
 Powerdevil is an utility for powermanagement. It consists

@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.6.1
-Release:        1
+Release:        2
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -141,7 +141,7 @@ Requires:       kf5-frameworkintegration
 Requires:       plasma-milou
 
 # Power management
-Requires:       powerdevil
+#Requires:       powerdevil >= %{version}
 
 # startkde
 Requires:       coreutils
@@ -306,6 +306,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-2
+- powerdevil broken
+
 * Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
 - 5.6.1
 
