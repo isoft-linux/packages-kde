@@ -38,6 +38,7 @@ BuildRequires:  kf5-kunitconversion-devel
 BuildRequires:  kf5-plasma-devel
 BuildRequires:  kf5-kactivities-devel
 BuildRequires:  plasma-workspace-devel
+BuildRequires:  libksysguard-devel
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
