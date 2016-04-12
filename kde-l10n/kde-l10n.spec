@@ -3,8 +3,8 @@
 
 Name:    kde-l10n
 Summary: Internationalization support for KDE
-Version: 15.12.0
-Release: 7 
+Version: 15.12.3
+Release: 1
 
 Url:     http://www.kde.org
 License: LGPLv2
@@ -47,9 +47,6 @@ Source30: okular.po.zh_CN
 Source31: knetwalk.po.zh_CN 
 
 Source1000: subdirs-kde-l10n
-
-#fix okular menu i18n
-Patch0: fix-okular-zh_CN-po.patch 
 
 BuildRequires: cmake
 BuildRequires: findutils
@@ -177,9 +174,6 @@ cp %{SOURCE31} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegames/knetwalk.po
 #update spectacle zh_CN po
 rm -rf %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/spectacle.po
 cp %{SOURCE28} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/spectacle.po
-
-%patch0 -p1
-
 
 %build
 for i in $(cat %{SOURCE1000}) ; do
