@@ -199,12 +199,12 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/plasma/plasmoids/org.kde.plasma.networkmanagement/contents
 %{_datadir}/plasma/plasmoids/org.kde.plasma.networkmanagement/metadata.desktop
 %{_kf5_datadir}/kservices5/plasma-applet-org.kde.plasma.networkmanagement.desktop
-%{_datadir}/plasma/updates/*.js
+#%{_datadir}/plasma/updates/*.js
 # plasma-nm notifications
 %{_kf5_datadir}/knotifications5/networkmanagement.notifyrc
 # plasma-nm kded
-%{_kf5_qtplugindir}/kded_networkmanagement.so
-%{_kf5_datadir}/kservices5/kded/networkmanagement.desktop
+%{_kf5_qtplugindir}/networkmanagement.so
+#%{_kf5_datadir}/kservices5/kded/networkmanagement.desktop
 # plasma-nm other
 %{_kf5_datadir}/kservicetypes5/plasma-networkmanagement-vpnuiplugin.desktop
 
