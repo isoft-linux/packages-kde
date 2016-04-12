@@ -73,7 +73,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %files -f kdeplasmaaddons5_qt.lang
 %doc COPYING COPYING.LIB
 #%{_libexecdir}/kimpanel-scim-panel
-%{_libexecdir}/kimpanel-ibus-panel
+#%{_libexecdir}/kimpanel-ibus-panel
 %{_kf5_datadir}/plasma/plasmoids/*
 %{_kf5_datadir}/plasma/desktoptheme/default/widgets/*.svgz
 %{_kf5_datadir}/plasma/wallpapers/*
