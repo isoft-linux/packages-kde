@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.6.1
-Release:        2
+Release:        3
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -122,7 +122,7 @@ Requires: kjieba
 
 # for libkdeinit5_*
 %{?kf5_kinit_requires}
-Requires:       kf5-kactivities
+#Requires:       kf5-kactivities
 Requires:       kf5-kded
 Requires:       kf5-kdoctools
 Requires:       qt5-qtquickcontrols
@@ -307,7 +307,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 %changelog
 * Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-2
-- powerdevil broken
+- powerdevil, kf5-kactivities broken
 
 * Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
 - 5.6.1
