@@ -1,6 +1,6 @@
 Name:           plasma-nm
-Version:        5.4.3
-Release:        4
+Version:        5.6.1
+Release:        1
 Summary:        Plasma Next applet written in QML for managing network connections
 License:        LGPLv2+ and GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-nm
@@ -12,22 +12,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/plasma-nm
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-# Add plasma-nm to default systray if needed, for upgraders...
-Source10:       01-plasma-nm.js
-
-#add an entry to systemsettings.
-Source11: connection-editor.desktop
-
-#patch
-Patch0001: hide-menu-item.patch
-
-#https://git.reviewboard.kde.org/r/126035/
-#Add --import-vpn argument to connection editor
-Patch0002: importvpn.patch
-
-Patch0003: hide-wired-autonegotiate-checkbox.patch
-# Upstream patches
 
 BuildRequires:  gettext
 
@@ -198,14 +182,6 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %find_lang plasmanetworkmanagement_sshui
 %find_lang plasmanetworkmanagement_sstpui
 
-# migrate to nm plasmoid
-install -m644 -p -D %{SOURCE10} %{buildroot}%{_datadir}/plasma/updates/01-plasma-nm.js
-
-# Add an systemsettings entry.
-mkdir -p %{buildroot}%{_datadir}/kservices5/
-install -m 0644 %{SOURCE11} %{buildroot}%{_datadir}/kservices5/
-
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -273,6 +249,9 @@ install -m 0644 %{SOURCE11} %{buildroot}%{_datadir}/kservices5/
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_sstpui.desktop
 
 %changelog
+* Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
+- 5.6.1
+
 * Fri Dec 18 2015 fj <fujiang.zhu@i-soft.com.cn> - 5.4.3-4
 - hide-wired-autonegotiate-checkbox
 
