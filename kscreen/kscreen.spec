@@ -3,8 +3,8 @@
 
 Name:           kscreen
 Epoch:          1
-Version:        5.4.3
-Release:        6
+Version:        5.6.1
+Release:        1
 Summary:        KDE Display Management software
 
 License:        GPLv2 or GPLv3
@@ -18,23 +18,6 @@ URL:            https://projects.kde.org/projects/playground/base/kscreen
 %endif
 
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-#our own screen toggle OSD.
-Source1: osd.tar.gz
-
-#zh_CN trans for kscreen-osd
-Source2: kscreen-osd-zh_CN.po
-#pot files. not used, just keep it here.
-Source3: kscreen-osd.pot 
-
-#additional changes to kscreen to enable our osd support.
-Patch0: kscreen-add-osd.patch
-#additional translations we added to kcmmodule.
-Patch1: kscreen-add-osd-zh-CN-trans.patch
-#additional translations we added to kcmmodule.
-Patch2: kscreen-add-osd-zh-CN-trans2.patch
-# KDEBUG-356228 QScreen issue workaround patch
-Patch3: 0001-plasmashell-rotate.patch
 
 BuildRequires:  cmake
 BuildRequires:  gettext
@@ -77,10 +60,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-
-msgfmt %{SOURCE2} -o %{buildroot}%{_datadir}/locale/zh_CN/LC_MESSAGES/kscreen-osd.mo
-
-%find_lang %{name} --with-kde --with-qt --all-name
+#%find_lang %{name} --with-kde --with-qt --all-name
 
 %post
 touch --no-create %{_kf5_datadir}/icons/hicolor &> /dev/null || :
@@ -94,7 +74,8 @@ touch --no-create %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 fi
 
-%files -f %{name}.lang
+%files 
+#-f %{name}.lang
 %doc COPYING
 %{_bindir}/kscreen-console
 %{_bindir}/kscreen-osd
@@ -107,6 +88,9 @@ fi
 
 
 %changelog
+* Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
+- 5.6.1
+
 * Tue Jan 19 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Fix i18n issue.
 

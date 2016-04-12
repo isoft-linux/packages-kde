@@ -33,7 +33,7 @@ BuildRequires:  kf5-kidletime-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-kcrash-devel
 BuildRequires:  kf5-kglobalaccel-devel
-
+BuildRequires:  libkscreen-devel >= %{version}
 BuildRequires:  kf5-kwayland-devel
 
 BuildRequires:  libX11-devel
@@ -104,5 +104,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-2
+- Add libkscreen build require.
+
 * Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
 - 5.6.1
