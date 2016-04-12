@@ -1,8 +1,4 @@
-#NOTE, this is not the original release of kscreen.
-#It's isoft forked version with OSD support.
-
 Name:           kscreen
-Epoch:          1
 Version:        5.6.1
 Release:        1
 Summary:        KDE Display Management software
@@ -16,7 +12,6 @@ URL:            https://projects.kde.org/projects/playground/base/kscreen
 %else
 %global stable stable
 %endif
-
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 BuildRequires:  cmake
@@ -46,8 +41,7 @@ KCM and KDED modules for managing displays in KDE.
 
 
 %prep
-%autosetup -a1 -p1 -n %{name}-%{version}
-
+%setup -q -n %{name}-%{version}
 
 %build
 mkdir %{_target_platform}
@@ -78,7 +72,7 @@ fi
 #-f %{name}.lang
 %doc COPYING
 %{_bindir}/kscreen-console
-%{_bindir}/kscreen-osd
+#%{_bindir}/kscreen-osd
 %{_kf5_qtplugindir}/kcm_kscreen.so
 %{_kf5_qtplugindir}/kded_kscreen.so
 %{_datadir}/kcm_kscreen/
