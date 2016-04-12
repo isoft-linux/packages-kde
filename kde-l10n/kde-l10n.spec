@@ -27,25 +27,6 @@ Source7: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/
 Source9: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-zh_CN-%{version}.tar.xz
 Source10: http://download.kde.org/%{stable}/applications/%{version}/src/kde-l10n/%{name}-zh_TW-%{version}.tar.xz
 
-#ksnapshot removed from applications 15.11.80
-#and a new screenshot utility named spectacle introduced.
-#But we still use ksnapshot now.
-Source20: ksnapshot.po.ja 
-Source21: ksnapshot.po.ko 
-Source22: ksnapshot.po.zh_CN 
-Source23: ksnapshot.po.zh_TW
-Source24: libksane.po.zh_CN 
-Source25: skanlite.po.zh_CN 
-Source26: konsole.po.zh_CN
-Source27: ark.po.zh_CN 
-
-#updated spectacle zh_CN po
-Source28: spectacle-zh_CN.po
-
-Source29: ksystemlog.po.zh_CN
-Source30: okular.po.zh_CN 
-Source31: knetwalk.po.zh_CN 
-
 Source1000: subdirs-kde-l10n
 
 BuildRequires: cmake
@@ -157,23 +138,6 @@ for i in $(cat %{SOURCE1000}) ; do
   echo $i | grep -v '^#' && \
   %{__xz} --decompress --stdout %{_sourcedir}/%{name}-$i-%{version}.tar.xz | %{__tar} -xf -
 done
-
-#restore ksnapshot
-cp %{SOURCE20} %{name}-ja-%{version}/4/ja/messages/kdegraphics/ksnapshot.po
-cp %{SOURCE21} %{name}-ko-%{version}/4/ko/messages/kdegraphics/ksnapshot.po
-cp %{SOURCE22} %{name}-zh_CN-%{version}/4/zh_CN/messages/kdegraphics/ksnapshot.po
-cp %{SOURCE23} %{name}-zh_TW-%{version}/4/zh_TW/messages/kdegraphics/ksnapshot.po
-cp %{SOURCE24} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/libksane.po
-cp %{SOURCE25} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/skanlite.po
-cp %{SOURCE26} %{name}-zh_CN-%{version}/5/zh_CN/messages/applications/konsole.po
-cp %{SOURCE27} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdeutils/ark.po
-cp %{SOURCE29} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdeadmin/ksystemlog.po
-cp %{SOURCE30} %{name}-zh_CN-%{version}/4/zh_CN/messages/kdegraphics/okular.po
-cp %{SOURCE31} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegames/knetwalk.po
-
-#update spectacle zh_CN po
-rm -rf %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/spectacle.po
-cp %{SOURCE28} %{name}-zh_CN-%{version}/5/zh_CN/messages/kdegraphics/spectacle.po
 
 %build
 for i in $(cat %{SOURCE1000}) ; do
@@ -408,6 +372,9 @@ rm -rfv %{buildroot}%{_datadir}/locale/*/LC_SCRIPTS/ki18n5/
 
 
 %changelog
+* Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 15.12.3-1
+- 15.12.3
+
 * Wed Dec 30 2015 kun.li@i-soft.com.cn - 15.12.0-7
 - add knetwalk.po.zh_CN localization 
 
