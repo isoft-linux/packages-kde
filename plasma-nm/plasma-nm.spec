@@ -203,13 +203,13 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 # plasma-nm notifications
 %{_kf5_datadir}/knotifications5/networkmanagement.notifyrc
 # plasma-nm kded
-%{_kf5_qtplugindir}/networkmanagement.so
+%{_kf5_qtplugindir}/kded/networkmanagement.so
 #%{_kf5_datadir}/kservices5/kded/networkmanagement.desktop
 # plasma-nm other
 %{_kf5_datadir}/kservicetypes5/plasma-networkmanagement-vpnuiplugin.desktop
 
 #systemsettings entry
-%{_datadir}/kservices5/connection-editor.desktop
+#%{_datadir}/kservices5/connection-editor.desktop
 
 %files mobile
 
