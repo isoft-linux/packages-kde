@@ -84,7 +84,7 @@ BuildRequires:  kf5-kdeclarative-devel
 BuildRequires:  kf5-plasma-devel >= 5.13.0
 BuildRequires:  kf5-ktextwidgets-devel
 BuildRequires:  kf5-kdewebkit-devel
-BuildRequires:  kf5-kdelibs4support-devel >= %{version}
+BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-kcrash-devel
 BuildRequires:  kf5-kglobalaccel-devel >= 5.7
 BuildRequires:  kf5-networkmanager-qt-devel
