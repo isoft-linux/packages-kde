@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.6.1
-Release:        1
+Release:        2
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -146,7 +146,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-%find_lang plasmadesktop5 --with-qt --all-name
+#%find_lang plasmadesktop5 --with-qt --all-name
 
 # No -devel
 rm -fv %{buildroot}%{_libdir}/libkfontinst{,ui}.so
@@ -184,7 +184,8 @@ if [ $1 -eq 0 ] ; then
     gtk-update-icon-cache %{_datadir}/icons/hicolor &> /dev/null || :
 fi
 
-%files -f plasmadesktop5.lang
+%files
+#-f plasmadesktop5.lang
 %{_bindir}/kapplymousetheme
 %{_bindir}/kaccess
 %{_bindir}/kfontinst
@@ -266,6 +267,9 @@ fi
 
 
 %changelog
+* Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-2
+- conflict with kde-l10n
+
 * Mon Apr 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
 - 5.6.1
 
