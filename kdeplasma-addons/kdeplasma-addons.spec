@@ -36,6 +36,7 @@ BuildRequires:  kf5-krunner-devel
 BuildRequires:  kf5-kservice-devel
 BuildRequires:  kf5-kunitconversion-devel
 BuildRequires:  kf5-plasma-devel
+BuildRequires:  kf5-kactivities-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qtx11extras-devel
