@@ -28,8 +28,8 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtsvg-devel
 BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  qt5-qttools-devel
-BuildRequires:  kf5-kdbusaddons-devel >= %{version}
 
+BuildRequires:  kf5-kdbusaddons-devel >= %{version}
 BuildRequires:  kf5-kcompletion-devel >= %{version}
 BuildRequires:  kf5-kconfig-devel >= %{version}
 BuildRequires:  kf5-kconfigwidgets-devel >= %{version}
