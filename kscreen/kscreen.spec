@@ -1,5 +1,5 @@
 Name:           kscreen
-Version:        5.6.1
+Version:        5.6.2
 Release:        1
 Summary:        KDE Display Management software
 
@@ -54,7 +54,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-#%find_lang %{name} --with-kde --with-qt --all-name
+%find_lang %{name} --with-kde --with-qt --all-name
 
 %post
 touch --no-create %{_kf5_datadir}/icons/hicolor &> /dev/null || :
@@ -68,8 +68,7 @@ touch --no-create %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 fi
 
-%files 
-#-f %{name}.lang
+%files -f %{name}.lang
 %doc COPYING
 %{_bindir}/kscreen-console
 #%{_bindir}/kscreen-osd
@@ -82,6 +81,9 @@ fi
 
 
 %changelog
+* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
+- 5.6.2
+
 * Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-1
 - 5.6.1
 
