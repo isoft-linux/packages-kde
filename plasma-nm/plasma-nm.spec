@@ -42,8 +42,7 @@ BuildRequires:  kf5-kdeclarative-devel
 BuildRequires:  kf5-kinit-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-networkmanager-qt-devel
-# API changed in 5.9.0
-BuildRequires:  kf5-modemmanager-qt-devel >= 5.9.0
+BuildRequires:  kf5-modemmanager-qt-devel
 
 BuildRequires:  pkgconfig(NetworkManager) >= 0.9.8
 BuildRequires:  pkgconfig(ModemManager) >= 1.0.0
