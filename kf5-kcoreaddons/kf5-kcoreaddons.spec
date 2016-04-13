@@ -1,7 +1,7 @@
 %global framework kcoreaddons
 
 Name:           kf5-%{framework}
-Version:        5.20.0
+Version:        5.21.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with various classes on top of QtCore
 
@@ -86,6 +86,9 @@ update-mime-database  %{_datadir}/mime &> /dev/null || :
 %{_kf5_archdatadir}/mkspecs/modules/qt_KCoreAddons.pri
 
 %changelog
+* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-1
+- 5.21.0
+
 * Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
 - Release 5.20.0
 
