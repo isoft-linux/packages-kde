@@ -39,7 +39,7 @@ BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kcmutils-devel
 BuildRequires:  kf5-kglobalaccel-devel
 BuildRequires:  kf5-knewstuff-devel
-BuildRequires:  kf5-kdelibs4support-devel
+BuildRequires:  kf5-kdelibs4support-devel >= 5.21.0
 BuildRequires:  kf5-knotifyconfig-devel
 BuildRequires:  kf5-kdesu-devel
 BuildRequires:  kf5-attica-devel
