@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.6.2
-Release:        1
+Release:        2
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -146,7 +146,7 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-#%find_lang plasmadesktop5 --with-qt --all-name
+%find_lang plasmadesktop5 --with-qt --all-name
 
 # No -devel
 rm -fv %{buildroot}%{_libdir}/libkfontinst{,ui}.so
@@ -184,8 +184,7 @@ if [ $1 -eq 0 ] ; then
     gtk-update-icon-cache %{_datadir}/icons/hicolor &> /dev/null || :
 fi
 
-%files
-#-f plasmadesktop5.lang
+%files -f plasmadesktop5.lang
 %{_bindir}/kapplymousetheme
 %{_bindir}/kaccess
 %{_bindir}/kfontinst
@@ -207,8 +206,10 @@ fi
 %{_kf5_libdir}/libKF5ActivitiesExperimentalStats.so.*
 %{_kf5_qtplugindir}/*.so
 %{_kf5_qtplugindir}/kcms/*.so
+%{_kf5_qtplugindir}/kf5/kded/*.so
 %{_kf5_qmldir}/org/kde/plasma/activityswitcher
 %{_kf5_qmldir}/org/kde/private/desktopcontainment/*
+%{_kf5_qmldir}/org/kde/activities/*
 %{_kf5_datadir}/plasma/*
 %{_kf5_datadir}/color-schemes
 %{_kf5_datadir}/kconf_update/*
@@ -242,12 +243,15 @@ fi
 %{_datadir}/dbus-1/system-services/*.service
 %{_datadir}/polkit-1/actions/org.kde.fontinst.policy
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmclock.policy
+{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_kimpanel.so
 # kcm_touchpad
-# {_bindir}/kcm-touchpad-list-devices
-# {_kf5_qtplugindir}/plasma/dataengine/plasma_engine_touchpad.so
-# {_datadir}/config.kcfg/touchpad.kcfg
-# {_datadir}/config.kcfg/touchpaddaemon.kcfg
-# {_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
+%{_bindir}/kcm-touchpad-list-devices
+%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_touchpad.so
+%{_datadir}/config.kcfg/touchpad.kcfg
+%{_datadir}/config.kcfg/touchpaddaemon.kcfg
+%{_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
+# kactivitymanagerd
+%{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/*
 
 %files doc
 %lang(ca) %{_docdir}/HTML/ca/kcontrol/
@@ -267,8 +271,9 @@ fi
 
 
 %changelog
-* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
+* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-2
 - 5.6.2
+- Add missing files.
 
 * Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-2
 - conflict with kde-l10n
