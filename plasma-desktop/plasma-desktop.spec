@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.6.2
-Release:        2
+Release:        3
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -134,6 +134,9 @@ BuildArch: noarch
 
 #remove accidential installed .orig files.
 find . -name *.orig|xargs rm -rf
+
+# conflict with kde-110n
+rm -fv po/*/kcm_device_automounter.po
 
 %build
 mkdir %{_target_platform}
@@ -271,9 +274,10 @@ fi
 
 
 %changelog
-* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-2
+* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-3
 - 5.6.2
 - Add missing files.
+- conflict with kde-l10n
 
 * Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.1-2
 - conflict with kde-l10n
