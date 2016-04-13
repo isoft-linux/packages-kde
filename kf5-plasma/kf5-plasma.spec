@@ -1,7 +1,7 @@
 %global framework plasma
 
 Name:           kf5-%{framework}
-Version:        5.20.0
+Version:        5.21.0
 Release:        1
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
