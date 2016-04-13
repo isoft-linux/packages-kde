@@ -243,7 +243,7 @@ fi
 %{_datadir}/dbus-1/system-services/*.service
 %{_datadir}/polkit-1/actions/org.kde.fontinst.policy
 %{_datadir}/polkit-1/actions/org.kde.kcontrol.kcmclock.policy
-{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_kimpanel.so
+%{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_kimpanel.so
 # kcm_touchpad
 %{_bindir}/kcm-touchpad-list-devices
 %{_kf5_qtplugindir}/plasma/dataengine/plasma_engine_touchpad.so
