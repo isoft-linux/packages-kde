@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.21.0
-Release:        1
+Release:        2
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -126,10 +126,15 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/plasma_version.h
 %{_kf5_includedir}/plasma/
 %{_kf5_includedir}/Plasma/
+%{_kf5_includedir}/plasmaquick/
+%{_kf5_includedir}/PlasmaQuick/
 %{_kf5_datadir}/kdevappwizard/templates/*
 
 
 %changelog
+* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-2
+- Add missing devel header files.
+
 * Fri Apr 08 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
 - Release 5.20.0
 
