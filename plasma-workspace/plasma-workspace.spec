@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.6.2
-Release:        1
+Release:        2
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -242,6 +242,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_kf5_qtplugindir}/*.so
 %{_kf5_qtplugindir}/phonon_platform/kde.so
 %{_kf5_qtplugindir}/kpackage/packagestructure/*.so
+%{_kf5_qtplugindir}/kf5/kded/*.so
 %{_kf5_qmldir}/org/kde/*
 %{_libexecdir}/*
 %{_kf5_datadir}/ksmserver
@@ -254,10 +255,10 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 #%{_kf5_datadir}/plasma/kcms
 %{_kf5_datadir}/solid
 %{_kf5_datadir}/kstyle
-#%{_kf5_datadir}/drkonqi/debuggers/external/*
-#%{_kf5_datadir}/drkonqi/debuggers/internal/*
-#%{_kf5_datadir}/drkonqi/mappings
-#%{_kf5_datadir}/drkonqi/pics/*.png
+%{_kf5_datadir}/drkonqi/debuggers/external/*
+%{_kf5_datadir}/drkonqi/debuggers/internal/*
+%{_kf5_datadir}/drkonqi/mappings
+%{_kf5_datadir}/drkonqi/pics/*.png
 #%{_kf5_datadir}/kconf_update/*
 %{_sysconfdir}/xdg/*.knsrc
 %{_sysconfdir}/xdg/taskmanagerrulesrc
@@ -278,6 +279,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_kf5_plugindir}/kio/desktop.so
 %{_datadir}/kio_desktop/DesktopLinks/Home.desktop
 %{_datadir}/kio_desktop/directory.desktop
+%{_datadir}/kio_desktop/directory.trash
 
 # PAM
 %config %{_sysconfdir}/pam.d/kde
@@ -285,6 +287,8 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %files doc
 %lang(en) %{_docdir}/HTML/en/klipper/
 %lang(ca) %{_docdir}/HTML/ca/klipper/
+%lang(en) %{_docdir}/HTML/en/kcontrol/
+%lang(ca) %{_docdir}/HTML/ca/kcontrol/
 
 %files devel
 %{_libdir}/libweather_ion.so
@@ -306,6 +310,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-2
+- Add missing files
+
 * Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
 - powerdevil, kf5-kactivities broken
 - 5.6.2
