@@ -1,7 +1,7 @@
 %global framework ktextwidgets
 
 Name:           kf5-%{framework}
-Version:        5.20.0
+Version:        5.21.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 addon with advanced text editing widgets
 
@@ -81,6 +81,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-1
+- 5.21.0
+
 * Thu Apr 07 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.20.0-1
 - Release 5.20.0
 
