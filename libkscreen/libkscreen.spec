@@ -1,6 +1,6 @@
 Name:           libkscreen
 Version:        5.6.2
-Release:        1
+Release:        2
 Summary:        KDE display configuration library
 
 License:        GPLv2+
@@ -73,6 +73,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libexecdir}/kscreen_backend_launcher
 %{_kf5_libdir}/libKF5Screen.so.*
 %{_kf5_plugindir}/kscreen/
+%{_datadir}/dbus-1/services/org.kde.kscreen.service
 
 %files devel
 %{_kf5_includedir}/KScreen/
@@ -84,6 +85,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-2
+- Add missing file
+
 * Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
 - 5.6.2
 
