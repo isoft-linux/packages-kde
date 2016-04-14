@@ -1,7 +1,8 @@
-diff -Nur plasma-framework-5.16.0/po/zh_CN/libplasma5.po plasma-framework-5.16.0n/po/zh_CN/libplasma5.po
---- plasma-framework-5.16.0/po/zh_CN/libplasma5.po	2016-01-08 12:29:19.202670505 +0800
-+++ plasma-framework-5.16.0n/po/zh_CN/libplasma5.po	2016-01-08 12:28:33.566670511 +0800
-@@ -949,3 +949,7 @@
+diff --git a/po/zh_CN/libplasma5.po b/po/zh_CN/libplasma5.po
+index ee81468..5398156 100644
+--- a/po/zh_CN/libplasma5.po
++++ b/po/zh_CN/libplasma5.po
+@@ -998,3 +998,7 @@ msgstr "您拖放的软件包无效。"
  msgctxt "%1 is the name of the containment"
  msgid "%1 Options"
  msgstr "%1的选项"
@@ -9,10 +10,11 @@ diff -Nur plasma-framework-5.16.0/po/zh_CN/libplasma5.po plasma-framework-5.16.0
 +#: declarativeimports/calendar/lunar.cpp:90
 +msgid "Lunar: %(NIAN)(Y)%(YUE)(M)%(RI)(D)"
 +msgstr "农历: %(NIAN)年%(YUE)月%(RI)"
-diff -Nur plasma-framework-5.16.0/po/zh_TW/libplasma5.po plasma-framework-5.16.0n/po/zh_TW/libplasma5.po
---- plasma-framework-5.16.0/po/zh_TW/libplasma5.po	2016-01-08 12:29:19.202670505 +0800
-+++ plasma-framework-5.16.0n/po/zh_TW/libplasma5.po	2016-01-08 12:28:33.564670511 +0800
-@@ -949,3 +949,7 @@
+diff --git a/po/zh_TW/libplasma5.po b/po/zh_TW/libplasma5.po
+index 663335d..86017a8 100644
+--- a/po/zh_TW/libplasma5.po
++++ b/po/zh_TW/libplasma5.po
+@@ -1002,3 +1002,7 @@ msgstr ""
  msgctxt "%1 is the name of the containment"
  msgid "%1 Options"
  msgstr "%1 選項"
@@ -20,30 +22,11 @@ diff -Nur plasma-framework-5.16.0/po/zh_TW/libplasma5.po plasma-framework-5.16.0
 +#: declarativeimports/calendar/lunar.cpp:90
 +msgid "Lunar: %(NIAN)(Y)%(YUE)(M)%(RI)(D)"
 +msgstr "農歷: %(NIAN)年%(YUE)月%(RI)"
-diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp plasma-framework-5.16.0n/src/declarativeimports/calendar/calendarplugin.cpp
---- plasma-framework-5.16.0/src/declarativeimports/calendar/calendarplugin.cpp	2016-01-08 12:29:19.204670505 +0800
-+++ plasma-framework-5.16.0n/src/declarativeimports/calendar/calendarplugin.cpp	2016-01-08 12:28:33.577670511 +0800
-@@ -20,6 +20,8 @@
- #include "calendarplugin.h"
- #include "calendardata.h"
- #include "calendar.h"
-+#include "lunar.h"
-+
- #include "eventdatadecorator.h"
- #include "eventpluginsmanager.h"
- 
-@@ -42,6 +44,7 @@
-     Q_ASSERT(uri == QLatin1String("org.kde.plasma.calendar"));
-     qmlRegisterType<CalendarData>(uri, 2, 0, "CalendarData");
-     qmlRegisterType<Calendar>(uri, 2, 0, "Calendar");
-+    qmlRegisterType<Lunar>(uri, 2, 0, "Lunar");
-     qmlRegisterType<QAbstractItemModel>();
-     qmlRegisterType<QAbstractListModel>();
-     qmlRegisterSingletonType<EventPluginsManager>(uri, 2, 0, "EventPluginsManager", event_plugins_manager_provider);
-diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt plasma-framework-5.16.0n/src/declarativeimports/calendar/CMakeLists.txt
---- plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt	2016-01-08 12:29:19.206670505 +0800
-+++ plasma-framework-5.16.0n/src/declarativeimports/calendar/CMakeLists.txt	2016-01-08 12:28:33.577670511 +0800
-@@ -9,8 +9,13 @@
+diff --git a/src/declarativeimports/calendar/CMakeLists.txt b/src/declarativeimports/calendar/CMakeLists.txt
+index 93d9c14..a52ddb4 100644
+--- a/src/declarativeimports/calendar/CMakeLists.txt
++++ b/src/declarativeimports/calendar/CMakeLists.txt
+@@ -9,8 +9,13 @@ set(calendar_SRCS
      daysmodel.cpp
      eventdatadecorator.cpp
      eventpluginsmanager.cpp
@@ -57,7 +40,7 @@ diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt
  add_library(calendarplugin SHARED ${calendar_SRCS})
  
  target_link_libraries(calendarplugin
-@@ -20,6 +25,7 @@
+@@ -20,6 +25,7 @@ target_link_libraries(calendarplugin
      Qt5::Gui
      KF5::I18n
      KF5::CalendarEvents
@@ -65,9 +48,32 @@ diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/CMakeLists.txt
  )
  
  install(TARGETS calendarplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/plasma/calendar)
-diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp plasma-framework-5.16.0n/src/declarativeimports/calendar/lunar.cpp
---- plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-framework-5.16.0n/src/declarativeimports/calendar/lunar.cpp	2016-01-08 12:28:33.577670511 +0800
+diff --git a/src/declarativeimports/calendar/calendarplugin.cpp b/src/declarativeimports/calendar/calendarplugin.cpp
+index 917d3a7..24c0a1d 100644
+--- a/src/declarativeimports/calendar/calendarplugin.cpp
++++ b/src/declarativeimports/calendar/calendarplugin.cpp
+@@ -20,6 +20,8 @@
+ #include "calendarplugin.h"
+ #include "calendardata.h"
+ #include "calendar.h"
++#include "lunar.h"
++
+ #include "eventdatadecorator.h"
+ #include "eventpluginsmanager.h"
+ 
+@@ -42,6 +44,7 @@ void CalendarPlugin::registerTypes(const char *uri)
+     Q_ASSERT(uri == QLatin1String("org.kde.plasma.calendar"));
+     qmlRegisterType<CalendarData>(uri, 2, 0, "CalendarData");
+     qmlRegisterType<Calendar>(uri, 2, 0, "Calendar");
++    qmlRegisterType<Lunar>(uri, 2, 0, "Lunar");
+     qmlRegisterType<QAbstractItemModel>();
+     qmlRegisterType<QAbstractListModel>();
+     qmlRegisterSingletonType<EventPluginsManager>(uri, 2, 0, "EventPluginsManager", event_plugins_manager_provider);
+diff --git a/src/declarativeimports/calendar/lunar.cpp b/src/declarativeimports/calendar/lunar.cpp
+new file mode 100644
+index 0000000..86aef3b
+--- /dev/null
++++ b/src/declarativeimports/calendar/lunar.cpp
 @@ -0,0 +1,96 @@
 +#include <lunar-date/lunar-date.h>
 +#include <stdio.h>
@@ -165,9 +171,11 @@ diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.cpp plas
 +
 +    lunar_date_free(date);
 +}
-diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h plasma-framework-5.16.0n/src/declarativeimports/calendar/lunar.h
---- plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-framework-5.16.0n/src/declarativeimports/calendar/lunar.h	2016-01-08 12:28:33.577670511 +0800
+diff --git a/src/declarativeimports/calendar/lunar.h b/src/declarativeimports/calendar/lunar.h
+new file mode 100644
+index 0000000..71f7512
+--- /dev/null
++++ b/src/declarativeimports/calendar/lunar.h
 @@ -0,0 +1,49 @@
 +#ifndef LUNAR_H
 +#define LUNAR_H
@@ -218,11 +226,12 @@ diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/lunar.h plasma
 +    int m_day;
 +};
 +#endif
-diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml plasma-framework-5.16.0n/src/declarativeimports/calendar/qml/DayDelegate.qml
---- plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2016-01-08 12:29:19.209670505 +0800
-+++ plasma-framework-5.16.0n/src/declarativeimports/calendar/qml/DayDelegate.qml	2016-01-08 12:32:17.328670484 +0800
-@@ -125,4 +125,53 @@
-             root.date = model
+diff --git a/src/declarativeimports/calendar/qml/DayDelegate.qml b/src/declarativeimports/calendar/qml/DayDelegate.qml
+index 6353827..daf1f5c 100644
+--- a/src/declarativeimports/calendar/qml/DayDelegate.qml
++++ b/src/declarativeimports/calendar/qml/DayDelegate.qml
+@@ -123,4 +123,53 @@ MouseArea {
+             ColorAnimation { duration: units.shortDuration * 2 }
          }
      }
 +
@@ -275,22 +284,22 @@ diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DayDelegat
 +                                              // don't need animations
 +    }
  }
-diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DaysCalendar.qml plasma-framework-5.16.0n/src/declarativeimports/calendar/qml/DaysCalendar.qml
---- plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DaysCalendar.qml	2015-11-08 20:40:46.000000000 +0800
-+++ plasma-framework-5.16.0n/src/declarativeimports/calendar/qml/DaysCalendar.qml	2016-01-08 12:28:33.578670511 +0800
-@@ -290,6 +290,11 @@
+diff --git a/src/declarativeimports/calendar/qml/DaysCalendar.qml b/src/declarativeimports/calendar/qml/DaysCalendar.qml
+index d4b8fe4..782b67e 100644
+--- a/src/declarativeimports/calendar/qml/DaysCalendar.qml
++++ b/src/declarativeimports/calendar/qml/DaysCalendar.qml
+@@ -282,6 +282,10 @@ Item {
+         property bool containsEventItems: false // FIXME
          property bool containsTodoItems: false // FIXME
  
-         property QtObject selectedDate: root.date
-+
 +        property alias tip: tip
 +        property alias text: tip.text
 +        property int mouseOnIndex: -1
 +
-         onSelectedDateChanged: {
-             // clear the selection if the root.date is null
-             if (calendarGrid.selectedDate == null) {
-@@ -336,5 +341,11 @@
+         Repeater {
+             id: days
+ 
+@@ -316,5 +320,11 @@ Item {
                  }
              }
          }
@@ -302,9 +311,11 @@ diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/qml/DaysCalend
 +        }
      }
  }
-diff -Nur plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml plasma-framework-5.16.0n/src/declarativeimports/calendar/qml/ToolTip.qml
---- plasma-framework-5.16.0/src/declarativeimports/calendar/qml/ToolTip.qml	1970-01-01 08:00:00.000000000 +0800
-+++ plasma-framework-5.16.0n/src/declarativeimports/calendar/qml/ToolTip.qml	2016-01-08 12:28:33.578670511 +0800
+diff --git a/src/declarativeimports/calendar/qml/ToolTip.qml b/src/declarativeimports/calendar/qml/ToolTip.qml
+new file mode 100644
+index 0000000..14fd5f5
+--- /dev/null
++++ b/src/declarativeimports/calendar/qml/ToolTip.qml
 @@ -0,0 +1,51 @@
 +import QtQuick 2.0
 +

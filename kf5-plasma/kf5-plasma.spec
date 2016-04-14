@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.21.0
-Release:        2
+Release:        3
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -16,6 +16,9 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-framework-%{version}.tar.xz
+
+# Lunar calendar
+Patch2: plasma-framework-add-lunar-tip.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -132,6 +135,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-3
+- Lunar calendar.
+
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-2
 - Add missing devel header files.
 
