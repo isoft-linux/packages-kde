@@ -1,46 +1,25 @@
-diff --git a/applets/kickoff/core/processrunner.cpp b/applets/kickoff/core/processrunner.cpp
-index 6572386..ae97717 100644
---- a/applets/kickoff/core/processrunner.cpp
-+++ b/applets/kickoff/core/processrunner.cpp
-@@ -20,6 +20,7 @@
- #include "processrunner.h"
- 
- #include <KProcess>
-+#include <QFile>
- 
- using namespace Kickoff;
- 
-@@ -35,3 +36,8 @@ void ProcessRunner::runMenuEditor()
- {
-     KProcess::startDetached(QStringLiteral("kmenuedit"));
- }
-+
-+bool ProcessRunner::isFileExist(QString path)
-+{
-+    return QFile::exists(path);
-+}
-diff --git a/applets/kickoff/core/processrunner.h b/applets/kickoff/core/processrunner.h
-index 5d836eb..939f874 100644
---- a/applets/kickoff/core/processrunner.h
-+++ b/applets/kickoff/core/processrunner.h
-@@ -33,6 +33,7 @@ class ProcessRunner : public QObject
-         ~ProcessRunner();
- 
-         Q_INVOKABLE void runMenuEditor();
-+        Q_INVOKABLE bool isFileExist(QString path);
- };
- 
- }
 diff --git a/applets/kickoff/package/contents/ui/Kickoff.qml b/applets/kickoff/package/contents/ui/Kickoff.qml
-index 33b49eb..6fe5816 100644
+index 0f9e9c6..3b1dde5 100644
 --- a/applets/kickoff/package/contents/ui/Kickoff.qml
 +++ b/applets/kickoff/package/contents/ui/Kickoff.qml
-@@ -34,7 +34,7 @@ Item {
+@@ -30,14 +30,19 @@ import org.kde.kquickcontrolsaddons 2.0
+ 
+ import org.kde.plasma.private.kicker 0.1 as Kicker
+ 
++import QtAccountsService 1.0
++
+ Item {
++    UserAccount {
++        id: userAccount
++    }
+ 
+     Plasmoid.switchWidth: units.gridUnit * 20
+     Plasmoid.switchHeight: units.gridUnit * 30
  
      Plasmoid.fullRepresentation: FullRepresentation {}
  
 -    Plasmoid.icon: plasmoid.configuration.icon
-+    Plasmoid.icon: processRunner.isFileExist("/usr/share/isoft-artwork/logo/scalable/isoft-logo-symbolic.svgz") ? "/usr/share/isoft-artwork/logo/scalable/isoft-logo-symbolic.svgz" : plasmoid.configuration.icon
++    Plasmoid.icon: userAccount.oslogo != "" ? userAccount.oslogo : plasmoid.configuration.icon
  
-     Kickoff.ProcessRunner {
-         id: processRunner
+     property QtObject globalFavorites: rootModelFavorites
+ 

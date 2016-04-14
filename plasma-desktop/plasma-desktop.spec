@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.6.2
-Release:        3
+Release:        4
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -13,6 +13,9 @@ URL:            https://projects.kde.org/projects/kde/workspace/plasma-desktop
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+
+# Kickoff isoft-logo
+Patch308: 0006-kickoff-isoft-logo.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -274,6 +277,9 @@ fi
 
 
 %changelog
+* Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-4
+- Kickoff isoft-logo
+
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-3
 - 5.6.2
 - Add missing files.
