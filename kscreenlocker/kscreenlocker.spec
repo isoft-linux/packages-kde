@@ -1,6 +1,6 @@
 Name:    kscreenlocker
 Version: 5.6.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Library and components for secure lock screen architecture
 
 License: GPLv2+
@@ -13,6 +13,9 @@ URL:     https://quickgit.kde.org/?p=%{name}.git
 %global stable stable
 %endif
 Source0: http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
+
+# Accounts service face icon
+Patch1: 0001-kscreenlocker-accounts-service.patch
 
 # help upgrades, split from plasma-workspace since 5.5
 Conflicts: plasma-workspace < 5.5
@@ -44,8 +47,10 @@ BuildRequires:  pkgconfig(xi)
 
 BuildRequires:  libXcursor-devel
 BuildRequires:  pam-devel
+BuildRequires:  qt5-qtaccountsservice-devel >= 0.6.0
 
 Requires:       kf5-filesystem
+Requires:       qt5-qtaccountsservice-devel >= 0.6.0
 
 %description
 %{summary}.
@@ -104,6 +109,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-2
+- Accounts service face icon.
+
 * Tue Apr 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
 - Add libkscreen build require.
 - 5.6.2

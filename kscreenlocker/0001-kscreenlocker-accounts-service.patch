@@ -1,0 +1,91 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b2d0a49..fe115dd 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -62,6 +62,13 @@ set_package_properties(Wayland PROPERTIES
+                        TYPE REQUIRED
+                        PURPOSE "Required for building screenlocker")
+ 
++find_package(QtAccountsService)
++set_package_properties(QtAccountsService PROPERTIES
++    DESCRIPTION "Qt-style API to use freedesktop.org's AccountsService DBus service"
++    URL "http://git.isoft.zhcn.cc/zhaixiang/qtaccountsservice"
++    TYPE REQUIRED
++)
++
+ include(ConfigureChecks.cmake)
+ 
+ configure_file(config-workspace.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-workspace.h)
+diff --git a/greeter/CMakeLists.txt b/greeter/CMakeLists.txt
+index 8d6a504..6069e2b 100644
+--- a/greeter/CMakeLists.txt
++++ b/greeter/CMakeLists.txt
+@@ -38,6 +38,7 @@ target_link_libraries(kscreenlocker_greet
+                         ${X11_LIBRARIES}
+                         KF5::WaylandClient
+                         Wayland::Client
++                        QtAccountsService::QtAccountsService
+                         )
+ 
+ install(TARGETS kscreenlocker_greet DESTINATION ${KDE_INSTALL_LIBEXECDIR})
+diff --git a/greeter/greeterapp.cpp b/greeter/greeterapp.cpp
+index d11795d..b50f551 100644
+--- a/greeter/greeterapp.cpp
++++ b/greeter/greeterapp.cpp
+@@ -104,6 +104,7 @@ UnlockApp::UnlockApp(int &argc, char **argv)
+     if (QX11Info::isPlatformX11()) {
+         installNativeEventFilter(new FocusOutEventFilter);
+     }
++    m_userAccount = new QtAccountsService::UserAccount;
+ }
+ 
+ UnlockApp::~UnlockApp()
+@@ -121,6 +122,10 @@ UnlockApp::~UnlockApp()
+         m_ksldConnectionThread->quit();
+         m_ksldConnectionThread->wait();
+     }
++    if (m_userAccount) {
++        delete m_userAccount;
++        m_userAccount = nullptr;
++    }
+ }
+ 
+ void UnlockApp::initialize()
+@@ -224,10 +229,14 @@ void UnlockApp::desktopResized()
+         QQmlContext* context = view->engine()->rootContext();
+         const KUser user;
+         const QString fullName = user.property(KUser::FullName).toString();
++        QString faceIconPath = "";
++        if (m_userAccount) {
++            faceIconPath = m_userAccount->iconFileName();
++        }
+ 
+         context->setContextProperty(QStringLiteral("kscreenlocker_userName"), fullName.isEmpty() ? user.loginName() : fullName);
+-        context->setContextProperty(QStringLiteral("kscreenlocker_userImage"), user.faceIconPath());
+-        context->setContextProperty(QStringLiteral("authenticator"), m_authenticator);
++        context->setContextProperty(QStringLiteral("kscreenlocker_userImage"), QFile::exists(faceIconPath) ? faceIconPath : user.faceIconPath());
++		context->setContextProperty(QStringLiteral("authenticator"), m_authenticator);
+         context->setContextProperty(QStringLiteral("backgroundPath"), KScreenSaverSettings::themeBackground());
+         context->setContextProperty(QStringLiteral("org_kde_plasma_screenlocker_greeter_interfaceVersion"), 2);
+         context->setContextProperty(QStringLiteral("org_kde_plasma_screenlocker_greeter_view"), view);
+diff --git a/greeter/greeterapp.h b/greeter/greeterapp.h
+index 1fbec5a..1a8775a 100644
+--- a/greeter/greeterapp.h
++++ b/greeter/greeterapp.h
+@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #include <KPackage/PackageStructure>
+ #include <QQmlComponent>
+ 
++#include <QtAccountsService/UserAccount>
++
+ namespace KWayland {
+ namespace Client {
+     class ConnectionThread;
+@@ -107,6 +109,7 @@ private:
+     org_kde_ksld *m_ksldInterface = nullptr;
+ 
+     KWayland::Client::PlasmaShell *m_plasmaShell = nullptr;
++    QtAccountsService::UserAccount *m_userAccount = nullptr;
+ };
+ } // namespace
+ 
