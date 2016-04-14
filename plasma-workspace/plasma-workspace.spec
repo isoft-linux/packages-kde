@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.6.2
-Release:        2
+Release:        3
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -19,6 +19,9 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 # This goes to PAM
 Source10:       kde
+
+#Add isoft logo for splash
+Patch30: 0003-splash-isoft-logo.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -200,6 +203,8 @@ Documentation and user manuals for %{name}.
 %prep
 %setup -q
 
+%patch30 -p1
+
 # omit conflicts with kf5-kxmlrpcclient-5.8
 rm -fv po/*/libkxmlrpcclient5.po
 
@@ -310,6 +315,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-3
+- Add isoft logo for splash.
+
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-2
 - Add missing files
 
