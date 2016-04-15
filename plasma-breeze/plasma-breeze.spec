@@ -136,8 +136,8 @@ fi
 %{_kf5_qtplugindir}/kstyle_breeze_config.so
 %{_kf5_datadir}/kconf_update/kde4breeze.upd
 %{_kf5_libdir}/kconf_update_bin/kde4breeze
-%{_kf5_datadir}/kconf_update/gtkbreeze.upd
-%{_kf5_libdir}/kconf_update_bin/gtkbreeze
+#%{_kf5_datadir}/kconf_update/gtkbreeze.upd
+#%{_kf5_libdir}/kconf_update_bin/gtkbreeze
 %{_kf5_qmldir}/QtQuick/Controls/Styles/Breeze
 %{_bindir}/breeze-settings5
 %{_datadir}/icons/hicolor/scalable/apps/breeze-settings.svgz
