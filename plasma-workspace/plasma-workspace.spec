@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.6.2
-Release:        3
+Release:        4
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -280,6 +280,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_datadir}/applications/*.desktop
 %{_datadir}/sddm/themes/breeze
 %{_datadir}/xsessions/plasma.desktop
+%{_datadir}/wayland-sessions/plasmawayland.desktop
 
 %{_kf5_plugindir}/kio/desktop.so
 %{_datadir}/kio_desktop/DesktopLinks/Home.desktop
@@ -315,6 +316,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Fri Apr 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-4
+- Add plasmawayland session.
+
 * Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-3
 - Add isoft logo for splash.
 
