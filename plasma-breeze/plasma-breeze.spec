@@ -26,6 +26,7 @@ BuildRequires:  qt5-qtx11extras-devel
 
 BuildRequires:	kf5-kservice-devel
 BuildRequires:  kf5-kcmutils-devel
+BuildRequires:  kf5-kpackage-devel
 
 # kde4breeze
 BuildRequires:  kf5-kcoreaddons-devel
