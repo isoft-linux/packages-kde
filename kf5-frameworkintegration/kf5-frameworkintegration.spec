@@ -1,8 +1,8 @@
 %global framework frameworkintegration
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        3%{?dist}
+Version:        5.21.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 workspace and cross-framework integration plugins
 License:        LGPLv2+
 URL:            http://www.kde.org
@@ -15,8 +15,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-#do not add extra actions to avoid two "quit" menu item in qt systemtray.
-Patch0: do-not-add-extra-KDE-SNI-actions-in-qpt-plugin.patch
 
 # upstream patches
 
@@ -107,6 +105,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Fri Apr 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-1
+- 5.21.0
+
 * Wed Dec 02 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Add patch to fix two 'quit' menu item in qt systemtray
 
