@@ -3,8 +3,8 @@
 %global         build_kde4  1
 
 Name:           plasma-breeze
-Version:        5.4.3
-Release:        3
+Version:        5.6.2
+Release:        1
 Summary:        Artwork, styles and assets for the Breeze visual style for the Plasma Desktop
 
 License:        GPLv2+
@@ -17,7 +17,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/breeze
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{base_name}-%{version}.tar.xz
-Patch0: fix-breeze-dark-inheritance.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -164,6 +163,9 @@ fi
 
 
 %changelog
+* Fri Apr 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
+- 5.6.2
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
 - Update
 
