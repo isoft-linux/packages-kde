@@ -1,0 +1,38 @@
+From c7819f5ddcdd9645840ec947451fb3f9f88f55bd Mon Sep 17 00:00:00 2001
+From: Pieterjan Camerlynck <pieterjan.camerlynck@ebo-enterprises.com>
+Date: Fri, 15 Apr 2016 15:14:52 +0200
+Subject: [PATCH] Verify rotation when updating screen size in XRandR backend
+
+This should fix bug 356228
+
+Signed-off-by: Pieterjan Camerlynck <pieterjan.camerlynck@gmail.com>
+---
+ backends/xrandr/xrandr.cpp | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/backends/xrandr/xrandr.cpp b/backends/xrandr/xrandr.cpp
+index a11b708059e8d1de9a67ca7846ae2e633fb1deee..fd43e4706908575c9b376e81bd7ccd619e72955c 100644
+--- a/backends/xrandr/xrandr.cpp
++++ b/backends/xrandr/xrandr.cpp
+@@ -185,12 +185,16 @@ void XRandR::crtcChanged(xcb_randr_crtc_t crtc, xcb_randr_mode_t mode,
+ void XRandR::screenChanged(xcb_randr_rotation_t rotation,
+                            const QSize &sizePx, const QSize &sizeMm)
+ {
+-    Q_UNUSED(rotation);
+     Q_UNUSED(sizeMm);
+ 
++    QSize newSizePx = sizePx;
++    if (rotation == XCB_RANDR_ROTATION_ROTATE_90 || rotation == XCB_RANDR_ROTATION_ROTATE_270) {
++        newSizePx.transpose();
++    }
++
+     XRandRScreen *xScreen = s_internalConfig->screen();
+     Q_ASSERT(xScreen);
+-    xScreen->update(sizePx);
++    xScreen->update(newSizePx);
+ 
+     m_configChangeCompressor->start();
+ }
+-- 
+1.9.1
+
