@@ -62,6 +62,8 @@ BuildRequires:  kf5-kded-devel
 BuildRequires:  kf5-kinit-devel >= 5.10.0-3
 BuildRequires:  libkscreen-devel
 BuildRequires:  kscreenlocker-devel >= %{version}
+BuildRequires:  kf5-kactivities-devel >= 5.21.0
+BuildRequires:  kf5-kactivities-stats-devel >= 5.21.0
 # libkdeinit5_*
 %{?kf5_kinit_requires}
 
@@ -69,8 +71,6 @@ BuildRequires:  plasma-workspace-devel
 BuildRequires:  kwin-devel
 
 # Optional
-BuildRequires:  kf5-kactivities-devel >= 5.21.0
-BuildRequires:  kf5-kactivities-stats-devel >= 5.21.0
 BuildRequires:  libcanberra-devel
 BuildRequires:  boost-devel
 BuildRequires:  pulseaudio-libs-devel

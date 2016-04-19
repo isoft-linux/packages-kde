@@ -1,7 +1,20 @@
-diff -Naur plasma-desktop-5.6.2/applets/kicker/CMakeLists.txt plasma-desktop/applets/kicker/CMakeLists.txt
---- plasma-desktop-5.6.2/applets/kicker/CMakeLists.txt	2016-04-14 12:20:53.640492847 +0800
-+++ plasma-desktop/applets/kicker/CMakeLists.txt	2016-03-24 12:21:48.806257434 +0800
-@@ -63,7 +63,7 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dfd7822..9c849ae 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -48,6 +48,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+     Declarative
+     People
+     DBusAddons
++    ActivitiesStats
+ )
+ 
+ find_package(LibKWorkspace CONFIG REQUIRED)
+diff --git a/applets/kicker/CMakeLists.txt b/applets/kicker/CMakeLists.txt
+index 6aa9d8d..2e112e4 100644
+--- a/applets/kicker/CMakeLists.txt
++++ b/applets/kicker/CMakeLists.txt
+@@ -63,7 +63,7 @@ target_link_libraries(kickerplugin
                        Qt5::Quick
                        Qt5::X11Extras
                        KF5::Activities
@@ -10,10 +23,11 @@ diff -Naur plasma-desktop-5.6.2/applets/kicker/CMakeLists.txt plasma-desktop/app
                        KF5::ConfigCore
                        KF5::CoreAddons
                        KF5::I18n
-diff -Naur plasma-desktop-5.6.2/applets/kicker/package/contents/ui/CompactRepresentation.qml plasma-desktop/applets/kicker/package/contents/ui/CompactRepresentation.qml
---- plasma-desktop-5.6.2/applets/kicker/package/contents/ui/CompactRepresentation.qml	2016-04-14 12:20:53.640492847 +0800
-+++ plasma-desktop/applets/kicker/package/contents/ui/CompactRepresentation.qml	2016-03-24 12:21:48.806257434 +0800
-@@ -103,7 +103,7 @@
+diff --git a/applets/kicker/package/contents/ui/CompactRepresentation.qml b/applets/kicker/package/contents/ui/CompactRepresentation.qml
+index 6d84b14..ed4c4e5 100644
+--- a/applets/kicker/package/contents/ui/CompactRepresentation.qml
++++ b/applets/kicker/package/contents/ui/CompactRepresentation.qml
+@@ -103,7 +103,7 @@ Item {
              }
          }
  
@@ -22,9 +36,10 @@ diff -Naur plasma-desktop-5.6.2/applets/kicker/package/contents/ui/CompactRepres
          source: plasmoid.configuration.customButtonImage
          fillMode: Image.PreserveAspectFit
          smooth: true
-diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/actionlist.cpp plasma-desktop/applets/kicker/plugin/actionlist.cpp
---- plasma-desktop-5.6.2/applets/kicker/plugin/actionlist.cpp	2016-04-14 12:20:53.640492847 +0800
-+++ plasma-desktop/applets/kicker/plugin/actionlist.cpp	2016-03-24 12:21:48.807257434 +0800
+diff --git a/applets/kicker/plugin/actionlist.cpp b/applets/kicker/plugin/actionlist.cpp
+index 57f2a2c..2aa97d9 100644
+--- a/applets/kicker/plugin/actionlist.cpp
++++ b/applets/kicker/plugin/actionlist.cpp
 @@ -27,13 +27,13 @@
  #include <KPropertiesDialog>
  #include <KRun>
@@ -43,9 +58,10 @@ diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/actionlist.cpp plasma-desk
  
  using namespace KAStats;
  using namespace KAStats::Terms;
-diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/recentcontactsmodel.cpp plasma-desktop/applets/kicker/plugin/recentcontactsmodel.cpp
---- plasma-desktop-5.6.2/applets/kicker/plugin/recentcontactsmodel.cpp	2016-04-14 12:20:53.641492847 +0800
-+++ plasma-desktop/applets/kicker/plugin/recentcontactsmodel.cpp	2016-03-24 12:21:48.807257434 +0800
+diff --git a/applets/kicker/plugin/recentcontactsmodel.cpp b/applets/kicker/plugin/recentcontactsmodel.cpp
+index 182b7d0..1d2c9f5 100644
+--- a/applets/kicker/plugin/recentcontactsmodel.cpp
++++ b/applets/kicker/plugin/recentcontactsmodel.cpp
 @@ -26,14 +26,14 @@
  
  #include <KLocalizedString>
@@ -64,9 +80,10 @@ diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/recentcontactsmodel.cpp pl
  
  using namespace KAStats;
  using namespace KAStats::Terms;
-diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/recentusagemodel.cpp plasma-desktop/applets/kicker/plugin/recentusagemodel.cpp
---- plasma-desktop-5.6.2/applets/kicker/plugin/recentusagemodel.cpp	2016-04-14 12:20:53.641492847 +0800
-+++ plasma-desktop/applets/kicker/plugin/recentusagemodel.cpp	2016-03-24 12:21:48.808257434 +0800
+diff --git a/applets/kicker/plugin/recentusagemodel.cpp b/applets/kicker/plugin/recentusagemodel.cpp
+index d6fe840..85fd607 100644
+--- a/applets/kicker/plugin/recentusagemodel.cpp
++++ b/applets/kicker/plugin/recentusagemodel.cpp
 @@ -37,11 +37,11 @@
  #include <KService>
  #include <KStartupInfo>
@@ -83,10 +100,11 @@ diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/recentusagemodel.cpp plasm
  
  using namespace KAStats;
  using namespace KAStats::Terms;
-diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/runnermodel.cpp plasma-desktop/applets/kicker/plugin/runnermodel.cpp
---- plasma-desktop-5.6.2/applets/kicker/plugin/runnermodel.cpp	2016-04-14 12:18:14.143490454 +0800
-+++ plasma-desktop/applets/kicker/plugin/runnermodel.cpp	2016-04-19 12:29:46.225702287 +0800
-@@ -261,6 +261,7 @@
+diff --git a/applets/kicker/plugin/runnermodel.cpp b/applets/kicker/plugin/runnermodel.cpp
+index 732d047..88b3670 100644
+--- a/applets/kicker/plugin/runnermodel.cpp
++++ b/applets/kicker/plugin/runnermodel.cpp
+@@ -261,6 +261,7 @@ void RunnerModel::matchesChanged(const QList<Plasma::QueryMatch> &matches)
              m_models.removeAt(row);
              delete matchesModel;
              endRemoveRows();
