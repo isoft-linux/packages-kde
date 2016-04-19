@@ -70,6 +70,7 @@ BuildRequires:  kwin-devel
 
 # Optional
 BuildRequires:  kf5-kactivities-devel >= 5.21.0
+BuildRequires:  kf5-kactivities-stats-devel >= 5.21.0
 BuildRequires:  libcanberra-devel
 BuildRequires:  boost-devel
 BuildRequires:  pulseaudio-libs-devel
