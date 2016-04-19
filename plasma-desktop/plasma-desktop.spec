@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.6.2
-Release:        5
+Release:        6
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -19,6 +19,9 @@ Patch200: 0001-kickoff-accounts-service.patch
 
 # Kickoff isoft-logo
 Patch308: 0006-kickoff-isoft-logo.patch
+
+# conflict kactivities
+Patch422: conflict-kactivities.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -66,7 +69,7 @@ BuildRequires:  plasma-workspace-devel
 BuildRequires:  kwin-devel
 
 # Optional
-BuildRequires:  kf5-kactivities-devel
+BuildRequires:  kf5-kactivities-devel >= 5.21.0
 BuildRequires:  libcanberra-devel
 BuildRequires:  boost-devel
 BuildRequires:  pulseaudio-libs-devel
@@ -280,6 +283,9 @@ fi
 
 
 %changelog
+* Tue Apr 19 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-6
+- conflict kactivities.
+
 * Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-5
 - Kickoff isoft-logo
 - Kickoff accounts service face icon.

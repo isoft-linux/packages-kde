@@ -1,0 +1,96 @@
+diff -Naur plasma-desktop-5.6.2/applets/kicker/CMakeLists.txt plasma-desktop/applets/kicker/CMakeLists.txt
+--- plasma-desktop-5.6.2/applets/kicker/CMakeLists.txt	2016-04-14 12:20:53.640492847 +0800
++++ plasma-desktop/applets/kicker/CMakeLists.txt	2016-03-24 12:21:48.806257434 +0800
+@@ -63,7 +63,7 @@
+                       Qt5::Quick
+                       Qt5::X11Extras
+                       KF5::Activities
+-                      KF5::ActivitiesExperimentalStats
++                      KF5::ActivitiesStats
+                       KF5::ConfigCore
+                       KF5::CoreAddons
+                       KF5::I18n
+diff -Naur plasma-desktop-5.6.2/applets/kicker/package/contents/ui/CompactRepresentation.qml plasma-desktop/applets/kicker/package/contents/ui/CompactRepresentation.qml
+--- plasma-desktop-5.6.2/applets/kicker/package/contents/ui/CompactRepresentation.qml	2016-04-14 12:20:53.640492847 +0800
++++ plasma-desktop/applets/kicker/package/contents/ui/CompactRepresentation.qml	2016-03-24 12:21:48.806257434 +0800
+@@ -103,7 +103,7 @@
+             }
+         }
+ 
+-        visible: plasmoid.configuration.useCustomButtonImage && plasmoid.configuration.customButtonImage
++        visible: plasmoid.configuration.useCustomButtonImage && (plasmoid.configuration.customButtonImage != "")
+         source: plasmoid.configuration.customButtonImage
+         fillMode: Image.PreserveAspectFit
+         smooth: true
+diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/actionlist.cpp plasma-desktop/applets/kicker/plugin/actionlist.cpp
+--- plasma-desktop-5.6.2/applets/kicker/plugin/actionlist.cpp	2016-04-14 12:20:53.640492847 +0800
++++ plasma-desktop/applets/kicker/plugin/actionlist.cpp	2016-03-24 12:21:48.807257434 +0800
+@@ -27,13 +27,13 @@
+ #include <KPropertiesDialog>
+ #include <KRun>
+ 
+-#include <KActivitiesExperimentalStats/Cleaning>
+-#include <KActivitiesExperimentalStats/ResultSet>
+-#include <KActivitiesExperimentalStats/Terms>
++#include <KActivities/Stats/Cleaning>
++#include <KActivities/Stats/ResultSet>
++#include <KActivities/Stats/Terms>
+ 
+ #include "containmentinterface.h"
+ 
+-namespace KAStats = KActivities::Experimental::Stats;
++namespace KAStats = KActivities::Stats;
+ 
+ using namespace KAStats;
+ using namespace KAStats::Terms;
+diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/recentcontactsmodel.cpp plasma-desktop/applets/kicker/plugin/recentcontactsmodel.cpp
+--- plasma-desktop-5.6.2/applets/kicker/plugin/recentcontactsmodel.cpp	2016-04-14 12:20:53.641492847 +0800
++++ plasma-desktop/applets/kicker/plugin/recentcontactsmodel.cpp	2016-03-24 12:21:48.807257434 +0800
+@@ -26,14 +26,14 @@
+ 
+ #include <KLocalizedString>
+ 
+-#include <KActivitiesExperimentalStats/ResultModel>
+-#include <KActivitiesExperimentalStats/Terms>
++#include <KActivities/Stats/ResultModel>
++#include <KActivities/Stats/Terms>
+ 
+ #include <kpeople/widgets/actions.h> //FIXME TODO: Pretty include in KPeople broken.
+ #include <kpeople/widgets/persondetailsdialog.h>
+ #include <KPeople/PersonData>
+ 
+-namespace KAStats = KActivities::Experimental::Stats;
++namespace KAStats = KActivities::Stats;
+ 
+ using namespace KAStats;
+ using namespace KAStats::Terms;
+diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/recentusagemodel.cpp plasma-desktop/applets/kicker/plugin/recentusagemodel.cpp
+--- plasma-desktop-5.6.2/applets/kicker/plugin/recentusagemodel.cpp	2016-04-14 12:20:53.641492847 +0800
++++ plasma-desktop/applets/kicker/plugin/recentusagemodel.cpp	2016-03-24 12:21:48.808257434 +0800
+@@ -37,11 +37,11 @@
+ #include <KService>
+ #include <KStartupInfo>
+ 
+-#include <KActivitiesExperimentalStats/Cleaning>
+-#include <KActivitiesExperimentalStats/ResultModel>
+-#include <KActivitiesExperimentalStats/Terms>
++#include <KActivities/Stats/Cleaning>
++#include <KActivities/Stats/ResultModel>
++#include <KActivities/Stats/Terms>
+ 
+-namespace KAStats = KActivities::Experimental::Stats;
++namespace KAStats = KActivities::Stats;
+ 
+ using namespace KAStats;
+ using namespace KAStats::Terms;
+diff -Naur plasma-desktop-5.6.2/applets/kicker/plugin/runnermodel.cpp plasma-desktop/applets/kicker/plugin/runnermodel.cpp
+--- plasma-desktop-5.6.2/applets/kicker/plugin/runnermodel.cpp	2016-04-14 12:18:14.143490454 +0800
++++ plasma-desktop/applets/kicker/plugin/runnermodel.cpp	2016-04-19 12:29:46.225702287 +0800
+@@ -261,6 +261,7 @@
+             m_models.removeAt(row);
+             delete matchesModel;
+             endRemoveRows();
++            emit countChanged();
+         } else {
+             matchesModel->setMatches(matches);
+         }
