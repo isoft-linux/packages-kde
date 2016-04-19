@@ -19,6 +19,8 @@ URL:            https://quickgit.kde.org/?p=kactivities-stats.git
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
 BuildRequires:  boost-devel
+BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  kf5-kactivities-devel >= %{version}
 BuildRequires:  kf5-kconfig-devel >= %{version}
