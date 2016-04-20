@@ -144,7 +144,7 @@ Requires:       kf5-frameworkintegration
 Requires:       plasma-milou
 
 # Power management
-#Requires:       powerdevil >= %{version}
+Requires:       powerdevil >= %{version}
 
 # startkde
 Requires:       coreutils
