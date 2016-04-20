@@ -1,7 +1,7 @@
-%global         wayland 1
+%global         wayland 0
 
 Name:           kwin
-Version:        5.6.2
+Version:        5.6.3
 Release:        1
 Summary:        KDE Window manager
 
@@ -84,9 +84,9 @@ BuildRequires:  kf5-kdoctools-devel
 BuildRequires:  kf5-kdeclarative-devel
 BuildRequires:  kf5-kiconthemes-devel
 BuildRequires:  kf5-kidletime-devel
-BuildRequires:  kscreenlocker-devel
+BuildRequires:  kscreenlocker-devel >= %{version}
 
-BuildRequires:  kdecoration-devel
+BuildRequires:  kdecoration-devel >= %{version}
 
 ## Runtime deps
 Requires:       kf5-filesystem
