@@ -1,6 +1,6 @@
 Name:    kscreenlocker
-Version: 5.6.2
-Release: 2%{?dist}
+Version: 5.6.3
+Release: 1%{?dist}
 Summary: Library and components for secure lock screen architecture
 
 License: GPLv2+
@@ -109,6 +109,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
+- 5.6.3
+
 * Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-2
 - Accounts service face icon.
 
