@@ -1,4 +1,4 @@
-%global         wayland 0
+%global         wayland 1
 
 Name:           kwin
 Version:        5.6.3
