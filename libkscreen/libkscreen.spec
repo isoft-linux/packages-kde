@@ -1,6 +1,6 @@
 Name:           libkscreen
-Version:        5.6.2
-Release:        3
+Version:        5.6.3
+Release:        1
 Summary:        KDE display configuration library
 
 License:        GPLv2+
@@ -89,6 +89,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
+- 5.6.3
+
 * Tue Apr 19 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-3
 - Verify rotation when updating screen size in XRandR backend
 
