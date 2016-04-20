@@ -60,15 +60,15 @@ BuildRequires:  kf5-kdeclarative-devel
 BuildRequires:  kf5-kpeople-devel
 BuildRequires:  kf5-kded-devel
 BuildRequires:  kf5-kinit-devel >= 5.10.0-3
-BuildRequires:  libkscreen-devel
+BuildRequires:  libkscreen-devel >= %{version}
 BuildRequires:  kscreenlocker-devel >= %{version}
 BuildRequires:  kf5-kactivities-devel >= 5.21.0
 BuildRequires:  kf5-kactivities-stats-devel >= 5.21.0
 # libkdeinit5_*
 %{?kf5_kinit_requires}
 
-BuildRequires:  plasma-workspace-devel
-BuildRequires:  kwin-devel
+BuildRequires:  plasma-workspace-devel >= %{version}
+BuildRequires:  kwin-devel >= %{version}
 
 # Optional
 BuildRequires:  libcanberra-devel
