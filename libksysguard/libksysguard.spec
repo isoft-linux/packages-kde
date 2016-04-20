@@ -1,5 +1,5 @@
 Name:           libksysguard
-Version:        5.6.2
+Version:        5.6.3
 Release:        1
 Summary:        Library for managing processes running on the system
 

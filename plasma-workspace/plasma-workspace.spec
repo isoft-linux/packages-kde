@@ -3,8 +3,8 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.6.2
-Release:        4
+Version:        5.6.3
+Release:        1
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -103,11 +103,11 @@ BuildRequires:  kf5-ksysguard-devel
 BuildRequires:  kf5-kscreen-devel
 BuildRequires:  kf5-baloo-devel
 
-BuildRequires:  kf5-kwayland-devel
+BuildRequires:  kf5-kwayland-devel >= %{version}
 BuildRequires:  libwayland-client-devel >= 1.3.0
 BuildRequires:  libwayland-server-devel >= 1.3.0
 
-BuildRequires:  kwin-devel
+BuildRequires:  kwin-devel >= %{version}
 
 BuildRequires:  chrpath
 BuildRequires:  desktop-file-utils
