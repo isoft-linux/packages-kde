@@ -1,5 +1,5 @@
 Name:           kscreen
-Version:        5.6.2
+Version:        5.6.3
 Release:        1
 Summary:        KDE Display Management software
 
@@ -22,7 +22,7 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  qt5-qtdeclarative-devel
 
-BuildRequires:  libkscreen-devel
+BuildRequires:  libkscreen-devel >= %{version}
 
 BuildRequires:  kf5-ki18n-devel
 BuildRequires:  kf5-kcoreaddons-devel
@@ -30,7 +30,6 @@ BuildRequires:  kf5-kconfigwidgets-devel
 BuildRequires:  kf5-kdbusaddons-devel
 BuildRequires:  kf5-kxmlgui-devel
 BuildRequires:  kf5-kglobalaccel-devel
-#osd added requires
 BuildRequires:  kf5-kservice-devel
 
 Requires:       kf5-filesystem
@@ -81,6 +80,9 @@ fi
 
 
 %changelog
+* Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
+- 5.6.3
+
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
 - 5.6.2
 
