@@ -1,6 +1,6 @@
 Name:           plasma-desktop
-Version:        5.6.2
-Release:        6
+Version:        5.6.3
+Release:        1
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -284,6 +284,9 @@ fi
 
 
 %changelog
+* Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
+- 5.6.3
+
 * Tue Apr 19 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-6
 - conflict kactivities.
 
