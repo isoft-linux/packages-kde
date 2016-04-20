@@ -1,6 +1,6 @@
 Name:           powerdevil
-Version:        5.6.2
-Release:        2
+Version:        5.6.3
+Release:        1
 Summary:        Manages the power consumption settings of a Plasma Shell
 
 License:        GPLv2+
@@ -40,7 +40,7 @@ BuildRequires:  kf5-knotifyconfig-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  libkscreen-devel >= %{version}
 BuildRequires:  kf5-kactivities-devel
-BuildRequires:  kf5-kwayland-devel
+BuildRequires:  kf5-kwayland-devel >= %{version}
 BuildRequires:  plasma-workspace-devel >= %{version}
 
 Requires:       kf5-filesystem
