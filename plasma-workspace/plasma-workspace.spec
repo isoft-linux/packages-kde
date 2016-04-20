@@ -99,8 +99,8 @@ BuildRequires:  kf5-kemoticons-devel
 #git codes
 BuildRequires:  kf5-prison-devel
 
-BuildRequires:  kf5-ksysguard-devel
-BuildRequires:  kf5-kscreen-devel
+BuildRequires:  kf5-ksysguard-devel >= %{version}
+BuildRequires:  kf5-kscreen-devel >= %{version}
 BuildRequires:  kf5-baloo-devel
 
 BuildRequires:  kf5-kwayland-devel >= %{version}
@@ -316,6 +316,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
+- 5.6.3
+
 * Fri Apr 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-4
 - Add plasmawayland session.
 
