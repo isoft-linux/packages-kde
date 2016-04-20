@@ -1,6 +1,6 @@
 Name:           kdecoration
 Summary:        A plugin-based library to create window decorations
-Version:        5.6.2
+Version:        5.6.3
 Release:        1
 
 License:        LGPLv2
@@ -67,6 +67,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/kdecoration2_version.h
 
 %changelog
+* Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
+- 5.6.3
+
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
 - 5.6.2
 
