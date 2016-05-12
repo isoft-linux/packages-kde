@@ -1,5 +1,5 @@
 Name: isoftapp
-Version: 2.2.7
+Version: 2.2.8
 Release: 1%{?dist}
 Summary: iSOFT AppStore Skeleton
 
@@ -90,6 +90,9 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Tue May 10 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.8-1
+- fix:install pkg at first running.
+
 * Wed Jan 27 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 2.2.7-1
 - Add rpm download md5 check by fujiang.
 
