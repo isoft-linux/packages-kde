@@ -1,5 +1,5 @@
 Name:           libkscreen
-Version:        5.6.3
+Version:        5.6.4
 Release:        1
 Summary:        KDE display configuration library
 
@@ -14,10 +14,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/libkscreen
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-
-# Verify rotation when updating screen size in XRandR backend
-# https://git.reviewboard.kde.org/r/127656/
-Patch1: 0001-Verify-rotation-when-updating-screen-size-in-XRandR-.patch
 
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
@@ -54,7 +50,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch1 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -89,6 +84,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu May 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.4-1
+- 5.6.4
+
 * Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
 - 5.6.3
 
