@@ -3,7 +3,7 @@
 %global         wayland_min_version 1.3
 
 Name:           kf5-%{framework}
-Version:        5.6.3
+Version:        5.6.4
 Release:        1
 Summary:        KDE Frameworks 5 library that wraps Client and Server Wayland libraries
 
@@ -82,6 +82,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu May 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.4-1
+- 5.6.4
+
 * Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
 - 5.6.3
 
