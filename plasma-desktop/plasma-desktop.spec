@@ -1,6 +1,6 @@
 Name:           plasma-desktop
 Version:        5.4.3
-Release:        39
+Release:        40
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -142,7 +142,7 @@ Patch416: 0020-folderview-open.patch
 Patch417: 0021-folderview-rename.patch
 
 # Disable desktopview.
-#Patch418: 0022-disable-desktopview.patch
+Patch418: 0022-disable-desktopview.patch
 
 # Export LC_MESSAGES
 Patch419: plsm-dstp-export-LC_MESSAGES.patch
@@ -151,7 +151,7 @@ Patch419: plsm-dstp-export-LC_MESSAGES.patch
 Patch420: plsm-dstp-set-folder-view-url.patch
 
 # FolderView for primary screen only
-Patch421: folderview-for-primary-screen.patch
+# Patch421: folderview-for-primary-screen.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -403,6 +403,9 @@ fi
 
 
 %changelog
+* Fri May 13 2016 sulit <sulitsrc@gmail.com> - 5.4.3-40
+- rollback to 4.0 rc3
+
 * Thu Mar 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.4.3-39
 - FolderView for primary screen only.
 
