@@ -1,6 +1,6 @@
 Name: isoftapp
 Version: 2.2.8
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
@@ -90,6 +90,9 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
 
 %changelog
+* Thu May 26 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.8-2
+- update progress for cmd line isoftapp.
+
 * Tue May 10 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.8-1
 - fix:install pkg at first running.
 
