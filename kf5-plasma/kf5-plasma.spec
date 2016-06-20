@@ -1,7 +1,7 @@
 %global framework plasma
 
 Name:           kf5-%{framework}
-Version:        5.21.0
+Version:        5.23.0
 Release:        3
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
@@ -135,6 +135,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
+- 5.23.0
+
 * Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-3
 - Lunar calendar.
 
