@@ -3,7 +3,7 @@
 %global         wayland_min_version 1.3
 
 Name:           kf5-%{framework}
-Version:        5.6.5
+Version:        5.23.0
 Release:        1
 Summary:        KDE Frameworks 5 library that wraps Client and Server Wayland libraries
 
@@ -16,13 +16,13 @@ URL:            http://www.kde.org
 %else
 %global stable stable
 %endif
-Source0:        http://download.kde.org/%{stable}/plasma/%{version}/kwayland-%{version}.tar.xz
+Source0:        http://download.kde.org/%{stable}/framework/%{version}/kwayland-%{version}.tar.xz
 
 BuildRequires:  qt5-qtbase-devel
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  extra-cmake-modules >= %{version}
 
 BuildRequires:  libwayland-client-devel >= %{wayland_min_version}
 BuildRequires:  libwayland-cursor-devel >= %{wayland_min_version}
@@ -82,8 +82,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
-* Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.5-1
-- 5.6.5
+* Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
+- 5.23.0
 
 * Thu May 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.4-1
 - 5.6.4
