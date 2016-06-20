@@ -1,5 +1,5 @@
 Name:           kscreen
-Version:        5.6.3
+Version:        5.6.95
 Release:        1
 Summary:        KDE Display Management software
 
@@ -80,6 +80,9 @@ fi
 
 
 %changelog
+* Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
+- 5.6.95
+
 * Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
 - 5.6.3
 
