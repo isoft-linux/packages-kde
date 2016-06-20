@@ -176,7 +176,7 @@ fi
 %{_kf5_libexecdir}/kiod5
 %{_kf5_bindir}/ktelnetservice5
 %{_kf5_bindir}/kcookiejar5
-%{_kf5_bindir}/kmailservice5
+#%{_kf5_bindir}/kmailservice5
 %{_kf5_bindir}/ktrash5
 %{_kf5_plugindir}/kio/*.so
 %{_kf5_plugindir}/kded/*.so
