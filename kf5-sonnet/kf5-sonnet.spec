@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.23.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 solution for spell checking
 
 License:        LGPLv2+
@@ -89,6 +89,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %dir %{_kf5_plugindir}/sonnet/
 %{_kf5_plugindir}/sonnet/hunspell.so
 %{_kf5_plugindir}/sonnet/aspell.so
+%{_kf5_bindir}/parsetrigrams
 %dir %{_kf5_datadir}/kf5/sonnet/
 %{_kf5_datadir}/kf5/sonnet/trigrams.map
 
@@ -110,8 +111,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
-* Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
+* Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-2
 - 5.23.0
+- add unpacking file
 
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-1
 - 5.21.0
