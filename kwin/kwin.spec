@@ -2,7 +2,7 @@
 
 Name:           kwin
 Version:        5.6.95
-Release:        1
+Release:        2
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -205,10 +205,13 @@ fi
 %if 0%{?wayland}
 %files wayland
 %{_bindir}/kwin_wayland
+%{_kf5_qtplugindir}/platforms/KWinQpaPlugin.so
 %{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandDrmBackend.so
 %{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandFbdevBackend.so
 %{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandWaylandBackend.so
 %{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandX11Backend.so
+%{_kf5_qtplugindir}/org.kde.kwin.waylandbackends/KWinWaylandVirtualBackend.so
+%{_kf5_plugindir}/org.kde.kidletime.platforms/KF5IdleTimeKWinWaylandPrivatePlugin.so
 %endif
 
 %files libs
