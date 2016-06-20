@@ -27,6 +27,7 @@ BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kconfigwidgets-devel  >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel  >= %{version}
 BuildRequires:  kf5-kitemviews-devel  >= %{version}
+BuildRequires:  kf5-karchive-devel >= %{version}
 
 Requires:       kf5-filesystem
 
