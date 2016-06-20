@@ -20,9 +20,6 @@ Patch200: 0001-kickoff-accounts-service.patch
 # Kickoff isoft-logo
 Patch308: 0006-kickoff-isoft-logo.patch
 
-# conflict kactivities
-Patch422: conflict-kactivities.patch
-
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
 BuildRequires:  libX11-devel
