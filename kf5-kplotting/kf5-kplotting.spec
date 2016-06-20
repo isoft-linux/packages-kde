@@ -1,7 +1,7 @@
 %global framework kplotting
 
 Name:           kf5-%{framework}
-Version:        5.21.0
+Version:        5.23.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon for plotting
 
@@ -68,6 +68,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
+- 5.23.0
+
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-1
 - 5.21.0
 
