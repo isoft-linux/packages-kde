@@ -292,9 +292,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 %files doc
 %lang(en) %{_docdir}/HTML/en/klipper/
-%lang(ca) %{_docdir}/HTML/ca/klipper/
+#%lang(ca) %{_docdir}/HTML/ca/klipper/
 %lang(en) %{_docdir}/HTML/en/kcontrol/
-%lang(ca) %{_docdir}/HTML/ca/kcontrol/
+#%lang(ca) %{_docdir}/HTML/ca/kcontrol/
 
 %files devel
 %{_libdir}/libweather_ion.so
