@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.6.95
-Release:        1
+Release:        2
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -242,6 +242,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_kf5_bindir}/*
 %{_kf5_libdir}/*.so.*
 %{_kf5_libdir}/libkdeinit5_*.so
+%{_kf5_qtplugindir}/plasma/applets/
 %{_kf5_qtplugindir}/plasma/dataengine/*.so
 %{_kf5_qtplugindir}/plasma/packagestructure/*.so
 %{_kf5_qtplugindir}/*.so
@@ -267,6 +268,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 #%{_kf5_datadir}/kconf_update/*
 %{_sysconfdir}/xdg/*.knsrc
 %{_sysconfdir}/xdg/taskmanagerrulesrc
+%{_sysconfdir}/xdg/legacytaskmanagerrulesrc
 %{_sysconfdir}/xdg/autostart/*.desktop
 %{_datadir}/desktop-directories/*.directory
 %{_datadir}/dbus-1/services/*.service
@@ -292,21 +294,23 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 %files doc
 %lang(en) %{_docdir}/HTML/en/klipper/
-#%lang(ca) %{_docdir}/HTML/ca/klipper/
+%lang(de) %{_docdir}/HTML/ca/klipper/
 %lang(en) %{_docdir}/HTML/en/kcontrol/
-#%lang(ca) %{_docdir}/HTML/ca/kcontrol/
+%lang(cs) %{_docdir}/HTML/ca/kcontrol/
 
 %files devel
 %{_libdir}/libweather_ion.so
 %{_libdir}/libtaskmanager.so
 %{_libdir}/libplasma-geolocation-interface.so
 %{_libdir}/libkworkspace5.so
+%{_libdir}/liblegacytaskmanager.so
 %{_includedir}/*
 %{_libdir}/cmake/KRunnerAppDBusInterface
 %{_libdir}/cmake/KSMServerDBusInterface
 %{_libdir}/cmake/LibKWorkspace
 %{_libdir}/cmake/LibTaskManager
 #%{_libdir}/cmake/ScreenSaverDBusInterface
+%{_libdir}/cmake/LibLegacyTaskManager
 
 # TODO split to subpackages
 # - KCM (?)
@@ -316,8 +320,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
-* Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
+* Tue Jun 21 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
 - 5.6.95
+- add unpacking file.
 
 * Thu May 12 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.4-1
 - 5.6.4
