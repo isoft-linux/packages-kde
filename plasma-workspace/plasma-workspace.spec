@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.6.95
-Release:        2
+Release:        3
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -84,15 +84,15 @@ BuildRequires:  kf5-kidletime-devel
 BuildRequires:  kf5-threadweaver-devel
 BuildRequires:  kf5-ktexteditor-devel
 BuildRequires:  kf5-kdeclarative-devel
-BuildRequires:  kf5-plasma-devel >= 5.13.0
+BuildRequires:  kf5-plasma-devel >= 5.23.0
 BuildRequires:  kf5-ktextwidgets-devel
 BuildRequires:  kf5-kdewebkit-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-kcrash-devel
-BuildRequires:  kf5-kglobalaccel-devel >= 5.7
+BuildRequires:  kf5-kglobalaccel-devel >= 5.23.0
 BuildRequires:  kf5-networkmanager-qt-devel
 BuildRequires:  kf5-kxmlrpcclient-devel
-BuildRequires:  kf5-kinit-devel >= 5.10.0-3
+BuildRequires:  kf5-kinit-devel >= 5.23.0
 BuildRequires:  kscreenlocker-devel >= %{version}
 BuildRequires:  kf5-kemoticons-devel
 
@@ -320,6 +320,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Jun 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-2
+- plasma-desktop broken dependence.
+
 * Tue Jun 21 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
 - 5.6.95
 - add unpacking file.
