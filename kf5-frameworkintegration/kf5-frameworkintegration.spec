@@ -83,18 +83,15 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files
 %doc COPYING.LIB README.md
-%{_kf5_datadir}/kf5/infopage/*
+%{_kf5_datadir}/kf5/infopage/
 %{_kf5_datadir}/knotifications5/plasma_workspace.notifyrc
-%{_kf5_plugindir}/FrameworkIntegrationPlugin.so
-%{_kf5_qtplugindir}/platformthemes/KDEPlatformTheme.so
-%{_kf5_datadir}/kconf_update/frameworksintegration-5.16-font.sh
-%{_kf5_datadir}/kconf_update/frameworksintegration-5.16-font.upd
 
 %post libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
 %files libs
 %{_kf5_libdir}/libKF5Style.so.*
+%{_kf5_plugindir}/FrameworkIntegrationPlugin.so
 
 %files devel
 %{_kf5_includedir}/frameworkintegration_version.h
