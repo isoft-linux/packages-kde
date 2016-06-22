@@ -1,7 +1,7 @@
 %global framework khtml
 
 Name:           kf5-%{framework}
-Version:        5.21.0
+Version:        5.23.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 4 solution with KHTML, a HTML rendering engine
 
@@ -115,6 +115,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Jun 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
+- 5.23.0
+
 * Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.21.0-1
 - 5.21.0
 
