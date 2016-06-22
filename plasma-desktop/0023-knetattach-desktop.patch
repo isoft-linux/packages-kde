@@ -1,0 +1,9 @@
+diff -Naur plasma-desktop-5.6.95.ori/knetattach/org.kde.knetattach.desktop plasma-desktop-5.6.95.dst/knetattach/org.kde.knetattach.desktop
+--- plasma-desktop-5.6.95.ori/knetattach/org.kde.knetattach.desktop	2016-06-16 18:33:55.000000000 +0800
++++ plasma-desktop-5.6.95.dst/knetattach/org.kde.knetattach.desktop	2016-06-22 11:09:21.474788384 +0800
+@@ -183,5 +183,4 @@
+ X-KDE-StartupNotify=true
+ Categories=Qt;KDE;Network;RemoteAccess;
+ X-DocPath=knetattach/index.html
+-NoDisplay=true
+ X-DBUS-ServiceName=org.kde.knetattach

@@ -1,6 +1,0 @@
---- ./kcms/componentchooser/componentservices/CMakeLists.txt	2015-11-10 10:03:36.904804163 +0800
-+++ ./kcms/componentchooser/componentservices/CMakeLists.txt	2015-11-10 10:03:21.153802706 +0800
-@@ -1,2 +1,2 @@
--install( FILES kcm_kemail.desktop kcm_browser.desktop kcm_filemanager.desktop DESTINATION  ${DATA_INSTALL_DIR}/kcm_componentchooser )
-+install( FILES kcm_browser.desktop kcm_filemanager.desktop DESTINATION  ${DATA_INSTALL_DIR}/kcm_componentchooser )
- install( FILES kcm_terminal.desktop kcm_wm.desktop DESTINATION  ${DATA_INSTALL_DIR}/kcm_componentchooser)
