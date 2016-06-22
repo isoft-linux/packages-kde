@@ -2,7 +2,7 @@
 
 Name:           kwin
 Version:        5.6.95
-Release:        2
+Release:        3
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -187,6 +187,7 @@ fi
 %{_kf5_qtplugindir}/kwin
 %{_kf5_qtplugindir}/org.kde.kdecoration2/*.so
 %{_kf5_qtplugindir}/org.kde.kglobalaccel5.platforms/KF5GlobalAccelPrivateKWin.so
+%{_kf5_qtplugindir}/org.kde.kwin.platforms/KWinX11Platform.so
 %{_qt5_prefix}/qml/org/kde/kwin
 %{_kf5_libdir}/kconf_update_bin/kwin5_update_default_rules
 %{_libexecdir}/kwin_killer_helper
@@ -236,6 +237,9 @@ fi
 
 
 %changelog
+* Wed Jun 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-3
+- add unpacking file.
+
 * Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
 - 5.6.95
 
