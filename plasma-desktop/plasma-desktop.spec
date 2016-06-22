@@ -20,6 +20,8 @@ Patch200: 0001-kickoff-accounts-service.patch
 # Kickoff isoft-logo
 Patch308: 0006-kickoff-isoft-logo.patch
 
+Patch330: 0023-knetattach-desktop.patch
+
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
 BuildRequires:  libX11-devel
@@ -207,13 +209,14 @@ fi
 %{_kf5_libexecdir}/kauth/fontinst_helper
 %{_kf5_libexecdir}/kauth/fontinst_x11
 %{_libexecdir}/kfontprint
+%{_libexecdir}/kimpanel-ibus-panel
 %{_qt5_prefix}/qml/org/kde/plasma/private
 %{_kf5_libdir}/libkdeinit5_kaccess.so
 %{_kf5_libdir}/kconf_update_bin/*
 # TODO: -libs subpkg -- rex
 %{_kf5_libdir}/libkfontinst.so.*
 %{_kf5_libdir}/libkfontinstui.so.*
-%{_kf5_libdir}/libKF5ActivitiesExperimentalStats.so.*
+#%{_kf5_libdir}/libKF5ActivitiesExperimentalStats.so.*
 %{_kf5_qtplugindir}/*.so
 %{_kf5_qtplugindir}/kcms/*.so
 %{_kf5_qtplugindir}/kf5/kded/*.so
@@ -231,7 +234,7 @@ fi
 %{_kf5_datadir}/kfontinst
 %{_kf5_datadir}/kcminput
 %{_kf5_datadir}/kcmkeyboard
-%{_kf5_datadir}/ksmserver
+#%{_kf5_datadir}/ksmserver
 %{_kf5_datadir}/kpackage/kcms/*
 %{_datadir}/konqsidebartng/virtual_folders/services/fonts.desktop
 %{_datadir}/kde4/apps/konqsidebartng/virtual_folders/services/fonts.desktop
@@ -262,9 +265,10 @@ fi
 %{_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
 # kactivitymanagerd
 %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/*
+%{_datadir}/appdata/org.kde.plasmashell.metainfo.xml
 
 %files doc
-%lang(ca) %{_docdir}/HTML/ca/kcontrol/
+#%lang(ca) %{_docdir}/HTML/ca/kcontrol/
 %lang(ca) %{_docdir}/HTML/ca/kfontview/
 %lang(ca) %{_docdir}/HTML/ca/knetattach/
 %lang(ca) %{_docdir}/HTML/ca/plasma-desktop/
