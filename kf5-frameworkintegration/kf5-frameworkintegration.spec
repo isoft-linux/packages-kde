@@ -79,10 +79,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %install
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
-%find_lang frameworkintegration5_qt --with-qt --all-name
 
 
-%files -f frameworkintegration5_qt.lang
+%files
 %doc COPYING.LIB README.md
 %{_kf5_datadir}/kf5/infopage/*
 %{_kf5_datadir}/knotifications5/plasma_workspace.notifyrc
