@@ -2,9 +2,9 @@
 
 Name:    breeze-icon-theme
 Summary: Breeze icon theme for KF5
-Version: 5.16.0
-EPoch: 2 
-Release: 4
+Version: 5.23.0
+EPoch: 1 
+Release: 1
 License: LGPLv3+ 
 
 URL:     http://www.kde.org/
@@ -94,6 +94,9 @@ fi
 
 
 %changelog
+* Thu Jun 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
+- 5.23.0
+
 * Wed Jan 13 2016 fj <fujiang.zhu@i-soft.com.cn>  - 2:5.16.0-4
 - Add new icons:security-high-red.svg(64*64,22*22)
 - Add BuildRequires: qt5-qtbase-devel
