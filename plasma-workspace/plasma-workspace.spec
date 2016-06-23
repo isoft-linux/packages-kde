@@ -23,6 +23,8 @@ Source10:       kde
 #Add isoft logo for splash
 Patch30: 0003-splash-isoft-logo.patch
 
+Patch42: 0015-ksplash-with-background.patch
+
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
 BuildRequires:  libGL-devel
@@ -204,6 +206,7 @@ Documentation and user manuals for %{name}.
 %setup -q
 
 %patch30 -p1
+%patch42 -p1
 
 # omit conflicts with kf5-kxmlrpcclient-5.8
 rm -fv po/*/libkxmlrpcclient5.po
@@ -320,6 +323,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Jun 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-3
+- ksplash with background.
+
 * Wed Jun 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-2
 - plasma-desktop broken dependence.
 
