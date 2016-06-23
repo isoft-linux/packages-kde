@@ -2,8 +2,8 @@
 
 Name:           kf5-%{framework}
 Summary:        A Qt wrapper for Bluez
-Version:        5.16.0
-Release:        2%{?dist}
+Version:        5.23.0
+Release:        1%{?dist}
 
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/bluez-qt
@@ -76,6 +76,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Jun 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
+- 5.23.0
+
 * Sat Nov 14 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-2
 - Update
 
