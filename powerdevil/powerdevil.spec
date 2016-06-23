@@ -1,5 +1,5 @@
 Name:           powerdevil
-Version:        5.6.3
+Version:        5.6.95
 Release:        1
 Summary:        Manages the power consumption settings of a Plasma Shell
 
@@ -92,6 +92,9 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 
 
 %changelog
+* Thu Jun 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
+- 5.6.95
+
 * Wed Apr 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.3-1
 - 5.6.3
 
