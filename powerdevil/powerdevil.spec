@@ -42,6 +42,8 @@ BuildRequires:  libkscreen-devel >= %{version}
 BuildRequires:  kf5-kactivities-devel
 BuildRequires:  kf5-kwayland-devel >= %{version}
 BuildRequires:  plasma-workspace-devel >= %{version}
+BuildRequires:  kf5-networkmanager-qt-devel >= 5.23.0
+BuildRequires:  kf5-bluez-qt-devel >= 5.23.0
 
 Requires:       kf5-filesystem
 Requires:       libkscreen >= %{version}
