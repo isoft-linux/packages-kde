@@ -1,52 +1,74 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 8e9382d..8cacee3 100644
+index 741b3d2..d9cdcdf 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -44,6 +44,7 @@ find_package(KF5Crash ${KF5_DEP_VERSION} REQUIRED)
+@@ -44,6 +44,18 @@ find_package(KF5Crash ${KF5_DEP_VERSION} REQUIRED)
  find_package(KF5DBusAddons ${KF5_DEP_VERSION} REQUIRED)
  find_package(KF5I18n ${KF5_DEP_VERSION} REQUIRED)
  find_package(KF5DocTools ${KF5_DEP_VERSION})
-+find_package(KJieba REQUIRED)
++find_package(KJieba)
++set_package_properties(KJieba PROPERTIES
++    DESCRIPTION "Qt-style API to use yanyiwu's libcppjieba Chinese word segmentation DBus service"
++    URL "https://github.com/isoft-linux/kjieba"
++    TYPE OPTIONAL
++    PURPOSE "Use libcppjieba to segment Chinese word"
++)
++set(HAVE_KJIEBA FALSE)
++if (KJieba_FOUND)
++    add_definitions(-DHAVE_KJIEBA)
++    set(HAVE_KJIEBA TRUE)
++endif()
  
  # create a Config.cmake and a ConfigVersion.cmake file and install them
  set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Service")
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index f4d09d5..04a7955 100644
+index cdcf885..403fda1 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -81,6 +81,7 @@ target_link_libraries(KF5Service
-   PUBLIC
-     KF5::ConfigCore   # KConfig and friends
-     KF5::CoreAddons   # KShell KPluginLoader
-+    KJieba::KJieba
-   PRIVATE
-     KF5::I18n
-     KF5::DBusAddons   # KDEInitInterface
+@@ -86,6 +86,13 @@ target_link_libraries(KF5Service
+     Qt5::Xml          # (for vfolder menu) QDomDocument
+ )
+ 
++if(HAVE_KJIEBA)
++    target_link_libraries(KF5Service
++      PUBLIC
++        KJieba::KJieba
++    )
++endif()
++
+ set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
+                                             SOVERSION ${KSERVICE_SOVERSION}
+                                             EXPORT_NAME Service
+@@ -123,6 +130,7 @@ ecm_generate_headers(KService_HEADERS
+   KServiceTypeProfile
+   KServiceTypeTrader
+   KPluginInfo
++  KServiceOffer
+ 
+   RELATIVE services REQUIRED_HEADERS KService_HEADERS
+ )
 diff --git a/src/services/kservicetypetrader.cpp b/src/services/kservicetypetrader.cpp
-index a56c239..6601e79 100644
+index a56c239..a35a299 100644
 --- a/src/services/kservicetypetrader.cpp
 +++ b/src/services/kservicetypetrader.cpp
-@@ -52,12 +52,15 @@ KServiceTypeTrader *KServiceTypeTrader::self()
- }
- 
- KServiceTypeTrader::KServiceTypeTrader()
--    : d(0)
-+    : d(0),
-+      kjieba(new KJieba::KJiebaInterface)
- {
- }
+@@ -58,6 +58,12 @@ KServiceTypeTrader::KServiceTypeTrader()
  
  KServiceTypeTrader::~KServiceTypeTrader()
  {
-+    delete kjieba;
-+    kjieba = NULL;
++#if HAVE_KJIEBA
++    if (kjieba) {
++        delete kjieba;
++        kjieba = nullptr;
++    }
++#endif
  }
  
  // shared with KMimeTypeTrader
-@@ -173,6 +176,34 @@ KService::List KServiceTypeTrader::query(const QString &serviceType,
+@@ -173,6 +179,36 @@ KService::List KServiceTypeTrader::query(const QString &serviceType,
      return lst;
  }
  
++#if HAVE_KJIEBA
 +KService::List KServiceTypeTrader::queryForCJK(const QString &term) const
 +{
 +    const QString serviceType = "Application";
@@ -74,39 +96,57 @@ index a56c239..6601e79 100644
 +
 +    return lst;
 +}
++#endif
 +
  KService::Ptr KServiceTypeTrader::preferredService(const QString &serviceType) const
  {
      const KServiceOfferList offers = weightedOffers(serviceType);
 diff --git a/src/services/kservicetypetrader.h b/src/services/kservicetypetrader.h
-index 56994d8..de52b68 100644
+index 56994d8..1e7f3ba 100644
 --- a/src/services/kservicetypetrader.h
 +++ b/src/services/kservicetypetrader.h
-@@ -20,6 +20,9 @@
+@@ -20,6 +20,11 @@
  #define __kservicetypetrader_h__
  
  #include "kservice.h"
 +
++#if HAVE_KJIEBA
 +#include <KJieba/KJieba_Interface>
++#endif
 +
  class KServiceOffer;
  typedef QList<KServiceOffer> KServiceOfferList;
  class KServiceTypeTraderPrivate;
-@@ -106,6 +109,8 @@ public:
+@@ -106,6 +111,9 @@ public:
      KService::List query(const QString &servicetype,
                           const QString &constraint = QString()) const;
  
++#if HAVE_KJIEBA
 +    KService::List queryForCJK(const QString &term) const;
-+
++#endif
      /**
       * Returns all offers associated with a given servicetype, IGNORING the
       * user preference. The sorting will be the one coming from the InitialPreference
-@@ -217,6 +222,8 @@ private:
+@@ -203,6 +211,8 @@ public:
+     static void applyConstraints(KService::List &lst,
+                                  const QString &constraint);
  
++    static KServiceOfferList weightedOffers(const QString &serviceType);
++
+ private:
+     /**
+      * @internal
+@@ -213,10 +223,11 @@ private:
+     KServiceTypeTrader(const KServiceTypeTrader &other);
+     KServiceTypeTrader &operator=(const KServiceTypeTrader &rhs);
+ 
+-    static KServiceOfferList weightedOffers(const QString &serviceType);
+-
      KServiceTypeTraderPrivate *const d;
  
-+    KJieba::KJiebaInterface *kjieba;
-+
++#if HAVE_KJIEBA
++    KJieba::KJiebaInterface *kjieba = nullptr;
++#endif
      friend class KServiceTypeTraderSingleton;
  };
  

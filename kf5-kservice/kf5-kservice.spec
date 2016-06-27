@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.23.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for advanced plugin and service introspection
 
 License:        GPLv2+ and LGPLv2+
@@ -16,6 +16,9 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+
+#Rebase kjieba for 5.23.0
+Patch1: 0001-query-for-cjk-with-kjieba.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -48,6 +51,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch1 -p1
 
 %build
 mkdir %{_target_platform}
@@ -90,6 +94,9 @@ mkdir -p %{buildroot}%{_kf5_datadir}/kservicetypes5
 
 
 %changelog
+* Mon Jun 27 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-2
+- Rebase kjieba for 5.23.0
+
 * Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
 - 5.23.0
 
