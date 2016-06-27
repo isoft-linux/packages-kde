@@ -29,7 +29,7 @@ BuildRequires:  kf5-kdelibs4support-devel >= 5.15
 BuildRequires:  kf5-kitemviews-devel >= 5.15
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
-BuildRequires:  qt5-qttools-static
+BuildRequires:  qt5-qttools-devel
 
 %description
 The KHolidays library provides a C++ API that determines holiday
