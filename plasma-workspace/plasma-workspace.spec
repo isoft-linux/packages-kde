@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.6.95
-Release:        4
+Release:        5
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -23,6 +23,10 @@ Source10:       kde
 #Add isoft logo for splash
 Patch30: 0003-splash-isoft-logo.patch
 
+#Rebase kjieba Chinese word segmentation for 5.6.95
+Patch34: 0007-query-for-cjk.patch
+
+#Ugly ksplash design
 Patch42: 0015-ksplash-with-background.patch
 
 BuildRequires:  zlib-devel
@@ -206,6 +210,7 @@ Documentation and user manuals for %{name}.
 %setup -q
 
 %patch30 -p1
+%patch34 -p1
 %patch42 -p1
 
 # omit conflicts with kf5-kxmlrpcclient-5.8
@@ -323,6 +328,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Jun 27 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-5
+- Rebase kjieba for 5.6.95
+
 * Thu Jun 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-4
 - ksplash with background.
 

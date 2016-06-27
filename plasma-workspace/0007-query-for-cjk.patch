@@ -1,74 +1,80 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 2cc2da0..ba1f377 100644
+index 74e1518..b79742e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -95,6 +95,8 @@ set_package_properties(Wayland PROPERTIES
+@@ -100,6 +100,19 @@ set_package_properties(KF5Wayland PROPERTIES
                         TYPE REQUIRED
-                        PURPOSE "Required for building screenlocker")
+                        PURPOSE "Required for Wayland integration of plasmashell")
  
-+find_package(KJieba REQUIRED)
++find_package(KJieba)
++set_package_properties(KJieba PROPERTIES
++    DESCRIPTION "Qt-style API to use yanyiwu's libcppjieba Chinese word segmentation DBus service"
++    URL "https://github.com/isoft-linux/kjieba"
++    TYPE OPTIONAL
++    PURPOSE "Use libcppjieba to segment Chinese word"
++)
++set(HAVE_KJIEBA FALSE)
++if (KJieba_FOUND)
++    add_definitions(-DHAVE_KJIEBA)
++    set(HAVE_KJIEBA TRUE)
++endif()
 +
  include(ConfigureChecks.cmake)
  
  include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 diff --git a/runners/services/CMakeLists.txt b/runners/services/CMakeLists.txt
-index 6107256..be6d0d8 100644
+index 7e33a3e..4c61517 100644
 --- a/runners/services/CMakeLists.txt
 +++ b/runners/services/CMakeLists.txt
-@@ -10,6 +10,7 @@ target_link_libraries(krunner_services
-     KF5::I18n
-     KF5::Runner
-     KF5::Service
-+    KJieba::KJieba
+@@ -13,6 +13,10 @@ target_link_libraries(krunner_services
+     KF5::Activities
  )
  
++if(HAVE_KJIEBA)
++    target_link_libraries(krunner_services KJieba::KJieba)
++endif()
++
  install(TARGETS krunner_services DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+ 
+ install(FILES plasma-runner-services.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 diff --git a/runners/services/servicerunner.cpp b/runners/services/servicerunner.cpp
-index eb50ead..f5d0e67 100644
+index aa9d2bd..0f3eeef 100644
 --- a/runners/services/servicerunner.cpp
 +++ b/runners/services/servicerunner.cpp
-@@ -26,8 +26,8 @@
- #include <QUrl>
- #include <KLocalizedString>
+@@ -30,6 +30,7 @@
  #include <KRun>
--#include <KService>
+ #include <KService>
  #include <KServiceTypeTrader>
 +#include <KServiceOffer>
  
  ServiceRunner::ServiceRunner(QObject *parent, const QVariantList &args)
      : Plasma::AbstractRunner(parent, args)
-@@ -38,10 +38,14 @@ ServiceRunner::ServiceRunner(QObject *parent, const QVariantList &args)
+@@ -40,10 +41,20 @@ ServiceRunner::ServiceRunner(QObject *parent, const QVariantList &args)
      setPriority(AbstractRunner::HighestPriority);
  
-     addSyntax(Plasma::RunnerSyntax(":q:", i18n("Finds applications whose name or description match :q:")));
+     addSyntax(Plasma::RunnerSyntax(QStringLiteral(":q:"), i18n("Finds applications whose name or description match :q:")));
 +
++#if HAVE_KJIEBA
 +    kjieba = new KJieba::KJiebaInterface;
++#endif
  }
  
  ServiceRunner::~ServiceRunner()
  {
-+    delete kjieba;
-+    kjieba = NULL;
++#if HAVE_KJIEBA
++    if (kjieba) {
++        delete kjieba;
++        kjieba = nullptr;
++    }
++#endif
  }
  
  QStringList ServiceRunner::categories() const
-@@ -63,7 +67,6 @@ QIcon ServiceRunner::categoryIcon(const QString& category) const
-     return Plasma::AbstractRunner::categoryIcon(category);
- }
- 
--
- void ServiceRunner::match(Plasma::RunnerContext &context)
- {
-     const QString term = context.query();
-@@ -73,11 +76,28 @@ void ServiceRunner::match(Plasma::RunnerContext &context)
+@@ -75,11 +86,36 @@ void ServiceRunner::match(Plasma::RunnerContext &context)
      QString query;
  
      if (term.length() > 1) {
--        // Search for applications which are executable and case-insensitively match the search term
--        // See http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
--        // if the following is unclear to you.
--        query = QString("exist Exec and ('%1' =~ Name)").arg(term);
--        KService::List services = KServiceTypeTrader::self()->query("Application", query);
++#if HAVE_KJIEBA
 +        KService::List services;
 +        const KServiceOfferList offers = KServiceTypeTrader::weightedOffers("Application");
 +
@@ -91,33 +97,41 @@ index eb50ead..f5d0e67 100644
 +                ++it;
 +            }
 +        }
++#else
+         // Search for applications which are executable and case-insensitively match the search term
+         // See http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
+         // if the following is unclear to you.
+         query = QStringLiteral("exist Exec and ('%1' =~ Name)").arg(term);
+         KService::List services = KServiceTypeTrader::self()->query(QStringLiteral("Application"), query);
++#endif
  
          if (!services.isEmpty()) {
              //qDebug() << service->name() << "is an exact match!" << service->storageId() << service->exec();
 diff --git a/runners/services/servicerunner.h b/runners/services/servicerunner.h
-index a4171bc..b97a8a7 100644
+index 8d9ad1a..41ef3b7 100644
 --- a/runners/services/servicerunner.h
 +++ b/runners/services/servicerunner.h
-@@ -19,11 +19,9 @@
- #ifndef SERVICERUNNER_H
- #define SERVICERUNNER_H
+@@ -22,8 +22,10 @@
  
--
  #include <KService>
--
+ 
 -//#include <KRunner/AbstractRunner>
  #include <krunner/abstractrunner.h>
++#if HAVE_KJIEBA
 +#include <KJieba/KJieba_Interface>
++#endif
  
  /**
   * This class looks for matches in the set of .desktop files installed by
-@@ -50,6 +48,9 @@ class ServiceRunner : public Plasma::AbstractRunner
+@@ -50,6 +52,11 @@ class ServiceRunner : public Plasma::AbstractRunner
  
      protected:
          void setupMatch(const KService::Ptr &service, Plasma::QueryMatch &action);
 +
++#if HAVE_KJIEBA
 +    private:
-+        KJieba::KJiebaInterface *kjieba;
++        KJieba::KJiebaInterface *kjieba = nullptr;
++#endif
  };
  
  
