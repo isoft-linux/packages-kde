@@ -71,10 +71,10 @@ rm -rfv %{buildroot}%{_kde4_appsdir}/kconf_update/
 %{_kf5_libdir}/libQPulseAudioPrivate.so
 %{_kf5_datadir}/kpackage/kcms/kcm_pulseaudio
 %{_kf5_datadir}/kservices5/kcm_pulseaudio.desktop
-%lang(en) %{_kf5_docdir}/HTML/en/plasma-pa/
-%lang(uk) %{_kf5_docdir}/HTML/uk/plasma-pa/
-%lang(ca) %{_kf5_docdir}/HTML/ca/plasma-pa/
-%lang(pt_BR) %{_kf5_docdir}/HTML/pt_BR/plasma-pa/
+#%lang(en) %{_kf5_docdir}/HTML/en/plasma-pa/
+#%lang(uk) %{_kf5_docdir}/HTML/uk/plasma-pa/
+#%lang(ca) %{_kf5_docdir}/HTML/ca/plasma-pa/
+#%lang(pt_BR) %{_kf5_docdir}/HTML/pt_BR/plasma-pa/
 
 
 %changelog
