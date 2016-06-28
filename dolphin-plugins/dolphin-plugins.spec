@@ -1,7 +1,7 @@
 Name:    dolphin-plugins
 Summary: Dolphin plugins for revision control systems
-Version: 15.12.0
-Release: 2%{?dist}
+Version: 16.04.2
+Release: 1%{?dist}
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdesdk/dolphin-plugins
@@ -96,6 +96,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Jun 28 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 16.04.2-1
+- 16.04.2
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update
 
