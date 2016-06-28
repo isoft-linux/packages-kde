@@ -1,8 +1,8 @@
 %define         base_name milou
 
 Name:           plasma-%{base_name}
-Version:        5.4.3
-Release:        8
+Version:        5.6.95
+Release:        1
 Summary:        A dedicated KDE search application built on top of Baloo
 
 License:        GPLv2+
@@ -70,6 +70,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Jun 28 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
+- 5.6.95
+
 * Wed Dec 30 2015 Leslie Zhai <xiang.zhai@i-soft.com.cn>
 - Add ISOFTAPP SEARCH OFF/ON.
 - Remove isoftapp skeleton.

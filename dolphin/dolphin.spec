@@ -1,7 +1,7 @@
 Name:    dolphin 
 Summary: KDE File Manager
-Version: 15.12.0
-Release: 4
+Version: 16.04.2
+Release: 1
 License: LGPLv2 and LGPLv2+ and GPLv2+ 
 URL:     https://projects.kde.org/projects/kde/applications/dolphin
 
