@@ -3,8 +3,8 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.6.95
-Release:        5
+Version:        5.7.0
+Release:        1
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -25,9 +25,6 @@ Patch30: 0003-splash-isoft-logo.patch
 
 #Rebase kjieba Chinese word segmentation for 5.6.95
 Patch34: 0007-query-for-cjk.patch
-
-#Ugly ksplash design
-Patch42: 0015-ksplash-with-background.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -109,7 +106,7 @@ BuildRequires:  kf5-ksysguard-devel >= %{version}
 BuildRequires:  kf5-kscreen-devel >= %{version}
 BuildRequires:  kf5-baloo-devel
 
-BuildRequires:  kf5-kwayland-devel >= %{version}
+BuildRequires:  kf5-kwayland-devel >= 5.23.0
 BuildRequires:  libwayland-client-devel >= 1.3.0
 BuildRequires:  libwayland-server-devel >= 1.3.0
 
@@ -211,7 +208,6 @@ Documentation and user manuals for %{name}.
 
 %patch30 -p1
 %patch34 -p1
-%patch42 -p1
 
 # omit conflicts with kf5-kxmlrpcclient-5.8
 rm -fv po/*/libkxmlrpcclient5.po
@@ -328,6 +324,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Jul 06 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.0-1
+- 5.7.0
+
 * Mon Jun 27 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-5
 - Rebase kjieba for 5.6.95
 
