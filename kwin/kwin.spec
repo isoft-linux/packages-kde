@@ -1,8 +1,8 @@
 %global         wayland 1
 
 Name:           kwin
-Version:        5.6.95
-Release:        3
+Version:        5.7.0
+Release:        1
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -237,6 +237,9 @@ fi
 
 
 %changelog
+* Wed Jul 06 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.0-1
+- 5.7.0
+
 * Wed Jun 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-3
 - add unpacking file.
 
