@@ -107,10 +107,10 @@ developing applications that use %{name}.
 %prep
 %setup -q 
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+#%patch1 -p1
+#%patch2 -p1
+#%patch3 -p1
+#%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
@@ -171,6 +171,9 @@ fi
 %{_kf5_libdir}/libdolphinvcs.so
 
 %changelog
+* Fri Jul 08 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 16.04.2-1
+- 16.04.2
+
 * Thu Dec 24 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-4
 - Show correct context menu in dolphin desktop:/ for trash
 
