@@ -1,7 +1,7 @@
 %global framework kwallet
 
 Name:           kf5-%{framework}
-Version:        5.23.0
+Version:        5.24.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for password management
 
@@ -16,6 +16,8 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+
+Patch2: 0002-kwalletd-create-empty-password-wallet-first-time-run.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -65,6 +67,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch2 -p1
 
 %build
 mkdir %{_target_platform}
@@ -109,6 +112,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
+- 5.24.0
+
 * Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
 - 5.23.0
 
