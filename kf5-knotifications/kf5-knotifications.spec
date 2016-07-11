@@ -1,7 +1,7 @@
 %global framework knotifications
 
 Name:           kf5-%{framework}
-Version:        5.23.0
+Version:        5.24.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution with abstraction for system notifications
 
@@ -87,6 +87,9 @@ mkdir -p %{buildroot}/%{_kf5_datadir}/knotifications5
 
 
 %changelog
+* Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
+- 5.24.0
+
 * Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
 - 5.23.0
 
