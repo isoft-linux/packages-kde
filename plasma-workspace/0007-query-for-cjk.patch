@@ -38,18 +38,10 @@ index 7e33a3e..4c61517 100644
  
  install(FILES plasma-runner-services.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 diff --git a/runners/services/servicerunner.cpp b/runners/services/servicerunner.cpp
-index aa9d2bd..0f3eeef 100644
+index aa9d2bd..1c3a501 100644
 --- a/runners/services/servicerunner.cpp
 +++ b/runners/services/servicerunner.cpp
-@@ -30,6 +30,7 @@
- #include <KRun>
- #include <KService>
- #include <KServiceTypeTrader>
-+#include <KServiceOffer>
- 
- ServiceRunner::ServiceRunner(QObject *parent, const QVariantList &args)
-     : Plasma::AbstractRunner(parent, args)
-@@ -40,10 +41,20 @@ ServiceRunner::ServiceRunner(QObject *parent, const QVariantList &args)
+@@ -40,10 +40,20 @@ ServiceRunner::ServiceRunner(QObject *parent, const QVariantList &args)
      setPriority(AbstractRunner::HighestPriority);
  
      addSyntax(Plasma::RunnerSyntax(QStringLiteral(":q:"), i18n("Finds applications whose name or description match :q:")));
@@ -70,19 +62,12 @@ index aa9d2bd..0f3eeef 100644
  }
  
  QStringList ServiceRunner::categories() const
-@@ -75,11 +86,36 @@ void ServiceRunner::match(Plasma::RunnerContext &context)
+@@ -75,11 +85,29 @@ void ServiceRunner::match(Plasma::RunnerContext &context)
      QString query;
  
      if (term.length() > 1) {
 +#if HAVE_KJIEBA
-+        KService::List services;
-+        const KServiceOfferList offers = KServiceTypeTrader::weightedOffers("Application");
-+
-+        KServiceOfferList::const_iterator itOff = offers.begin();
-+        for (; itOff != offers.end(); ++itOff) {
-+            services.append((*itOff).service());
-+        }
-+
++        KService::List services = KServiceTypeTrader::self()->query("Application");
 +        KService::List::iterator it = services.begin();
 +        while (it != services.end()) {
 +            if ((*it)->exec().isEmpty() ||

@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.23.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for advanced plugin and service introspection
 
 License:        GPLv2+ and LGPLv2+
@@ -16,9 +16,6 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-#Rebase for 5.23.0
-Patch2: 0002-public-kserviceoffer.patch
 
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros
@@ -51,7 +48,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch2 -p1
 
 %build
 mkdir %{_target_platform}
@@ -94,6 +90,9 @@ mkdir -p %{buildroot}%{_kf5_datadir}/kservicetypes5
 
 
 %changelog
+* Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-4
+- Does not need to public KServiceOffer.
+
 * Mon Jun 27 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-3
 - Rebase for 5.23.0
 
