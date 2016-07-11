@@ -68,16 +68,15 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_plugindir}/KEmoticonsIntegrationPlugin.so
 %{_kf5_datadir}/kservices5/*
 %{_kf5_datadir}/kservicetypes5/*
-%{_kf5_datadir}/emoticons/Glass
-%{_kf5_datadir}/emoticons/Breeze
+# track specific emoticon themes or not?  (no, for now) -- rex
+%{_kf5_datadir}/emoticons/
 
 %files devel
 %{_kf5_includedir}/kemoticons_version.h
-%{_kf5_includedir}/KEmoticons
+%{_kf5_includedir}/KEmoticons/
 %{_kf5_libdir}/libKF5Emoticons.so
-%{_kf5_libdir}/cmake/KF5Emoticons
+%{_kf5_libdir}/cmake/KF5Emoticons/
 %{_kf5_archdatadir}/mkspecs/modules/qt_KEmoticons.pri
-
 
 %changelog
 * Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
