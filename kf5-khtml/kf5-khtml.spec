@@ -101,14 +101,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_plugindir}/parts/*.so
 %{_kf5_datadir}/kf5/kjava/
 %{_kf5_datadir}/kf5/khtml/
-%{_kf5_datadir}/kxmlgui5/khtml/
 %{_kf5_datadir}/kservices5/*.desktop
 %config %{_kf5_sysconfdir}/xdg/khtmlrc
 
 %files devel
-%doc
 %{_kf5_libdir}/libKF5KHtml.so
-%{_kf5_libdir}/cmake/KF5KHtml
+%{_kf5_libdir}/cmake/KF5KHtml/
 %{_kf5_includedir}/KHtml/
 %{_kf5_includedir}/khtml_version.h
 %{_kf5_archdatadir}/mkspecs/modules/qt_KHtml.pri
