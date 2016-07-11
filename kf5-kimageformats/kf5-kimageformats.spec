@@ -1,8 +1,8 @@
 %global framework kimageformats
 
 Name:           kf5-%{framework}
-Version:        5.16.0
-Release:        3%{?dist}
+Version:        5.24.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with additional image plugins for QtGui
 
 License:        LGPLv2+
@@ -20,7 +20,6 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 #original psd support in kimageformats broken, use this one.
 #https://github.com/Code-ReaQtor/libqpsd
 Source1: libqpsd.tar.gz
-Patch1: donot-install-when-build.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
@@ -39,7 +38,6 @@ image formats.
 %setup -q -n %{framework}-%{version} -a1
 
 pushd libqpsd
-cat %{PATCH1} |patch -p1
 popd
 
 %build
@@ -73,6 +71,9 @@ rm -rf  %{buildroot}%{_kf5_qtplugindir}/imageformats/kimg_psd.so
 
 
 %changelog
+* Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
+- 5.24.0
+
 * Thu Nov 19 2015 Cjacker <cjacker@foxmail.com> - 5.16.0-3
 - Use libqpsd instead of kimg_psd
 
