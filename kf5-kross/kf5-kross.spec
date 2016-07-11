@@ -1,7 +1,7 @@
 %global framework kross
 
 Name:           kf5-%{framework}
-Version:        5.23.0
+Version:        5.24.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for multi-language application scripting
 
@@ -125,6 +125,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
+- 5.24.0
+
 * Wed Jun 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
 - 5.23.0
 
