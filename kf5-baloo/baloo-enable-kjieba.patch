@@ -1,15 +1,15 @@
 diff -Nur baloo-5.16.0/CMakeLists.txt baloo-5.16.0n/CMakeLists.txt
 --- baloo-5.16.0/CMakeLists.txt	2015-11-08 20:08:54.000000000 +0800
 +++ baloo-5.16.0n/CMakeLists.txt	2015-11-24 12:49:20.292517290 +0800
-@@ -34,6 +34,8 @@
- 
+@@ -47,6 +47,8 @@
+ find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE COMPONENTS Core DBus Widgets Qml Quick Test)
  find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS CoreAddons Config DBusAddons I18n IdleTime Solid FileMetaData Crash KIO)
  
 +find_package(KJieba)
 +
  find_package(LMDB)
- set_package_properties(LMDB PROPERTIES
-     DESCRIPTION "Lightning Memory-Mapped Database (LMDB)"
+ set_package_properties(LMDB
+     PROPERTIES
 diff -Nur baloo-5.16.0/src/engine/CMakeLists.txt baloo-5.16.0n/src/engine/CMakeLists.txt
 --- baloo-5.16.0/src/engine/CMakeLists.txt	2015-11-24 13:14:47.678489937 +0800
 +++ baloo-5.16.0n/src/engine/CMakeLists.txt	2015-11-24 12:54:20.398511915 +0800
