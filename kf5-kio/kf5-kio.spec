@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.24.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -197,7 +197,7 @@ fi
 %{_kf5_datadir}/knotifications5/proxyscout.*
 %{_kf5_datadir}/kf5/kcookiejar/domain_info
 %{_kf5_datadir}/applications/*.desktop
-%{_datadir}/dbus-1/services/org.kde.kiod5.service
+%{_datadir}/dbus-1/services/org.kde.*.service
 
 %post core-libs -p /sbin/ldconfig
 %postun core-libs -p /sbin/ldconfig
@@ -254,17 +254,17 @@ fi
 %{_kf5_archdatadir}/mkspecs/modules/qt_KIOFileWidgets.pri
 %{_kf5_archdatadir}/mkspecs/modules/qt_KNTLM.pri
 %{_kf5_archdatadir}/mkspecs/modules/qt_KIOWidgets.pri
+%{_kf5_archdatadir}/mkspecs/modules/qt_KIOGui.pri
 %{_datadir}/dbus-1/interfaces/*.xml
 
 %files doc
 %{_kf5_mandir}/man8/*
 %{_kf5_mandir}/*/man8/*
 %exclude %{_kf5_mandir}/man8
-%{_kf5_docdir}/HTML/en/kioslave5/
-
+%{_kf5_docdir}/HTML/*/kioslave5/
 
 %changelog
-* Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
+* Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-2
 - 5.24.0
 
 * Mon Jun 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
