@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Summary:        A Qt wrapper for Bluez
-Version:        5.23.0
+Version:        5.24.0
 Release:        1%{?dist}
 
 License:        LGPLv2+
@@ -76,6 +76,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
+- 5.24.0
+
 * Thu Jun 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.23.0-1
 - 5.23.0
 
