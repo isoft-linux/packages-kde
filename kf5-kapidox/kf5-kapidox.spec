@@ -52,18 +52,13 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files
 %doc LICENSE
-%{python_sitelib}/kapidox
-%{python_sitelib}/kapidox-%{version}-py2.7.egg-info
-%{_kf5_bindir}/kgenapidox
+%{python2_sitelib}/kapidox
+%{python2_sitelib}/kapidox-%{version}-py2.7.egg-info
 %{_kf5_bindir}/depdiagram-prepare
 %{_kf5_bindir}/depdiagram-generate
-%{_kf5_bindir}/kgenframeworksapidox
 %{_kf5_bindir}/depdiagram-generate-all
-%{_mandir}/man1/depdiagram-generate-all.1*
-%{_mandir}/man1/depdiagram-generate.1*
-%{_mandir}/man1/depdiagram-prepare.1*
-%{_mandir}/man1/kgenapidox.1*
-%{_mandir}/man1/kgenframeworksapidox.1*
+%{_kf5_bindir}/kapidox_generate
+%{_mandir}/man1/*
 
 
 %changelog
