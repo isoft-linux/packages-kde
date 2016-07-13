@@ -1,7 +1,7 @@
 %global         wayland 1
 
 Name:           kwin
-Version:        5.7.0
+Version:        5.7.1
 Release:        1
 Summary:        KDE Window manager
 
@@ -69,7 +69,7 @@ BuildRequires:  kf5-kcoreaddons-devel
 BuildRequires:  kf5-kcrash-devel
 BuildRequires:  kf5-kglobalaccel-devel
 BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kinit-devel >= 5.10.0-3
+BuildRequires:  kf5-kinit-devel
 BuildRequires:  kf5-kio-devel
 BuildRequires:  kf5-knotifications-devel
 BuildRequires:  kf5-kservice-devel
@@ -237,6 +237,9 @@ fi
 
 
 %changelog
+* Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-1
+- 5.7.1
+
 * Wed Jul 06 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.0-1
 - 5.7.0
 
