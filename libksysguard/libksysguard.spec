@@ -1,5 +1,5 @@
 Name:           libksysguard
-Version:        5.7.0
+Version:        5.7.1
 Release:        1
 Summary:        Library for managing processes running on the system
 
@@ -106,6 +106,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libdir}/cmake/KF5SysGuard
 
 %changelog
+* Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-1
+- 5.7.1
+
 * Wed Jul 06 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.0-1
 - 5.7.0
 
