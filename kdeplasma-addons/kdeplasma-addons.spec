@@ -1,5 +1,5 @@
 Name:           kdeplasma-addons
-Version:        5.6.95
+Version:        5.7.1
 Release:        1
 Summary:        Additional Plasmoids for Plasma 5.
 
@@ -95,6 +95,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-1
+- 5.7.1
+
 * Thu Jun 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
 - 5.6.95
 
