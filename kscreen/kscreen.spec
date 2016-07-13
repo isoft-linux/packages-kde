@@ -1,6 +1,7 @@
 Name:           kscreen
+Epoch:			2
 Version:        5.7.1
-Release:        1
+Release:        2
 Summary:        KDE Display Management software
 
 License:        GPLv2 or GPLv3
@@ -80,6 +81,10 @@ fi
 
 
 %changelog
+* Wed Jul 13 2016 sulit <sulitsrc@gmail.com> - 2:5.7.1-2
+- readd Epoch to kscreen.spec. If it has Epoch flag, it will not be removed for
+  the package life
+
 * Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-1
 - 5.7.1
 
