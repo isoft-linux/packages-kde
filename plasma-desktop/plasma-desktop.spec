@@ -1,5 +1,5 @@
 Name:           plasma-desktop
-Version:        5.7.0
+Version:        5.7.1
 Release:        1
 Summary:        Plasma Desktop shell
 
@@ -285,6 +285,9 @@ fi
 
 
 %changelog
+* Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-1
+- 5.7.1
+
 * Wed Jul 06 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.0-1
 - 5.7.0
 
