@@ -1,6 +1,6 @@
 Name:           kdeplasma-addons
 Version:        5.7.1
-Release:        1
+Release:        2
 Summary:        Additional Plasmoids for Plasma 5.
 
 License:        GPLv2+
@@ -37,8 +37,8 @@ BuildRequires:  kf5-kservice-devel
 BuildRequires:  kf5-kunitconversion-devel
 BuildRequires:  kf5-plasma-devel
 BuildRequires:  kf5-kactivities-devel
-BuildRequires:  plasma-workspace-devel
-BuildRequires:  libksysguard-devel
+BuildRequires:  plasma-workspace-devel >= %{version}
+BuildRequires:  libksysguard-devel >= %{version}
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
@@ -95,6 +95,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Jul 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-2
+- Rebuild.
+
 * Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-1
 - 5.7.1
 
