@@ -1,6 +1,6 @@
 Name:           kdeplasma-addons
 Version:        5.7.1
-Release:        2
+Release:        3
 Summary:        Additional Plasmoids for Plasma 5.
 
 License:        GPLv2+
@@ -72,10 +72,10 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files -f kdeplasmaaddons5_qt.lang
 %doc COPYING COPYING.LIB
-#%{_libexecdir}/kimpanel-scim-panel
-#%{_libexecdir}/kimpanel-ibus-panel
 %{_kf5_datadir}/plasma/plasmoids/*
-%{_kf5_datadir}/plasma/desktoptheme/default/widgets/*.svgz
+%{_kf5_datadir}/plasma/desktoptheme/default/widgets/*
+%{_kf5_datadir}/plasma/desktoptheme/default/icons/*
+%{_kf5_datadir}/plasma/desktoptheme/default/weather/*
 %{_kf5_datadir}/plasma/wallpapers/*
 %{_kf5_datadir}/plasma/services/*.operations
 %{_kf5_qtplugindir}/plasma/dataengine/*.so
@@ -84,19 +84,19 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/*.desktop
 %{_kf5_datadir}/kservices5/kwin/*.desktop
 %{_kf5_qmldir}/org/kde/plasma/*
-%{_datadir}/kwin/desktoptabbox
-%{_datadir}/kwin/tabbox
-%{_datadir}/icons/hicolor/scalable/apps/fifteenpuzzle.svgz
+%{_datadir}/kwin/desktoptabbox/
+%{_datadir}/kwin/tabbox/
+%{_datadir}/icons/hicolor/*/apps/fifteenpuzzle.*
 %{_sysconfdir}/xdg/comic.knsrc
 %{_kf5_libdir}/libplasmacomicprovidercore.so.*
+%{_kf5_libdir}/libplasmaweather.so.*
 %{_kf5_qtplugindir}/kpackage/packagestructure/plasma_packagestructure_comic.so
 %{_kf5_datadir}/kservicetypes5/plasma_comicprovider.desktop
-%{_datadir}/kservices5/plasma-applet-org.kde.plasma.kickerdash.desktop
-
 
 %changelog
-* Thu Jul 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-2
+* Thu Jul 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-3
 - Rebuild.
+- Add missing files.
 
 * Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-1
 - 5.7.1
