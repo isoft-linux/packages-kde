@@ -269,9 +269,9 @@ fi
 
 %files doc
 #%lang(ca) %{_docdir}/HTML/ca/kcontrol/
-%lang(ca) %{_docdir}/HTML/ca/kfontview/
-%lang(ca) %{_docdir}/HTML/ca/knetattach/
-%lang(ca) %{_docdir}/HTML/ca/plasma-desktop/
+#%lang(ca) %{_docdir}/HTML/ca/kfontview/
+#%lang(ca) %{_docdir}/HTML/ca/knetattach/
+#%lang(ca) %{_docdir}/HTML/ca/plasma-desktop/
 %lang(en) %{_docdir}/HTML/en/kcontrol/
 %lang(en) %{_docdir}/HTML/en/kfontview/
 %lang(en) %{_docdir}/HTML/en/knetattach/
@@ -285,7 +285,7 @@ fi
 
 
 %changelog
-* Wed Aug 05 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.3-1
+* Wed Aug 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.3-1
 - 5.7.3
 
 * Wed Jul 20 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.2-1
