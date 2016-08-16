@@ -28,6 +28,7 @@ BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kcrash-devel >= %{version}
 BuildRequires:  kf5-kdbusaddons-devel >= %{version}
 BuildRequires:  kf5-kwindowsystem-devel >= %{version}
+BuildRequires:  kf5-kservice-devel >= %{version}
 
 BuildRequires:  libX11-devel
 BuildRequires:  pkgconfig(xcb) pkgconfig(xcb-keysyms)
