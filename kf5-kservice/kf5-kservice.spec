@@ -25,6 +25,7 @@ BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  flex
+BuildRequires:  bison
 
 BuildRequires:  kf5-kconfig-devel >= %{version}
 BuildRequires:  kf5-kcoreaddons-devel >= %{version}
