@@ -1,7 +1,7 @@
 %global framework kbookmarks
 
 Name:           kf5-%{framework}
-Version:        5.24.0
+Version:        5.25.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 addon for bookmarks manipulation
 
@@ -22,8 +22,8 @@ BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qttools-devel
 
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-kcodecs-devel
+BuildRequires:  kf5-kconfig-devel >= %{version}
+BuildRequires:  kf5-kcodecs-devel >= %{version}
 BuildRequires:  kf5-kconfigwidgets-devel >= %{version}
 BuildRequires:  kf5-kcoreaddons-devel >= %{version}
 BuildRequires:  kf5-kiconthemes-devel >= %{version}
@@ -78,6 +78,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_archdatadir}/mkspecs/modules/qt_KBookmarks.pri
 
 %changelog
+* Tue Aug 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
+- 5.25.0
+
 * Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
 - 5.24.0
 
