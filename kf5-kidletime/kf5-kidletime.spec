@@ -1,7 +1,7 @@
 %global framework kidletime
 
 Name:           kf5-%{framework}
-Version:        5.24.0
+Version:        5.25.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 integration module for idle time detection
 
@@ -76,6 +76,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Wed Aug 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
+- 5.25.0
+
 * Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
 - 5.24.0
 
