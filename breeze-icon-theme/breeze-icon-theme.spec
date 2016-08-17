@@ -2,7 +2,7 @@
 
 Name:    breeze-icon-theme
 Summary: Breeze icon theme for KF5
-Version: 5.24.0
+Version: 5.25.0
 EPoch: 1 
 Release: 1
 License: LGPLv3+ 
@@ -94,6 +94,9 @@ fi
 
 
 %changelog
+* Wed Aug 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
+- 5.25.0
+
 * Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
 - 5.24.0
 
