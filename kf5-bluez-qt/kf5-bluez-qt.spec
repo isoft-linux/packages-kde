@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Summary:        A Qt wrapper for Bluez
-Version:        5.24.0
+Version:        5.25.0
 Release:        1%{?dist}
 
 License:        LGPLv2+
@@ -17,7 +17,7 @@ URL:            https://projects.kde.org/projects/kde/workspace/bluez-qt
 %endif
 Source0: http://download.kde.org/stable/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
-BuildRequires:  extra-cmake-modules
+BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
@@ -76,6 +76,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Aug 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
+- 5.25.0
+
 * Mon Jul 11 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-1
 - 5.24.0
 
