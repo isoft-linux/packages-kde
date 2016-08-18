@@ -21,6 +21,7 @@ BuildArch: noarch
 
 BuildRequires: cmake
 BuildRequires: kf5-rpm-macros
+BuildRequires: qt5-qtbase-devel
 BuildRequires: extra-cmake-modules >= %{version}
 
 BuildRequires: hardlink
