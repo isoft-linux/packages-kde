@@ -1,8 +1,8 @@
 %global framework ktexteditor
 
 Name:           kf5-%{framework}
-Version:        5.24.0
-Release:        2%{?dist}
+Version:        5.25.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 with advanced embeddable text editor
 
 License:        LGPLv2+
@@ -94,6 +94,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Aug 18 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
+- 5.25.0
+
 * Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.24.0-2
 - Rebuild.
 
