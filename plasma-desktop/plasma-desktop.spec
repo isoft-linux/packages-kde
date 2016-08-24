@@ -265,7 +265,7 @@ fi
 %{_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
 # kactivitymanagerd
 %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/*
-%{_datadir}/appdata/org.kde.plasmashell.metainfo.xml
+#%{_datadir}/appdata/org.kde.plasmashell.metainfo.xml
 
 %files doc
 #%lang(ca) %{_docdir}/HTML/ca/kcontrol/
