@@ -1,5 +1,5 @@
 Name:    kscreenlocker
-Version: 5.7.3
+Version: 5.7.4
 Release: 1%{?dist}
 Summary: Library and components for secure lock screen architecture
 
@@ -109,6 +109,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Aug 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Wed Aug 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.3-1
 - 5.7.3
 
