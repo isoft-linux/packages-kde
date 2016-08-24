@@ -3,7 +3,7 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.7.3
+Version:        5.7.4
 Release:        1
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
@@ -324,6 +324,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Aug 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Wed Aug 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.3-1
 - 5.7.3
 
