@@ -143,6 +143,10 @@ BuildArch:      noarch
 %prep
 %autosetup -n %{name}-%{version} -p1
 
+sed -i \
+  -e 's|^find_package(Breeze ${PROJECT_VERSION} CONFIG)|find_package(Breeze 5.7 CONFIG)|' \
+  CMakeLists.txt
+
 
 %build
 mkdir %{_target_platform}
