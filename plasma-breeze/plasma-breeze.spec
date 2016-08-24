@@ -4,7 +4,7 @@
 
 Name:           plasma-breeze
 Version:        5.7.4
-Release:        1
+Release:        2
 Summary:        Artwork, styles and assets for the Breeze visual style for the Plasma Desktop
 
 License:        GPLv2+
@@ -52,6 +52,9 @@ BuildRequires: kde-filesystem
 Requires:       kf5-filesystem
 
 Requires:       %{name}-common = %{version}-%{release}
+
+# since we provide a cmake dev-like file
+Provides:       %{name}-devel = %{version}-%{release}
 
 %description
 %{summary}.
@@ -164,8 +167,9 @@ fi
 
 
 %changelog
-* Wed Aug 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+* Wed Aug 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-2
 - 5.7.4
+- Provides: plasma-breeze-devel
 
 * Wed Jul 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-1
 - 5.7.1

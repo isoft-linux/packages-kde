@@ -85,8 +85,8 @@ BuildRequires:  kf5-kdeclarative-devel
 BuildRequires:  kf5-kiconthemes-devel
 BuildRequires:  kf5-kidletime-devel
 BuildRequires:  kscreenlocker-devel >= %{version}
-
 BuildRequires:  kdecoration-devel >= %{version}
+BuildRequires:  plasma-breeze-devel >= %{version}
 
 ## Runtime deps
 Requires:       kf5-filesystem
