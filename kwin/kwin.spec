@@ -1,7 +1,7 @@
 %global         wayland 1
 
 Name:           kwin
-Version:        5.7.3
+Version:        5.7.4
 Release:        1
 Summary:        KDE Window manager
 
@@ -237,6 +237,9 @@ fi
 
 
 %changelog
+* Wed Aug 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Wed Aug 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.3-1
 - 5.7.3
 
