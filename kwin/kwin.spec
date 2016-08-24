@@ -19,6 +19,8 @@ URL:            https://projects.kde.org/projects/kde/workspace/kwin
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
+Patch0: have-x11-input.patch
+
 # Base
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules

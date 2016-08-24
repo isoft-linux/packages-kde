@@ -1,0 +1,12 @@
+diff -Naur kwin-5.7.4/cursor.cpp kwin-5.7.4.dst/cursor.cpp
+--- kwin-5.7.4/cursor.cpp	2016-08-23 20:46:16.000000000 +0800
++++ kwin-5.7.4.dst/cursor.cpp	2016-08-24 15:30:27.704660616 +0800
+@@ -44,6 +44,8 @@
+ #include <X11/extensions/XInput2.h>
+ #else
+ #define XI_RawMotion 0
++#define XI_RawButtonPress 15
++#define XI_RawButtonRelease 16
+ #endif
+ #include <fixx11h.h>
+ 
