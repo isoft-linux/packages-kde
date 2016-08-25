@@ -13,7 +13,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/ksysguard
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
-Patch0: change-memory-show.patch
 
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtscript-devel
@@ -50,7 +49,6 @@ Summary: Performance monitor daemon
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p1
 
 %build
 

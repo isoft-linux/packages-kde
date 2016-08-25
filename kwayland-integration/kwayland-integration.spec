@@ -1,6 +1,6 @@
 Name:           kwayland-integration 
-Version:        5.4.3
-Release:        2
+Version:        5.7.4
+Release:        1
 Summary:        KDE wayland integration
 
 License:        GPLv2+
@@ -51,6 +51,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_plugindir}/org.kde.kwindowsystem.platforms/KF5WindowSystemKWaylandPlugin.so
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
