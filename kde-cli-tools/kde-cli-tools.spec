@@ -1,6 +1,6 @@
 Name:           kde-cli-tools
-Version:        5.4.3
-Release:        3%{?dist}
+Version:        5.7.4
+Release:        1%{?dist}
 Summary:        Tools based on KDE Frameworks 5 to better interact with the system
 
 License:        GPLv2+
@@ -99,6 +99,9 @@ ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Tue Dec 01 2015 kun.li@i-soft.com.cn - 5.4.3-3
 - add konqueror.patch
 
