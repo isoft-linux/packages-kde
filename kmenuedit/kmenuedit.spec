@@ -1,6 +1,6 @@
 Name:           kmenuedit
-Version:        5.4.3
-Release:        2
+Version:        5.7.4
+Release:        1
 Summary:        KDE menu editor
 
 License:        GPLv2+
@@ -28,7 +28,7 @@ BuildRequires:  kf5-sonnet-devel
 BuildRequires:  kf5-kdelibs4support-devel
 BuildRequires:  kf5-kdoctools-devel
 BuildRequires:  kf5-kinit-devel >= 5.10.0-3
-BuildRequires:  khotkeys-devel
+BuildRequires:  khotkeys-devel >= %{version}
 
 
 BuildRequires:  qt5-qtbase-devel
