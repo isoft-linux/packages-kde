@@ -1,5 +1,5 @@
 diff --git a/Modules/about-distro/src/Module.cpp b/Modules/about-distro/src/Module.cpp
-index 9e9dc9c..fd009f3 100644
+index fa8d09d..6eb4a15 100644
 --- a/Modules/about-distro/src/Module.cpp
 +++ b/Modules/about-distro/src/Module.cpp
 @@ -23,6 +23,7 @@
@@ -8,14 +8,15 @@ index 9e9dc9c..fd009f3 100644
  #include <QStandardPaths>
 +#include <QFile>
  
+ #include <kcoreaddons_version.h>
  #include <KAboutData>
- #include <KConfig>
-@@ -101,7 +102,7 @@ void Module::load()
+@@ -128,7 +129,8 @@ void Module::load()
      QString logoPath = cg.readEntry("LogoPath", QString());
      QPixmap logo;
-     if (logoPath.isEmpty())
--        logo = QIcon::fromTheme("start-here-kde").pixmap(128, 128);
-+        logo = QFile::exists("/usr/share/isoft-artwork/logo/128x128/isoft-logo.png") ? QPixmap("/usr/share/isoft-artwork/logo/128x128/isoft-logo.png") : QIcon::fromTheme("start-here-kde").pixmap(128, 128);
-     else
+     if (logoPath.isEmpty()) {
+-        logo = QIcon::fromTheme(QStringLiteral("start-here-kde")).pixmap(128, 128);
++        logoPath = "/usr/share/isoft-artwork/logo/128x128/isoft-logo.png";
++        logo = QFile::exists(logoPath) ? QPixmap(logoPath) : QIcon::fromTheme("start-here-kde").pixmap(128, 128);
+     } else {
          logo = QPixmap(logoPath);
-     ui->logoLabel->setPixmap(logo);
+     }
