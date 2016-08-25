@@ -1,5 +1,5 @@
 Name:           plasma-nm
-Version:        5.6.2
+Version:        5.7.4
 Release:        1
 Summary:        Plasma Next applet written in QML for managing network connections
 License:        LGPLv2+ and GPLv2+
@@ -249,6 +249,9 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_sstpui.desktop
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
 - 5.6.2
 
