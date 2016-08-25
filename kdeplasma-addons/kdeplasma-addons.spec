@@ -1,6 +1,6 @@
 Name:           kdeplasma-addons
-Version:        5.7.1
-Release:        3
+Version:        5.7.4
+Release:        1
 Summary:        Additional Plasmoids for Plasma 5.
 
 License:        GPLv2+
@@ -94,6 +94,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservicetypes5/plasma_comicprovider.desktop
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Thu Jul 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.1-3
 - Rebuild.
 - Add missing files.
