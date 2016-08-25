@@ -81,8 +81,8 @@ rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/konqueror_gestures_kde321.khotkeys
 %doc COPYING
 %{_kf5_libdir}/libkhotkeysprivate.so.*
 %{_kf5_qtplugindir}/kcm_hotkeys.so
-%{_kf5_qtplugindir}/kded_khotkeys.so
-%{_kf5_datadir}/kservices5/kded/*.desktop
+%{_kf5_qtplugindir}/kded/khotkeys.so
+#%{_kf5_datadir}/kservices5/kded/*.desktop
 %{_kf5_datadir}/kservices5/khotkeys.desktop
 %dir %{_kf5_datadir}/khotkeys/
 %{_docdir}/HTML/en/kcontrol/khotkeys/
