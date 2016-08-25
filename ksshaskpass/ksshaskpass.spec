@@ -54,16 +54,16 @@ SSH_ASKPASS=%{_kf5_bindir}/ksshaskpass
 export SSH_ASKPASS
 EOF
 
-echo "NoDisplay=true" >> %{buildroot}%{_kf5_datadir}/applications/org.kde.ksshaskpass.desktop
-%check
-desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.ksshaskpass.desktop
+#echo "NoDisplay=true" >> %{buildroot}%{_kf5_datadir}/applications/org.kde.ksshaskpass.desktop
+#%check
+#desktop-file-validate %{buildroot}%{_kf5_datadir}/applications/org.kde.ksshaskpass.desktop
 
 %files -f ksshaskpass.lang
 %doc ChangeLog COPYING
 %{_kf5_bindir}/ksshaskpass
 %config(noreplace) %{_sysconfdir}/xdg/plasma-workspace/env/ksshaskpass.sh
 %{_mandir}/man1/ksshaskpass.1*
-%{_kf5_datadir}/applications/org.kde.ksshaskpass.desktop
+#%{_kf5_datadir}/applications/org.kde.ksshaskpass.desktop
 
 
 %changelog
