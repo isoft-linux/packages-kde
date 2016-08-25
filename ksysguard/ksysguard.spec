@@ -1,6 +1,6 @@
 Name:           ksysguard
-Version:        5.4.3
-Release:        3
+Version:        5.7.4
+Release:        1
 Summary:        KDE Process Management application
 
 License:        GPLv2
@@ -98,6 +98,9 @@ fi
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Fri Dec 04 2015 kun.li@i-soft.com.cn - 5.4.3-3
 - add change-memory-show.patch  
 
