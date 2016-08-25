@@ -1,5 +1,5 @@
 Name:           plasma-workspace-wallpapers
-Version:        5.6.2
+Version:        5.7.4
 Release:        1
 Summary:        Additional wallpapers for Plasma workspace
 License:        GPLv2+
@@ -51,6 +51,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
 - 5.6.2
 
