@@ -1,6 +1,6 @@
 Name:           khotkeys
-Version:        5.4.3
-Release:        6%{?dist}
+Version:        5.7.4
+Release:        1%{?dist}
 Summary:        Application to configure hotkeys in KDE
 
 License:        GPLv2+
@@ -15,18 +15,6 @@ URL:            https://projects.kde.org/projects/kde/workspace/khotkeys
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 Patch0: khotkeys-5.4.2-qdbusviewer-qt5.patch
-
-#backport patches and fixes from plasma-5.5
-#https://git.reviewboard.kde.org/r/125630/
-Patch1: 0001-do-not-write-back-dated-settings-from-daemon.patch
-#https://git.reviewboard.kde.org/r/125680/
-Patch2: 0001-unselect-current-item-on-clicking-into-empty-space.patch
-#https://quickgit.kde.org/?p=khotkeys.git&a=commit&h=4747599badf67389530483ea62b6f54bc36ac9c3
-Patch3: schedule-saving-to-next-event-cycle.patch
-#https://git.reviewboard.kde.org/r/125769/
-Patch4: use-dbus-mutex-to-prevent-write-back-outdated-configs.patch
-#backport git fix from 5.5.3
-Patch5: khotkey-compare.patch
  
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
@@ -65,11 +53,6 @@ developing applications that use %{name}.
 %prep
 %setup -q -n %{name}-%{version}
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 %build
 mkdir %{_target_platform}
@@ -110,6 +93,9 @@ rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/konqueror_gestures_kde321.khotkeys
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Thu Jan 07 2016 Cjacker <cjacker@foxmail.com> - 5.4.3-6
 - Backport git fix of QString QKeySequence compare
 
