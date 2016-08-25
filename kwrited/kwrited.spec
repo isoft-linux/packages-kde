@@ -1,6 +1,6 @@
 Name:           kwrited
-Version:        5.4.3
-Release:        2
+Version:        5.7.4
+Release:        1
 Summary:        KDE Write Daemon
 
 License:        GPLv2+
@@ -59,6 +59,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
