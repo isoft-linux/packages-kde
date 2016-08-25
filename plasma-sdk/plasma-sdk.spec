@@ -1,6 +1,6 @@
 Name:           plasma-sdk
-Version:        5.4.3
-Release:        3%{?dist}
+Version:        5.7.4
+Release:        1%{?dist}
 Summary:        Development tools for Plasma 5
 
 License:        GPLv2+ and LGPLv2+
@@ -100,6 +100,9 @@ echo "NoDisplay=true" >> %{buildroot}%{_datadir}/applications/cuttlefish.desktop
 %{_datadir}/applications/org.kde.plasma.themeexplorer.desktop
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Mon Nov 09 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-3
 - Hide development menu items
 
