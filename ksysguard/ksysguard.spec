@@ -63,8 +63,8 @@ make %{?_smp_mflags} -C %{_target_platform}
 make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %find_lang ksysguard5 --with-qt --with-kde --all-name
 
-%check
-desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.ksysguard.desktop
+#%check
+#desktop-file-validate %{buildroot}%{_datadir}/applications/org.kde.ksysguard.desktop
 
 %post
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
@@ -84,7 +84,7 @@ fi
 %{_kf5_libdir}/libkdeinit5_ksysguard.so
 %{_datadir}/ksysguard
 %config %{_sysconfdir}/xdg/ksysguard.knsrc
-%{_datadir}/applications/org.kde.ksysguard.desktop
+#%{_datadir}/applications/org.kde.ksysguard.desktop
 %{_docdir}/HTML/*/ksysguard
 %{_datadir}/icons/hicolor/*/apps/*.png
 %{_kf5_datadir}/knotifications5/ksysguard.notifyrc
