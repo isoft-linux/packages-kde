@@ -99,6 +99,9 @@ fi
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 
