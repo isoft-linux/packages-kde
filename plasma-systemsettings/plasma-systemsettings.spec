@@ -1,7 +1,7 @@
 %define         base_name systemsettings
 
 Name:           plasma-%{base_name}
-Version:        5.6.2
+Version:        5.7.4
 Release:        1
 Summary:        KDE's System Settings application
 
@@ -94,6 +94,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/systemsettings.deskto
 %{_libdir}/libsystemsettingsview.so
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Thu Apr 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.2-1
 - 5.6.2
 
