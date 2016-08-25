@@ -2,8 +2,8 @@
 
 Name:           polkit-kde
 Summary:        PolicyKit integration for KDE Desktop
-Version:        5.4.3
-Release:        2
+Version:        5.7.4
+Release:        1
 
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/polkit-kde-agent-1
@@ -77,6 +77,9 @@ mv %{buildroot}/%{_libexecdir}/polkit-kde-authentication-agent-1 \
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Sat Nov 07 2015 Cjacker <cjacker@foxmail.com> - 5.4.3-2
 - Update
 

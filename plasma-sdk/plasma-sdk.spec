@@ -42,6 +42,7 @@ BuildRequires:  kf5-ktexteditor-devel
 BuildRequires:  kf5-kwidgetsaddons-devel
 BuildRequires:  kf5-kxmlgui-devel
 BuildRequires:  kf5-kwindowsystem-devel
+BuildRequires:  kf5-kitemmodels-devel
 
 Requires:       kf5-filesystem
 
