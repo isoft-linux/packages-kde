@@ -1,7 +1,7 @@
 %define         base_name milou
 
 Name:           plasma-%{base_name}
-Version:        5.6.95
+Version:        5.7.4
 Release:        1
 Summary:        A dedicated KDE search application built on top of Baloo
 
@@ -70,6 +70,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Tue Jun 28 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
 - 5.6.95
 
