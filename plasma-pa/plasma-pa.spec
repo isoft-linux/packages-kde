@@ -1,5 +1,5 @@
 Name:    plasma-pa
-Version: 5.6.95
+Version: 5.7.4
 Release: 1%{?dist}
 Summary: Plasma applet for audio volume management using PulseAudio
 
@@ -78,6 +78,9 @@ rm -rfv %{buildroot}%{_kde4_appsdir}/kconf_update/
 
 
 %changelog
+* Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
+- 5.7.4
+
 * Mon Jun 27 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.6.95-1
 - 5.6.95
 
