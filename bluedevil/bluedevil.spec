@@ -90,7 +90,7 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 %doc README
 %{_kf5_bindir}/bluedevil-sendfile
 %{_kf5_bindir}/bluedevil-wizard
-%{_libexecdir}/bluedevil-*
+#%{_libexecdir}/bluedevil-*
 %{_kf5_qtplugindir}/kcm_*.so
 %{_kf5_qtplugindir}/kio_*.so
 %{_kf5_plugindir}/kded/*.so
