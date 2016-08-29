@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.25.0
-Release:        2
+Release:        3
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -115,6 +115,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_qtplugindir}/*.so
 %{_kf5_qtplugindir}/plasma/
 %{_kf5_qtplugindir}/plasma/scriptengines/
+%{_kf5_qtplugindir}/kpackage/packagestructure/*.so
 %{_kf5_datadir}/plasma/
 %{_kf5_datadir}/kservices5/*.desktop
 #%{_kf5_datadir}/kservices5/kded/*.desktop
@@ -137,8 +138,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
-* Mon Aug 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-2
+* Mon Aug 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-3
 - backport to commit cb6c63f9613a27dca47a285fb05614113d81b3c2
+- add unpackage file.
 
 * Tue Aug 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
 - 5.25.0
