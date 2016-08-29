@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.25.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 addon for Qt declarative
 
 License:        GPLv2+ and MIT
@@ -16,6 +16,9 @@ URL:            http://www.kde.org
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
+
+# backport to commit 0c136f27ad730ee7a6e7ba88df0ae99e3c2589d7
+Patch0: kdeclarative-kdebug-367828.patch
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -54,6 +57,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -97,6 +101,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Aug 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-2
+- backport to commit 0c136f27ad730ee7a6e7ba88df0ae99e3c2589d7
+
 * Tue Aug 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
 - 5.25.0
 
