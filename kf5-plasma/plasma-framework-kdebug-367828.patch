@@ -1,0 +1,1126 @@
+diff -Naur plasma-framework-5.25.0/src/declarativeimports/calendar/daysmodel.cpp plasma-framework-master/src/declarativeimports/calendar/daysmodel.cpp
+--- plasma-framework-5.25.0/src/declarativeimports/calendar/daysmodel.cpp	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/declarativeimports/calendar/daysmodel.cpp	2016-08-29 12:35:13.829398206 +0800
+@@ -98,9 +98,6 @@
+ 
+     m_eventsData.clear();
+ 
+-    // We always have 42 items (or weeks * num of days in week) so we only have to tell the view that the data changed.
+-    layoutChanged();
+-
+     const QDate modelFirstDay(m_data->at(0).yearNumber, m_data->at(0).monthNumber, m_data->at(0).dayNumber);
+ 
+     if (m_pluginsManager) {
+@@ -108,6 +105,9 @@
+             eventsPlugin->loadEventsForDateRange(modelFirstDay, modelFirstDay.addDays(42));
+         }
+     }
++
++    // We always have 42 items (or weeks * num of days in week) so we only have to tell the view that the data changed.
++    emit dataChanged(index(0, 0), index(m_data->count() - 1, 0));
+ }
+ 
+ void DaysModel::onDataReady(const QMultiHash<QDate, CalendarEvents::EventData> &data)
+@@ -118,7 +118,10 @@
+     if (data.contains(QDate::currentDate())) {
+         m_agendaNeedsUpdate = true;
+     }
+-    layoutChanged();
++
++    // only the containsEventItems role may have changed
++    emit dataChanged(index(0, 0), index(m_data->count() - 1, 0), {containsEventItems});
++
+     Q_EMIT agendaUpdated(QDate::currentDate());
+ }
+ 
+@@ -142,7 +145,7 @@
+     Q_FOREACH (const QDate date, updatesList) {
+         const QModelIndex changedIndex = indexForDate(date);
+         if (changedIndex.isValid()) {
+-            Q_EMIT dataChanged(changedIndex, changedIndex);
++            Q_EMIT dataChanged(changedIndex, changedIndex, {containsEventItems});
+         }
+         Q_EMIT agendaUpdated(date);
+     }
+@@ -168,7 +171,7 @@
+     Q_FOREACH (const QDate date, updatesList) {
+         const QModelIndex changedIndex = indexForDate(date);
+         if (changedIndex.isValid()) {
+-            Q_EMIT dataChanged(changedIndex, changedIndex);
++            Q_EMIT dataChanged(changedIndex, changedIndex, {containsEventItems});
+         }
+         Q_EMIT agendaUpdated(date);
+     }
+diff -Naur plasma-framework-5.25.0/src/declarativeimports/calendar/qml/DayDelegate.qml plasma-framework-master/src/declarativeimports/calendar/qml/DayDelegate.qml
+--- plasma-framework-5.25.0/src/declarativeimports/calendar/qml/DayDelegate.qml	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/declarativeimports/calendar/qml/DayDelegate.qml	2016-08-29 12:35:13.830398206 +0800
+@@ -124,9 +124,10 @@
+         elide: Text.ElideRight
+         fontSizeMode: Text.HorizontalFit
+         font.pixelSize: Math.max(theme.smallestFont.pixelSize, Math.floor(daysCalendar.cellHeight / 3))
+-        // This is to avoid the "Both point size and
+-        // pixel size set. Using pixel size" warnings
+-        font.pointSize: undefined
++        // Plasma component set point size, this code wants to set pixel size
++        // Setting both results in a warning
++        // -1 is an undocumented same as unset (see qquickvaluetypes)
++        font.pointSize: -1
+         color: today ? theme.backgroundColor : theme.textColor
+         Behavior on color {
+             ColorAnimation { duration: units.shortDuration * 2 }
+diff -Naur plasma-framework-5.25.0/src/declarativeimports/core/private/DefaultToolTip.qml plasma-framework-master/src/declarativeimports/core/private/DefaultToolTip.qml
+--- plasma-framework-5.25.0/src/declarativeimports/core/private/DefaultToolTip.qml	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/declarativeimports/core/private/DefaultToolTip.qml	2016-08-29 12:35:13.883398207 +0800
+@@ -35,6 +35,9 @@
+     Layout.maximumWidth: childrenRect.width + units.gridUnit
+     Layout.maximumHeight: childrenRect.height + units.gridUnit
+ 
++    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
++    LayoutMirroring.childrenInherit: true
++
+     RowLayout {
+ 
+         anchors {
+diff -Naur plasma-framework-5.25.0/src/declarativeimports/plasmacomponents/qml/ListItem.qml plasma-framework-master/src/declarativeimports/plasmacomponents/qml/ListItem.qml
+--- plasma-framework-5.25.0/src/declarativeimports/plasmacomponents/qml/ListItem.qml	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/declarativeimports/plasmacomponents/qml/ListItem.qml	2016-08-29 12:35:13.955398208 +0800
+@@ -88,7 +88,7 @@
+     width: parent ? parent.width : childrenRect.width
+     height: paddingItem.childrenRect.height + background.margins.top + background.margins.bottom
+ 
+-    property int implicitHeight: paddingItem.childrenRect.height + background.margins.top + background.margins.bottom
++    implicitHeight: paddingItem.childrenRect.height + background.margins.top + background.margins.bottom
+ 
+ 
+     Connections {
+diff -Naur plasma-framework-5.25.0/src/declarativeimports/plasmacomponents/qml/TextField.qml plasma-framework-master/src/declarativeimports/plasmacomponents/qml/TextField.qml
+--- plasma-framework-5.25.0/src/declarativeimports/plasmacomponents/qml/TextField.qml	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/declarativeimports/plasmacomponents/qml/TextField.qml	2016-08-29 12:35:13.982398209 +0800
+@@ -31,8 +31,6 @@
+ QtControls.TextField {
+     id: textField
+ 
+-
+-
+     //Plasma api
+ 
+     /**
+@@ -40,6 +38,13 @@
+      */
+     property bool clearButtonShown: false
+ 
++    /*
++     * Whether to show a button that allows the user to reveal the password in plain text
++     * This only makes sense if the echoMode is set to Password.
++     * @since 5.26
++     */
++    property bool revealPasswordButtonShown: false
++
+     //Deprecated/unsupported api
+     /**
+      * type: string
+@@ -72,31 +77,57 @@
+         print("DEPRECATED function");
+     }
+ 
+-
+     style: Styles.TextFieldStyle {}
+ 
+-    PlasmaCore.IconItem {
+-        id: clearButton
+-        source: "edit-clear-locationbar-rtl"
+-        height: Math.max(parent.height*0.8, units.iconSizes.small)
+-        width: height
+-        opacity: (textField.length > 0 && clearButtonShown && textField.enabled) ? 1 : 0
+-        Behavior on opacity {
+-            NumberAnimation {
+-                duration: units.longDuration
+-                easing.type: Easing.InOutQuad
+-            }
+-        }
++    Row {
+         anchors {
+-            right: parent.right
++            right: textField.right
+             rightMargin: 6
+             verticalCenter: textField.verticalCenter
+         }
+-        MouseArea {
+-            anchors.fill: parent
+-            onClicked: {
+-                textField.text = ""
+-                textField.forceActiveFocus()
++
++        PlasmaCore.IconItem {
++            id: showPasswordButton
++            source: revealPasswordButtonShown ? (textField.echoMode === TextInput.Normal ? "hint" : "visibility") : ""
++            height: Math.max(textField.height * 0.8, units.iconSizes.small)
++            width: height
++            opacity: (textField.length > 0 && revealPasswordButtonShown && textField.enabled) ? 1 : 0
++            visible: opacity > 0
++            Behavior on opacity {
++                NumberAnimation {
++                    duration: units.longDuration
++                    easing.type: Easing.InOutQuad
++                }
++            }
++            MouseArea {
++                anchors.fill: parent
++                onClicked: {
++                    textField.echoMode = (textField.echoMode == TextInput.Normal ? TextInput.Password : TextInput.Normal)
++                    textField.forceActiveFocus()
++                }
++            }
++        }
++
++        PlasmaCore.IconItem {
++            id: clearButton
++            //ltr confusingly refers to the direction of the arrow in the icon, not the text direction which it should be used in
++            source: clearButtonShown ? (LayoutMirroring.enabled ? "edit-clear-locationbar-ltr" : "edit-clear-locationbar-rtl") : ""
++            height: Math.max(textField.height * 0.8, units.iconSizes.small)
++            width: height
++            opacity: (textField.length > 0 && clearButtonShown && textField.enabled) ? 1 : 0
++            visible: opacity > 0
++            Behavior on opacity {
++                NumberAnimation {
++                    duration: units.longDuration
++                    easing.type: Easing.InOutQuad
++                }
++            }
++            MouseArea {
++                anchors.fill: parent
++                onClicked: {
++                    textField.text = ""
++                    textField.forceActiveFocus()
++                }
+             }
+         }
+     }
+diff -Naur plasma-framework-5.25.0/src/declarativeimports/plasmastyle/TextFieldStyle.qml plasma-framework-master/src/declarativeimports/plasmastyle/TextFieldStyle.qml
+--- plasma-framework-5.25.0/src/declarativeimports/plasmastyle/TextFieldStyle.qml	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/declarativeimports/plasmastyle/TextFieldStyle.qml	2016-08-29 12:35:14.009398209 +0800
+@@ -63,12 +63,20 @@
+             imagePath: "widgets/lineedit"
+             prefix: "base"
+         }
++
+         Component.onCompleted: {
+             root.padding.left = base.margins.left
+             root.padding.top = base.margins.top
+-            //TODO: if QtControls gets a component for this, use it instead of this hardcoded heuristic
+-            root.padding.right = base.margins.right + (control.clearButtonShown ? Math.max(control.parent.height*0.8, units.iconSizes.small)+units.smallSpacing : 0)
+             root.padding.bottom = base.margins.bottom
++
++            //TODO: if QtControls gets a component for this, use it instead of this hardcoded heuristic
++            root.padding.right = Qt.binding(function() {
++                var actionIconSize = Math.max(textField.height * 0.8, units.iconSizes.small);
++                //actionCount is an int of the number of items
++                var actionCount = (control.hasOwnProperty("clearButtonShown") && control.clearButtonShown) +
++                                  (control.hasOwnProperty("revealPasswordButtonShown") && control.revealPasswordButtonShown);
++                return base.margins.right + (actionIconSize * actionCount) + (actionCount > 0 ? units.smallSpacing : 0);
++            })
+         }
+     }
+ 
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/akonadi.svgz plasma-framework-master/src/desktoptheme/breeze/icons/akonadi.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/akonadi.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/akonadi.svgz	2016-08-29 12:35:14.106398211 +0800
+@@ -1,4 +1,5 @@
+-‹ˆñV akonadi.svg íXK“Û6¾ûW`éKRI€ P$§Öv¹œªõ%q’ªÜ0$¤áEhIh4ãTþûvƒ¡F”£xO›ŠfF~ý@?Ð­†Vß=ì*r¯›¶4õÚcõˆ®sS”õvíýôñŸy¤µª.Tej½öjã}÷êÅê¾OÞ4ZY]cioÉ÷õ]›«½&_ÝZ»_†áñxÊL³¿&¾’íý–Àžu»,òµ×3ïMå˜Š<Ô•ÞéÚ¶!Xèõ¼ùoŽÛ–÷:7»©['V·/Î¦ØŒ¬hÃ‘;&¥iF‘~ûX[õàOäÀ®9¹ˆR­g»‚eÙBôöð7ò@ÐšC“ëé Ö6|ûñíHôiPØbÐ1Dîd¿“pÖj§Û½Êu¸©(ìíÚ‹"Üêr{k»uY¬=0g‰ô¦Éf@êe—#LÉ¾)ô½®H¹ïÍ[&Ç-×žº3µBgÐãûR_›"”Düz¯^²*ô¦uÛâ‚g)s0ZûXibÑ5«l˜·mg`~hÈ»Ÿ›Ê4~›ßÂ1è¥	Þ ú£ý G~ë)„8åKÎxÂo¾íáßç_«ünÛ˜C]œ‹ëÍ†nØgÅßCD+ŒêÌæ…ÒZ~VúgÕ[ŽÂŸ³~“ãÏªxo ÍçÒ’ç×XÿÎä‡öK\}°ÖÔ_ž6'þ?&¯SòåèäÿLV¡;ì®B¬·
+-«©Àúq§ÿFµP¿{µÕNçÚ{¹q/Ü˜¦ÐÍ€&î5 @iûÆ=Ö2ªIôŒÔÞªÂ¡5LðOÆì°YI”
+-–L(9T7hÄgbŠã¶q@ã”§Ù‡FqÀîêÒBÃÜ?L…ú"¯Ô£wÜ?èBí­9nŒƒm‡Miýj¶eí[³N Joìs¬éºÝ)xc g;‡ŽËœ÷‡N'3Ä¡wÊ8='B8|qC4"yïÔC¹+?ipmÚmÑái*6ªj‡n·¹0$}¯|xÄ‡®SâJ0yáÐT‡3µ=”…&{Ó–ÖõòhAúáÅÀÓ”zÕQX¶ ½6”uÙUêzmâ™:º`Ù‰:A¯PG/êóÏì×¸K/úKþsÅ+ä&/Ä/yn_r:~9~É©º+ÒÁäE}þ™}ñ	…—üÅøZ÷	Y…ç-Íá;mU¡¬rBÃÌb8ç0ˆ-xûnøŒ_åùòÓÜÄÕ9@Ž ÎùF§²¯Ê”Ž\ßÀ´½u$œ0cá8]î¯Ùq³Èw%r†?Ú²ª¾GÍC FE¥­ôˆ­ÂÞÎÞ‹pâÆ*ütOÛ§‚¯Ô®ÖÞµWdÚðm¿3…î›aâ¡/ÚFÕ-ú†–Ü_ù<J~ÌEÀ“(úzˆæÖIöÓÙ·Õ^ÁtþÔM]ëÜÂ€ø^ÙC£»ö¢È	i¶Å]Ÿ6% ð0¶àäŸ$[°@â‹qBÝ_Ää_ðžŽÍ µ„?u » ËŠÐ… j†œ-¢YÔœ/&osêµ¿’pàþ)¼;˜@³‰§l‘LÅs¢ %œP “(“à<då<¢Ü©“§úÙ‚Ñ¢#œHÊ¨¸èJR™ÈK¦§sðÔ†Î3ôºj
+-†DvÆÏ¬'Ö šÉéìAGsæ2A±,4`‰”QÄæŒ\œŠ$›ó€±L“8á¨ªócŽ©óx(Œ‹ôd)Š£Êc6¯'‘œÇR ")“9«ñóƒIðl–ÆÒ4åÂÉŸ7„¥qš¡×4N1ËÃ)Pœ±4Š¹œ±¤Q¿—`tîèÓ ó€<üáŒ/½¤$FŽÎ&.@6›d¤2Ë" ÀÅQÎîÀ84eÌñ€™³L"`ð™Â2e‚¥s	d) àq69Ÿ³U!'Uñ¡«qÕÉR8ÕOàãòäÑg]Gáý¾®þ®¿~ÄŽB_>î ³Ù“'BÄÜ±d”Îñ RÇ“d|.<ÈÒDÆyÀëÙK{S ¬Ÿð<¸‡®½þJ¸dßn`Ôîbî’ëÿ‰¡µ¹ÓËÚÔº_w7¦%¤ ªF	µ_¶ÿ9¨FOÑ›²^ÂX¥›uÜ„ìRX¡àöÓ4êñdDÍfÓj»¤6Úå‘¼R-\*Ÿô4²­˜oÜÆúY§~¼ÁFÉéwb“¯ÊpøA)7u_–3ñÿ$HÃœn»™þ­pZ~õâ¿“E½mï  
+\ No newline at end of file
++‹       µVYoã6~Ï¯ ´…)Þ‡c{Ñ¦X @úÒÝ¢ÏZIqŒØR )×ýï!e‘‹@“ ãùøqn’Þ||=ÉsÙ´‡ºÚ&œ²„”U^‡j¿M~ýòiåÒvYUdÇº*·IU'wW›öyEÍU».òmrßuë4}|jŽ´nöi‘§å±<•U×¦œò4éùHÏ›2ëÏe^ŸNuÕ†UûaBnŠ»ýòòB_d qï}ÊD*Ä
++«ö­ê²×Õ|+Äxi«`Œ¥°62ÿ–5©À¡Ø&°(âê¡|ù¡~Ý&Œ0¢‘"Ù¾9•]Vd]†œ¸åŒpÀà×¿üø)j çùú·ºyèUøABöµ~ê¶I²àM‘¯ïêæ”u»Ã)Û—éwË&fäîí±F³MÙÖOM^^l^‘Ÿ¸)ýÜŽÇŸÐIBÒwFÝ±ÜŸñã9‹´O£O2d¹IÏEZQÞµc}P“LósuÚîí8„„ü©i`¤Vy}¬›U›ßÃ„%g†»MºòµKó¶ªEoü9pW_`•ü>dì¬?H.üzÝÃiÿ1j-|Úáfu•‡s´Yw?u;D—³&í}0Ã:lø™pN¸$7ÄPí¸eN¡*(»wÌB×J
++"	×ä…ƒUÅšBˆ)(d¶„£œ)mÜÄ™ðü¿óTq'¼ §pXw¡bÁ0JeðŽR£aÏõhÒŠ¹~#1k…[uF{/Qåu¥¬s¨£(©ÖB8=¥›`Ã ÃR.c !jÂVÑ‚šXpUD'8ñF8DÕQ&¥`²W}Š_†"X(!›…ªš°U¬”Šv-g½†NõØ'(³J„Ü¨aÒ;K€ìœÒSÃ6ZœˆùPcÏF‚KÎ£Ô`ÍØh€kÄ¦‰3õ³Lar¦™
++3òB¦¡fBÍ3UÈÈVq6T´;fêÇLeJy¡`ÐµF+%!S¡µtÊ æ!Ã¨’R{°8Ý7ˆ!˜‘µPÀxr"bàãlNøE6Ói4bZJi{¶qó¢Ö;'\Ä˜*ÖØÁMá5¢ŒÁâ‚'gC¤*o ³°Gpç&yÞÎkÝ
++5+¾í«m/T;ôþÏªí°´vRm«-Çú*ÊáÀ1­¢Lh®-`ÂBö2bŽ;+S³ÕÁuhÃ*µ©¨ƒÇGÓ›€y¸81Ñ±9êbsÔ…æ¨±9zÞ}¡9êBsÔ²9š#ÏÍq	ÍñxëÍ‹t;ïÅ72\ÊáØ&wð®û·'\à×ˆ¬êÇ,‡GrÍ¯Û®©Êu_‘†Wòâ{àç÷=\Ü3øÎ BˆAö0ˆe4£Û×Äé&Ý¿£¤XÁß?x©¸øwO•ÄÙûžp|‹Xø†`-A@?g+2ŒêÒY·(ÃeˆRFi›ã½‚]˜—°À‰ò‘<"ÀñsŽÄ’£ƒAØÏÜ›Ì`Ù>U*×{!PaÃf-ù…l¡o3hæ©wg;"½k¿pgváÚG×a3ú^º6×£§Þ5ÜUS×B/]Û…ëÐ.”ì¯\±p=zú?OWóÙöxžÂwò({ø?«~ÇÞ]ý	Ÿêû©1  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/akregator.svgz plasma-framework-master/src/desktoptheme/breeze/icons/akregator.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/akregator.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/akregator.svgz	2016-08-29 12:35:14.106398211 +0800
+@@ -1,7 +1,4 @@
+-‹ˆñV akregator.svg ¥WKsÛ6¾çW ô%™$AR´¤HÎL’É$×&mÏ0I“„€,É™þ÷.@¦^ŽêÊÖ\ì~Ø7–³»¦F\ªJ´ó€DI€xËDYµËyðç/x ¥i[ÒZ´|´"øp÷föÆè“äTóm+½BßÚÅèš£·+­×Ó8Þn·Qåˆ‘ËøÂ$ÕãÁ™­š–l8æõFÖ–©d1¯yÃ[­b‘8p¼ì™—™c«GÎDÓˆVY±VÝôœ²\xV£Ã6³d2™ÄI§)¬ö­¦;<½ÎÉ¥I’Ä°çØ®`™*ðÞ¾ž·'DJl$ãâQËuüùÇg¿‰“¨ÔeÑ{îà¼w¶´ájMWqO ¥^Íƒ4ÐŠWË•îÖU9@Ál\L‚a°	l9Ù©''Ñ„ I²Ût¡wÚMKÁÌ‰ó€>H¾¤ZÈÈšüXñíG±1” 4…ÿàîB³’/”=×,²ñ-±dØPz_s¤÷Æ6Íw:fJu²”xÌD-$Vlyà¤Š>êwKÄ?@ýt;YéMF²"»ïÈÿœüHÙÃRŠM[žŠóÅ"YÅ¿‚KkãÖ3‡—”óÉ‹Ò«^­¹~Iû3¿„ø* Î§Ò“Œ]£ýÁ6ê5¦Üh-Ú×‡ÍŠÿÏàu ¯w@'ÿ_\0‹m²ÛzˆMØ•/)SO¥©›ý÷TA¯é’[Ìyp³°Ÿ ÝYrÙSûé©:@¥÷®sûb60~+9ÙR+ZŠ-ô†ýIˆ`Š¨øì0¨n2llD€æ°1=oÚJC\ï†Ü®¬kºç`€ýaµÛ¥4–k¹Ë•Æ•ËªÅZ¬AëRÍú˜&»wH¼¥ÆR½Ûªs±kŽ$IóÓÍ¾]Žò3›»³xû³Ô†îª¦zâ`ØÐEÆÜ¡ë´6ñ¶^ØT%WÎ®Kz9ã"×-w{óÐõJ³ÊI–qßVû¬²hh-T¥m;OÃ >ä6@BV
+-Úíq˜84#pã«àZ~—„6kžáòä
+-¸ä">Ñ/¿ÆÜä¢½Iˆ5Ì˜…drÁÅ±~Å5pÙeÿ‡pW„ƒL.âáýFW /Ùküw¨áÈdŸ65Ko¸¦%ÕÔ
+-õ0ä}žÃ,6ýãó—þ–Ÿ16ý[Èdèô^l "ý`¦
+-6…é©¡ú®j ˜ÌÔõ;LÐ]ýÆ³)‹%y7{8KÖT†3þ®«ºþf{Gy J×ÜÓf±ÓÓYÌ˜Å½öiùÜjzÏëyð‰®)¶s§­Qr×;÷}RKÚ*c›i°¬aæ~‹³´ñ(Ë£¬HÓw½7—VÒOhÞs³5…ÝÎX•d5Dî2Ã„eé$e·Aí Ð-‹&æ3ý
+-™éŽ ’‡$G5JÃÄð<ßhÈ— “zðEO¨Ì¼Ç…Oz$»öHiHR/›‚lz$[„Ý0H:„",¼ü8¼ívS¯Á8Äc‹A¢Q82gÀ/|ý)îñ|™ŠOÉØÓŸÌ;ÜôóÀ]ºSò~©Ôß}vŒ°üÌ ´|ÚÂk•[w7Ô”$‘½ãÇãI¿á¥†÷ªh[Î ÌNy¤z#¹½XMÜ&ÇóòsFÏ$ˆ!¸½\þ˜¦7¤Ôá[ÃàeÂ¤Ž‘ÊI1ºd«5ä²¾õÄË®Làgf
+-øîÍ¿œù…  
+\ No newline at end of file
++‹       µUMoÛ0½÷WêqpdÉ±c»qŠnÃ€Ýeí°³++©QÇ
++lµi7ì¿”;Iƒ}H"ŸH"™_>¯ò¤º¾ÖmAù$¤DµRWu»*è—ÛAJIoÊ¶*Ýª‚¶š^.ÎæýÓêŒÁmŸW² ÷ÆlrÆ6]3ÑÝŠU’©F­UkzÆ'œÑ.G¸ìTiê'%õz­ÛÞF¶ýù¸«–z»ÝN¶‘ñ,ËX(˜ ‚þ¥5åsp
++O…Š0øFäoQ{õáÖPW§pÞZmßêç‚†$$ñ”D‚.À>_+SV¥)ãBvžZ`@|þùýwƒ»”ùWÝ=ø+|PÞéGSPºÌóJæKÝ­K³¨×åJ¡Ò7ð–9`ó²Q#©£íT¯;©N6¯’ëƒØ©›æ#&¡„‘Ö¦Q›Ów¯`þþ‘lï•s¶+‚½UjÙõÁ[Æ|WÞ¼4ƒlÈÇ®ƒ‘
++¤ntôò&Œî (· F=&û~¨Öä‚o,6¸/ù>¼Âòäç’èîÂ›Ï°ùj”fO«QnùÐ©Uit·Ó»)Íý¾\¼Ï}²){˜µc9ƒ>‘ˆðˆ\ã“+8O2ü¤{'œ2NøŒˆ€<Ãñ€Œ÷‘¡cüF,õÌQÛ€—'‹<YìÉ®!|æÃ·á"HB\štÆ=Iæ9¸ãHÉÌÄ(i:<	æ~ÿl¿2[töÊœü@š¡¬¶‰]Âç~~l.ÐèM)aÐs~Ñ›N?¨¼…Ÿ¹aÒOv4;ì˜­ã5ê°	1ìÞÛk5cZ«k/éœ­Žç,¬?š6.þnÜ TST›ìˆÂ·sšèÜ5‰CÜÁ7ÅåŠl£°“p°¯Ä]`/\ž@8‚éÔð×@`ËâÏe”8†(õ{céâ,C†¢¯`|¢Ñ'âCKæF4éFü×ÁáÓ£âãcÆ‘±n÷æ˜œ9þ,Î~V#ðØ  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/amarok.svgz plasma-framework-master/src/desktoptheme/breeze/icons/amarok.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/amarok.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/amarok.svgz	2016-08-29 12:35:14.106398211 +0800
+@@ -1,22 +1,16 @@
+-‹œQeV amarok.svg ¥ZÛrãÆ}ß¯@è§B€s¿ÈÒ¦âu¹œªä%v’g.	I¬¥	YÚMåßsº{ R¸ëuÖI‰Ó˜éééËéî.ÿüt·­~m÷‡M·»šéFÍªv·êÖ›ÝÍÕìŸ¿üX§Yuè—»õrÛíÚ«Ù®›ýùí›Ë?Ôuõnß.ûv]=núÛê¯»‡Õò¾­¾½íûû‹Åâññ±ÙbÓío¬êúí›7—‡_oÞTU…}w‡‹õêjVÜ?ì·<q½Z´Ûö®Ýõ‡…nôbvœ¾:N_Ñî›_ÛUww×í¼rwøædò~}=Î&i-OÒ9ç…2cjÌ¨wýò©~¾2N-5J©žgþ¶Y(ôÿ§„æÐ=ìWí5ÖµÍ®í?üòÃø°VÍº_Ÿ°ôùl×gJÞ-ïÚÃýrÕ×?nÖýíÕÌÝ¶››Û~nÖW3ÈkSÈ<>q-
+-«‹ñ‰j\j|µ×J9Ås¡/ÖÝŠ¤¸š-ï–ûîCÎŸ„í¦}ü¾{ÂâJUÆà³· _®Ûë=AhdSÔüOýÇm+«ªÿH‡ïÛ§~±:f™Ö­ö{¸L½ê¶Ý¾>¬náA…GU5ïˆú3ë_°¼úÏ°¶âßXmƒ}ÿ]!ÿwjá÷ËÕ‡›}÷°[¿^Þ^_«kýÙå?Aé[RüÄæëeÛæÏ®þ´÷»%§ÅŸ“þzEÿ}‘ÅOàõêlW¿Eú»ÕÃá÷ýû‡¾ïv¿ßl¼üÿ4ž0ùý
+-õ_£‚Ë»>‡È‚¢‚aF1¶¦:†Îûå¡-1q¿¼i™ûÕì›kþW¼ïöëv?<
+-üïÙ£è±é?J.(¼‡ð'®ãs5ýüp»\wÀ–—?uÝ¸†&$t~ùx`0€•ì²}µv…ýzm•ù€ó@Ù¢~Ømz òýÓ«å¶Ë-ŽÍt™t¸íoö¤¾~ÿ0¨ïzÓ×@¯›Í®î»{œõ5}Û^÷“ö‚­OÞwð»ã£Q¾ÇÍ:«HëlÎÍ€[+óJeÊÓyþPbmÏ<»[>mî6ŸZèA¿œB*:5íõr{°õrœEJ|ŽÓO‰ö¥‰à4\-|úæa³þ¾;lzÎ4f¯@FU:Žœºýæ\ÊæêùÄ›¤¯Ú¤ìá¦7Qs¦6Aòûí›¨/íRŸ;‹û…©/iLÍë3§q¿};×ùóv	gÎ¾fûE»„ÉM¾Âø:i—úÜYüW˜Û|Acd—ÉÓøÁü—‹×øÏô»¶_®—ýò˜
+-j)7Ä*êÝ‹üðãP]®VÿîöÆ|TÑ„åûî3ÖNT¡­.P¡Þ-û·›;à ·BEŠ´4>x6™ÂÿÈTØî[)u'ëýõênC‹?÷›íö¯´É¨Ø‘é¦ß¶Gâå¢H_Î¶89Üåb8=n^àÙvù¾Ý^ÍÞ-ï—Õ+°£áþ®[·%OÌŽ*}–7úýrw ÃSâÀÏ-z¡okkÂ¼öÖ56óÇAï7§6•²xTïåý²¿=*kµ]Ã^Ö«³ãâAkœNñ„<)‰s”æ8,þ^i=·Õ_ª4Oì•*…JñZ5ÈÐÁiŠ§•Õ»*76ºdU Q“=¨HÉÊy—(€¬ñ&åTÅ&¥uJ PT0Õrb“š0Jg?/±El‚Í&zÚ7ZSr 9¥Œ" H.{g#H:Äx‡ƒÆŸÝ!ùlmá8b ñ¬ÏÁÎ]£Ö©$‰.@×ð0ƒF#›m0©¥ÐKiž÷,<ó×”#ˆÕŠ³	$…6I¹ ZtÑŸ+1˜5h¨jøS›øÆ§HJœ{h]+œ›x*“"DÕ(ì¬A²9{ìB¤¬"š\¢iÉ2h6‘.Ü™MD=´6§H˜w•kr0ÚEjØÐ€”B
+-tdÈ¬uÊ“…4h™•0µÅ¨¢9©Í[œˆ·pÑ{4¨6YÍæ ¼J Á³°3ÓŒ1¤-˜J×™4¸„ƒ™É3ï¢‚Õ8ÿ<6ÊDÈê+xNÒÆZ?'o
+-ØXŽJQÛäpÍ¬IÌƒë'“4ö Ò'›AÊ¸lhÁQ|€”<da’O¤+ClÏŸÃB/Xšž âÈ$¼‡3¨û|ÕOÎÄÐ†èŽsŠÅœRÌD+ÚJM	éMíð@VòÇM9ƒ± sð4 $€3o‰d%Ê3,«"”yf•5‚5c^bH¼‰ŠpUø¯¦èGäÑI”Ã™<Ó´‡*Ñ,Ñ µ3™Ãx«J!Ìó6Ú
+-LÑ(D$m¸P„-‰Âœ@‰¤šiL¢YäËÄÉãL–Ø‚ÐÓ¦M¶PÍ
+-Æ™å4S<E(ŒáwHi¨˜¢°WÖD‚(xJ.ƒ?pI>	)—Æ|~~Ì“áM4Èž×‡0ácÃ—yvÔLPIÆg 1<Ã2`E®
+-[Ç ã9‡g ÒˆV¨WtMR°ª(û X.çä9Š`ÚÉ6ŽwrÄU&[ °k6Í78W†:Jn°E)¬däSà!BàŒª•Ö¤jX$ ßHÔÖÑþÊ%ý˜ê4ñÈy-j	4ÊÈ¤Gí-ðŠD¶/$²I”Y¸ ÅÌî¢D÷02Ô7šòœÜM´Œ_O{)âRÑÞt2Ï1H˜–¹Ã+ùðV& ±J£3,1l#§RI8ˆ€Q|BðØ ¨¿$°¨—f9„¬/!£‚ãä”¨&³ö”¤ú‘ÅÉá¯s1³&®ÅsCÒsqë9ÑiÈ°ÈZY4@U0ðABÙ°‘t&8 Q	¥ÄL h±›‘h÷`ÃÂ:Ãlc8óEDœÓ‹dur8}ò"¢#°Ê­åƒ¢îƒÅu5” ó›#LQ¦¡%ˆy‰`WÅeÁ¼ÈuNÉm‘I¹‚<(„L‰R$)Ç×áÀ$ŸIãQi±…c˜2"!ðsHK>äŠm.$«ÄÏPªˆ‚(X›åˆ€y‰sQŠ-Ò¡§œ ehÀ$PŠ8Chuc¤¼š—•Hß”DáTr"œx&ŒåN\·8¦–ˆˆ>‹#CrF.1˜8GŽâ»¸t,ˆ] kŒ©óØUR>‰¬vqô¢Ú(çS 4#²'p HÒ·£#ðSâ.1,k$V¤Û¹ 2+,Ú$áËÀsÖ™¹zcµÂ%º¡Šn‰ó$x'Þ3¾¸ªî2G†ÝÎb•äïXÁÐ6í0&¤3Yz„UÀÏ*-Ê)ÉÞ	´	ˆ 5À°,I*žŸƒXR‘ëå5/3%$Á,„¬ì)¡$ž†)\´ÒtS¥Ñþ³°„²`DÛ¢=@Š¨Gïó’¿kö_ 3Éƒ$â¡å´Ju›Œ=Ü¡Lg©9ŸðgÏGeíe|ÖÖ>â€–'Ñ¯IˆA¥¯ ©Sƒ lýŒb:3 }š5ÐÀA“J,®ŠÌºœAdAÆId62$ÝˆñM™o¥¢Qe(QÁÉðl|IŠ`1"•yEŒ¢ç\[t ³b;  M_8ž‡våx\ø)/8ÑA¦æÁL;8¡]Ù~L©VBüK±Q”$9JéÎÛÕŠ´Žª‡’Ð1ð:G*£fBÊ2ˆ##£~õ>8JŸÂ|Ä*ç™0Zx[ñm”™m§G™t`„=Ã]ÁC†WoJì5;¦’	@ÄD;'¼QñþœãÏ–ä•<ûÿ(jQ&œF™òvT®üÛœ¯GŽ'3–­¼’ÜÃ‰.9:afk†å	V<Ñq—yŽ? P,g‡¶h…†DŠ
+-;(˜'e¬åòÒj9›sŸÑ
+-ê]‘êÄœÁI˜R—Î™ýsqB'rðq<±=ç¹sì©Z^1ÂïŒH‹‹#Ì¡<–5¹Äx¦ùv‚HR°+h‡uœˆ [2Ç¥`¥¼$ô?Y5‰Ï™ÚÈ	zj2Õñè@£¤ÈØÀûà–n dÏÂn<M^ .—hžJYj‘ÑGG@
+-~C­¹£6(4 \{Îw] ÆÀÍJ¤f¥6š—çÃ¥™8å³1’­@=ê5/…O	€ªJ’,RAcù¶,ˆíí#*"i¾Ác.ŒA4M&ÁL¹|ÉŠ¥o;Î‡{>‰ûuÉîâ™éHóEÞ™GÉýÂ$±la¤4TV—ÕŸ¼¯Ôˆˆ-¢tÕ™»wxÕõ˜x‡øM7(èHnÝD.j«ÚáÑ:%²
+-°-ôµo2)+3‘’š&œò–À¹£ÑÎ”	¶úTÝqJÍÒ¯‘WÐ…³%/)}äzÏ”k%ÊdÝ¨#·ËÈ]@(œ ¾É'á`l÷3\½EÆ¶?½{åÊÚtÌÈøÄŽA; ¿&V~èb²/ÌŠ¤ûÖH“¬Æ/Él’eš\–Í‡[ÙÈvQˆÕl*O÷’#r±åKÒ–“¼4I¥É¢`ÃD`„£8hÇõ|M
+-©ÐãU¹Ñ|Ã©Âa£Ñæ+`h8û”4Í	­Ð)]”‹ÁT¼.Ò›cRFh¡V¨=¢j ÐÎ¨ ÝòÊÐ€ntgž@÷4/„énÀAƒˆ-¾ïK°z¦»
+-îñÝ<‹M©€æŽßs˜!M{(–‡Ñ4šf=.0eÓ14”¹ã¡›g%!ÀE4GfšÍ\«[nÂÉú‰a‚Hœ6&iÛâÖ\³s.’»ãd<]~Î5ETKG
+-(¶s²DËÁ[4lNÒ]úY®Å3ÝAM#hõ“|¹?’ÛaiÿŸŠÖC0Ù1˜(Æ¡1Ôêè¸dÛç+qbE|@÷’mm¥h «jÎÇÓò!Ø¸¡#¥“"Ã–ZÌ½4ÊA„»ˆjf¨:³ v¹YåÑ©œ–u0®¯(Å Ã8œ¨ äø3ƒÑ™"•¥Òb”4lbil¤hAM‘|SB¤øÆgË=+—¬J.bÎm,u †‹V+€GäŠÙ(æ”Xè3QƒCàë\ ·æl¢©Õi«Tj& fÐÕ´”J2JQå—HbvkoJWÃ[£MO<À$½º Úx°Ò¾—Š
+-õ¤¼Q*¥iÙe?IÛr<™¡¢KZ%U<J”$7™¥xñZ¢Z¯$Y
+-ü
+-NhÊÄ2#P-@—'¨cw[M”Ê6 £—
+-×”:=Ë].‹¤B 2(k#‡t€˜¨³çÃM€¬Ë¡´H’ è\*~…•	Ü¨K¡N® d[ŠÅÜ$yËA4‚eèžñùHü‰Ý—ÎÈ&•÷Gª$frkù’ºâB:KõgWÔ0·´&ðp¥ðn¾øŽÄ0 ‡£Â,—KœOÈT'.-y¿®‹§÷Z¯(,§rr5á¼GD9É†	J×rè8³:ßÆÁðúYZu’W'iƒaØÐCrµ,Ö$EÈ…C.ÖðôzESúŒb0 1‚ËrÎ Ïdë”J¿ÓKÊ´s©|Q²È{MÄÓÐ0Ç Ð<J€Œ±ôJˆ’!ÿŽôn‰tšD5.å3Ä:ªþD¯]‡”¥‡b§ú[èóØ¢r¤ÓëL 1vŠ¥y'„B¡mÆ}KUÈmT¢¼ÏÇ2|-IpÉ™è£€_öÃU;½–‚õ:_E©u5B¥øH¨¸–2rc&Ð†œÉ/d3¡¼©†ß¹P¾KIüØòkQ'¯Gé½;¶§è·<F)Bc¨…K€œ¬á—v oÅòÂm>èÉI‰@wÈ\æJú.¥û»q’V|Ö¹ðŽ™Ó¿?CË+ïŒ\èT˜ÓºÒ6'ªžK)“>|rÀ3^Í®7Ûíð=äpúeÃø½^·Ûµ«¾Û×˜ùë²Ø·ôUÛÉÇ{<>.üx5+_9œ|×TUOW3¤†Â‹ïžåßóO£ßXÐJ}†ò	ä…ïw| ]·kùW=<Óßú}÷¡åGÇ„7ò}
+-þ\Òg4oßüÓ4Y3‚/  
+\ No newline at end of file
++‹       µY[o›Ç}Ï¯øÀ<–—Ý™½Ê’4E€ÎK“¢@ßŠv„H¢!Ò±ã¢ÿ½çÌ,IYe´@#ä7Üo/s9sÎêú›O÷Ó¯Û§ýÝîñf—a6m7»Û»Çw7³¿þøÝ¢Í¦ýaýx»¾ß=nof»Ù7¯¿ºÞÿúî«išðòãþêvs3ûùpxµZ½ÿðt¿Ü=½[ÝnVÛûíÃöñ°_Åe\ÍÎÃ7çá›§íúp÷ëv³{xØ=îíÍÇý×Ï?Ý¾=þøñãò£Ú Ø{_Y‰,0b±ÿíñ°þ´øòUìñÒ«BXá·óÈßõÌ?Ñw·73ü(þëÝöãwŸnfa
++SN“Êì5ì×ÛÃúv}XsŒ¿r´Äf#0›¿úËŸ¾ó'<o6WÛ=ý2ñ¬Ú}8ÜÌf¯OæëÛÍÕÛÝÓÃúðúîaýnËþg¹^øbðá·÷Ûó¤>íÓv¿ûð´Ù^ÞíæáŽ/­~8ÜÝßÿ™‹Ì¦Õ‹Iï÷Û×¶¦=žb5Ž1¹zvÊëÕÑ	öt»}»?û‡Or<zgøíþ´mØ|xzBJ-6»ûÝÓb¿ù6;àvof‡í§Ãj³ßŸ¼µü–ƒ°±‹ñëôÓ)lž«¯5jÑŸ^ó?OÇ°õ}×Üš}{wÞîúaý´ûå¸Ù÷ëÃÏÏ÷ÊçzÚÜæ~½G¢½ÜËéwfÇã<ê´™i™b“ÚæaZ´¹.s‹U„ßÛæÇ_§ã°ò—goµùâô¾ó­E\â·–û´K!…8_È2µ–Thkª½%{±„œ*m!ó3FqƒhfÌî–îC´‡‚=Ôí"qbÅçÄR·ŸƒØS~ö[‰‚oÌ)™†TpúÜRcèZy¼W³¨­a4hÎ54Z¢4lÃ¦è˜µM²ìÜ,Ëq?Ø?´¿|¢·ù=ÚœQ´‰Íj‰Õ¶ÙÛÉ”ÇFlÑÊ¡s÷kmrÑ6¦Å«ô–¿:žŠøDÒëÜœ\ø˜ªÆ.súG«/œ‘ªÕLHYéÓ·SÌË”:›Ç´‰pøuYs¨ØuÄù‘1äúûô@Çw8‡O<yDÊÉ2æ¬YÝŠ8JXKËžJh}ÊKfEépen4r;k¤8çŒ¡âÜqÙ[±-d“¦‰%rHM8W²sõÔ93\\ÍP%7vª¬ˆ;æÉ±g3Åb6wôÀåéý–mŒF|3‡.-Ùk©·ã§n“k.š<C£yKDËaK©‹¦ûÉ†ƒ£ëËÒ¼ÞmS!³Jªˆ˜+“”ž¹‡ÒU-­“½ÙüEK¢kk°ÇRñžeðJ¡-¡=²TËnE5s­ZPë<®ÔØµÐ¹±¥d35Ö¬6s¯åû·”4TMÔylËR
+++#Áy­Â!´5D¿Ã”{/¦î‡ƒë”ÛŽ)w—š3j[¯˜âOoÈ²1©ã)©Q8(™0°©e¶ÄºM{á
++„ÏŸÆº6/3¥älÓ³Í‚ÔQ[€Y”qÌ´l‚|Ä1Ûi­&ž	±@•š­—¬ð>P1U)¹ÌE	V(1Ø"~Kš9n‹|˜”µÀON=á HûI{R8´#`Yl8æ.QUP1iFòX®Ìcµ2†(ÌÚ„ó‰¶¬H†VPšJeD?ÆcEº%ÉBÅ4 |$ª abñÀÙ‰MUZM±FGÅ¾iÉhæ¯< -3ˆ(Ñ™3’Ž„Y[P!ˆ+<Íì™$[lþZA°¬JµZ!Á+	ÈìCµ (íPJ²7¾o€Šþmð‹õ3@ØäSM	ÊÊÄÌŽé@k¦À²ø[9GÂ~""º¡×’/YFæÁonÇñJ°ŽÄ:t°:ª†Tm[Õ@Û4§…ŽI|S@Xµ-ôÒåKë)«e”"
++—ŽÝA«¡‚Š“ó=E‹Rß@d cŠ›©å°p1%÷“$!caA:r×ø‚Âaa©æ39¢ª”jó"òì3ð¶² ÌäQ²BÊv0C,ÝEL€É>ÙëÙ›¸ÌN«íE¬äˆS£c'za¹·êìÕWë `&c¹%1d³X§APKVàæC±†œ3SÈÖãb
++É;§Ž[°ñ“ã;ÐÏÚiA·÷W³DeÀ|îV;)Þ^Ñb2á…[oÞØ]2JÔ»y?²œbÀç&¼eTŸH@¢›JJÄ9Â)`Q@ O¡…ƒ‘qÿòÑSÈ2–Ç³(fµô¯~b–ÒËLRq`ó¿ˆZQ$¨§&;& 1}V,ò¹ƒ°_°ÀY³.¾%‡ÞÖÛc`Y¹Á	BöVÛàkRH„É<®YÜ³ 
++_tlÃû|ÉtŒ¥xÜ2ˆ@: Ô$©à õ€–P=J úDoó—êõ@G¢ë|ž¾fZgŸÞ’plFbº¢PHê¼Ošg12¡™¡7çGÝÁo¸©€¨ åé2Ð¾LÇþFŸ8vOo¦jýÂâk«Z=WNÅívìk@a¨›Ú«¶ò‘%¢y£]ÉÀ©¬‚…¨9¨`Žq=gŽç†À5Ôl;²RTó½„Ž¢sRCnoìÌHm†fl|¡ÌÄ:_ 9hm$/šUe$<šAŽéLb\|
++=Ò° …LÐ™<¸;ŽCÀ4E«ãÆè©èÔ#§>â1Xü±X/™F¢f1ô‘jqS[Â"¶C©^ÙmLœÉq’†:ÃˆsšÏ'Qfúïfö
++øjHOp¯hYìÞ¯7ÐÈWñÕþ ¸½zÜ=žEòE=ØŸë½ï§0Å€´	*üÍ©vüf||ž^îæ¼¬íëÙ¢×«w/%ªÊÿ~_¨Fùï”*g2b¨dÁTÐX¡7PßˆmiˆB0ÅCdê3É&…”« EƒA(pÅ¨ÿeˆ)ñÿÍôl*
++1N¥ Ì¨™€U“¸žíÆÜ˜Ë9ëW¶Í«³œ	c ¹]†0Ð0–îÝ0CŠê}bØ(WŒ©ø4=^vud˜{ìÏž Zþ€«7ãäU.+Ü•rfC¹qY+EÚ(`’Å{Ö”Æ)cOC¥TôMjÛS¹c7¦jS|ùôBÝ¶Uä•…£{[Q†ÏªGéÔÉ©&÷Ü]å?ÇBj‡~,lW£Ef <GøŠÆH"ÜÈÌð5±¡ßPOUšÌ»Ó”šxH>š¸Qö‰Rw& ©”`ÄR¸Ò}‘¢.{I+]R®Êl#QFCu?%vl…]%²ÁÀu0öZ‘ée`#HŒ!iD~˜¬•VESº-"Pçuàµ±¥TS²õˆ&C´ÅV5ÄÓ¼C7@£CZ'VšZ†Þ ãHÄÓFÞØÉ®;Ú°v8ƒ¥€±@ªBÍ¡é+GnoÂ†A’ø8¹:iÅž€fQÎQi+X‚&4š¦¨ª&_‰}Äé!²AŸL‹S1—€ƒBnZ›bf	8(xX¤TAßŠÉû–IˆHGE@7'¾PÄDq¼'”kÎ*Í~RÙÚ`·» úÊ™îïÈ0&¼UˆH5W‹ºôG“íÆG”¬íQ)]ì,Húd²ºŠZ'…‡vŠäfäÉ¤¤‰3Ð)á´nhQ@¨§¬Çyð(^Ì®£˜k4LæÓ0ÍÆ¯vm-Ø4U°½dò;‰äwÐ—môN”J6i!õ{÷5!N=9¥VÐèçž¯`˜øbNM!ªé‰Ø’!$ØJãýD¢ó"¦5)‚Ã3±ëéP‚õ~Ðk¥ÌCÉaÉœMãä¸ñú “ï E:/>”Ø”xÅÚÚ	™¯Â=T­T6ªŸ„Ðl„ÈÈª£2é
++0‚â
++Z…b'ÛŒÍX€—;‚¹MÁ\9×;ÇXJo€ãÒë`ILª”x‘U‘˜à;p¥½…²AÌ™;X¯YÎ!uÄn_z‹HV<BMŸƒäV’O×Rè6l*ÄÀè9</¦‰_”ÖÚ|MÊ¸:e£ÞfXI!Ýïµ‹&ODÔ©R’±+°Þodøac‹Å1ûý"\‰'hfç¼[3ú‰ŒS'È>”ˆ%"„$ âeœ}¼:1EÑôyoÙDx§Hµ¡€A3A4G'ÅÉî¡ím’£ˆaB;f2btªèÀ|Ç(Â/Ð:ÅlŽÏ6»­—LÓù/\iµ–êí½	
++ƒì8r:‹Go~¼¹ôÖ«5âjœw­mo¦ÔõˆbŒèÌ‚ê*97jëª/v)âzÔ~\nŠufÂ©XÚfvìœ@ÀMŒëB [ÝSý¶8¥c¢viÍ/ P#>5tPI®¥lOF„Á†Äí~á“x«@€@—s©œ
++¯É,µØT¨Ë£’Ê`'ûXP&¿æÕC?÷:®²yoæ—)ƒÀ!v)ÓChñrÑæ<?¡g©ç v®„•¨Bð¦Ž;"µ³UÞ²˜¢ß¼m±Á²€»ëævn7vgÖT 7d(g*è^¤°]Åcª79RyûÅN‚F`Í¥S-& AGËkà ¦vçeÈ†ÇË‰rìù’étÿ”=ïÑ—ÀÖ&©'0åPÈlCTŒêZŒºá/ÝQŒl`Ž±0ºe\#€c`§àžÜr ‡7¥WjÞ Œ_²0¢sËê	N‚dÄÚJODo2©ÚA»Yó oFK„»Mh;o {æ1³£&
++gŒ´]u*fþ§ØÕa
++½EIÚŽLŽ—ŒN³k°EÍô¹òÞÒB§¸·+v… f0ðNð»f€†Ý>1ˆÝHœ´àÇQº3F"f7Hñ›´Œ¿U¡YÙ8à~ê†]]¤±ÿN&É;h¸_5ŽÊ#Gô\dxTÑÝÕnÚËIÑX†t®l	-Ú}+ð/{û‡´v^¤ví :Xµ‰eÐ.™ŽÙÚìò”Û.ñz\„‰Ý$Ã+áXîuÌN2Ôˆ‚Ëu˜|õÿ)¡cúRC£á‡gâÙþþîŸÃü?hèkþ=ýõWÿZfz¨!  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/applications.svgz plasma-framework-master/src/desktoptheme/breeze/icons/applications.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/applications.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/applications.svgz	2016-08-29 12:35:14.106398211 +0800
+@@ -1,8 +1,7 @@
+-‹ˆñV applications.svg Ík“ÚÈñ»ÅDûÅ® iz Ìú*¶Ë¹ûp•ªØNªî›P,4”$ØTþ{ºG#!Þ°vîÂ.0ÓÓÝÓ¯ééãŸ6‹œ<É²ÊTñh1‡ZD‰J³böh}ýòÉZ¤ªã"sUÈG«PÖOï^ÿdÛäC)ãZ¦dÕsòKñ­Jâ¥$¯çu½¹îz½v2tT9sßÛÊêiF`Ï¢¥É£e—«2×HiâÊ\.dQW.s˜kÜd‡›à¶Ù“LÔb¡ŠJ“ÕC‹Y¦ÓeXÁ¢(r)w9·Ã®¶EoìÈuŠŽSJ]X3h7 Œ69è}V½Úm
+-†^Â»ÃnN¥Ve"§@&BÖîÇ/»E›:i¶<Z#ïí¸gù"^Èj'²r[¸^Këù£%¸Eæ2›Íëfœ¥è"†Adõã‚Á’¡u`êDŒ”L„Ü‡(1ÒR•àŽV¼\æYÎB7i=erý^m€’P"8ü[ï^2Nå´Ò[ã@C¦Á° Æ’qù×2N3ˆ	²ò˜'z¢%*ÏeºÄù:ÞV†0ªjµl”ƒÀj:­$ RŒðm.›5X¨rôÀ¢0™²·¤ÀxY½1Ë=Ë0Ü1d'r:I¦ñ†cw_­›ÕôêzUý$HÒôfõ½ª¾¤Ò—áVŸóð~õ9®©Ï#žðé­êsÁ®©OõkŸ!}{§þçô$:©Œæ¥„Ü÷pò€œ0]VØ08öœû-|ßwDÀ¤üoá0ð…há3CýµÈjH†«J–Ÿ1³ü­øZÉN›"wÙ'"ž¹YÐˆ!€òê9~‡ÿrbPhû
+-ßØW„{öÕpm_ï6ûvË_Ê¸¨àrX<Z5s¸ˆ_Û‚{Ûçšócµ<EÂ7Z2Ö(4ÊqÖèü®¾hÒÁ	)Ãp_Jî‹Éß˜9kÍ!ßmW,¼†b?Ä£[¥Õ™ˆÔ[,j¹©Ý¤ªš“UYy“Ÿì*™CÕÕ%LçB?k ýèÈ¿Í
+-!&¡	&1ykÀÿ9Eø>N¾ÍJµ*Òcr9R¸^/‘ÿUIŽ•É‰ÍÓXÊè"õ? Ôx±äH|Iúi‚WYü¬ T:¦ŽDr‹ôŸT²ª^¢úûU]«âånÓäßé¼†ÉËÐÐßc‚±«ƒ]×“.Ö‘zÔU¥X’¦XêèŸÄ˜N—ñLjžpB§úe‘‰*SY¶Ð@¿Z¨¹¸MŸÔ}dÓ-Ñ£¥j§j9¦V
+-r÷Ða4
+-ú5TÇÌs8÷‚aŸ"Ám‡N€èýšªíöKöªIËMŸÈò<ÞJPGa}2WëY‰v¨ËØašÕö".gYaC}¢k¢(—ÓúV6Ã>p¢Àgí$Xg(o›nƒQî/¶ý‡ïXÜœä·=	]Ä›l‘=ËTWaÝ*ªÛwÄ4Î«6×;,4ˆÉ”›-Nš<‰#A£Ò¥Ô6¢f«,•d©ª¬nº¡àVyx¹¨“sÜ¬> †Ò »èvÌ	áB2!m]°÷Yâf{,=v%Èq‰§}$'\S·0=§7Ø‡Rú×²`gìHåoa×róŽmxÀî·ˆóüì#ùü[œr^_´ßCã±{œØ4|!ë8ëXµè¨½6ÞËt:úûÇO]'“$£ªòAx<Q+8‡]€y2Â:3®ße8BøœãÏ›E¶[ØCÆ¤y•²y„qòOš,2Ät?×Yžÿ‚œwÍ•a”Õ¹Ü5\®‘³í—zjŒÝVO=›í~Odþh}ˆ—1é'¼×–•J“M-f²c}¦¸úÅµ‘c¦)û:lUÏc'xƒ1ƒÒÎëÛµ„Z±í»óí¬1;½>*l£è^Ýu£ÐK–ê›ªÈÓãø$Â¤[ìîp¬,ñ´Âe³í÷t}»/ãzÞJuV(¦dÑÓr•Ë‘|’…JÓ¾tfÜ\#¶Ü´ dMà²ïÃþ¥²b"ËºÛ©kžPcœ0ÀBB±½%è€ï&ÔH ÇTáTÄìaC„0@¶=òLDBƒÅÓßÜ °ÍÌg³ ƒç3á‚Ñ²í´­'°˜èõ †ú.ê§¸^•ïµû=2äœG´~%þ €÷,ï@Ï{òÖˆÆfMHï6èwîOütèÿÑvõ´mˆ31ˆàƒGø ÂÚ |ýÛ½¦
+-ÂûLu!=°Ä÷#qkêñO¦ÓÃ"¨Ÿ|ïJº!/³Ëy±É¬Í^„&Uày4äÔŠyÅ¤“tø¶D§Wì<ö¿ßéÞ´Cï‰Sn€Œk‚Â<Ì¼b÷]¬ï‚úÎxnÂ*dß/ü¥òÙ-1€ð†xøîpß>ÉÁ+~›à|ÀB'9œÊí¡¾Zô‡†é›HÃõít@û¦@ÎÐìÁN¬Ùø^›	ñ~ÉfâºÍ~…sç@dSò¢œýÇàrÅÙTOÅ!TœÇ¥ú†:¥"BÆhv;= >µÁv&­JT¢0 ¼Ä1 ›AÏã²c•öÑºÙÔ¾ ¶áøîkØ‹îˆ«±;ë†ú’Á´Ï»‡Ýú2ú¿?6m¿÷ëä.¦#ß:¢ú®¾ŽÝÏ,³¦a€¯1¶2ï^ý+
+-~  
+\ No newline at end of file
++‹       ÍVÛ’›F}ß¯ ðK\a`f Áh‘\eg·âWÛIžñ0’¨E ‚Ñj×©ü{z.\tñ®×N%AªÝsÎôtÓ}Pöæa[9÷¢íÊ¦^¸ÄÇ®#jÞe½^¸¿}ºE©ët2¯‹¼jj±pëÆ}³¼Êºûõ•ã8@®»yÁîFÊÝ<vû¶ò›v<•ØŠZvñIàŽp>Ây+rYÞÞl·MÝifÝ½š€Ûb5 ‡ƒ5ˆ0ÆLJ P÷XËüSáŒ—¨cÀÚˆ|u(¹Y¸q¤­(×¹pCªÍ²X¸ g$Ôö¤˜Ä]‚'Û
++™¹ÌÕªÁ÷ ,µ7ƒ,æ~¹5ØœÏÿhÚ;kÂ¥ ùçfÝåàÎ
++>_5í6—Ër›¯…:òÏTŒG`ù¸ã¦fÛVtÍ¾åââS,ø¶T¤à£,«ê½
++â:ÁÉ¦¥¬ÄRÇ4·}MÃ&L²Ì‚¾Ú*Äªë£,(hÜW§“Õpluš…+Åƒx×¹½[ñø¾m¡åoª¦Eß@Õòß)ïGíDŸ€îü9d¡	óW!	gáçkëþëñmÎïÖm³¯‹3ö»IoÒ'Ù¿—âðÝ¡ù‰ð+}=»Ã¯tèy|¬¯gÙ·ßwgä8WŸ§ë¶—²©¿¿ìšþcÅ7{|%¥ì™êþå
++Ð·Iô.éY {Ötºjg}·6ë²ÍëNM'(A.Ûòá'^uQæaøX‹x(¢ØOHÇŠÉÌO¡ñkwÐ?øæ»]UrPRÐPÔÈhY\öGÕZ¸Í.ç0ÑsìcbÂ\¯`²‡Pš€pÈ(‰“ëN¶Í˜×ð8š9"Ä4œV-)<½bN\%>d6c,ôGÀ™üã~^1ì3u%x¦KfÍ”1ÏÔ,
++C/¦”'ôõ YÙ.—›“Šèô­tèç}\r1u¥âNDCŠB(fB9Ø›™³8æ7õ0øPïD£÷‹³uÒ	æ%<(ž1‰„†G=zêìIÀ^ÆCÌëüñ<ñkŒJÌ.d^ÛH­LŽ‡Fö¿_³ˆ(;˜Wy*N_7¶³`ýmZNµ 3…,Õb@1 éTþs ŒE§2žË@xAŒ£S°Ï”Eéÿ_¢!Ö¡bè31±c=‚š©>2ŽH÷	áQFRdI)´þ1+6íN¨Ý[|2°~DQr4ƒ6ê[ÐˆDý¹Ãá\éŒ=.êý_Ï%uˆ"¤ýñ0RÔ»…Ám<Ž¼y	Àà+I—ÒOþáô:[u
++töì%ó©?âË«¿g.‡ñ_  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/apport.svgz plasma-framework-master/src/desktoptheme/breeze/icons/apport.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/apport.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/apport.svgz	2016-08-29 12:35:14.106398211 +0800
+@@ -1,3 +1,5 @@
+-‹ˆñV apport.svg ÅWYsÛ6~Ï¯@™—d"ðÖAFrf’L&ymÒö&A‰5I° hIÉô¿w<LZ’£º•-ŠüöÀØÅrýîPäžK•‹jcy¶k^%"Í«íÆúíÛ'º²ˆÒ¬JY!*¾±*a½»y±þ…RòAr¦yJö¹Þ‘/ÕJXÍÉ«Öuì8ûýÞÎ;Ðrë¼&”‚¤ºßX³Rqšl¬Ž¹nda˜ÒÄá/y¥•ãÙžcu¼Éo‚Ëæ÷<e)*eÄ*õ²ç”i6°¢ûÀpxQ9®ïø>ªŽ•f:’»ÎÉù®ë:@ëØ®`‰D¯†ïÀÛ¶LxBÜ®¸v>~û8©k§:íuô‘›¬7	gÅJ®j–påô¸©Hõncù¾Ev<ßît{Ÿ§V‹È'ÛR'°kGÞ›”ßó‚HÈ}g^œŠ—ÜX¬®…Ô¶qø>çû÷â BÄ%¾ÿÖÍBÖ)Ï”Yo‚ÕÒ30”>œè#z¦ùA;‰R­}I#%¤&¢’ªd» “"Äþ€èWÒo G~tBŒ@ü2ð‚Epû¶ƒÿ>'øž%w[)š*=çYæfÞ“âŸ! õÌâ)ã<zRúwÕ³-Gá§¬Ïüû©ŠÏ²|*É5ÖI£žãúûFkQ=?mFü?&¯Uòü ´òÿ&kÇlvSÖ¹ê	‹)Åú1»ÿ–)(ßšm¹Ñ¹±^fæc‘[!S.{ta>=* þs}ìúöPÊ¨f ¹'$µc©ØCgáß…(±WØz‹%êmß‹æAŽq\Ö·—A¸Çš O4Ø¿iSåúe}uE^°#wÌ4!µû­Ä8hÙ@²\Ó’Ém^Q-jða<Ó1Ù6»)x+ g¥AöyÎÓ¾QÎgˆ}ëŒæËS"„ƒ†§0DÃNá’ò2ÿÎÁµq³E‡Ç©ÈX¡ún·¸0$]¯<ñ¡í”xzo9}Sí÷Ô¶ÉSNj¡rmZ¹?ó!ýðñÀ!s=k)ÞjævÚPÔ­®R×i©sgÞj¢.t¯Pç^ÔGOì¯q×½è¯;£-®0˜yÑ…ø-Û·¸F]p9~‹©º+ÒáEõÑûæW$^òã7µpÞ%díœ¶4ƒ—\³”if„ú˜Â~ŸÃÿúñSÆ¯“$þCÈ;‚8»Tà0 àL‘Ä09•Lßä%”N\o`X‚Þ:&ÌX8F—äíÜuvÚL“2GNç«Î‹âjî5(ÊuÁlítvv^8#7ÖNï§yÚ>|Ány±±>°š‘q#À­.EÊ»fØ†¸ï‹Z²J¡oØá¶€yûüÅŒÎƒÐ¾ÿºæÖH¶ÃÙ¶uÍ`6G‚ä‰=lQ˜øÑl,
+-‚»x3—xs¸`ªÍeN(‚ÔÍ.ßI	|1H…¹Ãê"G¯h"õIü–âêwüò£¤ ÿymFxàèHZÎhðÛ@ç³ÀH†ÃJa'}çm¸D¡‹áqÂÐYq–„¯m0~l¬nˆ½·ìðþ6³AèƒÒRÜñ¸‚7½ñ¡-ª
+-vLå {Ït#¹9S“‚)8àæå³ÆMGàdì6+v`8>aÿN_OFo-[5\]ò Í{Âòî¾=âc×î‰´ÈÁVÇê¯†I>FÿyCà²GÍCG·ŽÃK×R²ãdDE–)®c·Ç»†žëlÛþ ?kì\7/þ `Ó1z  
+\ No newline at end of file
++‹       µ–QoÛ6Çßó)õq°%J”e)–lCëËÚaÏªÄ8BeÉ˜8é°ï¾ãñxT² Å,ð3ÿãýIéhÞ?ñ¨ç¥ŸÆ:’Û$zl§®Ouôûç›}$ÓŒ]3L£®£qŠÞoËãéFÉãRumÝs©âøò0Ûi>Å]ëAŸõh–Xneyäí¬Ó?êv:Ÿ§qÁÌqy·ÏÝ«¯×ëöš¡H–e'iœ¦Pl–çÑ4O›—©àñ­Ô4I’æ‚ò»ªÕùHô]Ádêf{}ýqzª£D$"W"K£#Ägmš®1Õ¸‘{T€ÌW¿ýüÁ`Ü¶ÕÓü•†ðgÍ—éÁÔQtäð¡k«»i>7æØŸ›“¶N€½â0ñBlž/:,ê–õ2=Ì­~óáuí¹·Iñ'ÓÃ/¶H$âW‹öfÐG¬é>ú]Ä´Úd¼Úå!ö‡€£Nß-á|ì(KréOg1ÏÛ¶‚öažá•Ú´Ó0Í›¥½‡7,òk·ŽŒ~2q»,|ZÛŸ¬øj7ŸaVüÉ»Àuªw™ÌvÙ—[
++ÿÅÛÀúÎµµ†ŸNÁns¹L³ñf/¹_{µã‚ÍµC³À‹öÚÏCÂG‘	™‰_i	P²Ü;¢Jî•O|íXÑ4Ó”D­,2‡1`Ø1(˜£(„mîžÁ)VDã’‘;Qîµ$¢ÜÒ‰¼.•Û»ò„ÒÕ)½+‚mâÒ–¶ ì‡éãÎýzOn2Qé#E`NÊœ3¼Ò¯Q’Ò3ÔðÕ÷äÇ³¤ª%»²Jx°O#ÍœŽIaé7Îh*‰¨\ÍÎ3dRi›Z0rW1÷~¬ˆÂ9£pÚÂ§|ücËÔÑ\u+¾ó·6²™.M×J%o3O_u5Â—
++ß+o¶Pù²E!(›À-HS&…ÿtÊ¢¯UÑC|zÝÕYºÿï÷¶Lÿ]s§;aû€˜'L
++»¾„Sµ§¬J<æ´`ºWŽKaß¥LzP°@QK{J™brÊh¼ó(œ¨ðZñ"ÊÉ˜aqªŠ°ÁTdC±¼ª¬Àû.õ  ÛDãj*grÊh\xNTx-‰xådÌ°8Uu‘$P‘ÅvüÁÐIIoÔÓÇy'~;[)æ*•aSíC¦¯ŽO-e¢"SLZ“g’ÀŒ22Îü?[YªW‘ŠdÕÄøÓÉ‘Âÿ¡—ö§Ðñæo¹)4Ø
++  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/bookmarks.svgz plasma-framework-master/src/desktoptheme/breeze/icons/bookmarks.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/bookmarks.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/bookmarks.svgz	2016-08-29 12:35:14.106398211 +0800
+@@ -1,6 +1,5 @@
+-‹ˆñV bookmarks.svg µXm›Fþž_±%_ÕÀîòîØ)ÒDjU©¹´R¿q°Øè€µ`}¶Sõ¿wvy9ÀØG.-¾“`fç™WfgY½=æz`e•òb­kˆÓb³Ö¾Ü~Ð}U",â0ã[k×ÞÞ¼Xý ëè§’…‚ÅèŠ-úTÜWQ¸cèÕVˆÝÒ4‡ƒ‘6Dƒ—ó5Òu¬6tÕ2ŽÖZ³x·/3µ(ŽL–±œ¢2‰AL­Y=®¤ÚôE<ÏyQ)±¢zÙ®,ã¤[*m8Xj	‚ÀÄÔ¤T‡zu*DxÔ{r`×”Å›Àk–ÍX²<fà÷E·S
+-ÞÁ·º%ß—K@ŒæûÛ÷SÇF,â£ò@ã òE˜³jF¬2[ºY‹Åv­YTC[–n¶¢¾Oãµ¾X¾hýº Àjd—A%±<ê@•4Ö-cIkíŽóû<,ï+CEç!e‡wüb#‹ÂŸvó¡UÌ’Jé•7–ïEDŠ…åÏe§PhÓÜ|)R‰ØW¬ü,½ú­øRC'ºÖL/€’=Âƒ¸†ãÛÅÀƒpÉ€+uuÙ¾ëÂ2™ªå¶dPQ/GlËéE$âYÆ"a˜ÂS¥u¶Þ–aQAóµ–‡¢L¯¨A(J~ðT_Ý÷\ƒ‚^²Ð	¡®aQ?x­™Ó±˜0ùºE5 U‚ïê,ÃA8x’T–bùªŸ2Vót€àåòeä›Zo‰C¼SqZ’Ö®	ÀàLÆ½³ÉÀ•9të;JÁºR
+-ÞìR€’ò¯–, ÿS)XÏ+…',šÎÙO•B¢®QæÞh(ÊÂ
+-Òð“\õ9ÚBÿÖß…Ñý¦äû"¾T* Ð}ªT¦â¹
+-/”’RƒÄIvLÁŽÂŒªªN|´/KXW+×+…ÛEËè+»9ôwÃA¨±Ö"–kÝ½iÈÿL	>Zy.Î’'äªøGhÔ™lÖÊã±àªôÐ€Ÿm¹¾f}Éß“9ìçÒÍ±þöÕs\·‚ÏO›ÿÎäÕ Ï@-ÿ-!X™ªØÕ.kÊÝUÝuµÜ¥c¹+«ê¿eëÜ…¦0¡ÏÕoŸ†îx³²¥ºêj©Í[ÙŒŽ]Ï‘0Ÿ±ªmóÃZë·©¯œCkôûfâÔ#Öpo“ê,ƒÀØa÷È0wìåä¨ïë]awìË4ïvžXÙqª-?lJéf2 I*tZ6i¡C×Q°GÊX"Æ´²žž†Ä;ÉÊµ³áàµÞL^D5Ü1³Å{‚yœÄ;MRóð˜æéW«ÞÚq¥¿ý4^«0ìÓ˜AÜD¹oÛÞª““1jšæñ$ê–)ïl"GaH°ÐiïÁ.Ûä…Á–ïäªÎ´kÑ]-*åhÇ«TÔ£åÂ"µ°§ð waÍ±`»l”KÐîÍÓ©áøžÃtìŽ0AbOc‚!WAõ3Km2õ’çàÄÈLÛz,,|!’xlŸ3®E³üó(ŽðfdÆº¨Ÿ[8'/—=–:3RBÜÁ†M\LÆ9&@¶1jCTÏž…“À±F ~C^ø¿í>Mí‚œE@†ÆÇš¨?Ô9CÓeX¼ÀFþûx\#=Fõz0„Ñ8®$k\Lþœ,y-L½7Æœ‘Àl2?x8 ´ì>òŒÕ;ÏÔ}ö!d0#Mþ¥¤=f$ÇoR>~/õÖða¾ƒïJÐ8ÝA“š•y>)zÎD‡"TBíƒåÃËÜQÆÉò÷÷ºóL-ÿäå=’ôðŽïaßîÎòÃF´”ç½PÜ¤9l¹òÑÇ<ƒQ¬cËíUa•¬þü3ù},ŽòT®4?‹4Ë>IäÇ#V”ŠŒ=»ÌÆÎöXÔsce¶~ª§M=	¶ßmZ¿kòÆ¦?žw¡Ø¶g¶ÇÃ`6-ÁÚWã&pœ}­¸½“c%J~Ï–/Xsßû €@å¯²ÿAð^SÇ€™ÍGÐ9€ ûú«Îp	ç[Ûó­Á©·(€
+-9ýB±/Y}¬írÏc&ãO¤®ÞAuÊ7lç¢{ò+Á·»—£ÀPnÀ4ë,0ÂÒE.ý¢¦‹ÖË¨ÛðzN;˜ÿÄé•¹i‹ Ìnô y‘z´©gÏþ§ÂÞÄ.TŽzÓE¡Âp9Bí»	f¬ä›róâ_º–ïœ  
+\ No newline at end of file
++‹       ÍVMsÛ6½ûWp˜K3H $EB&•™¤ö´×&mÏ4I‘„†€,9þ÷.À/}ÕÎ¤‡–²<Øå¾]ìÃÃÚé‡c]9Ï¢U¥l2—xØuDÃeQ6ëÌýíË#J\Gé¼)òJ6"sé~XÞ¥êy}ç8€µ(xæn´Þ-|·o+O¶k¿à¾¨D-­|âßÂùÎ[‘ëòYpY×²QÙ¨w'Ám±£‡ƒwlaŒù˜ú”"ˆ@ê¥ÑùCa· cìÃ»)òÍ¨CYèMæF¡µ6¢\otæÔše‘¹ÌI`í2‰»OZ¹ÎÍÛ.~ð di½)t±øõ§ÇÎ›óÅ²Ýö&<& ’{(ì.GwZðÅJ¶u®—e¯…ÙòÐTêO/Î‚õËNLI»´­Prßrqó^—äÖeUýbŠ¸Ž‘´Ô•XÚšÝrèÂïÛè›ôOºLýkb¥&~Œ„F;J¿Tã¶Ín2W‹£ö¹Rîà68¾o[â²’-R|
++Ùò>ïgëD_ îü9va‹w	æÁÓ}ïþëðcÎ·ëVî›â
++ýÀ’‡äUôï¥8|wi~¥üÊ>oføY‚B¯ëcû¼‰~”|¯®ÀQn>¯ó¶×Z6ßO»…ÿ;ò»ÿÐ?	ö{þ6ôc~Š'xê[ÍvJ7r¶«u÷^·y£Ìí„Ië¶<þ ƒ×<”Í0|z‹ÌPH±“(Šf("s/f„FïÝé¢ÀüƒŸ')·uÞnÕ8M×Ãí>2Wîry=Lºì÷+¸ÐãÁá€QÅ÷J·r+Lÿ³«fJ˜&£³’”ŽžaPž¸Ž™‹bš3„'øÄumGSø5QØcæ‰ñÜ2Õ›	c³Žª0f)Ó÷ã¤Jw¹Þ\0bÛï'†=æsÈÍÖÍðvB:·¥”b])NÍ|ƒnCÖ»õÑ~™ÌL"ö×	Ä¬Ï°S;°ñhÛ¤cs}D¬ƒ6]b³¾:¬²‰m^å
++þî]NÄž¯Ô_›\“S¹bè4`‰Õ+õJ’S½þWJ¥Œ…—J®•ÜPjŒqx©TÔ“ÿ¿T[*„RØ–2"¡½’z™¢5ŽuŽÁ_{möÒ[qRÜæÄAó)—½ß“gp|=;Ó'=Uê7ˆ25ÿà,ïþL‘8W·
++  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/cantata.svgz plasma-framework-master/src/desktoptheme/breeze/icons/cantata.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/cantata.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/cantata.svgz	2016-08-29 12:35:14.106398211 +0800
+@@ -1,6 +1,6 @@
+-‹       ¥VYsÛ6~÷¯@é—dJ‚8x*”2“d2Ék“¶Ï4	I¬IBCR‘íNÿ{wÁK’e×u¨dŒ=¾½°X yW•ä‡jÚB×K‹SfUg:/êÍÒúýûg'²HÛ¥už–ºVK«ÖÖûÕUò‹ãJ;•“CÑmÉ×ú¶ÍÒ"o¶]·[¸îáp ÅÀ¤ºÙ¸o‰ã¬®®’öÇæŠ~ëv‘gKk ìöMióÌU¥ªTÝµ.§ÜµfõlVÏÐ{ñCeºªtÝdÝ^)7ùzÒÆhÒ(ñ8Ž]&\!ÐpÚûºKïœS(Äx	*c.ÈfÍ—i-Z(èþOê#ƒ¶zßdj8EkÕ¹Ÿ¾š„£y—™ëyâõ¤ÈuZ©v—fªuG¾ÁŠ¼Û.-!µUÅfÛMd‘/-ˆWFAlè£và½Â`j1I9i¸…o4Æ¹Î0†¥•¥P×.¥`ø¡·Z¨Ã}XÂˆðÏZ?©T—æ ‰:},#‡ûFt`£¿}úÜS@gÙâOÝÜ$|¨Þè=$e­&v’g(m•v«¢J7
+-wåW(eâÎ‚åî~§f£½ÙFõ{t±Qó¬*ä~ëŠ²üŠN,âž-ºR­ŒÏ~9fáiIºGY&îXCMåÅÚæXÉÞÆüeºÔÍÒº^›Ïê7ºÉU3Šóˆ44	D{<°õÍ_*ë:]ª&­1[ÎÉ¦æ¹Äß¹º$˜ÚÃ›]”¶Û4×èÄsá¡¨Aà}Ëcñ>hŒ½{“h¡©N\Üv«˜ÉÒZ§e«Î­=h]a
+-4ð“çâú–óGÜ{¾'døD|w2D€Á²*½+ªâAåóÍn÷MÓÑ)Ó{ÕÌG·ï»$Wëv.R2
+-ùx’Úî¾œZ;wiuê®s³¶µF6âF¦…œ6ÛÂ@žNýˆÜo†é|8ù{êxX\K.yón`ÿs	ø!Ín7Þ×ùc¸Z¯Ùš?ÿû^âÞ_pž§JÅÏ¢ÿ€Þxuä~.úu†¿ÿ4ñEÃ<}ŒŽeö’è?ëlß¾&õ{8æõë·ÍÀróz#¯/@ÿ?%H\ÓúýpÅSaV›^ÚÁkñB€Ó€Ë6o)Ûñ¥Ge ÄÛ£é²™.¦ÍÉ™é¯¼é˜$LÔù:ã>ã‘5³a@Èiàwv;÷ßé>ûDRzÞÛä¹´†Á»Àùôn·Ó¢†œY9£Œ¿k»Fß*#:º¸’]ÚmŸ±ô‡!a6æ9Ã³%¼Ý	ç¶$)	)¼Ä"Æ„f~NËÇì§¸Î%¶cø¤"ÌæèÅŸ›ÕL9H'<Qòá(ò‹-‚rÞ ¦Ë´…·áù˜<Û;,rüâªóŸª¹”iØw‡Ô-´õH…‚œ©alsê‹jI# # ãž¤‘mþzDRÎ$¶ ,äb"}*dÀ÷ˆ–ÀG`ÃRš%GpËØ·xÒ––4š	Tb6`1NTpF• Ñ÷ñC¸žË\u¸—AhA}èXúFJŸ rH
+-Ãò1nF%‹ L2ˆÓvðqxhÏgX 
+-áyX£(Œ#Œb d!Dèa<¾)*ƒá!ÞFÌXˆ™2¬)‘çs‰$‚è¤¹^Þ/ð&q7ý4ƒ?	>mWWÿ´¯1Ï  
+\ No newline at end of file
++‹       µVÛn7}ÏW›Çîex'eÉAš"@æ¥IQ o›ÕÚ"iíú’ý÷ž¡¤•ä¨h\ ¶%Ïg†3ž¾z\-Å}»éÝz–É’2Ñ®›n¾X_Ï²?>¼-B&ú¡^Ïëe·ngÙºË^]¾˜ö÷×/„0^÷“y3Ën†ávRU·w›eÙm®«ySµËvÕ®‡¾’¥¬²½9Ð›M[‹û¶éV«nÝ'Ëuÿòˆ¼™_ì‡‡‡òA'’Œ1V¤*¥
++0ŠþËz¨‹SSÄxÎTQ…³ó?YGõ‘	XÌgÕötÑ>üÜ=Î2$¬Ze—À§«v¨çõP3gk²G%8~òû/o·;ì›fòg·ù¼Ûâ‡	õ§în˜eÙåOçÍäªÛ¬êár±ª¯[Žô'ä2­'äáËm{pºu»iûînÓ´goÞ¬lT½Ëå¯|I&ª'NÃ²½Lwn—û,ª]»$«£,§Õ¾i7o¯úC}x§ÉÊ}uúáËr›	ÍÝfƒ–*šnÙmŠ¾¹A‡e{‡;Ë†öq¨š¾«U¾aòûÄ->àTü5f‘üL^j©þt±ƒÿÓH÷o£æÐÒêúnS£ë†zím=ÜË{?F×,ëö4˜ñœÛCH™KU¢·ƒÓ¢>-‰T¥ß"`ù-üohq.þU¬å’oÉ}ÂeZvÅ7ÛÂŸ±ý:ÆŸj5Ë®Ð-“Ý3¥\/)ºÛºA?M¨tý°é>·“5ôdl©³Å‹Ï,kˆ™1Q)Ñˆ‚Ê ½DâTj'•(d(j¥%CÊi¬(TŒõJéIÇD¯w@`o˜ãU4Æé\•*jécJ)géÒJoQiÉùK™ T©•ÕÁE N;ï‚0%9²•QúH"¸àrPÖá:x&ˆB:üS,ê„-‘p"’
++H˜r<)½‚£“ Q š*MªQÐ|°e¤Rù r»‡$—6âR¤$¶džxéxDFD¤KêÙ2•Aç…A"q)qJ’«Æ6^šBÑlÀØƒÑž/Êã%Îb¿¾ýÇg6¥üþ–”ò¸çÞñ ®G±>èµýwãóU<çpo
++ìèÖiuýTd´*ð÷R#õsÆåÐÏ^'zñZH…
++îB¹­Œ€¬Â	béçàðãN^^'M“;Í01!ìØŸ ÊŸá˜ƒã©8Ò>Or´/¡¬Jê1sž)é°ÑÁ#†DYë¹Ë1ÓF:rÜù°‰Î3”bJ¨‚UI£0(.HžGJ*Õ ïaÃ¦Þ™­ÔÌ[jatšUM^{(4HP/¶ƒ'‹zbÖl0$"û±`HEm´AÜÐ«åö~Ämƒ$ÇÁ1ªÔ>ø)œò4q¿ëÊ@!ÈÜó•;²q²–åò %Tv„môÚ‚KI‘‚ó\-œ:kñâ0 ›
++ÃNåÖ‹7Â(¾j—+X Øè-ƒìÑ5!2°øÎp,.Z+¯¼2>¥ÑQ*œcéLà¤}i Sx9ÆÈ[ñÁ­ŠS†/Ò¨#Ò‘žÃ~¤…ÓV<ˆJÿ‰n¿;øhÑ”ÿ³¼|ñABÞE'  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/computer.svgz plasma-framework-master/src/desktoptheme/breeze/icons/computer.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/computer.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/computer.svgz	2016-08-29 12:35:14.107398211 +0800
+@@ -1,15 +1,7 @@
+-‹¼$V computer.svg í]kÛ8–ýž_¡u°˜n¬%ó)‰®ªÐÝè:»ƒéî]`¾É’\åmÛ2dUª*‹ýï{I=,ÚÔÃò#N0•ÄeñÍÃÃ{//)æþÏ¯«¥õ)N·‹dý0ÂYñ:L¢Åúñaôûo?ÛþÈÚfÁ:
+-–É:~­“ÑŸ?¼»ÿÛ¶~Lã ‹#ëe‘=Y]ÿ±ƒMl}÷”e›édòòòâ,Š@'I'ß[¶ýáÝ»ûí§Çw–eA½ëí4
+-FE†ÍsºT	£p/ãU¼Î¶ìàÉh—<Ü%eí‹Oq˜¬VÉz«r®·ïk‰Óh^¥–­y¡*BL™bC
+-{û¶Î‚W[Ï
+-m4e%¡	ÄíRöK5}]Q±õÚþü«2”Î6yNÃx9cgg“Ÿ~û©Š´‘eQ­˜}­^mHÖÁ*Þn‚0ÞNÊp•ÿeeO#JÔÓS¼x|ÊªÇEô0‚ÞQßê¹Fœ'(ŠšV1Èa¾Ã­#ÄJS6z%¡lÅÃÆqóœÅ©eÎ^Ä/?$¯ÝB%ðwôÂï£x¾•ñySäõ=¬â °ŒƒôßÓ Z ƒòt–õX<ÿ–ë-à·z­‚,]¼~‡Çþ`‡#ùCÆ¶Kîa>¶	gŽO™`ßö‹ù}½È`ìŸ·qú«Äï?×¿oã*Õyqê;ž€?Uè+„2„dáŒíÒbHËÈ~ZlJ+»«wQæî2IMŸÒhÿ~?¢»bÊñ	“å2adƒåKð¶Y“VóµµêýPÄßo³dS¦
+-doKwhC‰I:}ºaá;” ®‹ìmŠG»,É|¾¡^TSt„P¯zÐ§²Å<öº+ÃæÊ¼\½Óí bDD±ièWÕ "xPåÑwÍ(Öjó:êYº£a>gòë4Òw6õY>uÆ6Ç\Í-1hcïˆIÌ‡Nbáá^“˜|ú$>¬¾W±]Œà5÷æŸûsïOÁnúq#Ù;èç³0ŽxSe·È>ŠMìÃÔÄ¾Ã´Š}ûi‡Ÿ#Ÿôb¨B0/À¿žw‘Â§îñôEù³ãèSß6¾‹ƒdFÃsâØæcù1„xiŒ£D£šN1"Ú¸…‘ß‹[g—`V¯b»†Úãxå¹þ<ç•ÇýãY%æÁ,d·Î*²G*GZkÜb·(ÚOc¤X?ØsÉE(Ö§ØÎQwÙ ŠE‚”§çšøÜ%¸f_“ò$¬Eyzë8AFå)z(Oú±ÏCa_Ÿb;	á‘ãÙÇCo6Ätó<Õ»ØGEî¯SnNÀqjB§˜F-Üª4½8åcd_Dmö,¸ÓFÂxåÍgaè0Èð^Å1‹éW%Õ<EÄdæçRÍäU¢¢Ï’€õ[úˆØY’ö,¸“hˆ^åo¶ÑÛ*s‡,	\7˜ÏÄ­Ë6¦Ë¶Â.Ó	§oØÁ®eP#â-dc@Ñ~*T\fÐ§ØN­&¬"»³Dó„o›$kÑ‚(öãçê­ÍÕˆFD«éÉ´C6šDòú±Ìw/Â²>Åv¼oZv°LˆùƒX†ŽçØŒE¢Ù*¼Žadº¥Ftr¡VRaÞTÞEg½Ší&•iœ;HãvçHå\BÌæþ5¬´ÓH%tR%Ù[b¶’‹Ð^är=~	rõ*¶k¼]Ï´OÔE.p7:ž\nÍè¯½Yäù_Ó acÙ¼+p¶÷€÷óÜºþ6–ìëSl'!ü{¢!H3!Ú*°%êº¾|Un5J[Üjº3—3³[Ííf&¬û<r§nŸb;u°øt9bˆb%Ãœº~Ø(hoE±ÖÕ`ãÆA=Q÷®í·ãéQd_ÆmÛ¯àÎA§Clq€ÂÆmð¶Ê8Ø°oŸa˜9~j««f¢aÿ¢áž{Sì2‹Î>ÅvŽ;²èÄâÅõøE§˜‘fFß
+-ÉtÑ{®³öíÑÏ2óñeNkô)¶ÓWJ,:}ñhˆc–!þ2Ÿþ™¶<;ON¶£v<ðp<XÝW/­{¢×'ƒ¨KðžpcTc'çd/U;³O=*zB‡ImiÐoú]£„`D)!Æ ".	‘vdÏ?¢ŽÕ«­ÐþêÁ|Î±áL¤ùü¤vÖò’Àí53Aç]ºžúÌ‡ÿ´ƒ‚—„N;k`:ÅÌ®Üþ†ÃæƒÚ!‘‹rNßN7Açž:*œBå¬Žn<˜ »ÂÕ†‹Â¢ïñš`é«ÎÅ¨CÏXÃFºÙã¦mÐ_t*ŠV>Q„®È'ã>ïžQkvˆ+«ø¢8ÕwÝL8‘ëádÞÀ{§" ¹–ë­
+-‘¢³Êõv!-Â	_mûÃ„ÊEvóRã¼)QtüV¢‘Ü}÷J´}•‹N¶ºgÙ >«äîeDí»ã\÷f7¿¶%pY#ª]Já/gB5{vÎ¢à½Åì˜·*±ðÂùÐ·*1;î­J‚fáüÀkrX™ñ­JiŸ_ßÁ‚Y»0sõ,®[9ÄË)¢‘ žFr‚ï¥LÑâ¥e$éé»ð/{yL	†*8ËÙ¨<5„¦²ÐìM¾žÅ¯Ù$Üê,ŸÓªË‡ÒÞ†Oñ*®xæü(CUöoÝúßj‹±§˜ºtvWÿŸ)ãAøÇcš<¯£Ãìñ|Ž€§mÙÿ²x|ZÊ·Ñ•GA‹ÖÜÿµˆ_·\fnký<”:‹øKò)NsöiýÏIø¼Òõž³,Y6•ýÄÁË@žÿî'Šú¦iÐÄ÷Ú¾ÜÞLùçDøçDø&ÂýDÞ˜¡¾U—pÈ8"yÝFž\ÎYP)¢Mð«ÒAuÎÕO1KÒ(NË(WýhQ…ß+S”]jjYjÌñÛ§ J^v¯V‘Ÿ“”!Æ˜¯„ïÇ†¯`wô±ëŠƒÈ·|Ã1ìDF€©¼xÆ~Îóæõ {!3–Á[½V¿J½¾}J^S‰^–>—èÍ™½
+-ÒÇÅÚggeÕÂ—ñ<3F¤ùÅ+†˜YXí¢ªö½,Ö ™]Üà‚iJQÞê‚9€¡HòÚ\>€X½ì°·
+-^«Åç8ÚYyU	Q}dçÁ²â™‚ïyÅÛÀBnW™%¶ºp~}“aš#Xý„G(.Ö¯uWg}È7þ5c©œª)eŽM²]dù]6ãâ` Òª NyJÆº£\Ä°‡©„8.eÔc>h$×\‘l‰±"Ú¿"hlšìÆ>ñ£ªê@í†yý«[å£ê5Œ2÷Å?b|ð¸¬ƒúƒc®å˜Áé®ÆnìÍ1#Ó‰™s5åÈÜOµ‰
+-_ÅYY°S-eõ=VÎñ4šOÿþÓÏÕ:3§ÿ¤TÚÍ’	‚Yò«²Ää]PáT.Œ‚ìÃbbE^»õo¯«%(¹*BK,ÅÆ®Ð¼Ø4Î¯Õ2ÞD…«…Ì4ù5[,—••ÔÖÃE¡‹l×É“¢õåB¶Ö¹ûIÙ{õô¸'—Á,^>Œ~6u ;¥Å±Y%Q\¨ÑRMefWÁc›Q®‹ÆÍ—ÉËß“¤ZIxSu%(? &N?ÅÚ¸—éaRîQøæ	(Fõ}º–Ø/ïTÈ§ ]ëL{QÚGÚfiœ…Oz¨‘)F›×;¹(/tÖþ¯yü<X-–oÓ-ôÒ†¶.æwv	—°‰ÃÅ|*Oÿ´K8¶þCÕó§;iàÛÓëé6ÒìngYëiœ¬§²ö0gô€æÎúÑ–Ã1]¦v6+ÊY‡O`†åÍ1ÕµGò¡vÉô6ùCâ´Þák8Jxé‹¢Lá0xù¸ÅÐ««ñQá0B¦q˜Õ/É0ˆ®è«.}#žZ™	\~Õ¼óò´©m÷“]òfþ-HƒÃFÊPhƒ;úð·e°]åÙd`Yìƒ¢è£¶f+®‰Ûù¿ô¾IçÛ;´¡ÚKµŒe¿”g†0-q„ÂcíZ™
+-=˜NµàrÈáñÝÁõkÌý¾5á±	²'S}¸þrCSð¸6Áw©¡ŒcøG¸%U¾úÄ*ì³õÑ‚|->²Šn}>ìbuq—ã{ Žs–f±Z¥ô¡ºæ²[¯¡‡°‡B>Ùsë¾Èø&áþ²»´ÞEKxe^Æ(Õ[BdÌY§ ¨ÅâÂP‡„X6TÜŽ¹k¤cø€ê1}ùŠ×IÕ±+¾ç¦ýƒ*dÁÐÝé–…õ°ÿIë)h¯8-C§æóGuZ;¾®æ6Ì|8o´×þk†6#U°è½¼ž3å±c>792:ÆÄá.Ó'…2b0¸nNè<êž×Â;D3Ý‹Y––œ^XÍ4õIUØ?´¤æé]¼ÂAÇùZoj@—ê³A³fŽ@^öY¼ïÊÂb,§*&q|î1˜ÂÈúÅ"bŒÝ<ò<@+™áq= 1òoèQZÀ
+-Æ ˜.ŠÐCˆ
+-1È‘g›|?O{.–+ðâ×ÿP}Aðë¸ê€KQR=+àÞÅŠ@·8ñ "B\WJk)Eræç“ wNáB¯)Å©¸%¸±d°çQVÂ%ÐõÐsÍ®	ô5ú€–°îTcà3KkŸá«,/”¹%sÏs\„¹+¯B^p÷¬¦_óUM?äÝÌ:¬;¸Á:A0Íýœë’ÚõÄgÅÿz4——ÜþuœÕÚç8ˆxÈ¥L-É9Qç×´L½%Ôs\u¤K¸Ï
+-ñ—:ˆßÐRg•c‰ÆRpcF¸ç«%åÙ¦×\Lv;,­i\.ÙÀDŸçFùŠÓ›òŠÈ$waÒrÑþËùèŠ–Æ·µ<¯;Drd—€9Î—éXyÌ'ŸhÞãS¹-®i|ˆ’Ñ‹¢Z™ëKõ3¯É‡úœî'-þörÏfÏßNLþvíÊýÿiÚµ6w¸k™îjdzxÛ«ö›7ãìe°É’MÛž\C]cq¾ãiêª!ªê1Ó6)Oë±yc„›;aÚX,Žº¸â°Ä¼£¨]_VŸ€ïq ÿ´4ûn·åT/äè³ÝŽ$Šå±È†ÛmX|„ƒ6ðª	DµÿJ!ßes©Q9wst-›ADíP†róÍáœYÈaŒ&w.Õx¾--,Kð±´ËÊàú·Z4”åPAe°ƒ8blËB}W9lY&’¿ªvØr³O>øòHŽiË¯yç×ý’«ä#ºþsÚHv¸Ÿê²±|É*ã|;Ã˜Ž‹—åÖªºbEÙ&jX>Ÿ­•ÔŸÉ¶Õ×Ö­W1tcúøíæ]§OÚ£_Y¨­z6Ë4øj«ïÇŽø‡®a»ð=:Íñiæ"§Æs å˜»j…åú°p\õX¨äPi4á"Ç?Žä6|Uç€Û;î–Ë0uüœj9’¸ð Zª£·±´<Ò'ž¸á´¤s…´R, ¾x‰î‘óZÜÆBçàº'IU¦Ü9¶ÜyôqÄ½Í9°¥'b«f½út8Â‚Sx¨Éƒã¥È–o\~*¸ûHî0cX½¤.>TStÎ§s ~’Æ[U¸¢±gqåöœÿ>Ê’GßŒfsOµSCDª`°(×mÇAúÍè3ïD+8‡Aílƒ_Šàã&þ7£Ç¼õ˜¾‚¨ÌÂU×ãÂ3êÌ;Qp‘/Yk¼!ðK~¨_0i¸¬½O”ªÿê^ì]&lY¡rúŽ¿ç<sï¡ÊRWr»áÄ6ÜŠºçÓlöq ÇóXêÑfàÈ>lêÅæÜ´Pâr¿¦¬‹‚íS¦Á›V‡	aƒ‡e÷FµÁm¤\¾Þ¸B°ðÏ•® øB¨ï*-¼ü¢¢Aˆª°2Uõ¤¼Leeyx• *"/5/ ¬áó çÚ‰ÞSMmï|j…ßTX6ùb’ßlr²¬uöç1ëíK÷‰Ã|O“ü¥G½xE‘j[‹…KÝìQ÷¯èïú÷|E«æ_ï r{Ç/Ð†Zoy;.­8*IT/ aŒNñŽòúúò­6±s	—ÎND&´Ø¦VnPzâë6Ä¿s;}µK±ã¦~ÝË×Z?¼ût@@ÿ¬‡  
+\ No newline at end of file
++‹       ÅXÛrÛ6}ÏW`˜—fJ‚¸_É™&M¦i^š´éCÑ²&©!©øÒé¿w^eK–ãdjÊ6±À.Xœ=Xyþêj“£/YU¯ËbPL”i¹\«EðÇÇw‘	PÝ$Å2ÉË"[E¼:{6¯¿¬ž!„À¸¨gËt\4ÍvÇÛ]•ã²ZÅË4Îòl“MSLã`TOGõ´Ê’fý%KËÍ¦,joYÔÏ'ÊÕò|Ð¾¼¼Ä—Ü+QkmLXÌXQ}]4ÉU´o
++k<dÊ!1Œš'µÖËE mæ…Ëõ²¹Xš`P!’ûÎ‹l½ºhâVf•ò½{q=ƒžù&k’eÒ$n´·ïÑ^T`?³ß~×J §éì¯²úÜ‰ð8…äS¹wÁÙÐ=_¦³ó²Ú$ÍÙz“¬2·øa{óxØSn®·Ù8i;m•Õå®J³ƒç¹L7kghÖyþ«s øÖ¤ë&ÏÎ¼Ï¶Ùï"î¶Ñm2žìr÷1ðÒ2;¯Çð8Iö¡©›ë|X³MwU‹Ò2/«¨N/ qA¯àÖºšìª‰ÓºB…ß8å^7ú£èŸa~žÙsN¹âŸ^vÝÿ2|¤ŸWU¹+–w¬ßÚ·æ­¹×úÏuvyØ5ñÏIã{ÜŸûçä¿”€ÎGûW¦»úŽ±LÜçþ¸íš¦,½÷ÖüÛ‚ßÎqdÿT{"z­ýá°×Z¼Ñ£ù<ö˜maî°ì[«ß@`ðü·Ý5YÕa·©’¢v9ô4Õúê‚µtÁ±6$î3ŠÓf¬#.$–Öõb “,mú5ú•,‚r›¤Ç3à/êN_žC>wá?÷B4Q"Ü2*õËº©ÊÏÙ¬€k`H1·ç‚-†ÎŽ ™Å¢‡ž$Û¦é0rµ¸‘Ø¡íÐy½$UX[Cø@4ómÒ\ÜÚ‘_~Gþ ö÷@.=Í“˜ÿ6ãŽšÕ¡ˆ„T å‰ÝœcE®—¡ßc¡¢(w:ˆÂÁ@#¢(bþr l¢9u®CiÝ_˜öoœ™ñfÌ|óúo”µ
++G¼ï"Þu4‘oFÎ»ƒêOSå3J\	,5À=Š¸ SñâÎ¹jÆeúy¼šb÷0DpB”	#­$†sV¦Ÿú.ä£<Ù6åö1€íhú1€ÕÌ²#€åæ`­š–A²yý)`)á++Õ“ ö=`	Q8ƒ7Óî­Ýû'D;°ØI‹øµˆY‡LéÞ÷irÝÎÉÕðî}Áû½wsA¦ø¹ú7SNÃoè¿A§áÊù® 1&BJÁ\1v¨V=¨PŒYbiç mGÜ@¢Í!¿%§X2æƒ¯4z†>€Ó=¢º—ÒŽ3àQÒ)–ŽÀüŽTþÝqêq(¬Šj8s¤Ž¤ÔsîjQ60fÛñ^+¢Ä0C=!:¢dÀaˆe‘
++!ÚnLX`Zå)ó=’¬õ"z'â3l©RJöWj/q	¨h™Ñh,”Ð· ç"Å‹'Só  §hêÉïT‰œ‚$ P‹WpçSÊ4VÊòƒwþ%ÝK^Ç¹î(=ŽÐdêÁÐü
++Ò~š;Ð* <f¦¥@w3˜€ÐlÈJQ;Š)R=bc¥àne¿yÔõ
++µaÔk¹6óƒƒ=mFæpmŠ¡4ðÁÁëç·Ç§Æ»p¸•’1#8Bk*C¿\W”DÝB¢^	$4½@”$Ó,‘Q˜Õ/½G˜<˜&æxPeÂCŠ_)$QÖô™:ˆ‘[T½jæ¡­ÖÿñËŸ¢øCÌïdßc‰{ç˜	¸p¥ X	Ø?\ÙWMZZ¦ØäŒ½• )*àD@) í–_XoÄàhP4v¶H&Ø¡I•#}­Ý69b»AÑ]}·¿°á®íÖdÔÛTJPtYD\ÙëäR š^_EØG 	™-G<z)¢€ACÛ‘©È^±ø§)}9OQúžâÞÎBìC’I`(œ® ¾dÆt'Ì¹pßƒ4g†wtŒ€Ê„Ü£ç¶äL|KõüÙi0Ý‰…ÿêÖ™@RÂ¨‰çˆ®<¥m—K
++xÚT±Üm¦t7ß”¨tÎÝ¿÷ÎžýÚÕ‹É¿  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/configure.svgz plasma-framework-master/src/desktoptheme/breeze/icons/configure.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/configure.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/configure.svgz	2016-08-29 12:35:14.107398211 +0800
+@@ -1,9 +1,5 @@
+-‹—ÎMV configure.svg ¥WYsÛ6~÷¯@™—d* /‘ŒäÌ$OòÚ¤í3LBk’P	È’Ýéï$H]>äÊ–M|{/°‹åìÓ®®Ð=oe)š¹C]â Þä¢(›åÜùýçN$k
+-V‰†ÏF8Ÿ®¯f¿`Œ¾´œ)^ m©Vè{s's¶æèýJ©uæyÛíÖ-{ÐíÒû€0¾¾ºšÉûåBì62+ò¹Ó¬7me‹Üã¯y£¤G]ê9#{>²çÚzyÏsQ×¢‘F²‘ïö˜Ûb1pko¶a¢išzÄ÷|–b;|(
+->žõ	!ÐFÎ×qeº†ïÀnWŠM›óÈq·áÊûúóë@ÄÄ-T±§ÆæóÀêA’Vs¹f9—žÅü¶,Ôjîø¾Y­x¹\©aYsü’85ë½ã@;†^U6Pˆ›RÔÒ`êG†Ãºœ"×>Ì\4‹r¹i¹ª;½%ß~;Fù>ü:×€Ï
+-¾šÞy¢WA2¥†T©*Þ‘R:zÅwÊË¥t,¬åòMÛÂ™Á¹¨D‹e¾‚#Ôë@Èý¢ÑÄ?Aýce‘ÈÞ4ˆƒÛ=üï9ÁÏ,¿[¶bÓ§â|± ú¬ø7Èz¥3ÆxÁ8OŸ•þ²÷fÏµðsÞ/rýó¢ŠoNÀ©tä¯ñþFäù–Ð?o”ÍÛ·ÍˆÿÏÍë”¼=ü%)˜yæè›ñtU˜§¡Òt™º¤ÆÒ¹e’÷5±fKn´Ïwóé	·¢-xkI±ù´R=t—A¯ÛÖ¿Ö:ÐÉyº\±Bl¡¹…¨uÏqcÒé19‡Æ€7ŒRB‚ô„ª
+-]ŸLš¡élô}7M© '¯w'â}s¨Ø‡¸Í?Ú3É•Ø.[?Õnlþ¥Â5k—eƒ•XC°§xÅê,¡íºëÊ­€CP¤Á¿mÙ@Ò°mÓQü‡mÝix’…žc÷´zÈa=A«Ù®¬ËGi Ç,:Cû[»`•´½u6péöéÝƒÆº´Bøòl·z¹)‹¡Ñ¯…,•¹jü‰'>Ã‘AH´%ì&ëh2!‡6´"0’\d¤·ž7B&Ã±;0’Œ—¬à§b	/Iy)cd‚Ÿˆ&|½™`BÓç÷%~"–ø#Á‹ûŸ5rÁæÓô%+ø©X¢¶Ì¼1½/g£‰ìöÏ¼Óþoðš+V0ÅÆËÀ"0K…¶VaàÍ~ûzc§¢YžgŠön¸f`·bf˜ô„–g0¢ÖL]—5ô=Ýþ
+-#)\Ká€Y—ÿ¨´SÛònÖ=;ðy]j!ï‡*«ê»62$vPZªŠàÌë½ïcóö‚›y6z³Zõ³ŠÝòjî|ak†NšžÖµ(xM8cJ®Õ²Fêàõ½¼½ÇOp„nûþ›÷åÁ j'ã!Ã³5S«1_ã­%š†ç
+-ÆY¸¿î™™±¹[u-p@³K÷`½û(¦n4‰à¯våS×‡ÎK'aßõ}®7‰â$Ö@Q:ø¨B8vI˜$0By¡q•#âúÑÙ…^A¦Tp#ƒØ¨À˜I@7`>M‰?ÁÚL”š)L} ´™È%™&Æ
+-¦kðÕJ)ÀR@Cã}#‹÷ô<¢žPÚE$Q_¤}¤Q÷_Š¦"ÄR^ë0¥Gï—º¬«Ó™z?(xBÜ8NÍ5ÞšÖ
+-°°¥a+fŽ£îD;Ô‰l >î3^Âmg$3±~Ôîç¼Œ~”ªw<kDÃ÷¤óŠI˜µŽ_¬öÊv¦æ( ÓG_{—¼ÚB—÷ã=àèí´û¾ÀŸþirÖè¿	P{ÿL`ýs7eÄµD\•P‚lÉ¿7¬åûè_¢l2h[¼µ¨YT0F©,´XÁ`jj[öp`F£b±\eÄbƒ_ã•â-»nÿfºé^_ý¢iÓú±  
+\ No newline at end of file
++‹       µUÛŽÛ6}ß¯ ”ÇêÂ!%ŠÒÚÒ-h^šò¦P²Wˆ,’¼ÞmÑï)É—lÑÐ½ˆœ™33g¨C{õöyß°§ªê®]{rU­éÊºÝ­½_>½´Ç†±hË¢éÚjíµ÷vs·žvwŒ1Ln‡¼4kïqyŽ}vý.*MT5Õ¾jÇ!‚"ï7g¸é«b¬Ÿ*Óí÷];ØÌvxsîËí‚>NáIZdYq	 "^Ú±x®S‘ãk©‚saìŒü[ÔÅù€uÔåÚÃ pÑº:}ß=¯=Î8Kb&…·Aÿj_EYŒa\ÊìeˆAòùÏ?¼wÚÆä¿vý×ÉÄ_ºã¸ö¼Íâ^•&ßvý¾7õ¾ØUÄô;œeWàñåP‹º²}5tÇÞT¯¾¼ÒìkJŠ>ŽuÓüHM<Ý­Ç¦ÚØžn;OMcLCFS®¢ù¬UVÛá|>dIžÀ|:ÃøÒ,´	`Ž}’
++L×t}0˜GT˜7ˆîÚ«ç12Ã°œVø@à|Â(û}™ÂÖÉßHJ~¹ŸÜ,cØþŽ5Q³»Ý™®éÚm½;öÕÌ÷PŒ—tÉN~¦)ÔÚ-%Na aâƒd†
++|Î
++Á…‚Ìç¡N”VäŠ€]‚ýÄ¤	k÷©ÇZM‰†ñPHŽ Tnó”aQ™J°i—%l3­0{AF)õJ2I¸8ä¡VTLÙgÂ@†™¡ñ@f
++Zr4åÄº¤ ‘æÑ>³=”€qø//ÚÓF…vIC­“‘±$´‹¢zH·)n‘©Ö¾ÐÓx©ãC®ÔqÅ•žê2¤°sê¨ê»O\•£Šll¯Ø2¥#}À”€YJ<•ÊhC<Sâ‰±¡]®FÞˆ²›»Œx®0!—‘°Ï‹¬îÖÞo^>IÞªæž<Aw(ÞÍî‡±ï¾Vy‹ŸÌËå|U„Ù¥È>àÇp<ŽU¸±¬“—ßØ-›s[Ëë¢é*ÚÝ^)üûGàßÜ,æx\Š½cWügÜþÊu”ŸÑ,´¸û€²ã2ãJ ¶o“l-”äUèLÇ¾=„ÓŠÏÌFÏ¤Æý«µ”S7 U½E )!HÛ×ÞŒ^¿ºGÌ„tp¥§°!GozP5Èé¾ÃÛ‹å§80Ò7Y×^Çáoú×XþÊâëWŽsò¡ÚïX·Nîÿ ×}gnîþ¸[óœ	  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/device.svgz plasma-framework-master/src/desktoptheme/breeze/icons/device.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/device.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/device.svgz	2016-08-29 12:35:14.107398211 +0800
+@@ -1,9 +1,7 @@
+-‹‰ñV device.svg ­W[“›6~Ï¯PÉK:E\ÄÅ@ìd&Éd’™>5i;Ó7-È^º€\×ëíô¿÷HHƒw×ÙÄ{±87}:7Ž–oïê
+-Ý²¶+y³²|Ç³kr^”Ífeýþõ#N,Ô	Ú´â[Y·Þ¾y±ü	cô¾eT°íKq>77]N·½ºb›¹î~¿wJMtx»qFƒfw»A°gÓeE¾²´ðv×VJ¨È]V±š5¢s}Çw--›es¹myËr^×¼é”ZÓ½4’m±D%†} $ü4M]¸„`ÀÝ¡ôô ×9=âyž<-vHÖ÷¶ð7È‚Óñ]›³5(1§aÂýðõÃÀÄžSˆÂØ0ž;ÙïÄ­Y·¥9ë\C· …¸^Y±Ð5+7×¢_—ÅÊ€A§Ö8Ø>°´n6='õQëAè5º¬à¹Üqeì¶Ì™£Î{[²ý;~:ÈC_ëÍ„–[wjS¹’…¯ÈÀèÄ¡bHäÁ»nÞu=¼|×¶uœóŠ·¸Ë¯!	´BÎ{Iý¢ˆø+è¡5!¥½ü ®^kòçßÑüfÓò]SÌÕÙzí­ýGÕ??+éÓ3›”±ôQí?ÀUÏF.•C¿ÎåÏ“&>qò\;òKÐäù®{ÎÑßí„àÍóÃ¦Ô¿3x½‘ç; ×ÿ,]•ìª\Yj5Ô“,¦BÖÊþ+ÚAõné†)›+ëåZ},tÅÛ‚µ†«¡r(ÿRtÛ*YšXÞŒÕ]Ó‚ïWÑï9¯ÁL<"åPÖaè$‰çÅã>‘Ëý"Ç_DÁb,b'û6Þ5¥€>¹½+éê®èÁ9Ôí®ù~ÓJˆvX—×´Ý”|àOH[‹)­í›Ü)ñŠC°jEìËNuƒ$Q|†iZ¦ï‘Åœþ/Ã)ùpž\Ó»².ïœmì=yâqÖ´êLŸ[RÒ'ºKÞäCß#å*ôeCçpî²D‘YŒÐw\šØrM»5Ù¶Ù•C[Þ•Bõø…MzM
+-íI~b{z)û$—ØYLÌx¶Ÿœ˜	½§ÍhfÏð„ä"C³ƒy6žB
+-Ÿ¶”Ø$œz(ž"ºÀÓ‰Ì=Ÿš¹ÀÑ$œÙÁ3<Ñ%®ç“:…]àkÏ|•qé4v™ K.  ˆû?YD{ñ£dŒÍ Gâ9ÒR”:9b
+-ó‚!6IÏÛ#Ó"H.ÉÛ ›šœVBzA`ïA{x†/½$*Þƒç•I0A¨²tç¯NE¯™ T)™˜9CÓUaÜÏ~ûðÑÌ’Ë<Ïþäí’tzÅwÐð‡ASÎ®yzMÅ›²†F-û_`&‡wøÀ8–mZÙjY?ÞŸ½Ôy]JI÷‹(«ê³´l5*EÅÚÒÕ8õ)ÜÑ1–®9§zÚ_/½bÕÊzO·_;rrÚÖ¼`úÝÛ»Ø¼†EK›NžM¾‡aYÁµî$²oã"ÄÄO~6îÜèÁ^ÞpÃE¹.ÁÞ {Ká2(%Z–_ü€yi}dÉà¡Ô&²-DØ·½þŸz”ÙíPOÁ'¿"€žÔýÕ  ¢Ä„ûNÐ½äxðtž…ƒV4°"Å
+-¥)§vÚÃa½Ä°–ìÄö¥Q°ìD½Vl/¤òµ1RK±w@Uóäò^^Âaš\Yz°Ëü×kH$3X©QUQðQ -¿aY÷v½îÇŸÌsWeÃ C²îŸmÙ˜ú7/›’–µ†ª*˜jDZAa’i[z8ÙFRùzÝ1‘y†6à…¼í\øà·TìZ¦¦¶¼¢ŒÓ[ß±b–2»Ì<C
+-ÁÅYvftñí»V¯ÅGÊ1C#æ[Ï!½wÕ™öêÐêÜÍIq‚á÷Á°á{”±“vrûâ»±%ûTLF»¦º\ƒ8²áÐ¢¯*]²ð·PÅšš<†±ÉhSy8¥}Ov¨8ÑPôS–Eß—
+-“V„E‰ûMÔî}5+ ¾Ò„àÑÂuÿ€²{2“§™ãÇÐEžÈœç|A˜L^ÁUÎäÕpý9’d^&d*[u g™s4›|K³_@tˆŽYöížÇí¾úIöÄ:B'Ùì@q‚ÁÆ”ƒCH‘Ø$V<N,ÓƒÃ!Â’
+-ßÛõt®¨¯¥KÞ¼øL„H¾  
+\ No newline at end of file
++‹       µV[«6~ß_ayæ’9R»:R¥ö¥g«>³ÆIèŽ°³¹TýïlH6+õT*J„ý}3žÏ3c'Ù—SS£wÞÉJ´9¦^€o™(«v›ãß_¾’%FRmYÔ¢å9nþ²~Èäûö!Î­LK–ãRûÔ÷÷‡®öD·õKæóš7¼UÒ§õñhÎFsÖñBUïœ‰¦­4ž­|œwåÆYGï#ºZ­ü ôÃ€‘çV'rí
++ï¹†AøÀ–ÿÎ*••=|¹<)ãðã^Ë•ÿüòìHx¥*'ËTí›dÅž_Eµ`Ÿ¢ár_0.}‹ÿI™¨ª2Ç 1ìÙŠ§(@IŒ¢¶+¤Î;ðVu4Z„‰±°JÓR0:Ç%¯÷`é^ƒIæL4_êHÚ¡}±…ÚÕ¢ËñãÆ<¸'^EWòÎRsó\QöW©3ìe€ÅëŸœ)%jÞ-4˜mW•wñCUò{„Û²–çÝeå®(Å1Çá-y¬Z ÈBï`é0Œ>±Øñj»S9^Å‰µ€ª¸<Q»²Ü‰£ÞIŽ7E-ùíj!š/¼h‘ÜRj
++]$Á2^ÄÉò¯³8ÿDøÒäÃÖÃø®)NUS]xy'sìÐup²I]œy7´ òM§4\e¡Š1‰kƒfpbÓßž¿ö3˜3–þ!º·a
++6(^ÅÒŠ×ÎJ–Âk
++µ®¨>ž?À™Êü‘¸2Vç=í—íxXïÞX%k*íäSU]ÿ¬ƒûš,Z©š`æê‡½ù“Íe¾Ý»™•|#Ç´èY$Ô&EªsíÔj›dsˆˆd;¸M±5Ð*s¬øIùLJ—$ï'müÍØ’`Ñ_N¼Y'}Œh4^Ÿøo·¿W­¥™Ñv*W_	¤ªÚT¼³ª÷…ÚMEëùÂ©du!áv½åxÝh1£
++fKDè®®…ïéñÊÌ‰È¼6¬—0º ,CÔ£±£cÃ$0¹ÏœBƒ„ˆôZ*AKƒÌû &º¦â™@'@ÏàÝs«—èÑÅmÓ¤Î=ô”=:&%O!Ã•Ò'©:ñÆÓ~h]ÛÝÍðjšÁ_áº§ú^Q¯0tï¦:Q·jÆ°F×$hæoo«…>ßÑ”~_Dj9tÕ }QéÜÕŒ¤ÚÒ÷Èª§ÀàJP¤Ð–Õ¢±3€dÍh‚Ç.8ÕŸKÝ!ÄŽ­ÇzFw µúœ<ƒýÿz‚Æ×Må&Ý`þôïþM‘é+wýð3Íù45
++  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/document.svgz plasma-framework-master/src/desktoptheme/breeze/icons/document.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/document.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/document.svgz	2016-08-29 12:35:14.107398211 +0800
+@@ -1,9 +1,8 @@
+-‹ë#žV document.svg ­XmÛ¸þž_A((Ð¢¦DRïŽC“¬q®_îr-pß´×«F–I^ïnqÿýfø"ËÒÆëäj¯Er83ÎŸ¡võÃã®"²íÊ¦^;Üe‘uÞe½];¿~ÞÐÄ!]ŸÕEV5µ\;uãüðþÍª{Ø¬»e‘¯û¾ß/=oh+·i·^‘{²’;Y÷Ç]î9†7?ñæ­ÌúòAæÍn×Ô«»·–³-îÖãñè}ÅÁÓ4õ˜ð„ ÀA»§ºÏéHìzIN0Æ<˜3lW°,;ðÁ~¯%¸]shsyBÒ­eï}úüi˜¤Ì-úÂê(ë/]žíåÙz–¨·œíd·ÏrÙy–î‡R?4k‡F„€?‡”ÅÚQÖbÅl„–™¹)'-÷c:äXý=°2ö‡ÜËr{ßÛ‘µxY49Z±v sÀ˜¹¸Îû7„¬
+-y×©•±“pEr×?URÑóCÛ‚Í›ªii—ßCÐÒ?á–{ùØ{y×)BÜÈõ‹b¢Ÿa–üÏÌ¢,ßÆâñÍ;Cþý%ÁYþeÛ6‡º˜Ißl6lÃ/Jÿ.¨Ð3aÿÓ?nn¢‹Âÿ†¸|·Ý(|ÁöÍGü¾ªáÇ=_ÿJã7án&ÌoR±Ù\vú¡ï›úûc¦Äÿ\ä´Žïß¿–¿Î+O¥¸:æ¾êídŸYŸ©Ì·?°§ iùó§ÍöUž/ÿÓ´_Ò³Ûæ 'o8
+-x¶ò%@È.ëß—»l+zþ¨ëgÌx¨”®Vj zv‹|W"§÷K_VÕ?Q³ãM•}%ÚÊ3vš]x£m¬<»K5á¢@"{Ð¯|¸vÞÞ©Cn›¶­¥Fêc©@Øäæö¿2‡˜T²ÍjÜ‡Ú³m±Æ$ø õPrÂ9 Ú0èNt÷YÑ×ŽÑe4j°Q„›Ož°RÄ|‡Mû «»oŽh* \{#ñç¦Ùw}@`–ŽfrÀsÊ7,csr0;v“ ‰XÈç– X2'?½LÞeå®|–…rñiƒÓUö$[SHtDEoCm}ÝÍ6¦ÈôöËÒdª«³ýWf@ß8
+-wYÕI{^NªÁ‘¦f<>á@;{> wän5R]IB,]y[I»š¬3¡@kj¨ÊÎK]=™yÏÖ0›Ìjcdßte¯ëç£Ó´%ø+Ó$!ÌØ„Ì`É5zØDÖ<Riüª½ö™:³‡‹«Í6ÆtjRðº&ÁÓ‰"M-Š®ÑãÏì¹35W8š§3=tf¸ÂÕ h¶1ðÐÄ$q…¯i¸@Ø8ÓäOƒ&®p(¢áÌ$ÿ<fâ
+-'‰x®ˆÎLò¯IÈx¾7ðÒÄ&ÿ/ù1µI$S“®ñ’ëÏ[r®è/…sEtfRp—ÂùÞð´Û/­¼ymUô­¾}›‹9-dÞ>í{¸aC!ìð–€¨Ý*ëå_qËn#P[‰ºÅ¬S—Ìeª 2þînË·jp§t`z×õmóE.kxßÓÖ¢.ŸèÙ÷	[!±Èº,HC„’rØ8–x7ÒÈ)PüÁcû¬¿?½{ÔÔu@~¨7]—ÃË<FxyÕ°¦®ÁxÏ€jöõ‡Vêz¢VŸáµ ÿ"œ/|ò‘$nœÐ‹ö ÉOðLH¢~±WìÂKeš„‹Ð#NR×÷“E€:’îF §¦´@ª"Lµ§h€ŽBà$p†E¤‰á1Ã –æ¡±Œû.@&˜ª,ÿÍ±‘Ó÷SS½ÕmVGnFÂU?¯²:}Û²©¶})³àÿbf…ÁyfÍâûBŒ3d”8CFÅ©pþ)zžYÂo&uHÛÜÁnLBÝ	„ÿ'lBhÂ¡‰UûÐDºá¶‡V1]·á©å*ì:pYmÇ3Ñ%È%0±ÏÁ°Te#ô"ÈKÔŠ‹³ô4ô“(z˜W¹ŸXE*ë•nµÚ3ùj&PL…Ó¡‹Óà›2N¸rÐ!ïš½¬)dô/"×«áû
+-j%L\B-¦Š]¹•a¯â‘1ýÛÆ7J‚X…W …¡†	N¨íAzh|‰7AÄˆáÂ¥#;Äœ€‹
+-H¥0MCPó‹±ûb”™%v¨83’
+-`M+ `a³bÃNP5ý‹ƒù4¹V‚¸	©…:|½=3‡ô)ÎÑ‘–ôAPÕwå+;ˆ]MâÚ€¬Ü /×è;¸Ðô„î=Ÿ$à~úZô'P9NÙ—	 ö¼ÔYc×A`¢Íô¦D¢«„645†FDh"`ƒÝFDÔÍ_íŠŒ3A¡aêK±{NG4:ç…±Wé*:W½ÓˆÎ†4<c†áÈóÚTØŒo+õúäTóo=Õ¯½‹q•.¼
+-?êÆ‚Â	T¤Í‹”±ºdï	;Vøß÷oþ `us;m  
+\ No newline at end of file
++‹       ½WëoÛ6ÿž¿‚P¿´˜(ñ!êáÚ)Atû°vÐo*E;FeÉä8É°ÿ}wÔÓ‰“4éÖ0‘xÇ»ã=~<*ów×›œ\™ª^—ÅÂásˆ)t™­‹ÕÂùãÓR7i‘¥yY˜…S”Î»Ó“y}µ:!„€rQÏ2½p.›f;óýí®Ê½²Zù™öMn6¦hjŸ{ÜwFq=ŠëÊ¤ÍúÊèr³)‹Újõ«‰p•-éý~ïí¥âI’øLøBP õMÑ¤×ôP|<¦*c>¬’OJ]šõê²Y8*°ä~5—5I·Œu¶pzÍ«µÙŸ•×‡FT ¿Î)ðçÓ¤YÚ¤(Ójô!­È@`³ß¾h) µžýUV_;~P ýRîÀ3çt`Ï3=[–Õ&mN×›te0ŠŸ Î¹?.77[3mÍV¦.w•6G›éÍ•üÍ:ÏÁMâß1ºnrsj÷l§}~F¤?‰rî÷I°Tf–õ˜¤bÞç¦nnòÁiôeá4æºñu];=µô®ª ƒT—yYÑZ_$‡\yçÈýh™ô¨“¿‡¬Âì•ä2”_ÞvìŽ)ž¥úëª*wEv_Ý,—lÉUÐÊ^G6ÏRc’Gµÿ|½ØsT~Ìû¥Æñ¤‰÷%ûÚ‰ÔßâýE©wõKB?Û5MY¼¼lVý;‹×yyZý§à7³²íóx²4”œ˜ûöÜ´g”­Z‰¦J‹û%œæic^á²7Îä‚«ØÔiftu³m†^et3=wH‡ÃI¼Áæ˜I(Eb(—Ã4Få± Q<P° †…¾ã
++1°º®;áØ`N¹M5ô£»„v4+àžÚÑ|›6—SÇŽÀø•pîJrNb/Š˜En€3xGä<cÛ¿ÈS ypó$±r•§BNOÊØÐF@4á^BÆˆt¹]–®­œ0û¦¸D|p| É\!Agø°Lw2ÀÖ\užqé	‚«ÖóÏOä£k7ƒ¨ÎÓî½»°ËÛÜ_M‘qPxø:xªðœ?R´#•}âæ¥•Ÿ˜8
++wÈ´
++ÞLá±Á$«jK…Íº­ ·u€I`‹<³–_Ö0-ì¨µÏ[²Eþ4–8 /Šk˜yLÈ õ€*|p×ØUÉ¨*¶áÄ? 4äWŠi;YÅ\¨cPzh«	2Ø?ìy£GªŒÙ3ÚÉ·D("WDÓ¥ ð;Ÿrk
++
++[ÃÜy¨Á!/ñ·À’š´3Ñ2¹ê!‡ÈÂÞmñ¨:%!`“ÙAq:’w)ÊÝã2%Ðú,ŸÛÙHÑ{$UÂ@¢8Lµ®Ê!Ù{Lnÿ{|>Ð¬„¼‹y¿YÉƒfE:Ô„úÁWyµ¾~Í¼0Ž”Ëp´Sé_Ê¾ÞÅG0u<RýÀXBvrÙ^Ìí.ô±PÚ Öá–‹p Å½@Ù6¢Ž/:ì´k ø;‚yÖšBQg!j
++óì¦SÛ5>ú@'KôÀ=pè–ÀG„j7ƒ£†Í›‚óBŠÐªª.Då
++OÁu†‡säu3a{«Dz¹Éê…Nï¤ž‡×ŠU&¬AáœÞ»ðÑùÂcOÅaÂº~ÇçöÐ÷	ÖàWÀ£À´r‘‹7tÈãdät“‹Ø*D˜±Vl\¥÷à#Gôrƒ«xeñÄPH‘X"ìê.Òna:ì'VÛƒúÊöëkÂ`ð1d5GŸ†Ô©ÁTÇŒLÁó?t3ÛIæø¿ýéÉ¿íÞZÓÅ  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/drive.svgz plasma-framework-master/src/desktoptheme/breeze/icons/drive.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/drive.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/drive.svgz	2016-08-29 12:35:14.107398211 +0800
+@@ -1,8 +1,5 @@
+-‹‰ñV drive.svg ÍWKsÛ6¾çW Ì%™$Á7)™&™L2Ó^š´é&!‰5I¨ dÙîô¿w4eI¶â\"["´/ìûa5{Ý6èŠ	Yóná×wëJ^ÕÝjáüþõ#Î$í*ÚðŽ-œŽ;oß<›ÿ„1z/U¬B»Z­ÑçîR–tÃÐ‹µR›Âóv»[D—‹•÷ašòj…`ÏNU¹páÍV4F¨*=Ö°–uJzÄ%ž3È–w²¥Þ¶¾b%o[ÞI£ÖÉçVRTËQTû°ÉóÜó/0H`yÓ)z'zà×1½À÷}xƒØ"…„ìmà=ÊZ‚+ùV”l	JÌí˜ò>|ý02±ïVª²6læööÛKgG[&7´dÒ³tJQ©õÂ	­Y½Z«~]W³$w¦Å&Àt‹‘ì»9yU±+Ö µÜ+*^ê-N% ù®‰÷ªf»wüt‚ þ7ÏšWl)Í¦zf)1d`HuÓ0¤nt`Š]+¯”²w¯Ü
+-UÇ%o¸À²\Ã!´rßkêCÄ_Aý;p2
+-Åó„Ixñz ÿwLñ-/W‚o»êP-—þ’<¨þ	òÙèœÙ¼¢Œåjÿ©z²çZù!ï—¥þ{ÔÄ'E>ÔÎÃòï?òr+Ÿú»­R¼{zÙŒúw¯7òôôúß’‚¹g»éO÷Yí¤{©ÒýcNÿ•Ð½ºbÆæÂy¾4/]pQ1a©‰yY*‡ö¯ÕÍ Ûc'k3#Ë?`É5­ø€aB¿å¼ÕPá&A‘tÂ)¡»‰ïB™âh¶37OÃ<‹â	`b«áo»Z\n®§JC“7ô†A8æ$×|·:Jl!ËZá–ŠUÝaÅ7Ã©aKuŸ&z¬Û'^p¨Yk¨£»ºƒà±ÅÉ89Â´È™Çé!Ò£C2d#ÈÉ-½®Ûú–AhS¬ÕOK±¤´h7¥tJ¬¼¾Ñ_z¤Ô«ˆ„ãYPµgjµ­+†6\ÖÊ y0 üðÒå¢†ÔÓžC²™?XÓ:`.;ËÜ`-ºgÎŸ‘lÏ\äŸaÎ?iø®2^†ï{=n0œ‘üDþ’ûþ%ç˜Oç/Ù7wF9H~Ò>ð/>£ `ðT¼:ûÆCAæÞ!¤zË­¨¢FÉ~Y ²çÆ°â·í?/ËâO..‘¦Ó¾… =S”N-UoêZG\¯`Vl{ÂºqŒ-Áú±ëè°Y•m­%½/ªnšÏÚ²MÔh¨VisoðsˆÂ›„1÷lœæÛê®ázÁš…óžn(š¾Ñ6-¯Ø †}Š-.*A;©cÓÀËÆí8’ŽÃÈ“ xi³¹êç-=›á5UUËË1}sÁJ… £5Ý d`iNœŒÚšÖŠB’ë_ p•-œáV)Èë%dËÂ¹¹'[ÿµT‚_²¢ƒÃºÝîKhêŽA
+-ùÏ–
+-6¥þÍë®€Ê0a©æK`ªŠÈÒ*
+- *½ÙÛFSùr)™Ýý‚¤–•p/ÝŸ(ïª>ßPø=3Ædù‰JèBÜÕécŽ¢Yˆt7£`æ#âÃ‡^ü‚ ÐBÃüýŠâY„HÚ€hÜD†—ºñ,F?#žðF¾ùKg±^ïÓà[r–‹ížèä³ž<síc†
+-¬#¢EPJÜHféy-™¸{\.Û-"³àH€ùQÇ‰áqÁÜ˜ae
+- ù Âzu<¸Np°V2ÅÒ|<¬@âöÛO>ùqOþÝÆ;Ø^Áï,ˆãŠª­`fJz¤5æÞjlH—>9 ßq8>ÕZPåùËéÐ÷åcA|WÁ†.ú£ÀQº˜ô]C3ûcLì¡IûƒÛŒG,´+øHÍaÓjºÓ²ž“ œÇÐ4Ô  Âpƒ!œô”¨?±ìl§YZ.´œpr’&¤ü0±6‚žž·Î@J{ ön˜tzÃÿî†ÑÄpÃØa¢¿a¢'”íáüÏâô‡¾h†ä™Ç\O3ožý%È»¡  
+\ No newline at end of file
++‹       ½VÛnÛF}÷W,˜—Åå]–´)ˆ_šòÆ´,„"rmÙúïÙ©K-jYœÙ™³3g‡³»Z¾~Ü5ì¡î‡m×®<˜sÕmÙUÛv³ò>~xëgdÑVEÓµõÊk;ïõúj9<l®c8¹U¹òî¤Ü/‚`ß7ó®ßUÔM½«[90‡Àáå/ûºÛ‡ºìv»®ÔÌvx5÷Õ­C‡ù!T Èó<à"ÂG„?<µ²xô§"ÇKSç<@ßˆü!jRP†mµòÐ)´w[~ëWgœÅ…·FûrWË¢*dA=ÅZ(büâÏßßêŽËrñ©ë¿š!þ øÒÝË•ç­yY•‹Û®ßr½Ý›š˜þ‚kY£ã,ŸöõT‡íë¡»ïËúâË«ÊÝ–&ïå¶iþ $N‚neS¯UN­ÚUff‘Ád•ËÀAªúvëC£Ç®:ƒ|jm”÷}-å—]ÓõþPÞa‡y@tWž¬ePƒ«Öüß+¬ÿ½ì›[…Š³xB˜„_®ù/·•_³&jJÛLèöØº–ë¾wSª4N·²)ì³S*ÎOÍÁ¢„ŒÏ abÆp|Âg>š|ˆPf;3`  Ðn1ByÅ<Fÿ¯Œ£Ä/ãê“Î ¦Á±‘ É‰1û.2fŸ);90+‘À¯S è‡?y>³–ÐäôŒR‚Æ³D
++›“ÿ2Õ”fâÒ‚ó‹Ëü|Á—‘«è!ªêµ°Øšù±y3_öø4I½B®ªÄ-âÙ½sÕ]+ï÷×Â4¶êk²øÝ¾(q.àz}÷µ^´xþº-x±Ýòi;Ý0j!öE(Pá¤11=e3¦U¼&I—Áæt„ÂÇÿn€—ìƒ&RÓ”‰eZF‰‘¹“©>CcLf'„r2V°;˜¥ì)B„Yœás¤v¤ôXPIÓ"1g:B¦#wFÅÁÂFÓ°ÖZŠNˆÊ;Bªµ†,×#õ’p@22ãX»#61¨qsÊÇm¶u–»Ü¤+B¤X–Œ±U”*†&x°A`ÙºsKÃ©O«ŒCœ	0©3€p^i&Ž8ª5¨O&G…wÀñQÜrªä(M_9ií©CæÚ"¸é@#­r‹`Â ­´v] ¦ú3%e%»•ñ…ùßl7<Ã&„ú£¥1ÿ«sBöE;ÐO¼šIm
++Yÿ„gbø³7$à÷’øe*Ý™±¾&ÁÞ¨ànK}sºUŸÐ©>¯c{pw²‡VÃGê¦ñY‚7ˆòàM*«`‘ö
++cˆ˜ŸhK¤/
++9ÅY:r.´žð¸@ =î|)x‹ÑÛœëGh¬Ÿ_ØKúº¾úf0Í2q  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/edit.svgz plasma-framework-master/src/desktoptheme/breeze/icons/edit.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/edit.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/edit.svgz	2016-08-29 12:35:14.107398211 +0800
+@@ -1,4 +1,5 @@
+-‹‰ñV edit.svg ¥WYÛ6~Ï¯`µ/)jJ¢¨ÛöÈAòÚ¤-7Z¢lb%Q èµ¢ÿ½CêX{d»õ¦æâœOÃÕ»cS£;®z!ÛµC\ßA¼-d)ÚíÚùãëGœ:¨×¬-Y-[¾vZé¼»~³úct£8Ó¼D¡wès{Û¬ãèíNë.÷¼ÃáàŠ‘èJµõ~Eƒf·E°gÛçe±vFán¯j+T¯yÃ[Ý{Ä%ž3Ê÷²…ÙVÜñB6l{«ÖöW“¤*«YÔøp V‚dYæù$pj5;â3=ðë)½À÷}x£ØDò²×Áß,;Ü^îUÁ+PânËµ÷áë‡™‰}·ÔådcÊÜÅ~élYÃûŽ¼÷&º¥(õníƒv\lwzX‹rí€ƒ43ç¼ØX£n>“}7#Hš”~ô./eav\;¼ÚµÑÞ	~x/ |ðë\¿AhUòª·[šMbÉÀèõ©æHŸLXšµWôýà\±W
+-jŽYK…ûbG`ÔBÈ½1Ô/–ˆ¿‚ú{ä dò+JhL7Ë‘üÏSŠïYq»Urß–ÕyUùù¡ú'Èfm2úÄæ%ã<û¡öŸªW{n”ä}U˜ŸŸšø$¡Äµ3Z¼Äû²Ø÷¯	ýý^kÙ¾¾lVýo0òúúÿ%+ÏvÛžé»š»É´RiúÇžþë¡w;¶åÖæÚ¹ªìÇA©J®&jl?UBó}A{îccffùXýŽ•ò °pFÿ.ec€Âƒ$$É§€î¦nL’ÌÃs:ØNÝ,¡YFgt@‰½o¼o…°ìŽçJc“×ìÄ!ûÔïäa«L´ÚC*¡qÃÔV´XËb¸ Õ¼Òij@ºKâFBÍK=8ˆ‚Ç#J?3'ÜŒÂ'˜Ç'íž¤6ì(ñC`ç8kÂ=/DÅê~ÂºÕ,e2"åñdœ4«ÐÀñ&HNÔv/JŽ:ÙmQ<XP|ø˜zJ% ñlàtáÖŒ˜K_dn´>0ç/Hza.ô_`ÎÖ~ä_ø’pýgãõø¡‡áÏÒÉžÉ_üÐ¿ø%æèóù‹/Í½ ${Ö~ä_ô‚‚€Áçâ5ù»ô0²òš¥7\³’if•¦˜ÂéœÃ–ÿþáãô†_Eþ—T·ÈÐÙFî¡ÿæ×¿™(Š†¦†ékÑ@ë˜aë7˜“ YgÆ…°ikKñaäzrÐ,‹FIï‹uýÙXž5ºæ3må~ŽQxga¬¼)Nû´½oøšmx½vnXÇÐ9˜÷Y×È’P8¤xBE­XÛ›Ø,Â²†Qû-¦A¼À]Á¯S6·VÓf¸„éYógÔöCePïÌï÷(-Û–Æ0Àë;¦÷Šð[Iš$€ø¦®ˆEÂ¡’4H oNá`F)I`„uŠüÅÄE¨†s¦•.ð¬k£5E3Ë0°eGˆØ›ºie#	ìLhèû	,Ãw“˜ÄY†`´ŽÃ0ŒMÂÀAÃa`’4‰À»(£I„j„3×†/tƒ7¦q…du”¹M)ì°Mð!úŽàÈRD€h¡ìLfH8î¹ ‰K£(¢	"Áè`§1ÿ“Ñw³ 4ÄeÖþ;Ãr
+-erEc$ñ¸ý7saƒÙ¦êaBñígYIx÷ZNÞšž©ÊS‚µú‚v°ïÀR¯×Åî’o·ú^ì›e-Z>¾;/d*Öˆú”3¸ÄÓ!ÃƒzÇQ‰ÂâÌ an UúäþðÄ`êns¸‚*=J˜’Ô ÓÂ•ô!O´‚æp0ÓP»Ü:ÀôôfmÌ=3h—BA˜mj­–›Z·¸Sr˜b.J¹Þ,
+-à³ÝbÓÅy­0Ì,gsÑïD¥óéqŒ¥-vP‘!˜Rôt;\õ¬€N«Zò;Ñ‹MÍ—ö[Ô Q3©œÊ¯J†µxœôr²„ÉÛ1ða=Ì99éŽK˜‰n¹˜¼e`oæ‘:gLm{÷ø·2Á£a²¦žóåÙ=Óà‚‘¥IJç“78Å±û—ŽúçŽÎï%o;`(|­º_¿ùB³ê ™  
+\ No newline at end of file
++‹       µV[kä6~Ï¯ÞÇZ²î—ÉLš²PØíCwK!o®íL†±ƒí\Kÿ{Ï‘eÏ$›²¥Ð,ûwŽ>‰Y¿<ìÉ}Ó»®Ýd‚ñŒ4mÕÕ»v»É~ûòúŒcÙÖå¾k›MÖvÙû‹³õp¿=#„@p;¬êj“ÝŒãíª(nïú=ëúmQWE³oM;…`¢ÈŽîÕÑ½ê›rÜÝ7Uw8tí#ÛáÝ‰s__/ÞìAE'B(¸,¤¤àA‡§v,éËPÀøV¨äœ`;z~×ëd>"*võ&£œ¬»æáÇîq“qÂ‰ÑDÉìôëC3–u9–è3…Ì¡£ø øÕ¯?}˜$«jõ{×M"ü¡CùGw7n²ìbQ¯ëjuÝõ‡r¼ØÊmƒH€^ÖÅÑðÂy|ºmŽI§´}3tw}Õ¼yxuuØaPñyÜí÷?c‘Œ¯’îÆ}skNÛ¹‹"µ‘š,Nº\ó¢T7×Ãq>()nÄ<a|Ú/°Ñ¡ºë{ ­º}×Ó¡º†e³ÂÝdcó8Õ0,Ób—èü9úÒ_šm$Üð".ÝÄ|«wu©µQçIý×ÒNÄ1¡Gˆq·=ÂnêÝHk ûØÌÈoËñæ8ÊnAZíËX÷OÀ?¤"ŠT„j¦…—ÎçœPŸ+f¼pRâÞžÏV2@‹–“(ŸÓ%
++öµ$%‹	4šŸÉ\ÔVÌ[‚‚$*¥9w°uhgÎ
++¡œY­µUà¡¬RÚ
++Fát&(gÈžÐÀP1-ä’8f•µF«\èO“Ê+(ºØ¿&W€…&½&—Ls+™RÍ™ ~*›KÇ”1F9"dB—K™àë|Üë\êÔî|D*û¹1c$&µ#lBpµœUäÈ&»†Û²J4ç{ŽÚÝ–Ü§•8Æ¾ûÚ¬ZxM—õ&]Â)>ÁÓ"8ù‹’°À	ÎkRÃòL^£9–¸NŠ®‹ík+Iáÿ_’YÈÿÆfåsdF)'5’Ù°à\Ð¨$·†—<ÂH¥‘mÎ9¥5ò‹sDÆEN²Î¢B(	ˆš`TžV©„Æ )4—&†Á%½´²Úûèf­1ù´ñ©œšÊ97%W2äSYÞ(wI€zØƒê‚VJn<‘6zkl,L€ç–B¬‚IDƒÓ”ø=™Î2š¦#È2:‡¤ÑL˜%™ N2b&3Ò2™çBçÁe,tžY¦²Ìg*$S¡(Ò|>Šoë\í™óARŠØ‹òÄp¼gSQ°øiDë4àJ$ÌÕòYÆ–`2p5R{ëâÝ|`ÎÆÁmÅ§Gp.!‡Æ¸Æ#8‹»t}?Å§—	TÑ]_ÂÕbF1œÑ”p&´„¹ä1ÁÕ'ŸˆsFŸ8m¦Ôø°Àé‘Z%¹4Ì‡à°GžÂk…	ñ+¦v¢ ÁY¦fQH¤¡KƒKtipéÎ>ÿïüˆyñ@I<ø \£Ó—OÚo^Éï¼Kkü=sqö7wIÍ
++  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/input.svgz plasma-framework-master/src/desktoptheme/breeze/icons/input.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/input.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/input.svgz	2016-08-29 12:35:14.107398211 +0800
+@@ -1,9 +1,6 @@
+-‹‰ñV input.svg íZ[³Û¶~÷¯@å—d"RÄ•„¢ãÌØO2c¿4n;ã7Òa-‘*I‹3ýïÝŠºÉ'nëº‘m
+-\ì.€öÃÈ³ŸîWKrkê¦¨Ê«£1eVåE¹¸ýåý› ‘¦MË<]V¥¹•Õè§Ïf
+-òª6ikrrW´7ä—òc“¥kC¾»iÛõt2¹»»‹NVõbò=	°lnÚ,›iž]:åõ¦^Z¥<›˜¥Y™²m&4¤“Q§›mu3l¶¸5YµZUecÍÊæ¹×¬óy¯Š}¸ãVƒj­'›0€FÐ<”mzì _ÇìXE¨ëÔ.P™6½5üëu½ lªM™9™°4íäõû×}e…y›{>r;íí„³LW¦Y§™i&^>‚©ÈÛ›«c#rcŠÅMëÊE~5‚òDéÑp²)Tu¶Ó^…šþ›[³$5Ì}×½i^eØäÕ¨(×›6´ã½-ÌÝËêlHDƒ¿£Ï™åfÞØF±À“˜Z1T4íÃÒöÖšûv’5ë^¶©k˜õ «–U4Ù,‚ÎŠðJµÂà=Ø‘ßºB¬Áô9§\ñë;ñ?¾L³‹ºÚ”ù¡¹™Ï£9}Ôügˆçcz¤ñ<5F?jýWÕ“{ŽÆõ~žáŸ³.~®`’­5Ï.éý›*Û4OúËMÛVåÓ§ÍšÿÎÉsNž gÿ9!˜Mìb·ù0Á<°¥>0—rÌ»ú¯Ó²w.Œõy5z>·Ÿ¹®êÜÔ^ªìÇK+Hÿ¢}è`»ÏdtÓWEUÍMšWw ù§ªZÂ|Ä‘ÔdÝB„‘bI’åà›…<b±`ñ@0±Aø6eÑ\®ï‡F]’/ÓÃ±_€AÍMu·¨1m½8Ì‹6X¥õ¢(ƒ¶ZÃvDK3o÷eµÃº]áus¶²Ò¾wE	ƒ<NJu¤Ò#§–ña%„#‡bŒ†>¯ÒûbU|20´!Öâ€‡S1O—8ÿ6›"7M‰5{;R‡ž÷øâ°K‚r6šx˜õ«Ìz#ëª)Z‹ílÌ`AÀ‡ÂÐªº€ÉH]MÆQçmÀ]r‘»Î›Øs‡Lš ŠÇtÇ©ˆ.pôôR\2èèä¨£1¸Üu(Î;äcªODQí÷O]âŽŸo4¦j×Ý“BõIÁAÿäOã·ÛCÙMÈlruV¾2mš§mjüpáW;Ð³éŸ_¿ñ{ÿ,Ë¦«êåéuµÌì‰rl
+-„j•¶/Š¤±€Cæö;Ê˜>ÖWm;JBólU æä×¶X.AÏ>P½£¢]š^6›týìF1c6ñã´o‹-,Ók³¼½J×)îtëU•›$]ˆ=^¶uZ686„	(.†p¦Æä"äŠ±ï}4ÖÒr¶`Um\§mkê‡>†³Úd-©,PÂ³sy`^w¹ä€b¢g4T#Šãvw5êvž)ýq‘›–pj°¥`[Ñ´uõÑ¸*Wv€<å¡T1l@‚®ï}Í²(Ädz;ðPö÷ª(§0I¦öRû²¼m§ÂËò0¶®Ó‡ÖPZÍçi§‘—õÝÛÎólÂÉf;J)NÄC¿<ƒw„Â`Æœ¼"4
+-…„'ÉX†*Vð­É’DcA2xò3A˜ÕQD‚‘"¿"Gö-`ÖÈyK 5zÕ7ªB	ÊÜ7ø¬À+EjÍ¡@Mùc!	¥m\¢B2v:^•&Î~S´À’öJPàu€æÚ{uªÂÙŠ®à!c8,
+-,º‚óá Cq{Mí|Ø/cAxÑ÷=°¦¢wiU•3UäÃ©¥Ø±KëþÇ–ä€BU%4ÞÂ	†s›¶›ÚØÄÍ–i´aÿ ´¿˜· à‚ 6™û\Ð¦º4Vv™¯ç–~l—>	¬+–5|Ã*	ðíÓ‘(¤ûÑüc“Öæ?4g"=›,Ž@ïGóp]¥u~}¥ÂXòØ¡omÑ—oÑ—Ñ—ÇÉA_Ò$ÑKä×ˆ¾ê£ïŠHÀ… þ"4j„JI@í
+-Mˆ¥“V¨N\¤×,€˜­>±¦A•ƒÒ;"uH•Š€Yq lÀ¿0Š†0JØ† ;¸!ŽK% å‰5Õš¡—·DñP(‘†Êš«(L¸Fzºÿ í)èœÓ8‹8…–*ëX©1x•TœpZ£4†Âúª£½¤c!°‹nìt…/œ¨ßtžKh{ö,MÓìåô7“‘ƒÄ»‡‘	ï	"¶aØ.ß„N|.˜ÅooáZ ÐF@»¿Ã³ÈãY¼‹g¬Oj@2"\;”:R£U¾Œ¸Äs¤s…È„ÀV· ¸ÆÞtØ{hòÈÄ:x€P¹U±Ž÷ÑèÓ€k°ørz30ºœ«ÐGY	t<ˆB#ó†ì–_vEG=©åìV‹Øj[ã5¼5¾Îº+vÄÕ™»VˆÓpµA¯g#Ã!ñ)îx#—p©]ß(‹“H»î1)e3G…DZ';BqG±"ªe¢ô¸+$;"I)UÌŽ&Žb·›øâVýÝó¢IgË‡o·UúV‡¢¾Õ`Ðl_Hí€aùh![p“q¤¬ó~”Ü­È­cˆÄFh;:Ý~äØ6pÛw»c‡±õ@â2¦«‹÷£mõ;ã÷ÞƒE/éÜZta:=ŒÛ	Ö;— 	’†4RiÇ| £µè›qÒ|-ñ Å'Ç¥o=wFOj¸ê½•¯By`k?u§U<ÚKÉ`»[TƒW!â˜JûBÝ`ñU(§æ `\"žÉäÓ¼È.˜Ç2ùL/ c¿øþû]	àèÁBaÇÓ‚ Š:–ôXfèÃÔÐä†J ……”.É}˜ úñ¹Qä¢À6&4³¼úse;’ì8Ä‡8|PÄ„1øï"Ð)D9¬#€ÂùW²£~‹äðKŸjàïç^Vì^‹äüU1×üÿàª˜ã/%ÓO!NQAbØãn×”žØÃ^Ù³ùˆô‡õ@ûk
+-vöšÂâ?Þ#Á+$õX¥ƒ
+-iÙ9nÓ’ë…Zv<ý-á2Œ ç˜²N¸²O~„ªxUíÚ;_›³±N ]@	˜ƒlð–X&†Ãq†YÊŽñ*ØkãÍ‹ÇÔn{¬?l1äðSsøßx?ñµÄq›vüäÿò·©»°uô~¢?Erñ9§H‘üþ4îx¼CÀwùwìé÷#ì{|Çg¸÷+¼hDFÍðG(üm	y¶¶E|W¹Õx³è~ë±ÐÂž -2@ð'|Ê-´HñTh‘rZ„þZž-ök†¿©¿xö/UcÏû+*  
+\ No newline at end of file
++‹       ÍZmoÛ8þÞ_Ax¿\q¦Ìw‘Y;‹kÅÐ~ÙÝ»úM••Ä¨m¶Ò4]ÜßRÔ‹¥Ø©s{¹°FÃrH>ÏétþÓ×Íš|)vûU¹]LxÂ&¤Øæårµ½^LþùÛ;j'd_eÛe¶.·Åb²-'?]¾šï¿\¿"„€óv±Ì“›ªº½˜Ínïvë¤Ü]Ï–ù¬X›b[íg<á³Ikž·æù®ÈªÕ—"/7›r»÷žÛýãÝòª±¾¿¿Oî¥7âÎ¹3!(XÐýÃ¶Ê¾Ò¾+Ä8æ*c3hk-OZÝ¯–ÕÍb¢•»)V×7ÕbâLÂðŸõÚÕr1{ióï5åA±*îß”_FÑŠ´î—Ð<ßU¶ÌªMCoQ#´· ˜êÅ/Þà=Ï/þ]î>×¯ð²OåD7¹lÔóe~qUî6Yu¹Úd×Îë¯0óù¬mèW·EÛièvWìË»]^Œnõ2ß¬ÐiökµZ¯ÿƒLÈì ÓUµ..ý˜AŒ³˜ÕÓ¨'9ëÌr>‹‹àß–ÅÕ¾]|“6åquöÕÃº	£YLªâk5Ë÷ûIT£_~·Û.i^®ËÝç7 Ófµ’·¨ýÕ+éoàN~ofá.~\ùéÇZýŸ1Ç7YþùzWÞm—C÷âêŠ]ñ£î?ÀÖ²‘Á—YQ¸£Þÿ 9:‹þ*ÇÏÉ.~.ÿCo'ó§Dÿ®ÌïöçLýÍ]U•Ûó·Í»?sóB'ç/@ðÿž%˜Ï<ôa^º­Õ.Ûî‘äÀ×YUü…Ja¦T–H#¸}=iYµÚÞÞUtSÞíú)«ªb÷Ð¤Ÿ"¯bD~ÄÅ¤¼Ír`þÿñ
++ˆ±…Ñp­ÎšB4š˜9;*È‡Kóú YVªU£Ü–õ(Œ‘Ø&ÃÌo³ê&6çëlýÆ“ƒÀ}¸u&ð¶~´Ï¾Ú•Ÿ‹þŒ`ä„ËDO%yK8K”– Ú©NLjàéÈš°©"9|ËD
++E„·1Dƒ“!2a*2ÿF…wò¢!ï	wàþ¡7nÆ2ø‘l WŽ&:qNÂ0ÜN±ˆ¤(ØDûÁ5Øi°‰¦Ü†^ðÉÑ%@µ7Ew{¦*øª:ÈDœ‡/ƒúPš¦ÑÒ…>üÔ(¨h¡šØ©wUM—ÞÔWC>6û0Ši„tñº‡„g/—‘’CX©‹Pû#   xÂjS|û6WÔáÎg×O`³²Àf'cóçâáS™í–ÿ+B+{¡¹~¡-àH¤–")€7Ez&Pîw
++¶‡=£œÉƒD¨ÃJøÆGv,¥7¢Ú“HPf‰“R;…‰v©ÑŽy¢¥cF@Îpšóýß©–Z.€¼‚Hã¿M1£„=5AbIê¬–ž–2 ôfD®˜L†Ž‘±Ñú#ù@däa=YÞ™v¡çp/ý.0§¸øBóÁ·-àx7‚ç>ÆFaˆPMÙ10ÿšD<‹—J9žçŒÎ”N¸YbVà)öV·‘Z:Ô·À€è!êñ£Kl@5õßêÊJ‡v‰R) j#ÖB­…p^Ä/[+E«k“ç˜8ƒc:ípL[ÿ­[Žiu.Ç´>à˜rÇ”Tjœeh!œøè#Åàde©É(Ó×gŽÈ%S{È-9¬&R<FQ¤±6!˜ƒjò2TÓ€YƒÀepÄ“ì¤òÛÉ#Ý,‘dO7‘o\GÂÙ“äžÃ8Ô*†¸Raì0Fùà(§ wD¿Qpè$*qÜ9 nd¢Œ²J¡£ñîpú·Ò¡
++{ìvHVIžH	Pæ0’€£ pÈ =• ¨„ƒ¸ýwÍÑ_ó©R¢mnŸt"8žBú£…â(Ö-fÉ¯Q¬‹Ê €XÅŽbzüvjÆ<¥Òœ…õ&Sˆ¡B½`pƒ	wA1Še±œö±Ü¦.@q &d@FÁ±Fè@#>;M±³´(²Ð¢ƒðu0 ÖX«q™FXFTŠšZPÔ8Ü³LêÒC$~{Vx™tÃlÆâÌ‘úÒ*Þ—j1\¥¸¿ƒz+â›}K´ˆÞøNƒw-Ö±àF!Á"´ÒÆÎ/¯L¸å˜€`?¸…rbã"µÌ…ð„ÖÚ|àêkµï@âîb S’Wq§­qÓZ°=Ôin„ŸMêË-†X‹­â=èÅ‘ÚWv5Ñ¯5§Í¨]U3*íÛÈ­Ÿ0`ÐùòBX1Âévg)¬[®!&<:„CWX;ÞYºÃ•íÂµMûáøi´³îhÂ‚t3´¥‡«–mÊš…W½ùÇÞiÇ£Ñ4¶õ2–‹WKôëC €mO§ÆõŽ§¼>õ‘„†#'T~pDväŒê—¥+8õaãa”û#6åa²Á€Ä&Ôó˜+©ª‰x‚É3
++«Ì1&Ÿ ð:duŒÇFð½|(pˆw©2=à$í…qZˆAF1cÄàcÌpCj¸#Ü0vRÄhJéä¥~¸!AÜq†<1£èƒŒµP9áfß›Qs‡äŽñD<ÌÃ§Šj“ð0ŸJÁýôXFY¬‘„"åÿIE}ÖP¤O¼ öÛêïŠq÷È‡ïü†ê~…-®ÏœÒ’ÌÿvÎü‡ÆŸÑMOR÷#j¡!&ëŒ¤pýB=÷RìµÕR{¯Ô¶ýv½Aº•ÐÀ±„Q\Ô(ußh0¢çº økâ±àç°úŒ{;5îÍ}´ÜÀ-ãûA‰B÷?ö­âîé°ç$Ö«÷‡"@ŒäoDÁ'î· ÿÖƒ‚cý6KœêkÚ¼Ç'8ØZáÓJÚ$|jëzFè´À¶œ×C€àÇèY[ÙŒ¡¼ðÎ¡`›§ø4Ä¦µ>>¸¾,f•\¹¹ ¶£BÄ2ÙÿÉ8­2î`tŽÿ}âòÕžÇøÉ:#  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/nepomuk.svgz plasma-framework-master/src/desktoptheme/breeze/icons/nepomuk.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/nepomuk.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/nepomuk.svgz	2016-08-29 12:35:14.127398211 +0800
+@@ -1,2 +1,4 @@
+-‹ŠñV nepomuk.svg ¥WÛŽÛ6}ÏW°Ú—Õ…ÔÍ’bo€$ OMÚyãJ”­¬$µ¶Sôß;¤DY¶·»ÎV{8œ9sáðZ¾Ù75z`¢«x»²ˆ‹-ÄÚœU»^Y|ùà$ê$mZó–­¬–[on_-rôN0*Yv•Ü Oí}—Ó-C?o¤Üfž·ÛíÜjº\¬½_ã€e÷°Fà³í²"_Y£ò¶µV*rÕ¬a­ì<âÏuó£n®ÜV,çMÃÛN›µÝÑE9©ªvÖ išzØ÷|ß§;´’î™Äõ˜1ö`nT»B%ë z[ø›tÀíx/rV‚s[&½÷_ÞO“vYS¹'åliÃº-ÍYç¹…ªbeA$!‰k¾ª¦F¥lc7%H`áG,b!7+Ë÷-´aÕz#‡w]Vð\y„`[Þô÷®Nø¡b»·|X#ß‡_ëöBË†IZPIu@f Q¥z`²ßßF0Îóì/.î‘’Ó;Þƒ{ËLÂt‘gPµ†ÊÛª¡k¦ªý+jé'N”å:Qa	6ÔüÑN+ò¦RšÞgYÕõ'…lyg@•¬Ù$[zcœcÞ,¥gòÔ£‚•Î^½@æ“y'5CÊíÊ’l/½¼ë†…Ë{! ñœ×\8]¾}0Á}§¤ŸµÐùvèï)PmÝ$ˆƒ»×£øŸÇßÒü~-xß—æ¬,qIž4ÿQ«æxÄyAKŸ´þšåÅ‘+ã§¢/sõó,ÄGíiù5Ñàyß½$õ·½”¼}ù²ióÿ¹xÈË0ØÿH	–žnöaw¨} ß&JQ|R(A[ØyieÝ”ú±ÐFëÇH9ðì\`6ñ»o,‡Èj&h«6:#l-€Îæ"x@ÚW;ÓœhQÅ0ážOtZðPâL¾«Z9†8£_N*%Ø_›|J8!š ¿öêØsú¶’pÌl÷@¾¾S™ QˆžÍ”ÕÄ<¬’Ö3Å©é‰“ïœ7%qÃHýÌfr oâ»ê‚¹ê¸Á‚D	~$o°RwƒsñáqqC÷US}g…^³£‘òÆ˜ÍÑ5Rå¤¦Š0Ræþ C-Õ[HBlHûØZz¥Ñ–w•Ž:[f\TàŒ"ß·ñ£”'¾ŸÁÈs˜äy˜Á÷	ŽsOtE^`t‘¶³"ÿy¤À&é‰Ï#
+-¯Á	.â!ñ)Ì…&éŽsÏ¥ ‹Ä Bg!Åc­—Þ%;iù±cëj{Ç©(æ¶•5rF†]¬i“×%Ü&²=(õÀ™”^wRð{6°FFÌ°®ZðÙpì\öWm—&ŒTjØK2¬ @BÐCÖÂ}.åeÙ1ytkâ0Žµ…šÊô6ìSÓUCAÖk—>³1·nüÇ’ð¢—pgíü@e/ØÀ `¨4õÖBê"ˆR5²”#'p?Ä8\Ø9±í»ñ"JÓÈWƒØ¨"l½•ÀŽÜtxP<{‡vÃ„ø8¶I„q“ GIh“Ðã( 	®K‘M7J|ô"‰ë§~«^AªcÌ-ßÌ”ƒdOèˆ Þè7Rƒ)O5ˆ¦´ C'AúóR|EdI8q¬4 4„"ø~:˜†sÐÐžg&$œ¡Â *ìsa¢*3Œ€zÎÊN†GŸæ-°çÀ!új™æ×>’¸¾+œ¶ûI›µþvÿãÍ?áZ(¯iÇäù­x"‰†“|¯ÿÏ¿jf;ªI•nH’À:ßÓãVÖÑÿwb†:Öðu«¾Ln_ý•ž¶†V  
+\ No newline at end of file
++‹       µVmoÛ6þž_A¨§’¢lÒ‘\,‚X¿¬Ýì›JÑŽI4$:N:ì¿÷H½Ù‰‘¶&ÙïîyŽw¼#åôíc]¡Õv¥n2„ØCª‘º(›mæýñé6àêLÞy¥•yöÞ®¯Òîa{…rÓ­
++™ywÆìVQ´Û·U¨ÛmTÈHUªVé"’È›ár†ËVå¦|PR×µn:Çlº7Gà¶ØLèÃáb"BˆÓˆÒ A÷Ô˜ü18¥BŒç¨cmF~u´>Ä)Ê"óÀH{k©7ú1ó0Â(a(¦Þôi­L^ä&·˜ž2jwÀ@ð«ß¹í%¥\ý¥ÛûA„ËòÏzo2Ï[Oê´«nëÜ¬Ë:ß*éOKÍ†°yÚ©Ùiï¶UÞ·R-^!ëÒ’¢¦¬ª_í$Šž9-M¥ÖnÎ~8fiIFGY¦Ñ¸N*Ô¦›×ÇJ1NÈ¸:yª¦°m4™gÔ£‰d×y£Úòä¾m¡Ó©+Ý¼ƒÆ›V+|gµ2øtôÏ”…#¬ÞÄ$^ÄŸ¯õ¿çˆ7¹¼ß¶zß/éj³Áò*ý}¹½«à{nò"WJ¼Êþ:ìâÈ-ùµè7ÒÞßtñ^Ã.xÉ±üžèoµÜw—¤~³7F7——ÍÑÿcñz'—/@Ïÿ‘%H#×úý†±»Â¶óNiÔN×ûûq£ìrsw¼!¬¼œ¶ˆ¬ò¹çû`²Û“	‰»‹ø$FqS†1[úŸ†‹e"DbÇ„ýÁœ ÑƒÚšÞ!‚CÆ	Å@J!!‡-Í™OYÈIL8"4äËÄ§q˜pŠc‚~C„‡TP±>ˆÀï(#2 ¨OÍN0zòéèð7Ì›X÷›ŒaÃœ}À6½“\ÿF5äC¬_.—ØaÀ!óÉ"¤T86³%àè AŒ>ŒY(úËwaÜ®\âO@'$à#˜œŒ&jÎúeªŠë€ÌÛÀñ»8WÁk«	ô.—p@¯ÈugZ}¯V¼ž§úlCˆã‚€wÁ°òÞWð tzjx|AÏ£™§uqMšFÛçMÓ >ßÑª„þX¯Æ‰ÏPŽ„/vw`‡³x*%PFq•œSù115G	Ôu96#áB
++MMi|‰~>rÇ˜k¡IvÁŒM”#îs§&n4KÁ1à'`ÿÇâvZ}¨3>*»ûÛÒ?õÕOíßõÕWÞ½ÃT
++  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/system.svgz plasma-framework-master/src/desktoptheme/breeze/icons/system.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/system.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/system.svgz	2016-08-29 12:35:14.128398211 +0800
+@@ -1,40 +1,15 @@
+-‹       í}iIvà÷þÜš/ÝX+îC#µéÁØl,à™ÙüE²$ºYddéhcÿ»ß‘3™dQ,ƒV·ÄÌ¸w¿‘¯ÿéãÃjô~±Ý-7ë77j"oF‹õl3_®ß¾¹ùûßþ"âÍh·Ÿ®çÓÕf½xs³ÞÜüÓÏ?¼þ_BŒ~Ù.¦ûÅ|ôa¹7ú×õ¯»Ùôq1úñÝ~ÿøêööÃ‡“eNœl¶oo	ñó?¼Þ½ûÃh4‚~×»WóÙ››\áñi»¢‚óÙíbµxX¬÷»[5Q·7uñY]|†½/ß/f›‡‡ÍzG5×»?4
+-oç÷UiÍC…TJéVê[­”»Oëýô£hW…1öUÕRÊ[È«KžWêÕÇ,ÅÑÁPn³wXþGø[U(	“Ýæi;[ÜCÍÅd½Øßþùo®2…œÌ÷óF3eõ[ý¶¶d=}Xì§³Åî¶¤SýËùþÝ›£&	ÿxJ|·X¾}·‡TM¯Ëù›˜¤“6Ò{†È-¾ªrä$©ÑV™ •(#5ßÌp(Ðà§Ý~ñ0v»ùŠ¼ž/îwX”ûÃ7'¤<ÈÝí?­œÍfOÛ-À˜mV›­ØÍÞÝ”ûO¸ûÅÇýíl·ËmŒF“_°ð_©¬øäŽþ»ÔQ;¯þ`”ñæî9ùÿ÷UüÓtöëÛíæi=ïV_ÜßË{5Xý_`mW¸¾=Ï§‹E¬ý—‹+þ~†ÿlâ_6°ÏÝÚÉÌÎý_6³§Ý%SÿÓÓ~¿Y_¾mTý37¹|¸þs–àõ-~F ‹éöŸ·Óù€¿´ð6¿ÿ}½ÜzÚ-¶E\ÿ?ë¿ïj¤ø¤ßÜ8&!ÁUêGHµRN\PÖÖe”µî°¬ê+‹ØØ—U6Õ•ä½z·] ‰þÃA9#¥PuC…ŒÀ‚¬3 @ÓÕ‡é§ÝÍá<ÿ¶®w@ÞÜ<L÷ÛåÇ›Á˜ttc	ÿÕo"é‰ŠÆ{?ÚN¬VÆêŸnF·ƒëÙ3£3GZ(Ð«ÍcµÁLA!šÑBÞÔ›ûûÝª7Óh¿¹¼È ÖNç¤¤ììrÿé•ªf1Ô¾§;5Ü]ºséÎëîõm{m®šÚ¶`v˜«Ô¡“‘ØT°¦“iuRgÁ¢ntu	$îñqbÒFKf;&Æk•NƒÜ©ûf#>=›ª“žéûÃMÅ
+-´NÇÁ­§3IÚÉ?ž€Äº7óâÐÖHª|Ú´æRmhkêÛ”(Ï·¿7pƒŸw)ºÙâBpjû,p[èÙ|qwº³^hšüÒÐöåØ®gAß‹3^ã&QyclÍwÕI¨skg}sàãgOàlÂßöò€Ù_Rª½k©µ³Ú´¶?Ó‘˜:Ú:Ÿ³LW;:ãÇÊLœ‡áûk­S“bõ _czýKÐmÎÄÄ€œvÙ«,Û7…®çÉÉªÁ§^ Y¨ÿ„­ÏAÖÞ	1ÌS2«²îù²JaªÛ³deCOg'Äc-ïf÷Ó/.wdLu-`¼D<vñ<ì¿šxì¬}¶¼rþ:µ	ñ5º<“Gùè2N>C ³»é}¼THúYÝ½½ŸÝŸ¡¬ô«Éþ	tçi¯Ö¸Ï‚¾Sv;v”‹XÄYã<Eµ­é£Ú'XÄÌÃTÌóY„5éàõt6Ÿé;{”}!ŠË’j›Eœfûè„ùâ”ø]±}…9k‰ÌÕ˜Ä%Kt	“0Ïb÷azw§/ÕúŸË$Ò|¶—jý—2‰ÏÒ¡Zrw±]ÏƒçM«ËvŽkZvö|áÃghüg7C¤Jú6ãT«ÏƒÏ¢uñ<ìz´ÎÆ0ß-¨öÁ &NOXi&1ê’ƒÃ©JÂO­q!Q‰¶©ßKK…ÛÔº§,¦Æ˜Ë~—6€óØ+Úì¢°Ÿv§Ä</¯#æ=Ösf®ÑÐÙâÞ½É¸Ë\fá§tmÇýý:Íkð…„>§_Pè{I‡Ï™ÂÈÑBÅÅêíÏÒ)¤ÑÆ\€¡~*}GÇ?¡ÚôOa' Å]Çõå@¢pàô.v à{S"PWÌC^”í5ºœu4}\gƒ¥ÕS//° §êÃ‚€âÐàK³.k¸©Ú6å¶Wç,!öýKÛ”ÕóÉ!»˜L/†èó\Wª¯ìà@•äŸsceÑ=‡ã|Þþõ!Œ:S‚gHd{ç4{}BŸÌuWïf÷ót	®†ø|L½ŸÞßß•(¿2ñý²ÃÄ<‹…¼ ÷ËkyVŒ@—ÚöRæaãòßÝ3êEÈÞ¹JÊ9f×jÙî—«ýbÛì˜S êmŸN»šÞ-Von(ÎwùÛ¢[àa±~Êùý™b¿Ù¬öËÇ77Z-ÖóÑòaúv1ÚlG›»ÿ‚!ò¹‹éè~µÙÌ9\x4…b@µFJ¾^ìv”2Û¬aÍwûzUš4ôSó%Gþ×D¯Dý×)™rˆýrKð¸Ý\nÖ‚Wd÷j÷ÿü§š¶ß/h’ÿN8Þ¦»­,XIßŠƒ}?]=-v¦Úõ››¿Ò)ØÇÇwËY#üwÓýÓ «‘±]ìžV0	þmÙ“ïÁõ;%Â€bCñR3å‡ÆÞÞý¨kðïOr™´ÇßŠj…öùp(”h¥jË­Ëµ®çS'?læ°O7«OëVú<6ÓÍ/›‡ÇÍn¹_t÷,gÀ¨Úâ-êØöl°/¸tËõÑ14íïNgáßïx-ŒßÊoÝ7‰€þ[@ÀßYàõX`‹Ð8¨[ ÿµÙà7Š‡¦;®—ÁÄ³€Ô*ÝT«‚Í–9[ùudˆ×
+-uT:µÑÅÕöÏv•Êã·[?+ø÷’ÐžÙ3â¦Ó…žÞ´A§Ä´Š4ç îgÆi?4Ú¿Èhx>,9¥&U?Ð9ã4Nc®JVz¦UŒ-0ê³LÊt Os€@3‚©6ðõ`§z>d™h®7ŒÅª˜™3áÊ;7;tÄôè œ]È”‡? VdôdÊ)91ðGù‰OÎ]ë¸‡rCþÈ6- ëdº!d_“FÁlžA¡fó”l/qá
+-ôéÞ/z¡T¹aêôúÏûÓSuS ^0¿\|ø¡jënZ„A:Ìb	örÆÝf;_lKCS+«R&eßª…ÇV«|ÙŸ¿{7o> `fþ¶Ù \ëIPªAªêM94Æ‰IÞ»ÔÉ„þ„ª¤”ê0w¾™=á%â‰Áêñc§~¾a5ý´Ø"Ð
+-øŸ¯XÛÅÝfSÄáÝ»Í‡·[\ÌýöiqØÌ‡åæ&Š\œtgr‰"('ÛY†\¢!ufÁ\µ?’÷0ý¸| b^C[Ud·ž>Š»»ÍÇÖàï—{¨µ}»\ƒ
+-ñX÷ÚH_-î÷½[žEOÎÝf¿ÇíìÌÕ±¡s—Ç‘áº*‚ë[€eôŸ0­…Ç˜`šÁ¹‹‡G¼ ƒnc©Qôýr·¼CDkÌÊ®§8?HÅõÉå±uD³Ýf½útP¬àrÀ
+-mPP­áÞébÔÍ±©9ŠŠnühþmV³¥qâŸdŽ]Dð×·]Ü§ô‡Å~:Ÿî§5!()Nº" ½ÞÎï_ýÇŸÿR‘°ÙìÕÿÛlmˆÜP`z·y‚¯H&Þ;2{…iºÿ™TN¼Îå|XIª2Z…qGëF¹YâIüï½áf>{Xb¥Û¿î—«Õ¿b'R›]îW‹Ÿ©O~,³¸ÍÓ(´³1Ë×·eèímFp¦Ë E¬
+-UhjÝ}ú8U˜6? «Í[–³÷=Ü»øoÜXÄ`&.‚¨2	öV…++ÿl5Ýí²þß¸¥Ú;@©
+-Šy• 2±¤Éüa1WN9z©Å !“4p/_¶›_¯Ö›uÛi€m›¶MµÐ7;Aî`j©²Òÿ9§aküˆA†zbbÒ]ý$DRgÅß§ûw®™wË_¯a ›­€M{*ý¢‰4'vu4B¤¹˜&AkgÆ‰ÃÍFg}Ë‘p$Sù1LÀX'äß(÷\z”‹T9‡%ëVKŽ(­V	u«e£R¨Îâ¿ Š¤-ˆ0`å@Úˆ·%Â eTÆTïù—†Oe±*Re‰Ã²¢n¶Ê+µ)uÓ¥Â¨4]åu
+-Ó&Ñ«”p¬èÄþTrPõH h…àßÑáûa…’_*–&1Þ&é$ˆN¥ß:Ø‘Ï*ü¶INžG/Z¢Æ0¹Ð X4Œ°7NdÒñ§/I©A¯h$}lJ¿-Wwš¹¨ÕÐl¯f¬¤1ùðz/Á8— ¾+…íù‰Ô‘0]N’áÓ HƒŽî£·Æ0ÑÖüyô 
+-Fƒ­¢ª\s7BÞ¯hàð GÐ¢¤	cTù­ª*08%…ýðäì-‘ÈÒÙ€Å”óR’Kx0S´ƒ†¹òÎ¨¥L…ã0B3[¿ÓC Ê`ôØtDøh‚=Çw§e4ñ&CÓCdr<"«¢(VˆK¸4æhCõÊkT¬PÑ«TÈS¡Wˆÿ9±Q?¯®æÕ¥ý ^Q¹å^Eî'÷Z^«^s§¥O“©í¨tY%4v:o´¢•Ä.û<Õ>Þ^N£¼Ó´C¸Ó‚7w6ou©cÇy«·kÇÕ>‹¼Ñ¸Ê´Í‚÷!6Uä]ùµl²©I.î«ÈÝLªöZðfç½hy»ónÓq“²ßX£—ÈÉF¤Å)¶|”ÝöÒÈ«Š\»wO{P„ÖçÉ\ÁöÃ2Wü\™Ë…o]æòv"‹¡’¹ Z³tŽXA¹$Š:•H3Ä‚Ì2›‘H® –cBÂar˜ ·7 ìU‚CÌÓº’Ü\¦ERS™x¨ê=—«$7U$7_'”²DmÒˆÛ€öÉ“Ôãhe¢aÅR[\žÁÌ“±gÌbndrÓÐ•El-ïHˆºÝtÝt^ÄŠ0Ø:!­éˆ-¢›n¤”â4	¥¥¶Èw$RA3êjB5
+-Q†±bšC“8")é~*0v×¥O»ÇÅz.Þ-ïÛuíû;E,RêQÐ¾$9HGÈAãŠ…AràíóU°ë¢»·‡*VæôÆ'flYÜCž—‚1Í_	0X…*R$ÄQ»$¾—VKŽà*¶™ËŽó ˆs»…²Ôc¨Rˆð€¾®# 4Ó#Ó§‘ ƒ”	cÖ@|CÉ9ãò@ ˆA{^Î?lá°‡ª~ÂÒj™îŒ$ë‰Ž	“	* w¤ù–„ü;B Ò£\¤Ê9,Y·ZrDiµJ¨[-ƒ•Bu¦èoêµH¤´ý(²!g@ÿGL¤Æñ{þ¥áSYì‡ŠTYâ°¬¨›­òJ­FJÝt©0*MWyÂEÒ%úš¯®ÁßÖàÁ?Ô@Áßÿp þºþf üM[g‚?›n‹FF5}wg`O °­fg†f`:3íˆ0‰øV^uÝºB×ÐA7nØOtðÈ¼K~AX?j÷zŒ”Î¬L„&­"šöøšÛ¨	kŽÍÔ„zÍõñ5oBMŸ@Oj_@i`à\1 ~Ó:C7>ëQgè"jÁ¼Èßã"˜‹C!þÅ}n¶ª3E§x“¡y2Ô‚j¢,qtÒ%@©àÑˆJ r]æ «§‰Ö‰
+-£yÆÀr¯½×ZÒ°H$¨s…Ò@•PX¥–5Û¥ÑÒ¦(–&Äá¨D=Qf ÊDw½ä@økXRw–ûÙ;Xm¨f±FmP'>x`j_MÂïñƒ‰>ÁÞ ]ö6£0*ìéÛÀÞ€|ª°×K¼Ê¶zâÄÈïMá/Êúí÷v…Žqß£‡"/	oø`¡Jf½YG%&êÔƒ
+-î˜,í&ÎÀ†Œ5KÑJ’oH#KOŠÐ ’í($G¢*àßRC‡O˜(²,ŒE9ß
+-RÕÏL0l%gñ9Ö2¼É2¼­Šø¼jÏ¾ˆŠÍ¥˜Õy,¹ïä¶_ ÷•@n+<ä!ÙéW¶É2ý*B´=¢}®êë„>²!“ðÇèF×);ûUìfÛÅ¢ÇHXŸ¸B)Ï¨ìb? “¯*Óz¹¿Œ íÿNºXŒob½ú
+-½cËÌW+ÒXQ±	­N0g	7ào¡T¬$þÃÐ‡ F—läý2rÈ}±›¨UË½ü'›"@Ž„*&’m¯Fää¡_á¹)|þedíØS!‹ÇsÔ˜pãÈc‘c$ü$úAÌøFàþ³DÕ^ðF£$OÆŸŒì x ò¤—š­ý×ÝX|£Á¨ý±šö,–¤ðÎPàzÒÚÀh¬Ò-®`¯9ð-‚%ß«×`[8#û¦Óx#¯h)³âÕ·u >˜ÔÓvõc7.;ýÔž¨êŸß%¸UM75á“±
+-/h
+-À­D[¯W,ŒJÈ6nàãÄ²Š4Ó¤)¢ÁHKÚ?qÐ)ˆ§d`Ž
+-€ {¤È8€–Zítè)¸ãû’íÄtT!+ªÝsZ{vÍî8Šª’N&KZh ÒŒLÄu"ûÀð½
+-jÌ¿ÈAí$¶¬#Œ
+-ŠxÙÅ¥G¯Xš$$š “áCÓ®Ü¡Àúø~‚`{Á~Âžà»Õ>ì“©N›È'‡aÉ§ó 9- · ¤ïhî‰L1+(;ûA¤BW3ŒÃ—â>30“72—‘½À¡@öGƒÂ‡žEæ’“¤“O=%uoëøE++=yrAÊï-a’·	!Ú‚ö90‡1uÓß„Mdk‰Š_Ô‚HAÁE‚¥.€1Ê€ èÁô¯H½cÕ‡h˜@Õ—Ç]öm’m$yëöø°±}Ú©SßÐ(r&Gzò¼n¸£P"Æ‰ö7£ÑÙN¤€êÄ€#ÈõR¦jÀòH¶v@9&<¥áŽ÷¬±ŽÈ´NãpK>Ò˜’êƒtR­%!’ñÇ`S!*T¬aKÖÜx:?Ø’Â%3€iË'GzŽ,d¸-£yXÉãÉ8Lû<Ü”Óda•1bóÍzÃ-y/	è‚=¶XŽ— D‚8Ü²4nËk
+-è.ƒ-½ÃáKDû(\QÄÚb,hÒÚA0NØmŽÀ°´>%]¢ð qœ	`kz)õ—\
+-d'w°Ä\g¢ðqœiˆÂ5Da}t“;^[`4of­ô¹É0È6ž]›†`Žqlãeˆ^¾À,Cr+qŒwÖ!˜wqM ÁïÔÏÔ˜1ˆAÎÍ§^¾ N2âø+P§û›"Ê/N’þLùÅ1Ò_(¿8Iú3åGI¡üâ$éÏ”_#ý…ò‹“¤¿P~q”ôÊ/N’þBùÅQÒ_(añƒméçÕê§ýLú™ÿBûÅQâ_h¿8IüíG‰¡ýâñgÚÏ€å{Å“dSÿBüÅQê_ˆ¿ÈÔ.ô551H¶ÆdãÓ	åßüK*œdw¥ßÑáûa…’_*ÖM–‡Q'At*Uñvå ‚w®Ž~]Nmk<biÝ­ÐkÕ±A•$ÛpŽwb×ÖàæÁs;GtäËm:ÖÉ+ÙtÄ)SÕ«ŽŸaPË¦ÙþéMù¬šáÏª¡)S±Ý“¼ècGš`¯óä@;·ží5ù—ÜÉFÍœ80At¨ÎRhžú&Ã¡1ÚŽÄ4æ¦L([zm˜Ú$ÊL†CÈ%Ð>¢5š´‘‰b¸SÜŸ‡!Pt‰‡(x›C¦êHJ˜hø)Ioô“UýLEƒ¦=ÁQ¸1n–Ã×UDŸSb£#&8ÛLHTÅË!h
+-PL<Q*BkC“áã\šHY&ðB¸èG¬ã’=DZ®Ç¯Zr3!R¥‰/ÈÈa(lbƒ‰†úÕè\#ßuŸŸÐ†Î‚0Lè’Ÿ”b#7Y±/´OIÓKzÝ>­¯ïëÍ|Þ„ÔüÌ§M_©Ç%÷êîi¿o¦ý×f¹~õ°Ü/¶%µûÕ‡óˆãvÔç7óÕÛÜÍÊŸÝŽ_rR¿m½ƒV¶B«Èh5ãÃ´Ìs‡a¼cCvòè·<	 ?ˆxžŽKdË~(®aŠ×	ä€bt÷`{Âd¿;4ûþQ?sw‹<r40v·;ð*W¨À Ta¸ {øØãü:fª b°']qØ ý5ø[>°t1ks=‘«±¶Æ,¾ksÖ_‹µÙYÛ%.‹ÊÑø–_vÔW_Ö0ùrL6ûG›‚!#TzbÏ„§ ë5leØ&IÓç_XqŠÙG–8™3À	#žŽÁ§ˆùad¹e‡žQÐ$EaF¯ºê„'‡à4 Œ³í¡²,ƒ*¦y¥ÒØç)bCÓÊ¶iøŒ™‘Âo>HI9e¨5àï7,OÓôE‹UÎXI$+›¡Ð àjh’‡	KeI+¢@Ä{“½ögLÌúÙj3cÉ€\3´DâÏg‰}ÐyŠúr(l;)Ì–Ï6):;LÛ7ŒF,¸À6x..Iþå…£¥iÃvHÕˆj4ÇÂ½¸æÆSz¥(øÁ#´Àª9ÚMt$ã¯&Zkd)"ÉDp£¢C ¢-‰‘`ÚD¡æ­‹›Ð†¿ZsÈò|VÛ 	\l:~²WÈ³Z&Ù mÐÆ[uH6JhCÙH²äc"A:×¥
+-ÃînŠGã[ŽÏ"*($‡h…DÁ¡…
+-5xL1©€Ñ,¾IŒcfŒ¥F‹¥EÁéòWf¢´OlaõAŸXåCbÀO2¯ŒeQLÁ‘)²l,QŽÅÈÀ¡±\'û½H¶&ˆÜ;Õ)Škt0¡Š:Õ¡lé›UbfTjˆR%÷©ÈkI;ÑgÁŸH€˜ÑŒ-:¶¼úh	çC¤,…S…âÛk´1Ð[·#Ã	‘QhÈÄ@05Èž>lÊ•2ÁcFè<Ñ#›q˜b‘tÔ ¼³ìÉÆ%"ßLòò”õì°šækb6K¤[’Ô]› G¼Ùú1þz>0d”Ohê”ÐÌ êŒ"A^£6“Ñš¢$Ñ9
+-	ÆÆ‡çéa˜Ì@“2&ž*¨PCE‘Í§3É¬z¡Vàâ…¾£Zí¡w»ÉúcÍúnAÚ’)æ'„J,†ªñúDZ M|„8šÄñÔ÷!ýRt²Î¿‡æ#êÄ¨˜¯G # Ÿ–!{),Š”)ÑB<§ó;'¦{  w)¦?E'½!(Š(0¡ˆäOtÐØçp‹ÄVã¡ÞÄ‡£AÓDð—†ÄŠ­•)Ò§C´,ÃÈä"Í.’P¥"Óxè8w)r”?à…/±µsßs àÔã÷ÇÝÑ°?<ÊÂÝ‰Ò_éN¨… ;â©7î¬ô…1e³³ ì¯(\öWÔ,Ê—‡ÚE\øÔ¥ä‡bñ³•±ìr½É¢ìrÙdQv¹l²È»\6Y”]¦i’d˜w˜…DÞb‘÷˜¶8ò	vÜâ²Ã¢ÞbQö¸<\f—´î›ÓÛªSÒ§ÃÏÔŸz¬g(pÇu>ÿŠnXdófñjšÛ…¡fâÂà$ÖÜ”k“o+U‡|cì%Y?ì$(”æò/FÕ~F“3QÂEI¯‘e'ÚJÍý.…É%ø›¹²Ë\Y]ÞER·£È¹¹n?Í1+V˜ ±#¬n'&‘‡:?\Ê{Íð¦\÷Šƒ{ILJ½Û§[V,¸éÈè&ô•³®ê ) “s 2€¡\1”-ðôtüƒíqY	¯¢é„M³ŽYHñtÅñ2ÍxÄþl1”oÌ¸›æ@Òõé":N_)þö(yç,ûK’ôNHú3Iºê‘t¯;Ü0MŸ, ™}A×‡=”Ô¿&ãJ€(þPxLþ¥Ë2ÑnúÍ!ºP+;?<_g¥<+Zäpfß‹8œ tô]ÏÇŸðéW<³@â)â†6¢fBž‰M^¦1?¨CÉŽ®ŒÀÈš\ŽŸÉG`¥åˆ"hOÍXMûcÿ#]9¢Ô9ŽxÌã<¯Ayè®’F£ÞÀÎ¿#æt¤² e‹­ÌS9ô „Ÿ÷¢XŠü›ÏÞeuZ)"µà²¯ËZC¡¯Å3o"Ž¦eC Í8uDúçaI"q=}2hÔóÅ]xÇf	Xºû $éÈÎ;GG¥cÞGìì˜
+-EYŠl)OÄ4\ö¿ë¼"¸å‰ƒ^ÙÑ¤ÇüCSÔ ¹ç£½–ÜyäÝSè;³h° D6¬ê¢2Næ!Z¾qyÈÜ
+-ƒìöW
+-‡Ê$ˆ â9.44I™„ûN¾K¬’»b£	Ï6:ÿ^Êó¯êdù¼“7g‘?4Ü¶‹PˆÓWÒÉ¸ZÂÏ+[ÒæÓÝ»év;ýÔj¡^< #€<w@ Ð¥š­MÎÙì›XÔJÙNé#J‚wJË%9êJ"Bp¤åDL”ñÛèß¡—b 0‚øáwh1TP¥áT}~fßªõŸØL¬ÊB3Q6ËÆª,4u³‡f-jæ¬~
+-ŽãaY¼âŒ|þ˜JFexÃ”\Ê±
+-ŸdƒGÑÚ‘ åÈr®ª«ÂSUØ´f Iã|ÖªyKTg°D¾¿ËsqÀ?|ÂØ¼ð®lTŠ_4ÊîhÝ³ÿšAC÷@–t$,en!GÿF¡{¶_3dè Ñ5dhý²s®ð¯WpD¹±#66Ï³Èøbèåž`Ó8õyAN§èèðg¯&|^åtéq§r,MxƒM0¿L;Ãrá9>6?\~XMrö+´OXÞg¿±ƒmrøH›Ë§J`Väs§ªH´ÃW'ú¹	ÐÎª/JC—J£Â]Îú-š÷j\õ£®Dëí7@ëº­ï„çüHñçfM‡‘>¦é“MÂ	?«,Pr˜]Žwì)TåÀ?šÿñÙšYo¶‘oJFSr‡ é˜Ó¨•“×´¼zÀJPõQ<Â`þ@¤Ï}}&3ŠË ’qNÌA_F’ñKÊßi|fCêÓ[%òÖ7]ÀÔãñ@KºFÏYº6Mò-zÒ“ûŽ,îz’ð,8ÞR Ð@M·Åk$˜ï×‰t‘ˆŽÌ29pÓ¢ŸÏSób¶ðõmOyÁ uà»Zð´ú*=&©´¢ã€YuB×$_In²IÉƒ^µÇèjÅÑCÑ%ËööÖ©ÑaÈ\‚ô9Nˆ/BªdêA{ "ß)0(¢,]«âïeÅÎ
+-F-Ç”{ctuÁŒ(7Ìú§q+çÐSã–™|ÉL347‡ä™a À1òÞ»Ñ¸‹ƒG>¢QŸ˜Ž/Z3ŸýcÅ–2²îÌ½%j·Z*N ¤ùâÜ–¶,Ü‹¯| ²b¹Î&—åüZé>;ÜW«kzŸ®Ãý‘íï^ÔÁ`O³ÿaƒ
+-ÃâÇõªgHêxàå!Æ/>“õ*v@Ó~gþ'˜¿Sú‚ùº•ŒûùÿÎügþß ó¿ªýç³îÒd®ßŽÞ¢Œùê·hŠŽ ñîÑì—‚šwç³£9  ^£ŸÚ%™/É,·M²C¾‹ÅI']¿ÖOOu×yu}NÕ”åµs%ž˜¨Ú52ØöMòx¤!ßB‰gVóí‘uB¾<²q¥§[(ñT¨¬o¡ô=·PöŒsýªÁ*¥ïZøH.dP!µo¡©ÜBÊ-”Lë·P:¾…2•;'CU³Jè¿„òl¬¬ ¦÷ääŽOLò?UÙá;¯êj¾d94ž¤ªïu}m} k {ACZ”Ê7´GèSÛOÑ	JGú“…
+-õ6Ò8º2TsD}ûŽÎ“ŠrwÖç{*èIB÷BõÎ0ÎƒInérVqp©îB¥#3Ÿ‡0]w 2éL8;K‘Ôè4#Oß/Än±Û-7Ÿq1ÂíÈO«\Ñ’\iÇÆ½ÊåöcŸZë˜gKôµŸz(êœæ,6¨©XTÑ¦Ô]áðx	~t¾5ç¬Âï§E>­†Ç(âÂRô(wEß&à Åq@Kúì!ê‚|?g”¿F¤ü½7«1$ÕDI÷ªØ ñ2„áS­^?ƒRçóí×»f·w‘ùé`õ´®|søÕ;E·&óGò’ˆÐz«Ÿtuñ²$­$tgùŒ†²ùc%ùP–4>”$âÝ	ø«žDÝdã‘nq™œÚ;
+-¾ªWVe2Q+¯ùú^®‹Êdâ.ä_âø˜‡Ä?•ïï4›åšìæ8ó`ñ
+-&^€f!ƒn¼²*õWB`tZÇ µI¾½h&ÐxË!Hê//UcÒ¶|k£³ÍAê|Ï¶,þõü% +T¤ƒ²xäÕá‘d{*òµÖÀôËOÙ#ázæ%ûM*~\?h|´ÔÙ¯ûÑRÑ±Ì}_Ÿ-=v'÷ùBÊÆüåSÀƒ‘Ì÷e°R„fõ%¡QùÈ¸lIét
+-dNÑ#ßäçHj‘|Ÿ\ýÕ^U¾¨[•ÂLY
+-qŽéKÝŸCÍC!Ñ' a)”A‡ò}ÏÖ kâü”?ë‹x‡WÜ`¨qD» ¶@Ã’ã<ŸüqAÓ !Õ÷¿8Æ¯ÑW#]–ï«¶H“JGÑUYx‚	zÙšŒh§–¡·¾pè¸µötm{L²mi8ùm‡Ì¤[·ç¿Æ¯¸ÿüÃÿ |7‡óÄ  
+\ No newline at end of file
++‹       å\Yo#G’~÷¯(h^v±UÅ¼YÝ[cè~Ù™æ¦ØjÁÙ )·íÅþ÷/ò¨â!¶¨¶¬¶Û]¬ŒŒŒ¼âÌŒòÕŸ¹_4?Ï×›»ÕòÍ…ìÅE3_ÎV7wËÛ7ÿõ·ºpÑl¶ÓåÍt±ZÎß\,W~ûÍÕæçÛoš¦¡ÆËÍåÍìÍÅÇíöÓådòéa½èWëÛÉÍl2_ÌïçËíf"{9¹Ðgúl=Ÿnï~žÏV÷÷«å†[.7!¯o>TìÏŸ?÷Ÿ5#ÉãD¨‰Rat›_—Ûé/ÝnSã±¦J1¡ºó‹X£õ‘¸»ysA•*ÕÞÍ?¿úåÍ…hDcM#U¸xKW÷óíôfº)µ)§ƒphô—ÿùï?¤•g³Ë¬Ö?å"ýÂôÇÕÃöÍÅÅÛ
++¾º™]~X­ï§Û·w÷ÓÛ9†úo4™«ÉP±ƒ¼ýõÓ| šÈ®ç›ÕÃz6?º{7³û;4šüu{·Xü:¹h&{Dï¶‹ù[î3½–YLò4ò$'£Y^MÊ"péfþa3¬JZXYVg³ýuQ‡Ñ¼¹ØÎÙNf›ÍE£Ýìa½&Vëf«ÅjÝmf‰óêjõ×€þ•Ýß¨yóßuÜàòOZj§ü6ƒÿçXÃï§³Ÿn×«‡åÍaóù‡âƒ<Ùü/w·ôïXç7Óù<žlýwb±gOþÃ¿Hâ/+ƒÃÖQÏž2úV³‡Ís¦þýÃv»Z>Û¸ùWn^"òüHíÏY‚«	³~H¿Ý’BŠþÛüºÙÎï»Åê¶#Q¤æÓtûq,(û*/³ÅtC*o_(j=ÔT#e+u3k:Ó­„jEÓ…V÷ÖùðÑæº&ƒ	†C‹Ðv¥½¢E!×”
++€;~þÖÜ‚¤>u|ÊO]J%£·ôê©¾Ô@ª p‡ºnÔŒ µžhZšÚ”à\ù[óž´v¯¢Š.¶Ò7±U"›^Bh•D…ì½ðBËQ¢)u«Li3ŠBª‘þ°õòÏºæ¼Ùo.>¦½ÌºŒ÷ç[@ºÕ§éŒtñ¥üv³]¯~š_.ÉWe|t»ãx;ßcaVO5Jå'èq0ˆ¡7Î¨¯«Éí>>¥:‡ß7:´¦ùŽ¬•ªüW¹Vº!©°±âŽiþ™¹ë;ælÉ²1‘‘Gô;åàX"ø¾1²W.Z-‰ëµÚ Q¦1´ýº°„&Îw"R[ ©6Ù¡ò‚!Íîú*HhâkòS$èóYb»ž.7p?ÈNãu1ÝÎÿ…G÷¯ê®ÙOd±×óùò$û<W‘ÀI`Z’Ü`ðbšÔU¶,ô6Þ¥ÀƒPLxërÑ1úar) ;~ÊKöÎ*±i8b(Íæ]#tAHÒ¶¹Æ‹e¤Øk0†áQ'fí,±G´è/½u®ùíYäÐOc‘ó˜C=G·\7ZöÚ+4•H·Ä\Êz†žJõNyCªz@%}“´Ž1¹R;rÒAô¬\³«®Q%¼•Z‘R!}û¨Lp>dåDO"œ0F¸¤¤’ª¢q.®“â¢ç@r@¶E‹a¿³œ\C¿E¦aSå%uÒIÉ‚<Yl—Hi–m‰á–c9‰?^KJÔk*RgU¤ëù«ÕI¬ž«Ceoˆw%»Vª'*:Úí^»(Ù#ïˆ¼)ÙÃžñ6ö^"zTPQ8øeüÓ¨žjè€[0»üúZÖpËkRÆGHó˜^A*’XJ	Í /“ËèáU—Q‰â1RÈŽ^©tð¤†{em€‡@èŠ{æac”Ü¯½Ó‚¦
++Ž“‹Ç¢H+áÒ»ÄS:vd	bÉµ•Ñ9¬YZ9öÒ¢@å§Õ!†æ…‹Ô6ôä†ÒHIboIQàUI¶4ÉS¶ì\¡Mö®óV0‹¥PX¼´e'ºa+º´mþE™7#ÿÂ2I-1ü‹FÉöÒ:vlÓú~éŸ|X«+>ßáõX~áØ“xzÞV—¤±?¶a#h0Û€®LÚ‡•ð4/¤=Ãê2Ø•ê×´}»RýdyÖ_ïRÃ"H'HGÛÞ%	|×h_ƒb$+h+Ð–Cë™0bÊhÉ}¥VQ[kÈÁýîÐG>íj_ˆPH¥-¸-É VÚ³÷*XjóÝÓü{RÄ>O“²ûŸ@ÀÆL³Udns!-Iñ×F)~ä¶dÈXJ)–+j$œ°Æ.ÈˆˆQÑc©	FêúØ´^0NÐ¯fÞ¤D/Ú·Íôçy·™op{R*Î´rªøCJG÷Bh+b“ÜÁybeª¢?°€l4R®î$×Êt‘"©WáÈ¿(&S	ÁâÓ	¼d¼Ð¦jQñ˜¯q'ñÄ![MÆkAvB°‘àQ±™Ko!NÖŠ®âp—xYµé×òTÓpD[æ’]¾ÎçÖÉÇ<¢a-È¬õeSÿ&‘A`d|2P´ÄqgìÝXG‹'o–„‰gŠ—þ 'O¿š98”‚3ùßœeî¡ÍD™†¹Ò—w¬jÇ$±ˆNK€˜ÔN8i°&m;ÿËN¾L
++Ú_ôFBGrHãaÙÍ@˜Ü¾À”bÖA ‚_£Ï5ÄKU*¥ªµ/ÇæÕt£8©?>loVŸOsÅ™Z1²8Ã«Ïú<â2°IÂ^±@»ñ	½ª`%#ùŽ¶·Æ7Á›·B‘®åÓQåt©fë
++-«Ìg¸é´8’¶A-ùßåe€\„ ¥2Ÿ2Ç¤âs|éu ÷1Š¦ÏÄæ±¾×FkŽMáU{xçäyG+`Èÿõ’=ÙÜõ(ÉÑ ŽT¹W:Ÿ]óéy:y9©ÿü2 2*´m©+­F‚ÎS‘$P¸ßKaH	Ó‚!Õ9YWF²ÈsyIay5º/,gˆ‰=×¥æc–ýdO>1™,â…dÚÒÓf$…µH1.Þ“ËÄ QÉ¸SÔÙËd¶SÞàïszW_†h¬–plI‹SQ:RÍ¿Ëq»Ø–Á¿ Ÿj_QŸ8…Ù<l>Í—7ÝÇ»çë%¡Ÿä¶sdDõU«VžÁ[´V'×+{¥äLõ¤Ðbò0¤¸mìî¡ltBÊ®.1[m]Ê•r©êÐÈÁÛ ±xÂÀ7ð+åê-@lÈ-ûž°	yròÃAåÃ~!ƒÃ*ØƒnRi+.¬Ov®ÈKöCBLŽkBØ§qØK%1eèhwÔeö|„ê]L&¨3Ùª^é4ýÉ¿p¹2~SjÝ>îˆr©ê*å
++(×¡4m¨îäë‹²-0pJ&Æ€ËžÞ#. å…g’ðÓÅa•Ý!~7"?T—¦cÐ¨‹Ú¨)]µGð&K™„%Ø",Ä¢»L–¨0u‘Ci9DNrµ/-6µ>..:s<ÕPÛà37§ùA©U¹§Åþ‘‰ ³SRŸ–¨Îp˜ÇôÈD’à×™¶H<.Ò]tmñPÐC=PeÜÚC	M·q‘£™uâXÎM³ÛµÍ!ïuÚ0‚i«
++Ø%Uxl#kÐ¼Vƒj>ÐÕ(à]–©öÂGwâ§^Ð>¿¢ûwô<õ,Ëìžy´ÚÊâ*y€EòöÇÅ¸_›0#n+¤ˆ
++ÀAÃuIÈoê¤:ri“½“×l*h…Ì-ókR%¹_GÈqÀŽEëƒJ÷9’‰¶xÑG¹¢œuŠš¤ðŽkÙaÃ8œã‡(Çôy1|3mppæ×áu(î—º¸‹ÛÅz¡>åKä¹–£TêŠ]ØAÎ9E¤gx4Ãjãè`TÜ/ur·K§XìI~=™NÒ~*­Qï%E§>í-½oËfðB——¦îSÅ.ŠMË¶¾%+a(øórÊo´™ÍþŽû¡·®v7Œ©rõÜ×®ÃËi÷ŠQÁ‰$—¬{Njœ³b÷%pãXàºqù d€érEÌ}¾RÉ¼Quw¤IúÁ¡¦VÚ+ø!¤^t÷ÆNg@ñe ël‹k· æÒÄ÷ÚKöŽÈü$ÆHTLRãŽäF•Ì *Žc‚×±íÐî
++ñJ»«Ä+¡îpŒÝ0£®N©+sêŽfŸIw3_¿(8\\?,Xv~›¯WgˆÒ+ð£É@O"ÿ‰@Îta—ë§eöÌÛ{CÌù2äŒiC>¨!Ž1"ò5{ºGÄò-_:Â±ö5ŠÖ:y0©¦ È‘åÐCòé7W›y4ƒ¨“ûj‘µ mP‚3„¼j/uI…èSê’!WYGoÆmVÇ'õÌ±Jö0:”l¶5½ÔÁ‘'BvEöÉ/àE"!¸E"+² .R¦óÿœ¾æÁJN_
++DŒŒšÐ:¤³ªV¾hv¤Í¤ñ¸Ýø|·}ì6óõI¶?×v8
++i.‘«Â×žQ€×K¶*™Ÿ“zˆ£vQJ&s¥¡ˆ¿=r:JcSÜ	bžÄB2UŽ›èCbœ6CY×€ls’sÄ|Œƒ¤1­qNÐj>¶pN5
++è g|n SHšÖÃ÷à†#€Ngá À•. ×ˆÀÝR²Lž/0”Šäó:âQØS.ãT¢Ä—|uâ’€xÉõ^ ñ]%dó™PîÄŽ’HqÔA«e>I(éÜ#Ž ~9:RS)¬d<š¼F2^Fv‘ÓT_P€^3F³Opæm)_‚rjd—î=msÄ‡ÌÇÈ×¤Àm²ürfÛPOár¦ajÈÅ=q8E^C“™’öÁ’JÉ9\ä’%ñK®C°*È¶‰~K5Â=$ø­„ôX†1d®jd¼)¾áãxW"—“˜<ß{€–oeA£û<6N©Ä]dbLx@™†È#ÂQ¼«)®uÈ0Ëù»6P˜¬¸à³|–Ž,™ä¥Ê <Ÿ;æÖ¸’öÈCÜý,Å’î²ÉÅi¦$ƒN¶…d$ur<ùK²ÝQCÓHƒ×%¼—½ž¯iÄNÜOC7'…ðÜ{½{B{Vµ2Bì‰„¯‹mÐ‡6[À$èb
++:7²JD‡Hµà°Ã§M¹Ì°6+‚‰ÙHëÛÈ©¹R'ƒÔ±ÍúF§Ðˆø]:(,²Ð`Á{o Ê[rÒ0r‡ì·(Ù.7ÙA‘q–8">£¤-iNY¾óŠöbñÊZ&4ÉÎ%â¼dV;(Ø,¶â²ƒ!uœ`udÈ¡ˆkžX¹Yð¶Ò¼°Á¯i0ÞQLã™Ñ•A.7ŽE~I—×ÓN¶y;@Æ%çoêCÒ¥YÛr-î¸ÍÉ«=¨Ž¡¦ƒÒ.–ððÿŽÝÝŸnµµ»Ðb_w¡âqÜdGcQ4!¨À)û‚)åtYÓÒôszWŸ“Êdg›ÎóUƒ¤¨X#"åøBB+¥ßáEÎ9¢DjAá`GAY¨­‘J1L‰u>ïŸ}Š½¦p<ú|
++$É›‚Î¢ÎIŸáp[S?¬7õyä’™@î–LIoäØóç<Ou:æÿ¿w>â+ž¼v§’ãæÓõìãÉ“Wynjß¶‰òuíœ¢Í0žõpDéÓ¬k§}q5nùS…&0ª®ùX(H…ï&-O’"làÏ%Œ³Z"Õ¦çO/°ý*2Ô¯Ž#†jÜ±X/}=#%dª'êà@•ûÅW+àV<m6õ™ŒéíÌupýùƒ¾ÓÅG8†Oß†JfÿYÊnð)óAåÊ¶fAÀo±Åæ“~EÌv¼Zy^¼TÅf>Yù¼EÐ¯wôÙÏ]û2»ó¸XÃ†>ù’ÒFÉ{a8«·²bú²|7ž2Àðe^¾‡ÈAÙêQYúWÞù½ [„SqWø¸¼ýæ“^	ÝG  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/touchpad.svgz plasma-framework-master/src/desktoptheme/breeze/icons/touchpad.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/touchpad.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/touchpad.svgz	2016-08-29 12:35:14.128398211 +0800
+@@ -1,3 +1,6 @@
+-‹‹ñV touchpad.svg ¥W[oÛ6~ï¯à”—³.ÔÅ±U;Ú¢hîeí6`/MR¶I4(*vRì¿ïeÙò7ñ•<wžsø‘Z¼Ù—ºã²ÎEµt°8ˆWT°¼Z/?¾~pgª©)DÅ—N%œ77¯?¹.z'9Qœ¡]®6èSu[S²åèçRÛÔ÷w»—wDOÈµÿr]Ð¬ïÖ|VuÊèÒé„·,Œ£>/xÉ+UûØÃ¾ÓÉÒƒ,Õnó;NEYŠª6jU}e%%ËzQÃ.2x>ŸûAè‡¡n}_)²wz×9½0xØ"iÙÛÂ·—µ¯¤<%îU\ùï¿¾ï™nà1Å¬›¹#Gé¬HÉë-¡¼ö-ÝA9[:IŒ“ÈV«J{ràÍ1’8ºŠÈÔfé„¡ƒ6<_oT;¶Ñ¥LPíqé(ÑÐÍ–0Ï¬ø.ç»·bÆP€Â>ÎÍ+„%W„ELDvaÍ éïï?´3˜Sšþ%ä-Òt²øw,ØŒ¦¶’¨›¼$k®Óý+djáGÂêZQÛ’¼MúÙVc´Ìµ¤ÿEåEñI[vüC¹*xO[ø]œÝ*üÁ2¾]§™1žÕfõz +¿¶+¯Õ}Á‘vÉä{åÓºn+G)¡ó]*
+-!Ýšn`#ôIðÞiêCt¿‚úÞjÒ«GÓhõº#ÿ{Nñ-¡·k)šŠÕy–~Tý#tF¡»ãŒsF8Ÿ?ªý'4Ë³#×ÊEŸQý~ÒÄGý?ÖžGô’è?ÚÔÏYúÛF)Q=¿lFý…Åk<?­þ¤`á›fow‡ÞfÔcŠ¦maçKKç*3/­„d\ZêÔ¼,U ðÁÎhsX}ã"+¸$•ÞèÎ°µ<’àÔ&güD²ÇECo÷”Qo;ÀÄ}—W@s-r&Ó`Ì´X:O’v÷kHHò€¯>öÜ¦Ê3Û=€ïFìôB 'dÃÂš1Œ*#EÍmn
+-rÏåHåAˆ‚Ä^œè÷€C½£©E³ëÙ¬³xx6›ÅgV½?ÎQG(“K²ÏËü3S°ƒ‹ïºˆíÁÕád/¦SÐáåþ^OÚLêQŒãÀ"ö¡¯L™ÑVÔ¹jº‰>Ê„ÌÁiIa8	:3ZìL/±œ˜i-ÍÌž6Óú>²ãŽâI.X(LÜ“’ðiKÑÏOáéiDñ%v¢Q<xzlæ‚DãùÈŽ;Žç‚Tƒ¡ÑÂ C'!M»\/ü14ú¡c‹|»D2d€mét€‘^`0&À¯3¸J¤Wf’™‰Û½®•·¼…ŒÛi‘WÌ§+ Ø!í›È«n(\Zª™°—T[# R’û´‚ú*²¬æêàÖÆa•¹ímØ§¶«Ú„¬Mšì•ï^‘UÁY‡ÜE-X¶p0¼9.”Ú†–55;Í\—0ûQ¶Ž£´¥ÞxØ8ŒcÁä7O"ôE^Oa}¨Gð£AÆˆÂ_à%IŒ#„†op<	4S³`„'®áëFŸtP†uG¶ä™Œ` ?Ÿß¿‘ök’ùÁ	LÍO¼Rû´/Bä¶7DÀšÁäçÿ²Ô!¦9•ËÖ cEÍ¥à>	ºwD5’›RÑ‚ÔpÌœ^*íFXŸ+?Ëë£ú·µxÊÓh§$?¸ýB]VŠ\['OÚ:¹m_Rã›Ã_[ã8èj¦ÆÆwWÈÖ0xn‡.ŒžYf_Fƒ‹e´áNŸÕÎî¸iü¢g:a¡·n^ýŠJíë,  
+\ No newline at end of file
++‹       íWÝoÛ6Ï_A¨/fIü’l9¶$CÐëÖnú2(í‘EC¢ã$Ãþ÷II–/‰Ý®OÍ×ï~÷ÁãÝ™¼½_èNVu®Ê©Gì!Y
++•ååbêýþéÊy¨Öi™¥…*åÔ+•÷vv6©ïg!0.ëq&¦ÞÖ«q®ÖU¨jf"”…\ÊR×!	Hèmáb•Lu~'…Z.UY[Ë²~ÓWÙ¼Co6›`Ã,ˆ$IbRêÂ¯JÞû»¦ã!SŠ1A·E¾ˆêÕ‡XAžM=PR§ÍåæBÝO=Œ0Š8Š¹7ùd)uš¥:5gÒJµÀ@òãß~¾r'81þSU·Í¾ ½Vk=õ¼Y'ždb<WÕ2Õ³|™.¤Éô'¸Ë$Ü*vÀúa%·NÛJÖj]	yðñ2±ÌQøQçEñÞñP¸ç4×…œÙ˜Žmo6×h.ön9	Û"ØS&çõ¶>æÄpDÚêÔú¡èÒ6ÙL=-ïu(êÚkÅÆN¬«
++:ÍªP•_‹h¼®ZÁ¥‘~´Bÿ˜£¿»[XƒñFXÌ®Ïñ?‡/Rq»¨ÔºÌžšËùÏÉ³æïòÅM¿‡‚g©”É³Ö@‡œ¹1~.û¹0ß/ºx§`
++žZ'L¼&û+%Öõ)W¿Xk­ÊÓŸÍšáã9'§ÀÙŸ\‚_åÂ.ÉÃEÈRÎ#¶ï`ÚÙqgÆÊr§ÕUZÖfKÀ8¶HµüýÑÛÎ¢Vkq³J³¿d™^2kgr•ê›þì™ó°›FQ¤5ìÓý‘ëôf	"> 	äã Šø #ŸpÀyl‚
++„„ƒ, Y(œ’P6¶dà;[`œ­ß;÷È©Ò·_\øÏhiâ8wÀµc}à–¢ØŠ(òãS«Áá€¦»¥­ýÔ›Ãæ7»ÉVäÜH|µJìÖ19¯u¥nå¸„OÖn¹,pÒ/àø˜!.‚£@(íh#òˆö³Ù†µyõ‚NÂÅÑíÁ¨?Ç4	¡ÇtÉD‡ˆ£KDcû¼Ä-Ld®È¥£ö©(ü…§N½ê #ám9À  Ä¹o°ÜsÇäñˆlB‘óÙJº¥Q£¬G‡°¥Ì"Yâ¼G‚õ(;ð’_¯¯ß«9E¸×QP†–6â/j¬µ’åõË-ó}±œ²XpÑÿïnù¨”<÷²ýO¼ÝìFÁˆã(¦2„j‘as†´QÆù€bPPÚ{0K„€º3a	3Ïµµ!¤Ág é…él >x#ÉÓ8 ùüFöÀðì-Ý×Œåß·î7ÙºG¿ÉÞÝ†î/¯›:›ƒfÇÅC(j@[.ˆ¬4†	³;KÓø!ìß
++óÊ­Nœh	Äië‡,Üz7RÜÇ&&$8 Ê-ÔÛQ;uÐ&æçÙÙ¿X)}	  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/view.svgz plasma-framework-master/src/desktoptheme/breeze/icons/view.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/view.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/view.svgz	2016-08-29 12:35:14.128398211 +0800
+@@ -1,20 +1,8 @@
+-‹GW7V view.svg ÅZ[oÛH–~ï_A(X ƒ©ºË‰{°Ä3lcíîÝ—~¡)ÚÖFQŽí,æ¿ÏwNñ&‰¾ÄéÅøFVÕ©Sç~)ùý_î¯×É—jÛ¬êÍéLfb–T›²^®6—§³ß;KóYÒìŠÍ²X×›êt¶©gùé‡÷Í—Ë’$ÁæMs²,OgW»ÝÍÉbqs»]gõör±,Õºº®6»f!3¹˜àå ^n«b·úR•õõu½ixç¦y3Þ./zè»»»ìN3!,„Z(•"m6»â>Ýß
+-§¶*!ÄkäË Nî×«ÍçG‰áÕñéá~ûÝDÖÔ·Û²ºÀÎ*ÛT»ÅÇß>ö‹©È–»å6eqSíÛMFy×UsS”U³èæyÿ—Uu÷s}:‰H”ÂO¯–§³Ž¯‘Þe\lœô+"3yf“­Â†¹[-wWØ"Ä¿ðøªZ]^íF/'Ëº$âNgDJ†C¿Î~ÀûeuÑ`$†F¹ä¬5»‡uãry»ÝÂŠÒ²^×Û´)¯`T³`÷@’ÙU÷»EÙ4-Ž$É>ð¯›þ†Õäÿº	ã9yãöü§wíôß§6þ\”Ÿ/·õífy´ûÓÙ™8“Oîþ¤²&ÉmÖÿíÓ'÷äæÿ†À^M7m~‚ö³ôý,†¿Õ°ãó_HüY]Þ6G›å§ ÎÎžúínWo^¯3Þþ}š‹8^ÏÜÿ2	¼_°Á·ÆRÛ¿n‹å
+-&ßí½lÇ¿m‹Mƒ°q}:».vÛÕý×^åó¹À÷0JƒÊd®µvóT™Ì(‘çêmï5½—ƒ¨uUÂw‹õ]ñÐô ËN®¶bï›}¢Œ:u*xè€ò&õ*y:3BdÖK÷³˜µÆf>à{€U“°˜µÒÀvBù}³Ú!€ß6ÕöW
+-‚ÿ¹ù½©fÉâI‰>+€	¶"ß]„Aœªozå&¬DÄUL¦­¦KW.—òOÕ lµ{8‘³aK}qÑT8YŒæ86c³©è¹xÉq•¨låŸ?NNçÓ0m±Ïú÷‰ò)[’6¤ù“¶¤Ìài?ï."*‡q©Àþ2¦ÚdÁæ>ÏçVfÖ
+-­ìÛÿ7~Î:åp ¨Çdþˆ¹ôz–NŽÐLÛà„m©B•êâÐ¶µÎÑq:µÏØàÄqFgÂcÇ}“uNØÂŽ^×Å®ú1õ
+-·€pÙ¾üIR)Ÿª'­Zç# ².%öÌJÊ}{R{†¤õŸ§ümô×Ú™R!¯°³ð:;SZ¦æÛíLð×þqâÝ?#=¢J-RŒÚ3µ€Ô¾ÁŒÌéÕ!tp-MF‚Ss«d¦BeñŠˆ¶Ïó«#š±#É¼ØÒdðåÅQr~AD3>}.«N¶8//Šo‰hïÔñÛuµ+–Å®:¦nF›®kB|ò_ÏzòËòäêíç((Îë[ÐÚË”:±ò„Ô[ì~Z]—5¼ÿŠ¾§÷{ÀÔoH#ÚmÚÉ;€ey½¢M‹_w«õúßé‘˜[¤«ÝºÉ~ÑRßIgÄÜûEÇ;úN“ÚÌ%u™ÇŽaÑÃ×ô²¨ªÐêç¼Þ.«m·äøko©ÕÎ Ñúüa»z]ÁˆIÙ™ÖåðÔüíjYM-ôFNäõ‰L
+-‹ò\Û)°æªXÖwðèÃÅ»Õi×ŒutJ1´çª“ÙP/1Ý¡n®ê;â‰|ý¶:Äöµ®¯'È(ïÙ„kõÑ"ÉQ©Ì8iÌ#äÝ¾z¸„ÝéÎvíº¸_]¯¾VËASÃ±íÁºx¨¶ÃeG§âvzÄ$sNZk¦yçµôüœ.S¦Ö›MqóÜòåº>/ÖÏìO«åe•^¯–7õj³ë¨iý` Jê(^€Ü?ÐÜ^¡	-ÌÐ©U×7tKÄ÷zCàý²jVç®FtvS`ry0Kd¶ð„‚VSoÖ`wQŽ¸¸è§GßÚ»ÓöÈ.¬Œ=EIër§Ûò~q xþr°sšK‘u¥®Z¬»ÉbPÎåÛ>œÂå{®c8¿@ø:ysÁ_ïh0*šÝ¶þ\lêMµ§B£…ýdë­£ôÜyçhê~œNÈF™â¦Ø]MäÌÍ'ÕÛ–ÿ¥ØÝn«q3ÐºßVìs!'¹ ¿$RÍUò!‘hjl®r‡QÈA…sÏÊ&y&´Tv®ã3Y'"ó2÷]–ÃCáè‘¨+ø“l™¶/Iª2Œ(nÐˆO6í™zP–H™)
+-Ì\:)åíÕ\$ž •ÂÓ't/"éL W¹Îù`Nx†) ´âƒ™j"22§E.`*Ë>A7°ÉÌéùUÐ_›Á&é2£ep$Ø×ä—Ä¶Rq­T>$†ä%C˜{– MÌ<'±j¼ ]	r)0¬Bc9Éñ•ÌEZœ$yEáë,8 ì¥ŸF±ÏÛ'Yþí3ù‰s !5?I 42\ xa™ÌÁ˜cÒh•02§©Ü$î <q¿9	^hzeÜè©éEàOžåtjpS4µàZ{`ê[{°É×#—2"ºÊr]4”‡¾}„¸<J¥øá°pµBE¶}8ý}œ,®½/è‡©× MæÑ*›i+”~{××Åy…ÿæØ.V÷7õv—Â	«xIþáäÔàÛæb³ÜVwë?>Öw›u],›?>¯ÊÏ(5³›Íå#hî—7«ÓY8J¥íòC·üx€ëÃY&$7Fò]Œyç}¿$Zt
+-R!ÿö˜§Ì8èáëX-
+-Z&øîÒä™‹oÈ/YA¾ý§ÎëD!‚À$¼A8x~ÿFXÃ„ppä¾æ­‚Ûd¹SrÇgBGÛ)v*CaÉXØcfƒ5IŠÈâÑ…÷x)…Ê …siëFcjÚ$|QÀbiâ2‹S$-8©MŸ,È8Áp»%7Oy“MtÀbžj0oF‚ýä¬MàhŒ¦‰<óÁ€„Ì
+-Ožƒø•3G¹mctÃXfÎûô%;ŠÑßSr!Iû”ÃÅ;kY¼Èˆß
+-²Ò&I‹ùñÓT™œÃ¦1	uÂñÁ9¤F
+-q^9ÎE@ÁILå†•Á˜VÄFPz±fÄ<jZÒ9¤^ðßêµ}Ê~âkr°%#ÁD˜Yk9ÔGî˜í~ÄOËæ!,³ªÈ$¤Ð1Ò“j0´ÄâµfÂD0Ìµ/Ì táû:
+-PçÒÅ¤m# 	ù³1£ØáXÂƒX¸7&èN‰$DÒ¡mUf“}ÚV­hJ²#ƒ$3„­+CúDÂÈùß$}Ï#!É¢¤¡Ò€$CK>	QhÍÆgQ¸¼#”p0Á7eYT¦´O‹˜àÚÏ)ùjÔ<J!c#M)Ÿû~ˆkÅ|hõ ÌJÓRƒ‡ùÅÙa†AéØÑbÜgÇ3¼ E¸Ž¦L/ž“[»Ž¢œ™o«†Ç’ÎÉ2¨òÑz`/mùc™)Ö`'´hÁ7ÔÒ^l(",%~è\éè	$ý¨ÝGí8ä AšÞ´Ís¦½Nâ²Â²e?Wž}¦e j	1À!Š˜aj¢`£ûÕÇ
+-†>ê÷-E6í€›¦lø·¤ßøM?<ßÊò‘’ã±Lüª<þ½ÕÂTE2U÷h'réMÞÖ=ý05QD‘Ë¤ô)ì‡ÒìP]I—âg¯ºš(9¾+§OV	ûÄD…q\†ÕJ‡9ÿ;Š¡É’cÊ¨Ê—Uùb»%vèH°£Ÿ(C¨±>"¨_)œ&HÝÁEÎ;”ý˜Ÿš3ÊqþÓœPÑ‚pÂ\Š8ã(îy'¨Ò@Fc“¤ýøì¼Ñ( VÔä%*	–Ü-PþÏÉG‰¼[ÒT\H:e˜è€¹A—È	!$(JrªóAr!¢5Ç?“Kã¡ò0œ³~ÓG‚y›Ãz-Ênˆ¤ÈJ˜è€’ö©‡	Dh+dL£hõ%v2i±Q%ôœf¥ñž…‰™¹@ò#\ÞRJ§–P.{Iì Û¼-CbÔ×^F¬®C h.ÌH»vž¶jmÕìú‰µ™X‡€W¯9óFæ"×ý°e5"1å+G|‰Ç@pjµ‚‡NÇ²CÄb•Td:®K2/‡	lp¤½XˆHÁiZÄÂ nŒº/DT.×;~<dàN‡$Eb¦WX|˜~…ÑJ†Ë©ó<–!Ò®Š4ÉÂJÖ%Šlv—³8ŸêX<)Ò
+-ZçÀµôÆ‡xÂÀM©x©°1R**SúKºC0pé9}Ô’SUî©³™í€¯$rÇ5ˆÍ‘~á‹*P¼Æ
+-jJ’.¿ø0Ì0¨ÊY¼ÝbÜgÇ3<'aÀ£Î\@ƒÇ	WPˆTh†tdÆ†«e<W|\:(%uË{3È2³£*D;ëŽX»ýX”DÁAõqKIè*Ú‰Ÿ•ÑGí8ÞàÜhÙÞùËD Ã¾èµí‡üÔ¨CxÙtW‡àtÇ)ÅA!ËÉÖùA‘%Ž¿þ)=äs}êd½1}¹©œh?³KQÐ¶Ú\’äëË½Ûd£”jÉ‡3Ø±ßà.y•º·ÃGwãÌŸ$[úPÀðî~HTœÎ­¦@Œ:s4Ä®•bâÇÐ}†ŒÉøÑZ—ê'–†ŠÐ‡ÑôXK·ÛõGŸèÓ¿4½}IÖ?b÷YÔô.O¢ž ^)5Á¯=æ·ÓÄKÖI–õ ŽôÀjSÚFìŽËœ¡
+-1JŽÿócÒb4Z`-ñQoGÐ\µÀ›øò–h¸)U‚Ÿw/pHj°Às¢ÔÑ;1Ü}ÚÀ½5STNR çD·@·Ÿ„ýë±	…Ÿz÷¸Îèÿ7ŽtÆÃííÅú—
+-uÞò1-¾È­'d;YDv_ßpÀ”A	q(­]÷1?Þ(b$|ã?	)„î'Èç‘lÚ71%ÐÇ…HÿÓðRŸ:6²H¶ßcd¿P.G‡„›K´ßtÉ$„"LÓØ9oÑeKzÏéÊÂÒ;²ÌnCtn©4è2`TÔËv‹4Ðc`ÍÛõ¡¦]ÈÑq4ã“‘"MŸ‰ å×s¥3ºH:t€4’*f-øL2r›£R±<…Ò
+-¿ó£=Œ>¦¨7êß‡peð(ÐE§E·©ê‰Øñ“WËF™!XµOKKaW]ØëVö.šaã²7Žq>}Oÿ	ñÓÿ Ýd¦ƒ1  
+\ No newline at end of file
++‹       µWmsÛ6þž_ÁS¿l7‰"HŠ"];½&ko»k¾¬Ýv—oª¬8¾ÚRN’óÒÞþû J–_â&Yº8‰Dx |:ã7·Ë».êf^•“ ¸XQæÕt^Î&ÁŸŸÞG6`M›•ÓlQ•Å$(«àÍñÑ¸¹ž1Æ\6£i>	.ÛöjÇW«zÁ«zOó¸XË¢l›8ÄÁÆ<ß˜çu‘µóë"¯–Ëªl<²l^m×Ó‹Áúææ†ß(oÎ¹XÈXÊ-¢æ®l³ÛhŠ9‚J!DŒºå£V[õ/˜O'*e§7'Õí$L°D3£ƒc”—E›M³6#›²–Hé-Ð“ýñëûn†ó<ý]Õ_ú)~È û\­ÚIâñ4]Tõ2kçËlVP¦¿àZÆñF±cÜÞ]§ÛºhªU7oš/çŠ?¶óÅâw
++°xÏé¼]Ç>f7\¯"î—Ñ/2ÞZå8^ÁÏ¦ÅE³©Í”d]¦½[iS6“ -nÛ8oš`-&\¾ªkdZ”W‹ªŽšü‰7T‹Ÿ’ô£FŸÎ¾«ð€Ñ+Ê¨Ï¯{ñ?‡€'YþeVW«rzýÎ½³ïìƒè¿"ÏMàÂ_øÏ£~«Å÷ãÿyý¾ÊWÍ=p’ÑÏÃu[µmU>¿ìþcÅï||gý ­{¤zþpäIªOÓ|{ÎvL':ûÑlCqlXøK-#ª‹<‚—k²_eíå6©iž4ÏYƒjŸËƒžºA±œEÀµ†t(X$¹ÒWÆÉ„EŠ;cÓ$Än¯ &x
++$œ8FÒŒ^LrÔàÃ’íÚ2êäg’k<eŽëÔ%V† 9hÀ@p)…rE>E)*nÓÔ¥˜`*Râ;esŠ‰î¥UÖ–Ib½Äg€ÖÒöYS’>,Xn”°B©ü‚.”ÒÂž`xb,ƒ„kÎªWWµsvÆtWÒ¾2§˜'o›€KEÂTŽcJ
++Gè4Ç¤5z“hŠ®…Ò¡eÿ¶ö`Ø‚h½ë-ˆ6{uÅû7Íý.ôoöÅ8TíßTXš%2€¾2¡L¹ñÉî,‰lâŒ#Xw#ÐÊÒÊñ™Rù…¢¡&ß6õÀ®ÔR$Ýí†¡*¤¸,’t»¥êˆáÐ#a_búó0	.ðõ}Ú“ø5I¢ê*ËñžÁë¦­«/Å¨ÄoÃEsðL¸mÎŸeðÞ±þRöO/ÀÇù~›h>­Xãx¶RŸzFAþ—CzÆ”5{‹{‚dÂÿ(àŒ &ÜtÇêS)—É†I„»­4SÈ2GvNò‚ÜïÈ&Ùhâû®$Et’ÒfW	ñ#iË•´tX„ÝË,ÞÅv®”þ#ŽuÀõ¹ï!¥9€$ÎmI48«Êe žå
++)&ÒP
++î´ó à&1LãY†LÅ•ËtG"Óý¥K‹p-±å`!¶ZÙûùÿX
++zw×‘–¢gh¢û§è¤Ï§i[geC_÷ð{Y[üDgáçààs9oÚª¾{Íê™WŽö÷¯v½PHÛ¾C’–­}“ÜBÙ0P8&Ôà”*RD^ý•-é˜w	öèá2úûd­#Åé¢-
++½Ÿt0`å^I±#\9Z!ïÐÞC„@p?2¤/ÙñkòË7Â'1ì©Ü’?Þ)ŸÒU¾Ó³Î{¾¼}¤G>¥™øV{Þ‘@v5vl7r/Î ùr=fLÿQýºa  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/icons/window.svgz plasma-framework-master/src/desktoptheme/breeze/icons/window.svgz
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/icons/window.svgz	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/icons/window.svgz	2016-08-29 12:35:14.128398211 +0800
+@@ -1,3 +1,8 @@
+-‹‚³eV window.svg ÝÉnãFöî¯¨a_Ò.µ±H*’ƒi·…˜Ó¤“œi²$M‘YjÙÌ¿Ï«â"J¢Û²Èí6ùözõVMxZåè›¬ê¬,fq±…d‘”iV,gÖ/_æNh¡ZÅEçe!gVQZ?ÜÞLÿá8è®’±’)ÚfêýT|­“x-ÑwJ­'ž·ÝnÝ¬ºeµô>"Ç¹½¹™Öß–7!Ð[Ô“4™Y-ÃzSå†0M<™Ë•,Tí—xÖŽ<Ù‘'Z{öM&åjUµá,êâ*]ôÔÚš-3D$Š"SR(œú¹Pñ“³Ï
+-6Ž±RŒ±¸åuT“º†ßž¼¸u¹©¹ >éRyŸ¿|î‘vS•ÄtþÜÓºçä"^Éz'²ö:¸áßf©zœY”š·G™-Uÿš¥3ìe¡ˆÌû HCÐŠšôìòÐõQE0æØÐtFOÒ2ÑVÌ¬mV¤åÖÉ/ØLn?•OÀŒ0¢þY· Ÿ¦rQk|cˆ~ca@°µzÎeƒFH=ëÃ+ù¤¼¤®­¬ù’MUAÈ8I™—•S'A­„Ü;ýÙ /ÀŽþÛñ"Ã0ùÀìáûü¿1ÆOqòuY•›"=f—‹^³ì?‚Ósíøåi,et–ûWðÞ›-×Ìç¬_$úç¢ˆK€cîˆ%×X?/“Mý–£Ú(Uo¿6ÃþÎËk„¼Ýÿk\0õLèÿi 5ü‰|
+-î‚û+áˆû~>Çó+óàØŸÿu/Þ˜WØ½ŸGæwúç­Yp¥ñã!@î#:Ÿ¿9®¹³ƒ,xËÍM‚+Î.	=0ÿ©§›‚yê»Œn1©î(»Îñ×²Í…u¼”FîÌú°0ŸñPV©¬:”0Ÿ=T	Í3SÏÍ(ÔÊîºŸ–Úãñ8¾~Œ¡éAk=D¾”åjf….6~ˆN /r—‚9âM@ŸCÀ¢SL±Ðp7zZr6E¦`"Y?ñ·E!Ÿ%œÛüéÄÔåvYiÿ©jÓùo‘)gWË¬pT¹†ÃÃs¹P£ˆª™-F0%\ÿj‡êík&§RHDOQtƒÁ4:AòtZ¾ö";[ÅOÙ*{‘à‡#kïvçu7[L{*íÄýýô¬a{åY8aÔB^WØ»ˆ^n²´¯ðë²Î”™´¨M±	ô’Ê*ƒëŒÚx_‡JÂW)iuðq%Ø&á˜þ®W‚/iqN…¿Æaø’Ç°íœ8¿^³Itþ^Ä‰³ˆ×(aïEŒ*yÅå“è’çÔYüW\?¨¹à1}/£§ñ»ëŸzÇÀÀWRÅi¬â]7è °Kð.Waß›üçó¼†¦I2ù­¬¾ö­i‚ø¡Ü@‰éG&½¡$ØÐV±ºÍVPôr÷OØÈ /õˆ=bþ;¡ØJ6«Þè¾›&«L3y?«,ÏÒJzÇöB3•ËpêµÖ·gó‡›zÝéÍÛò žåñƒÌgÖ]¼ŽÑQ±ÓÓÁzU¦²íÖÎ¥{}CUqQëÃëÆy¬äw£Âv|Æ]&(ýØù}9¼S™BGHaÃW»ýlZÉDí<…º•1ÈSX‚!!¨ öØæ³¿êîôjœˆh 6ÆÌj{ú„|¿ ïOŠ²æÉÙ!jU•_¥A.fšdU’®šëÐ>Ý·}îD7{Æ‚×±z„Ìõ/Ø¶s3Y3t 0k˜ÆgøÎÄ8³{«Q‚0”X³‚êŠPÐÈÈú¿acýÞaÍ³ ¶:6€ÔŽMØ“–÷rÎ·f»10"|IƒÀõõ\ïø8Òp6DTz>¨Ñ^½~äØ>Lh£nd>¾Ýu!AØü8¡žA_Â:çÐŽÁ¿ •v>hØý»±sWø>	àq‹ó9iìeœÀô_Q¦ÉÝ ¸¿èŽ ‘µF…è%°^BOÀ†˜è%øC‚Î†áV‚Ó> —‹¡ÿ!9÷ÙAÔ©ŸyË¢€Œ‡%Òå[¬6•ÞüÔ[Ž§v\gE/s´Ð1Ó8ñc×'!÷?ž©f{Áëð±2W±p¤ˆ1¼WÛZG5îi–}÷àSÕk?ôwŠ¿nFP0’ýÏùŠ¢WÓWÜÄÈÁÂ½âg’Î°äª	#êS»{Ð .BæÃ(¦W#t j®…¸ |ˆ2(K„ú àPÎ bDQ›”‰<X¸6Œ>WŽˆ†…4ÔÌ¼w`ô%åËæ‹AªaÐdÈnžµvâjÕ ‚Û(±	"Zž(TÌeÖõ¡é…Ô ÍÒß²Rp˜‹\ê³0ä ¢LLƒB?jŽØÍnÎªÍdQëmHã% †Ø9‘…ð6–zG½æÊäÙïLŸƒ¸<eÍa¤ˆ?Y¤ˆ‘H‡‘"þðHñÇ"Å‹ÿ(Rºv	%‰¿)õGÊHÿõ õºÚ4(l—ë¯xWýeøýõw$‡ÆGj ‡´F-ÏjuªéTÏûŽÖ“¨ c#5Ç|ÁFFj66R³Ý—YoìÎÞø…™Ï•SõñHÖ*Z>^W`ýØm‡‚	›ÁeŒ†áSï›0Q™g=QÈ¸ÐÀC=g‚ðºÊø{6Æ+<Aðû<AéßÆôÝ1Áý¿‡'ø»câ¯ä‰¶~š?SýÌíÍÿizLwÍ   
+\ No newline at end of file
++‹Çc½W window.svg ÕX[oÛ6~ï¯ ”—³$Þ%¹v
++´EÑÝÖnö¦H´£E–‰Ž“ûï;¤®¶•ËR[mÄÏ…<×ÇY¼¹ÙäèZUuVK‡xØAªHÊ4+ÖKç×/ÜÐAµŽ‹4ÎËB-¢tÞœ¿XÔ×ë!P.êyš,K­·sßßîªÜ+«µŸ&¾ÊÕFºö‰G|gOñ¤R±Î®URn6eQ[Í¢>	Wéª—Þï÷ÞžY!E‘©O©n}[èøÆ=T§T)ÆØÞ ù4©yQÙÂ_/Þ¼ºÜU‰Zžò
++¥ý÷_Þ÷L{©NGÛdÅUÄ[upjGl"oT½UûÝêï³T_.ÊíêReëK9“v™¥Kìe¡Œìz”SÒ2µ[Þ,Œ0¢uzí	ó^{AaV¢ódž–‰1méì³"-÷wçœƒÈ¢1üÔœdÚÆkÈm^VKçle_NÃ¸(«TUKÚ×«ÿ3}æ·äòâO•h]æªŠ‹Œ ¸å¬+ˆË}—¥jŠÑ»lÌëšäÖ—1x
++1?f6!pÛ”ž¨·]š¢¨óÄdª	Zj}Yî'Kgçµ:Þí®,7KGzX¶YñH*%˜Gò„	®Qê"‰î±ñfÂû–5˜–µ‰o²Mv§Ò!IÃ©»ª‚ÞwóøVUCa"ß–ËFé8u<Ä££Pi
++d ­ç¿¼ÿÐ¬`$óßËêª]ÂËÄåbëœ÷äEšÌ¡7±>Ï6@ÓÃ?@ã-üq ¬o·jØ´Ù¶RMGOÂZšl2£äÖYžÿhiýmšé\Ä…ßZßúæœ[øïv•ªU=„Å¬X.(µ¾Í{kKG«í'uítd£×…ß6˜['—€Ä}¼w†úÙÝ/ Žþê·
++ó3F˜d¯[òßSŠoãäj]•»"=UW«^‘Õ?BWä¦3&Oc¥¢µƒÎy¶åFù!ëW‰y?ºÅÇóT;bÉS¬ÿP&»ú9®¿ÝÏO›UÿÊä5›<? þ³Cð³ZÛ©a:iÌ¹`Ç,|Û;MÇ™¶²Oë¡ÕTši7…™EwØ«áÞ¨d <ÅºÊn^b/ öÍfØ¼‡¥KYàáGdæ²0ô$°|ÕcÜ\ãö4ë°oXkØÒi/¢9y½\™0nõ"ÝÍO{Jw­ŒH€âŒÊ~	È-÷˜¤$ìj‘dU2@H5 ;Ä4\#OHÊÄ@6·Kª8»ŒýæÛX_Ž%ÌšœGŒ3Á„À|APŒ"ˆ‡iŽÍÌ“À8’Û·k	ù±#å>&æÈÝ¡r™IÊ÷B´nÙ~÷ëNa/XŠYóÍ»‚#aíÞ£1ÚÓ=>µÕÂë”Ž8ÑÇ–tîŽkÐV^{yØŽ³µè¥Yëª¼R‡Å™äq3ô}:]ãÛÑðð,h.BÉe4y(ÔÒOHÀXŽ%âž@Ÿìç@û„…8GaË%àº%Áz$Äª‡·WD[¶ýo0H‡{|ú ÊÛí{>Ù~‡zÏNa‡x,qš'èòYÛÚ”¼rŽ‘….ºIË_qn´µ}Ìc­^J
++"_†Óv¾ÛfÅC FÄ1<…'èŽÁÉåàÄùSðal	±ÅådÆ9JL{°0¢‚ÎºCâ2d‚AqÈÈ	!@9raR†þ'ÔŠÝŠJN±m‚¥ÄVQð ˆK%À¾íHj¢¡î;°’ÄàVžq¸¸„¥I`’s¹}6§CÍL¹tf†"f? I´ç'ÐÊ* ¤–iŸ€Ÿ,à3×ü€Kˆ‰2ã˜!AÙ5.v¾Í_™,jCbi¢Ä°‹!ú ²Vèo…#¼xJéÿ9Ÿ(Ý]1*Þ©Ê¡ø¨räÿ¬räDåÈãÊ‘ÿyåˆ©ÊS•#¾måô¿'Ä˜­Ñ¸ôDÐ’Ï­§T°K#È„à´™Ó&J9Ïj=ÃÕíxv3Ãž$í°72Ÿ†òÄ?vƒ¥Ãø^Wqãê³¯‡v/z·G„S·ÞñE÷ê¨aCÁ•ˆá¢Áì¥
++ó›}6s-=Dnóà†O˜x…§ÞþeQ€;ðCö¹Žõ®R&5øNðó}§ô;÷~UÞ¹øž}ç_•÷ïÁw|óŸ·óÿ ú€–Qa  
+\ No newline at end of file
+diff -Naur plasma-framework-5.25.0/src/desktoptheme/breeze/metadata.desktop plasma-framework-master/src/desktoptheme/breeze/metadata.desktop
+--- plasma-framework-5.25.0/src/desktoptheme/breeze/metadata.desktop	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/desktoptheme/breeze/metadata.desktop	2016-08-29 12:35:14.128398211 +0800
+@@ -43,7 +43,7 @@
+ X-KDE-PluginInfo-Author=KDE Visual Design Group
+ X-KDE-PluginInfo-Email=kde-artists@kde.org
+ X-KDE-PluginInfo-Name=default
+-X-KDE-PluginInfo-Version=5.24
++X-KDE-PluginInfo-Version=5.25
+ X-KDE-PluginInfo-Website=http://plasma.kde.org
+ X-KDE-PluginInfo-Category=
+ X-KDE-PluginInfo-Depends=
+diff -Naur plasma-framework-5.25.0/src/plasma/applet.cpp plasma-framework-master/src/plasma/applet.cpp
+--- plasma-framework-5.25.0/src/plasma/applet.cpp	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasma/applet.cpp	2016-08-29 12:35:14.177398212 +0800
+@@ -261,8 +261,7 @@
+         return; //don't double delete
+     }
+ 
+-    d->transient = true;
+-    emit destroyedChanged(true);
++    d->setDestroyed(true);
+     //FIXME: an animation on leave if !isContainment() would be good again .. which should be handled by the containment class
+     d->cleanUpAndDelete();
+ }
+diff -Naur plasma-framework-5.25.0/src/plasma/containment.cpp plasma-framework-master/src/plasma/containment.cpp
+--- plasma-framework-5.25.0/src/plasma/containment.cpp	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasma/containment.cpp	2016-08-29 12:35:14.189398212 +0800
+@@ -317,7 +317,7 @@
+     //case in which this containment is child of an applet, hello systray :)
+     } else {
+         Plasma::Applet *parentApplet = qobject_cast<Plasma::Applet *>(parent());
+-        if (parentApplet) {
++        if (parentApplet && parentApplet->containment()) {
+             return parentApplet->containment()->corona();
+         }
+     }
+@@ -431,10 +431,6 @@
+ 
+     if (!d->uiReady) {
+         d->loadingApplets << applet;
+-        if (d->uiReady) {
+-            d->uiReady = false;
+-            emit uiReadyChanged(false);
+-        }
+     }
+ 
+     connect(applet, SIGNAL(configNeedsSaving()), this, SIGNAL(configNeedsSaving()));
+diff -Naur plasma-framework-5.25.0/src/plasma/data/servicetypes/plasma-applet.desktop plasma-framework-master/src/plasma/data/servicetypes/plasma-applet.desktop
+--- plasma-framework-5.25.0/src/plasma/data/servicetypes/plasma-applet.desktop	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasma/data/servicetypes/plasma-applet.desktop	2016-08-29 12:35:14.232398212 +0800
+@@ -67,7 +67,7 @@
+ [PropertyDef::X-Plasma-DBusActivationService]
+ Type=QString
+ 
+-[PropertyDef::X-Plasma-ParentApp]
++[PropertyDef::X-KDE-ParentApp]
+ Type=QString
+ 
+ [PropertyDef::X-Plasma-Provides]
+diff -Naur plasma-framework-5.25.0/src/plasma/data/servicetypes/plasma-dataengine.desktop plasma-framework-master/src/plasma/data/servicetypes/plasma-dataengine.desktop
+--- plasma-framework-5.25.0/src/plasma/data/servicetypes/plasma-dataengine.desktop	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasma/data/servicetypes/plasma-dataengine.desktop	2016-08-29 12:35:14.232398212 +0800
+@@ -45,3 +45,5 @@
+ Comment[zh_CN]=Plasma æ•°æ®å¼•æ“Ž
+ Comment[zh_TW]=Plasma è³‡æ–™å¼•æ“Ž
+ 
++[PropertyDef::X-KDE-ParentApp]
++Type=QString
+diff -Naur plasma-framework-5.25.0/src/plasma/data/servicetypes/plasma-lookandfeel.desktop plasma-framework-master/src/plasma/data/servicetypes/plasma-lookandfeel.desktop
+--- plasma-framework-5.25.0/src/plasma/data/servicetypes/plasma-lookandfeel.desktop	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasma/data/servicetypes/plasma-lookandfeel.desktop	2016-08-29 12:35:14.232398212 +0800
+@@ -22,7 +22,7 @@
+ Name[ko]=Plasma ëª¨ìŠµê³¼ ëŠë‚Œ
+ Name[nb]=Plasma utseende og oppfÃ¸rsel
+ Name[nds]=Utsehn un Bedenen vun Plasma
+-Name[nl]=Plasma Look-and-Feel
++Name[nl]=Plasma uiterlijk en gedrag
+ Name[nn]=UtsjÃ¥nad for Plasma
+ Name[pa]=à¨ªà¨²à¨¾à©›à¨®à¨¾ à¨¦à¨¿à©±à¨– à¨¤à©‡ à¨ªà¨°à¨­à¨¾à¨µ
+ Name[pl]=Odczucia i wyglÄ…d Plazmy
+diff -Naur plasma-framework-5.25.0/src/plasma/pluginloader.h plasma-framework-master/src/plasma/pluginloader.h
+--- plasma-framework-5.25.0/src/plasma/pluginloader.h	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasma/pluginloader.h	2016-08-29 12:35:14.238398213 +0800
+@@ -67,50 +67,50 @@
+                        const QVariantList &args = QVariantList());
+ 
+     /**
+-     * Load a DataEngine plugin.
++     * Load a dataengine plugin.
+      *
+      * @param name the name of the engine
+-     * @return the DataEngine that was loaded, or the NullEngine on failure.
++     * @return the dataengine that was loaded, or the NullEngine on failure.
+      **/
+     DataEngine *loadDataEngine(const QString &name);
+ 
+     /**
+-     * @return a listing of all known DataEngines by name
++     * @return a listing of all known dataengines by name
+      *
+-     * @param parentApp the application to filter applets on. Uses the
++     * @param parentApp the application to filter dataengines on. Uses the
+      *                  X-KDE-ParentApp entry (if any) in the plugin info.
+      *                  The default value of QString() will result in a
+-     *                  list containing only applets not specifically
++     *                  list containing only dataengines not specifically
+      *                  registered to an application.
+      */
+     static QStringList listAllEngines(const QString &parentApp = QString());
+ 
+     /**
+-     * Returns a list of all known DataEngines.
++     * Returns a list of all known dataengines.
+      *
+-     * @param parentApp the application to filter applets on. Uses the
++     * @param parentApp the application to filter dataengines on. Uses the
+      *                  X-KDE-ParentApp entry (if any) in the plugin info.
+      *                  The default value of QString() will result in a
+-     *                  list containing only applets not specifically
++     *                  list containing only dataengines not specifically
+      *                  registered to an application.
+-     * @return list of DataEngines
++     * @return list of dataengines
+      **/
+     static KPluginInfo::List listEngineInfo(const QString &parentApp = QString());
+ 
+     /**
+-     * Returns a list of all known DataEngines filtering by category.
++     * Returns a list of all known dataengines filtering by category.
+      *
+-     * @param category the category to filter applets on. Uses the
++     * @param category the category to filter dataengines on. Uses the
+      *                  X-KDE-PluginInfo-Category entry (if any) in the
+      *                  plugin info. The value of QString() will
+-     *                  result in a list of engines with an empty category.
++     *                  result in a list of dataengines with an empty category.
+      *
+-     * @param parentApp the application to filter applets on. Uses the
++     * @param parentApp the application to filter dataengines on. Uses the
+      *                  X-KDE-ParentApp entry (if any) in the plugin info.
+      *                  The default value of QString() will result in a
+-     *                  list containing only applets not specifically
++     *                  list containing only dataengines not specifically
+      *                  registered to an application.
+-     * @return list of DataEngines
++     * @return list of dataengines
+      * @since 4.3
+      **/
+     static KPluginInfo::List listEngineInfoByCategory(const QString &category, const QString &parentApp = QString());
+@@ -200,7 +200,7 @@
+ 
+     /**
+      * Sets the list of custom categories that are used in addition to the default
+-     * set of categories known to libplasma for Applets.
++     * set of categories known to libplasma for applets.
+      * @param categories a list of categories
+      * @since 4.3
+      */
+@@ -224,76 +224,76 @@
+      *
+      * @param category Only containments matching this category will be returned.
+      *                 Useful in conjunction with knownCategories.
+-     *                 If "Miscellaneous" is passed in, then applets without a
++     *                 If "Miscellaneous" is passed in, then containments without a
+      *                 Categories= entry are also returned.
+-     *                 If an empty string is passed in, all applets are
++     *                 If an empty string is passed in, all containments are
+      *                 returned.
+-     * @param parentApp the application to filter applets on. Uses the
++     * @param parentApp the application to filter containments on. Uses the
+      *                  X-KDE-ParentApp entry (if any) in the plugin info.
+      *                  The default value of QString() will result in a
+-     *                  list containing only applets not specifically
++     *                  list containing only containments not specifically
+      *                  registered to an application.
+-     * @return list of applets
++     * @return list of containments
+      **/
+     static KPluginInfo::List listContainments(const QString &category = QString(),
+             const QString &parentApp = QString());
+ 
+     /**
+-     * Returns a list of all known Containments that match the parameters.
++     * Returns a list of all known containments that match the parameters.
+      *
+-     * @param type Only Containments with this string in X-Plasma-ContainmentType
++     * @param type Only containments with this string in X-Plasma-ContainmentType
+      *             in their .desktop files will be returned. Common values are panel and
+      *             desktop
+-     * @param category Only applets matchin this category will be returned.
++     * @param category Only containments matchin this category will be returned.
+      *                 Useful in conjunction with knownCategories.
+-     *                 If "Miscellaneous" is passed in, then applets without a
++     *                 If "Miscellaneous" is passed in, then containments without a
+      *                 Categories= entry are also returned.
+-     *                 If an empty string is passed in, all applets are
++     *                 If an empty string is passed in, all containments are
+      *                 returned.
+-     * @param parentApp the application to filter applets on. Uses the
++     * @param parentApp the application to filter containments on. Uses the
+      *                  X-KDE-ParentApp entry (if any) in the plugin info.
+      *                  The default value of QString() will result in a
+-     *                  list containing only applets not specifically
++     *                  list containing only containments not specifically
+      *                  registered to an application.
+-     * @return list of applets
++     * @return list of containments
+      **/
+     static KPluginInfo::List listContainmentsOfType(const QString &type,
+             const QString &category = QString(),
+             const QString &parentApp = QString());
+ 
+     /**
+-     * @return a list of all known types of Containments on this system
++     * @return a list of all known types of containments on this system
+      */
+     static QStringList listContainmentTypes();
+ 
+     /**
+-     * Returns a list of all known applets associated with a certain MimeType
++     * Returns a list of all known containments associated with a certain MimeType
+      *
+-     * @return list of applets
++     * @return list of containments
+      **/
+     static KPluginInfo::List listContainmentsForMimeType(const QString &mimeType);
+ 
+     /**
+-     * Returns a list of all known DataEngines.
++     * Returns a list of all known dataengines.
+      *
+-     * @param parentApp the application to filter applets on. Uses the
++     * @param parentApp the application to filter dataengines on. Uses the
+      *                  X-KDE-ParentApp entry (if any) in the plugin info.
+      *                  The default value of QString() will result in a
+-     *                  list containing only applets not specifically
++     *                  list containing only dataengines not specifically
+      *                  registered to an application.
+-     * @return list of DataEngines
++     * @return list of dataengines
+      **/
+     KPluginInfo::List listDataEngineInfo(const QString &parentApp = QString());
+ 
+     /**
+      * Returns a list of all known ContainmentActions.
+      *
+-     * @param parentApp the application to filter applets on. Uses the
++     * @param parentApp the application to filter ContainmentActions on. Uses the
+      *                  X-KDE-ParentApp entry (if any) in the plugin info.
+      *                  The default value of QString() will result in a
+-     *                  list containing only applets not specifically
++     *                  list containing only ContainmentActions not specifically
+      *                  registered to an application.
+-     * @return list of applets
++     * @return list of ContainmentActions
+      **/
+     KPluginInfo::List listContainmentActionsInfo(const QString &parentApp);
+ 
+@@ -356,7 +356,7 @@
+ 
+     /**
+      * A re-implementable method that allows subclasses to override
+-     * the default behaviour of loadContainmentActions. If the Containments Action requested is not recognized,
++     * the default behaviour of loadContainmentActions. If the ContainmentActions requested is not recognized,
+      * then the implementation should return a NULL pointer. This method is called
+      * by loadService prior to attempting to load a Service using the standard Plasma
+      * plugin mechanisms.
+@@ -407,10 +407,10 @@
+     virtual KPluginInfo::List internalAppletInfo(const QString &category) const;
+ 
+     /**
+-     * A re-implementable method that allows subclasses to provide additional DataEngines
++     * A re-implementable method that allows subclasses to provide additional dataengines
+      * for DataEngine::listDataEngines.
+      *
+-     * @return list of DataEngines info, or an empty list if none
++     * @return list of dataengine info, or an empty list if none
+      **/
+     virtual KPluginInfo::List internalDataEngineInfo() const;
+ 
+@@ -429,7 +429,7 @@
+     virtual KPluginInfo::List internalContainmentActionsInfo() const;
+ 
+     /**
+-     * Standardized mechanism for providing internal Applets by install .desktop files
++     * Standardized mechanism for providing internal applets by install .desktop files
+      * in $APPPDATA/plasma/internal/applets/
+      *
+      * For applications that do this, internalAppletInfo can be implemented as a one-liner
+@@ -441,29 +441,29 @@
+      *                 Categories= entry are also returned.
+      *                 If an empty string is passed in, all applets are
+      *                 returned.
+-     * @return list of Applets, or an empty list if none
++     * @return list of applets, or an empty list if none
+      */
+     KPluginInfo::List standardInternalAppletInfo(const QString &category) const;
+ 
+     /**
+-     * Standardized mechanism for providing internal Applets by install .desktop files
++     * Standardized mechanism for providing internal dataengines by install .desktop files
+      * in $APPPDATA/plasma/internal/dataengines/
+      *
+      * For applications that do this, internalDataEngineInfo can be implemented as a one-liner
+      * call to this method.
+      *
+-     * @return list of applets
++     * @return list of dataengines
+      */
+     KPluginInfo::List standardInternalDataEngineInfo() const;
+ 
+     /**
+-     * Standardized mechanism for providing internal Applets by install .desktop files
++     * Standardized mechanism for providing internal services by install .desktop files
+      * in $APPPDATA/plasma/internal/services/
+      *
+      * For applications that do this, internalServiceInfo can be implemented as a one-liner
+      * call to this method.
+      *
+-     * @return list of applets
++     * @return list of services
+      */
+     KPluginInfo::List standardInternalServiceInfo() const;
+ 
+diff -Naur plasma-framework-5.25.0/src/plasma/private/applet_p.cpp plasma-framework-master/src/plasma/private/applet_p.cpp
+--- plasma-framework-5.25.0/src/plasma/private/applet_p.cpp	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasma/private/applet_p.cpp	2016-08-29 12:35:14.239398213 +0800
+@@ -229,6 +229,20 @@
+     q->deleteLater();
+ }
+ 
++void AppletPrivate::setDestroyed(bool destroyed)
++{
++    transient = destroyed;
++    emit q->destroyedChanged(destroyed);
++    //when an applet gets transient, it's "systemimmutable"
++    emit q->immutabilityChanged(q->immutability());
++
++    Plasma::Containment *asContainment = qobject_cast<Plasma::Containment *>(q);
++    if (asContainment) {
++        foreach(Applet *a , asContainment->applets())
++        a->d->setDestroyed(destroyed);
++    }
++}
++
+ void AppletPrivate::askDestroy()
+ {
+     if (q->immutability() != Types::Mutable || !started) {
+@@ -240,10 +254,7 @@
+     } else {
+         //There is no confirmation anymore for panels removal:
+         //this needs users feedback
+-        transient = true;
+-        emit q->destroyedChanged(true);
+-        //when an applet gets transient, it's "systemimmutable"
+-        emit q->immutabilityChanged(q->immutability());
++        setDestroyed(true);
+         //no parent, but it won't leak, since it will be closed both in case of timeout
+         //or direct action
+         deleteNotification = new KNotification(QStringLiteral("plasmoidDeleted"));
+@@ -270,7 +281,7 @@
+         deleteNotification->setActions(actions);
+         QObject::connect(deleteNotification.data(), &KNotification::action1Activated,
+                 [=]() {
+-                    transient = false;
++                    setDestroyed(false);
+                     if (!q->isContainment() && q->containment()) {
+                         Plasma::Applet *containmentApplet = static_cast<Plasma::Applet *>(q->containment());
+                         if (containmentApplet && containmentApplet->d->deleteNotificationTimer) {
+@@ -288,9 +299,6 @@
+                         q->containment()->d->applets.insert(position, q);
+                         emit q->containment()->appletAdded(q);
+                     }
+-                    emit q->destroyedChanged(false);
+-                    //when an applet gets transient, it's "systemimmutable"
+-                    emit q->immutabilityChanged(q->immutability());
+                     if (deleteNotification) {
+                         deleteNotification->close();
+                     } else if (deleteNotificationTimer) {
+@@ -303,7 +311,6 @@
+                 [=]() {
+                     //If the timer still exists, it means the undo action was NOT triggered
+                     if (transient) {
+-                        emit q->destroyedChanged(true);
+                         cleanUpAndDelete();
+                     }
+                     if (deleteNotificationTimer) {
+diff -Naur plasma-framework-5.25.0/src/plasma/private/applet_p.h plasma-framework-master/src/plasma/private/applet_p.h
+--- plasma-framework-5.25.0/src/plasma/private/applet_p.h	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasma/private/applet_p.h	2016-08-29 12:35:14.239398213 +0800
+@@ -51,6 +51,7 @@
+ 
+     void init(const QString &packagePath = QString(), const QVariantList &args = QVariantList());
+ 
++    void setDestroyed(bool destroyed);
+     void askDestroy();
+     virtual void cleanUpAndDelete();
+ 
+diff -Naur plasma-framework-5.25.0/src/plasmaquick/containmentview.cpp plasma-framework-master/src/plasmaquick/containmentview.cpp
+--- plasma-framework-5.25.0/src/plasmaquick/containmentview.cpp	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/src/plasmaquick/containmentview.cpp	2016-08-29 12:35:14.289398213 +0800
+@@ -105,8 +105,19 @@
+                          q, &ContainmentView::showConfigurationInterface);
+         QObject::connect(cont, SIGNAL(destroyedChanged(bool)),
+                          q, SLOT(updateDestroyed(bool)));
++
++        // Panels are created invisible and the code below ensures they are only
++        // shown once their contents have settled to avoid visual glitches on startup
+         if (cont->containmentType() == Plasma::Types::PanelContainment ||
+             cont->containmentType() == Plasma::Types::CustomPanelContainment) {
++
++            QObject::connect(cont, &Plasma::Containment::uiReadyChanged,
++                             q, [this, cont](bool ready) {
++                if (ready && !cont->destroyed()) {
++                    q->setVisible(true);
++                }
++            }, Qt::QueuedConnection);
++
+             q->setVisible(!cont->destroyed() && cont->isUiReady());
+         }
+     } else {
+@@ -189,14 +200,9 @@
+                      this, &ContainmentView::screenGeometryChanged);
+ 
+     if (corona->package().isValid()) {
+-        KDeclarative::KDeclarative kdeclarative;
+-        kdeclarative.setDeclarativeEngine(engine());
+-        //binds things like kconfig and icons
+-
+         KPluginInfo info = corona->package().metadata();
+         if (info.isValid()) {
+-            kdeclarative.setTranslationDomain("plasma_shell_" + info.pluginName());
+-            kdeclarative.setupBindings();
++            setTranslationDomain("plasma_shell_" + info.pluginName());
+         } else {
+             qWarning() << "Invalid corona package metadata";
+         }
+diff -Naur plasma-framework-5.25.0/tests/components/textfield.qml plasma-framework-master/tests/components/textfield.qml
+--- plasma-framework-5.25.0/tests/components/textfield.qml	2016-08-10 18:54:38.000000000 +0800
++++ plasma-framework-master/tests/components/textfield.qml	2016-08-29 12:35:14.368398215 +0800
+@@ -34,5 +34,25 @@
+             width: 400
+             placeholderText: longText
+         }
++
++        PlasmaComponents.TextField {
++            text: root.longText
++            echoMode: TextInput.Password
++            revealPasswordButtonShown: true
++        }
++
++        PlasmaComponents.TextField {
++            text: longText
++            echoMode: TextInput.Password
++            revealPasswordButtonShown: true
++            clearButtonShown: true
++        }
++
++        PlasmaComponents.TextField {
++            text: longText
++            LayoutMirroring.enabled: true
++            LayoutMirroring.childrenInherit: true
++            clearButtonShown: true
++        }
+     }
+-}
+\ No newline at end of file
++}
