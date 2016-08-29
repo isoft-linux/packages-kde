@@ -4,7 +4,7 @@
 
 Name:           plasma-workspace
 Version:        5.7.4
-Release:        1
+Release:        2
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -19,6 +19,9 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 # This goes to PAM
 Source10:       kde
+
+# backport to commit 565dedb84ac51bde96bc0586a260fd444a32cd43
+Patch0:  plasma-workspace-kdebug-367828.patch
 
 #Add isoft logo for splash
 Patch30: 0003-splash-isoft-logo.patch
@@ -206,8 +209,9 @@ Documentation and user manuals for %{name}.
 %prep
 %setup -q
 
-%patch30 -p1
-%patch34 -p1
+%patch0 -p1
+#%patch30 -p1
+#%patch34 -p1
 
 # omit conflicts with kf5-kxmlrpcclient-5.8
 rm -fv po/*/libkxmlrpcclient5.po
@@ -324,6 +328,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Mon Aug 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-2
+- backport to commit 565dedb84ac51bde96bc0586a260fd444a32cd43
+
 * Wed Aug 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 
