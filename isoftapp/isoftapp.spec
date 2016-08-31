@@ -22,6 +22,7 @@ BuildRequires: uriparser-devel
 BuildRequires: libcurl-devel
 BuildRequires: sqlite-devel
 BuildRequires: qt5-qtbase-devel
+BuildRequires: qt5-qtquickcontrols-devel
 BuildRequires: qtsingleapplication-qt5-devel
 BuildRequires: kf5-krunner-devel
 BuildRequires: kf5-ki18n-devel
