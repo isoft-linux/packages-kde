@@ -1,6 +1,6 @@
 Name: isoftapp
 Version: 2.2.9
-Release: 1
+Release: 2
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
@@ -101,6 +101,9 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 
 
 %changelog
+* Wed Aug 31 2016 sulit <sulitsrc@163.com> - 2.2.9-2
+- rebuilt for v4
+
 * Wed Aug 31 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.9-1
 - rebuilt:add qjade
 
