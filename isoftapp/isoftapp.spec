@@ -1,6 +1,6 @@
 Name: isoftapp
-Version: 2.2.8
-Release: 2%{?dist}
+Version: 2.2.9
+Release: 1
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
@@ -22,6 +22,7 @@ BuildRequires: uriparser-devel
 BuildRequires: libcurl-devel
 BuildRequires: sqlite-devel
 BuildRequires: qt5-qtbase-devel
+BuildRequires: qt5-qtquickcontrols-devel
 BuildRequires: qtsingleapplication-qt5-devel
 BuildRequires: kf5-krunner-devel
 BuildRequires: kf5-ki18n-devel
@@ -61,6 +62,7 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 
 %post
 %systemd_post isoftapp-daemon.service
+/bin/systemctl enable  isoftapp-daemon.service
 
 %preun
 %systemd_preun isoftapp-daemon.service
@@ -86,10 +88,22 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 %{_bindir}/isoftapp
 %{_bindir}/isoftapp-daemon
 %{_bindir}/isoftapp_systray
+%{_bindir}/qjade
 %{_kf5_qtplugindir}/krunner_isoftapp.so
 %{_kf5_datadir}/kservices5/plasma-runner-isoftapp.desktop
+%{_datadir}/applications/qjade.isoft.desktop
+%{_datadir}/icons/oxygen/32x32/apps/isoft.png
+%{_datadir}/qjade/isoft.xml
+%{_datadir}/qjade/isoft.png
+%{_datadir}/qjade/qml
+%{_datadir}/qjade/images
+%{_datadir}/qt5/translations/qjade_zh_CN.qm
+
 
 %changelog
+* Wed Aug 31 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.9-1
+- rebuilt:add qjade
+
 * Thu May 26 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.8-2
 - update progress for cmd line isoftapp.
 
