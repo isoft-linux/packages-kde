@@ -1,7 +1,7 @@
 %global framework attica
 
 Name:           kf5-attica
-Version:        5.25.0
+Version:        5.26.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks Tier 1 Addon with Open Collaboration Services API
 
@@ -70,6 +70,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Sep 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.26.0-1
+- 5.26.0
+
 * Tue Aug 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
 - 5.25.0
 
