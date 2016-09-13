@@ -17,6 +17,10 @@ URL:            http://www.kde.org
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
+# Workaround https://bugzilla.redhat.com/show_bug.cgi?id=1364943
+# Technically only affects rawhide/f26, but is harmless elsewhere too
+Patch0:         solid-5.25-fix-build-with-flex-2.6.0.patch
+
 BuildRequires:  systemd-devel
 
 BuildRequires:  kf5-rpm-macros
@@ -68,6 +72,7 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
+%patch0 -p1
 
 %build
 mkdir -p %{_target_platform}
