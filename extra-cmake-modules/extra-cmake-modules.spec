@@ -1,6 +1,6 @@
 Name:           extra-cmake-modules
 Summary:        Additional modules for CMake build system
-Version:        5.25.0
+Version:        5.26.0
 Release:        1
 
 License:        BSD
@@ -48,6 +48,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_docdir}/ECM/
 
 %changelog
+* Tue Sep 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.26.0-1
+- 5.26.0
+
 * Tue Aug 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
 - 5.25.0
 
