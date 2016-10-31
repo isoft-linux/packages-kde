@@ -1,7 +1,7 @@
 %global framework kunitconversion
 
 Name:           kf5-%{framework}
-Version:        5.25.0
+Version:        5.27.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 2 addon for unit conversions
 
@@ -70,6 +70,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Oct 31 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.27.0-1
+- 5.27.0
+
 * Wed Aug 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
 - 5.25.0
 
