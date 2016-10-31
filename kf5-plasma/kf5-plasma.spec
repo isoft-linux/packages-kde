@@ -1,7 +1,7 @@
 %global framework plasma
 
 Name:           kf5-%{framework}
-Version:        5.26.0
+Version:        5.27.0
 Release:        1
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
@@ -18,7 +18,7 @@ URL:            http://www.kde.org
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-framework-%{version}.tar.xz
 
 # Lunar calendar
-Patch2: plasma-framework-add-lunar-tip.patch
+#Patch2: plasma-framework-add-lunar-tip.patch
 
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
@@ -136,6 +136,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Mon Oct 31 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.27.0-1
+- 5.27.0
+
 * Tue Sep 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.26.0-1
 - 5.26.0
 
