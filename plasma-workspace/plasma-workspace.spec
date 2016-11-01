@@ -308,14 +308,14 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_libdir}/libtaskmanager.so
 %{_libdir}/libplasma-geolocation-interface.so
 %{_libdir}/libkworkspace5.so
-%{_libdir}/liblegacytaskmanager.so
+#%{_libdir}/liblegacytaskmanager.so
 %{_includedir}/*
 %{_libdir}/cmake/KRunnerAppDBusInterface
 %{_libdir}/cmake/KSMServerDBusInterface
 %{_libdir}/cmake/LibKWorkspace
 %{_libdir}/cmake/LibTaskManager
 #%{_libdir}/cmake/ScreenSaverDBusInterface
-%{_libdir}/cmake/LibLegacyTaskManager
+#%{_libdir}/cmake/LibLegacyTaskManager
 
 # TODO split to subpackages
 # - KCM (?)
