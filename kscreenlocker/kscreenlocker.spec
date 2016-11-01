@@ -15,7 +15,7 @@ URL:     https://quickgit.kde.org/?p=%{name}.git
 Source0: http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 # Accounts service face icon
-Patch1: 0001-kscreenlocker-accounts-service.patch
+#Patch1: 0001-kscreenlocker-accounts-service.patch
 
 # help upgrades, split from plasma-workspace since 5.5
 Conflicts: plasma-workspace < 5.5
