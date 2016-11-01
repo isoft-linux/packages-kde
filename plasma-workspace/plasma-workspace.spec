@@ -2,6 +2,8 @@
 # or arch where there's no package that would provide plasmashell
 #define bootstrap 1
 
+%global kf5_version 5.27.0
+
 Name:           plasma-workspace
 Version:        5.8.2
 Release:        1
@@ -74,39 +76,38 @@ BuildRequires:  phonon-qt5-devel
 
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-kdoctools-devel
-BuildRequires:  kf5-krunner-devel
-BuildRequires:  kf5-kjsembed-devel
-BuildRequires:  kf5-knotifyconfig-devel
-BuildRequires:  kf5-kdesu-devel
-BuildRequires:  kf5-knewstuff-devel
-BuildRequires:  kf5-kwallet-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-kidletime-devel
-BuildRequires:  kf5-threadweaver-devel
-BuildRequires:  kf5-ktexteditor-devel
-BuildRequires:  kf5-kdeclarative-devel
-BuildRequires:  kf5-plasma-devel >= 5.23.0
-BuildRequires:  kf5-ktextwidgets-devel
-BuildRequires:  kf5-kdewebkit-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-kcrash-devel
-BuildRequires:  kf5-kglobalaccel-devel >= 5.23.0
-BuildRequires:  kf5-networkmanager-qt-devel
-BuildRequires:  kf5-kxmlrpcclient-devel
-BuildRequires:  kf5-kinit-devel >= 5.23.0
+BuildRequires:  kf5-plasma-devel >= %{kf5_version}
+BuildRequires:  kf5-kdoctools-devel >= %{kf5_version}
+BuildRequires:  kf5-krunner-devel >= %{kf5_version}
+BuildRequires:  kf5-kjsembed-devel >= %{kf5_version}
+BuildRequires:  kf5-knotifyconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-kdesu-devel >= %{kf5_version}
+BuildRequires:  kf5-knewstuff-devel >= %{kf5_version}
+BuildRequires:  kf5-kwallet-devel >= %{kf5_version}
+BuildRequires:  kf5-kcmutils-devel >= %{kf5_version}
+BuildRequires:  kf5-kidletime-devel >= %{kf5_version}
+BuildRequires:  kf5-threadweaver-devel >= %{kf5_version}
+BuildRequires:  kf5-ktexteditor-devel >= %{kf5_version}
+BuildRequires:  kf5-kdeclarative-devel >= %{kf5_version}
+BuildRequires:  kf5-ktextwidgets-devel >= %{kf5_version}
+BuildRequires:  kf5-kdewebkit-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-kcrash-devel >= %{kf5_version}
+BuildRequires:  kf5-kglobalaccel-devel >= %{kf5_version}
+BuildRequires:  kf5-networkmanager-qt-devel >= %{kf5_version}
+BuildRequires:  kf5-kxmlrpcclient-devel >= %{kf5_version}
+BuildRequires:  kf5-kinit-devel >= %{kf5_version}
 BuildRequires:  kscreenlocker-devel >= %{version}
-BuildRequires:  kf5-kemoticons-devel
+BuildRequires:  kf5-kemoticons-devel >= %{kf5_version}
 
 #git codes
 BuildRequires:  kf5-prison-devel
 
 BuildRequires:  kf5-ksysguard-devel >= %{version}
 BuildRequires:  kf5-kscreen-devel >= %{version}
-BuildRequires:  kf5-baloo-devel
+BuildRequires:  kf5-baloo-devel >= %{kf5_version}
 
-BuildRequires:  kf5-kwayland-devel >= 5.23.0
+BuildRequires:  kf5-kwayland-devel >= %{kf5_version}
 BuildRequires:  libwayland-client-devel >= 1.3.0
 BuildRequires:  libwayland-server-devel >= 1.3.0
 
@@ -116,7 +117,7 @@ BuildRequires:  chrpath
 BuildRequires:  desktop-file-utils
 
 # Optional
-BuildRequires:  kf5-kactivities-devel
+BuildRequires:  kf5-kactivities-devel >= %{kf5_version}
 
 BuildRequires:  libqalculate-devel
 
@@ -135,9 +136,9 @@ Requires:       qt5-qtquickcontrols
 Requires:       qt5-qtgraphicaleffects
 Requires:       kf5-filesystem
 Requires:       kf5-baloo
-Requires:       kf5-kglobalaccel >= 5.7
+Requires:       kf5-kglobalaccel >= %{kf5_version}
 # for translations mostly, can drop for plasma-5.3 (#1208947) -- rex
-Requires:       kf5-kxmlrpcclient >= 5.8
+Requires:       kf5-kxmlrpcclient >= %{kf5_version}
 Requires:       khotkeys
 
 # Without the platformtheme plugins we get broken fonts
