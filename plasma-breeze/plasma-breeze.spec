@@ -167,6 +167,9 @@ fi
 
 
 %changelog
+* Tue Nov 01 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-1
+- 5.8.2
+
 * Wed Aug 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-2
 - 5.7.4
 - Provides: plasma-breeze-devel
