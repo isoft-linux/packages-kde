@@ -206,8 +206,8 @@ Documentation and user manuals for %{name}.
 %prep
 %setup -q
 
-%patch30 -p1
-%patch34 -p1
+#%patch30 -p1
+#%patch34 -p1
 
 # omit conflicts with kf5-kxmlrpcclient-5.8
 rm -fv po/*/libkxmlrpcclient5.po
