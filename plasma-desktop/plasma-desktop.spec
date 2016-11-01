@@ -1,7 +1,7 @@
 %global kf5_version 5.27.0
 
 Name:           plasma-desktop
-Version:        5.7.4
+Version:        5.8.2
 Release:        1
 Summary:        Plasma Desktop shell
 
@@ -17,12 +17,12 @@ URL:            https://projects.kde.org/projects/kde/workspace/plasma-desktop
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 # Kickoff accounts service face icon
-Patch200: 0001-kickoff-accounts-service.patch
+#Patch200: 0001-kickoff-accounts-service.patch
 
 # Kickoff isoft-logo
-Patch308: 0006-kickoff-isoft-logo.patch
+#Patch308: 0006-kickoff-isoft-logo.patch
 
-Patch330: 0023-knetattach-desktop.patch
+#Patch330: 0023-knetattach-desktop.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -287,6 +287,9 @@ fi
 
 
 %changelog
+* Tue Nov 01 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-1
+- 5.8.2
+
 * Wed Aug 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 
