@@ -3,8 +3,8 @@
 #define bootstrap 1
 
 Name:           plasma-workspace
-Version:        5.7.4
-Release:        2
+Version:        5.8.2
+Release:        1
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -324,6 +324,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Tue Nov 01 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-1
+- 5.8.2
+
 * Mon Aug 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-2
 - backport to commit 565dedb84ac51bde96bc0586a260fd444a32cd43
 - rebuild for KDEBUG-367828
