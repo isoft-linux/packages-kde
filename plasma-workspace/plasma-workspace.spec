@@ -299,7 +299,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 %files doc
 %lang(en) %{_docdir}/HTML/en/klipper/
-%lang(ca) %{_docdir}/HTML/ca/klipper/
+#%lang(ca) %{_docdir}/HTML/ca/klipper/
 %lang(en) %{_docdir}/HTML/en/kcontrol/
 #%lang(cs) %{_docdir}/HTML/cs/kcontrol/
 
