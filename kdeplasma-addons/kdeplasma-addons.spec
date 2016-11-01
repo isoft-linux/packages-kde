@@ -1,5 +1,7 @@
+%global kf5_version 5.27.0
+
 Name:           kdeplasma-addons
-Version:        5.7.4
+Version:        5.8.2
 Release:        1
 Summary:        Additional Plasmoids for Plasma 5.
 
@@ -23,20 +25,20 @@ BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  ibus-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-kconfigwidgets-devel
-BuildRequires:  kf5-kcoreaddons-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kio-devel
-BuildRequires:  kf5-knewstuff-devel
-BuildRequires:  kf5-kross-devel
-BuildRequires:  kf5-krunner-devel
-BuildRequires:  kf5-kservice-devel
-BuildRequires:  kf5-kunitconversion-devel
-BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-kactivities-devel
+BuildRequires:  kf5-kcmutils-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfigwidgets-devel >= %{kf5_version}
+BuildRequires:  kf5-kcoreaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kio-devel >= %{kf5_version}
+BuildRequires:  kf5-knewstuff-devel >= %{kf5_version}
+BuildRequires:  kf5-kross-devel >= %{kf5_version}
+BuildRequires:  kf5-krunner-devel >= %{kf5_version}
+BuildRequires:  kf5-kservice-devel >= %{kf5_version}
+BuildRequires:  kf5-kunitconversion-devel >= %{kf5_version}
+BuildRequires:  kf5-plasma-devel >= %{kf5_version}
+BuildRequires:  kf5-kactivities-devel >= %{kf5_version}
 BuildRequires:  plasma-workspace-devel >= %{version}
 BuildRequires:  libksysguard-devel >= %{version}
 
@@ -94,6 +96,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservicetypes5/plasma_comicprovider.desktop
 
 %changelog
+* Tue Nov 01 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-1
+- 5.8.2
+
 * Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 

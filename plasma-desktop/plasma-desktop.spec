@@ -100,7 +100,7 @@ Requires:       iso-codes
 BuildRequires:  xorg-x11-drv-evdev-devel
 
 # Desktop
-Requires:       plasma-workspace
+Requires:       plasma-workspace >= %{version}
 Requires:       kf5-filesystem
 
 # Install breeze
