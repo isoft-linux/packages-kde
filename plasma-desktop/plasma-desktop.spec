@@ -1,8 +1,8 @@
 %global kf5_version 5.27.0
 
 Name:           plasma-desktop
-Version:        5.8.2
-Release:        2
+Version:        5.8.3
+Release:        1
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -287,6 +287,9 @@ fi
 
 
 %changelog
+* Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+- 5.8.3
+
 * Tue Nov 01 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-1
 - 5.8.2
 
