@@ -183,6 +183,9 @@ Provides:       plasmashell
 Requires:       plasmashell
 %endif
 
+Requires:       kf5-kholidays
+Requires:       kf5-prison
+
 %description
 Plasma 5 libraries and runtime components
 
