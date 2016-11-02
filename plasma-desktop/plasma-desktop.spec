@@ -22,7 +22,7 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 # Kickoff isoft-logo
 #Patch308: 0006-kickoff-isoft-logo.patch
 
-#Patch330: 0023-knetattach-desktop.patch
+Patch330: 0023-knetattach-desktop.patch
 
 BuildRequires:  libusb-devel
 BuildRequires:  fontconfig-devel
@@ -201,6 +201,7 @@ fi
 %files -f plasmadesktop5.lang
 %{_bindir}/kapplymousetheme
 %{_bindir}/kaccess
+%{_bindir}/kcolorschemeeditor
 %{_bindir}/kfontinst
 %{_bindir}/kfontview
 %{_bindir}/krdb
@@ -210,8 +211,8 @@ fi
 %{_kf5_libexecdir}/kauth/fontinst
 %{_kf5_libexecdir}/kauth/fontinst_helper
 %{_kf5_libexecdir}/kauth/fontinst_x11
+%{_libexecdir}/kimpanel-ibus-panel
 %{_libexecdir}/kfontprint
-#%{_libdir}/kimpanel-ibus-panel
 %{_qt5_prefix}/qml/org/kde/plasma/private
 %{_kf5_libdir}/libkdeinit5_kaccess.so
 %{_kf5_libdir}/kconf_update_bin/*
@@ -267,13 +268,13 @@ fi
 %{_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
 # kactivitymanagerd
 %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/*
-#%{_datadir}/appdata/org.kde.plasmashell.metainfo.xml
+%{_datadir}/metainfo/*.xml
 
 %files doc
 #%lang(ca) %{_docdir}/HTML/ca/kcontrol/
-#%lang(ca) %{_docdir}/HTML/ca/kfontview/
-#%lang(ca) %{_docdir}/HTML/ca/knetattach/
-#%lang(ca) %{_docdir}/HTML/ca/plasma-desktop/
+%lang(de) %{_docdir}/HTML/de/kfontview/
+%lang(de) %{_docdir}/HTML/de/knetattach/
+%lang(de) %{_docdir}/HTML/de/plasma-desktop/
 %lang(en) %{_docdir}/HTML/en/kcontrol/
 %lang(en) %{_docdir}/HTML/en/kfontview/
 %lang(en) %{_docdir}/HTML/en/knetattach/
