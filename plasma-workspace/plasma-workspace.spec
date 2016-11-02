@@ -257,7 +257,6 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_kf5_qtplugindir}/phonon_platform/kde.so
 %{_kf5_qtplugindir}/kpackage/packagestructure/*.so
 %{_kf5_qtplugindir}/kf5/kded/*.so
-%{_kf5_qtplugindir}/plasmacalendarplugins/
 %{_kf5_qmldir}/org/kde/*
 %{_libexecdir}/*
 %{_kf5_datadir}/ksmserver
