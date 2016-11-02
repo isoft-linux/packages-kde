@@ -2,7 +2,7 @@
 
 Name:           plasma-desktop
 Version:        5.8.2
-Release:        1
+Release:        2
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
