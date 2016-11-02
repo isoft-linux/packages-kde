@@ -2,7 +2,7 @@
 
 Name:           kdeplasma-addons
 Version:        5.8.2
-Release:        1
+Release:        2
 Summary:        Additional Plasmoids for Plasma 5.
 
 License:        GPLv2+
@@ -94,8 +94,12 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libdir}/libplasmaweather.so.*
 %{_kf5_qtplugindir}/kpackage/packagestructure/plasma_packagestructure_comic.so
 %{_kf5_datadir}/kservicetypes5/plasma_comicprovider.desktop
+%{_datadir}/metainfo/*.appdata.xml
 
 %changelog
+* Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-2
+- 5.8.2-2
+
 * Tue Nov 01 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-1
 - 5.8.2
 
