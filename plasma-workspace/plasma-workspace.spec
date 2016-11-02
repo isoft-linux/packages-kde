@@ -6,7 +6,7 @@
 
 Name:           plasma-workspace
 Version:        5.8.3
-Release:        1
+Release:        2
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -254,6 +254,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_kf5_qtplugindir}/phonon_platform/kde.so
 %{_kf5_qtplugindir}/kpackage/packagestructure/*.so
 %{_kf5_qtplugindir}/kf5/kded/*.so
+%{_kf5_qtplugindir}/plasmacalendarplugins/
 %{_kf5_qmldir}/org/kde/*
 %{_libexecdir}/*
 %{_kf5_datadir}/ksmserver
@@ -293,6 +294,8 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_datadir}/kio_desktop/DesktopLinks/Home.desktop
 %{_datadir}/kio_desktop/directory.desktop
 %{_datadir}/kio_desktop/directory.trash
+%{_datadir}/kdevappwizard/templates/ion-dataengine.tar.bz2
+%{_datadir}/metainfo/*.xml
 
 # PAM
 %config %{_sysconfdir}/pam.d/kde
@@ -325,7 +328,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
-* Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+* Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-2
 - 5.8.3
 
 * Tue Nov 01 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-1
