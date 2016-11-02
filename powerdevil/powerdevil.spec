@@ -1,3 +1,5 @@
+%global kf5_version 5.27.0
+
 Name:           powerdevil
 Version:        5.7.4
 Release:        1
@@ -27,23 +29,23 @@ BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules
 
-BuildRequires:  kf5-kauth-devel
-BuildRequires:  kf5-kidletime-devel
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-solid-devel
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kglobalaccel-devel
-BuildRequires:  kf5-kio-devel
-BuildRequires:  kf5-kwindowsystem-devel
-BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-knotifyconfig-devel
-BuildRequires:  kf5-kdelibs4support-devel
+BuildRequires:  kf5-kauth-devel >= %{kf5_version}
+BuildRequires:  kf5-kidletime-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-solid-devel >= %{kf5_version}
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kglobalaccel-devel >= %{kf5_version}
+BuildRequires:  kf5-kio-devel >= %{kf5_version}
+BuildRequires:  kf5-kwindowsystem-devel >= %{kf5_version}
+BuildRequires:  kf5-plasma-devel >= %{kf5_version}
+BuildRequires:  kf5-knotifyconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
 BuildRequires:  libkscreen-devel >= %{version}
-BuildRequires:  kf5-kactivities-devel
-BuildRequires:  kf5-kwayland-devel >= %{version}
+BuildRequires:  kf5-kactivities-devel >= %{kf5_version}
+BuildRequires:  kf5-kwayland-devel >= %{kf5_version}
 BuildRequires:  plasma-workspace-devel >= %{version}
-BuildRequires:  kf5-networkmanager-qt-devel >= 5.23.0
-BuildRequires:  kf5-bluez-qt-devel >= 5.23.0
+BuildRequires:  kf5-networkmanager-qt-devel >= %{kf5_version}
+BuildRequires:  kf5-bluez-qt-devel >= %{kf5_version}
 
 Requires:       kf5-filesystem
 Requires:       libkscreen >= %{version}
