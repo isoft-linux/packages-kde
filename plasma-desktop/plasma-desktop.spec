@@ -211,7 +211,7 @@ fi
 %{_kf5_libexecdir}/kauth/fontinst
 %{_kf5_libexecdir}/kauth/fontinst_helper
 %{_kf5_libexecdir}/kauth/fontinst_x11
-%{_libexecdir}/kimpanel-ibus-panel
+#%{_libexecdir}/kimpanel-ibus-panel
 %{_libexecdir}/kfontprint
 %{_qt5_prefix}/qml/org/kde/plasma/private
 %{_kf5_libdir}/libkdeinit5_kaccess.so
