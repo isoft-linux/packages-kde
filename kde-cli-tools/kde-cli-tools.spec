@@ -1,7 +1,7 @@
 %global kf5_version 5.27.0
 
 Name:           kde-cli-tools
-Version:        5.7.4
+Version:        5.8.3
 Release:        1%{?dist}
 Summary:        Tools based on KDE Frameworks 5 to better interact with the system
 
