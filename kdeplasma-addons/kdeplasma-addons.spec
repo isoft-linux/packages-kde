@@ -1,8 +1,8 @@
 %global kf5_version 5.27.0
 
 Name:           kdeplasma-addons
-Version:        5.8.2
-Release:        2
+Version:        5.8.3
+Release:        1
 Summary:        Additional Plasmoids for Plasma 5.
 
 License:        GPLv2+
@@ -97,6 +97,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_datadir}/metainfo/*.appdata.xml
 
 %changelog
+* Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+- 5.8.3
+
 * Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.2-2
 - 5.8.2-2
 
