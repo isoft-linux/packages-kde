@@ -1,3 +1,5 @@
+%global kf5_version 5.27.0
+
 Name:           kde-cli-tools
 Version:        5.7.4
 Release:        1%{?dist}
@@ -23,14 +25,14 @@ BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  kf5-rpm-macros
 
 BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-kiconthemes-devel
-BuildRequires:  kf5-kinit-devel >= 5.10.0-3
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-kdesu-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-kwindowsystem-devel
+BuildRequires:  kf5-kconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-kiconthemes-devel >= %{kf5_version}
+BuildRequires:  kf5-kinit-devel >= %{kf5_version}
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kcmutils-devel >= %{kf5_version}
+BuildRequires:  kf5-kdesu-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-kwindowsystem-devel >= %{kf5_version}
 
 Requires:       kf5-filesystem
 
@@ -99,6 +101,9 @@ ln -s %{_kf5_libexecdir}/kdesu %{buildroot}%{_bindir}/kdesu
 
 
 %changelog
+* Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+- 5.8.3
+
 * Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 
