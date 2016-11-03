@@ -1,5 +1,5 @@
 Name:           kwrited
-Version:        5.7.4
+Version:        5.8.3
 Release:        1
 Summary:        KDE Write Daemon
 
@@ -57,6 +57,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/knotifications5/kwrited.notifyrc
 
 %changelog
+* Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+- 5.8.3
+
 * Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 
