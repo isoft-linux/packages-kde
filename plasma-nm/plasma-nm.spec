@@ -1,5 +1,7 @@
+%global kf5_version 5.27.0
+
 Name:           plasma-nm
-Version:        5.7.4
+Version:        5.8.3
 Release:        1
 Summary:        Plasma Next applet written in QML for managing network connections
 License:        LGPLv2+ and GPLv2+
@@ -22,27 +24,27 @@ BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qttools-devel
 
 BuildRequires:  qca-qt5-devel
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kwindowsystem-devel
-BuildRequires:  kf5-kservice-devel
-BuildRequires:  kf5-kcompletion-devel
-BuildRequires:  kf5-kwidgetsaddons-devel
-BuildRequires:  kf5-kio-devel
-BuildRequires:  kf5-kcoreaddons-devel
-BuildRequires:  kf5-kwallet-devel
-BuildRequires:  kf5-kitemviews-devel
-BuildRequires:  kf5-kxmlgui-devel
-BuildRequires:  kf5-kconfigwidgets-devel
-BuildRequires:  kf5-kiconthemes-devel
-BuildRequires:  kf5-solid-devel
-BuildRequires:  kf5-kdbusaddons-devel
-BuildRequires:  kf5-knotifications-devel
-BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-kdeclarative-devel
-BuildRequires:  kf5-kinit-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-networkmanager-qt-devel
-BuildRequires:  kf5-modemmanager-qt-devel
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kwindowsystem-devel >= %{kf5_version}
+BuildRequires:  kf5-kservice-devel >= %{kf5_version}
+BuildRequires:  kf5-kcompletion-devel >= %{kf5_version}
+BuildRequires:  kf5-kwidgetsaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kio-devel >= %{kf5_version}
+BuildRequires:  kf5-kcoreaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kwallet-devel >= %{kf5_version}
+BuildRequires:  kf5-kitemviews-devel >= %{kf5_version}
+BuildRequires:  kf5-kxmlgui-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfigwidgets-devel >= %{kf5_version}
+BuildRequires:  kf5-kiconthemes-devel >= %{kf5_version}
+BuildRequires:  kf5-solid-devel >= %{kf5_version}
+BuildRequires:  kf5-kdbusaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-knotifications-devel >= %{kf5_version}
+BuildRequires:  kf5-plasma-devel >= %{kf5_version}
+BuildRequires:  kf5-kdeclarative-devel >= %{kf5_version}
+BuildRequires:  kf5-kinit-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-networkmanager-qt-devel >= %{kf5_version}
+BuildRequires:  kf5-modemmanager-qt-devel >= %{kf5_version}
 
 BuildRequires:  pkgconfig(NetworkManager) >= 0.9.8
 BuildRequires:  pkgconfig(ModemManager) >= 1.0.0
@@ -66,7 +68,7 @@ the default NetworkManager service.
 Summary:        Mobile support for %{name}
 Requires:       ModemManager
 Requires:       mobile-broadband-provider-info
-Requires:       kf5-modemmanager-qt >= 5.0.0-1
+Requires:       kf5-modemmanager-qt >= %{kf5_version}
 Obsoletes:      kde-plasma-networkmanagement-mobile < 1:0.9.1.0
 Obsoletes:      kde-plasma-nm-mobile < 5.0.0-1
 Provides:       kde-plasma-nm-mobile = %{version}-%{release}
@@ -249,6 +251,9 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_datadir}/kservices5/plasmanetworkmanagement_sstpui.desktop
 
 %changelog
+* Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+- 5.8.3
+
 * Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 
