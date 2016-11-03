@@ -1,7 +1,8 @@
+%global kf5_version 5.27.0
 %define         base_name systemsettings
 
 Name:           plasma-%{base_name}
-Version:        5.7.4
+Version:        5.8.3
 Release:        1
 Summary:        KDE's System Settings application
 
@@ -20,19 +21,19 @@ BuildRequires:  cmake
 BuildRequires:  desktop-file-utils
 BuildRequires:  extra-cmake-modules
 BuildRequires:  kf5-rpm-macros
-BuildRequires:  kf5-kitemviews-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kio-devel
-BuildRequires:  kf5-kservice-devel
-BuildRequires:  kf5-kiconthemes-devel
-BuildRequires:  kf5-kwindowsystem-devel
-BuildRequires:  kf5-kxmlgui-devel
-BuildRequires:  kf5-kdbusaddons-devel
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-khtml-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-kdoctools-devel
+BuildRequires:  kf5-kitemviews-devel >= %{kf5_version}
+BuildRequires:  kf5-kcmutils-devel >= %{kf5_version}
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kio-devel >= %{kf5_version}
+BuildRequires:  kf5-kservice-devel >= %{kf5_version}
+BuildRequires:  kf5-kiconthemes-devel >= %{kf5_version}
+BuildRequires:  kf5-kwindowsystem-devel >= %{kf5_version}
+BuildRequires:  kf5-kxmlgui-devel >= %{kf5_version}
+BuildRequires:  kf5-kdbusaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-khtml-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-kdoctools-devel >= %{kf5_version}
 BuildRequires:  qt5-qtbase-devel
 
 Requires:       kf5-filesystem
@@ -94,6 +95,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/systemsettings.deskto
 %{_libdir}/libsystemsettingsview.so
 
 %changelog
+* Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+- 5.8.3
+
 * Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 
