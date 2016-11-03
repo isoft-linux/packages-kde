@@ -28,7 +28,6 @@ BuildRequires:  kf5-plasma-devel
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  pkgconfig(gconf-2.0)
 BuildRequires:  pkgconfig(libcanberra)
-BuildRequires:  perl-generators
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
