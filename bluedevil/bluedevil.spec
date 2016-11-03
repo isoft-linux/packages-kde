@@ -1,6 +1,8 @@
+%global kf5_version 5.27.0
+
 Name:           bluedevil
 Summary:        Bluetooth stack for KDE
-Version:        5.7.4
+Version:        5.8.3
 Release:        1
 
 License:        GPLv2+
@@ -19,18 +21,17 @@ BuildRequires:  kf5-rpm-macros
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 
-BuildRequires:  kf5-kcoreaddons-devel
-BuildRequires:  kf5-kwidgetsaddons-devel
-BuildRequires:  kf5-kdbusaddons-devel
-BuildRequires:  kf5-knotifications-devel
-BuildRequires:  kf5-kiconthemes-devel
-BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kio-devel
-# 5.11 is when kf5-bluez-qt became Framework and changed API
-BuildRequires:  kf5-bluez-qt-devel >= 5.11
-BuildRequires:  kf5-kded-devel
-BuildRequires:  kf5-kwindowsystem-devel
+BuildRequires:  kf5-kcoreaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kwidgetsaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kdbusaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-knotifications-devel >= %{kf5_version}
+BuildRequires:  kf5-kiconthemes-devel >= %{kf5_version}
+BuildRequires:  kf5-plasma-devel >= %{kf5_version}
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kio-devel >= %{kf5_version}
+BuildRequires:  kf5-bluez-qt-devel >= %{kf5_version}
+BuildRequires:  kf5-kded-devel >= %{kf5_version}
+BuildRequires:  kf5-kwindowsystem-devel >= %{kf5_version}
 
 BuildRequires:  shared-mime-info
 
@@ -108,6 +109,9 @@ update-mime-database %{_datadir}/mime &> /dev/null || :
 
 
 %changelog
+* Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+- 5.8.3
+
 * Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 
