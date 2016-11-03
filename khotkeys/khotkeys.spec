@@ -1,5 +1,5 @@
 Name:           khotkeys
-Version:        5.7.4
+Version:        5.8.3
 Release:        1%{?dist}
 Summary:        Application to configure hotkeys in KDE
 
@@ -93,6 +93,9 @@ rm -rf %{buildroot}%{_kf5_datadir}/khotkeys/konqueror_gestures_kde321.khotkeys
 
 
 %changelog
+* Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
+- 5.8.3
+
 * Thu Aug 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.7.4-1
 - 5.7.4
 
