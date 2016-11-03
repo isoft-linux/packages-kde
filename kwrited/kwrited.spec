@@ -53,7 +53,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files
 %doc COPYING
-%{_kf5_qtplugindir}/kf5/kded/kwrited.so
+#%{_kf5_qtplugindir}/kf5/kded/kwrited.so
+%{_kf5_bindir}/kwrited
+%{_sysconfdir}/xdg/autostart/kwrited-autostart.desktop
 %{_kf5_datadir}/knotifications5/kwrited.notifyrc
 
 %changelog
