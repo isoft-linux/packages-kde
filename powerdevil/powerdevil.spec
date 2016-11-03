@@ -84,8 +84,10 @@ rm %{buildroot}/%{_libdir}/libpowerdevil{configcommonprivate,core,ui}.so
 %{_libdir}/libpowerdevilcore.so.*
 %{_libdir}/libpowerdevilui.so.*
 %{_kf5_qtplugindir}/*.so
-%{_kf5_qtplugindir}/kf5/kded/powerdevil.so
+%{_kf5_plugindir}/powerdevil/
 %{_kf5_libexecdir}/kauth/backlighthelper
+%{_sysconfdir}/xdg/autostart/powerdevil.desktop
+%{_libexecdir}/org_kde_powerdevil
 %{_datadir}/dbus-1/system-services/org.kde.powerdevil.backlighthelper.service
 %{_kf5_datadir}/knotifications5/powerdevil.notifyrc
 %{_kf5_datadir}/kservices5/*.desktop
