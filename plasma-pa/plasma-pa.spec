@@ -29,6 +29,7 @@ BuildRequires:  kf5-rpm-macros
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
+BuildRequires:  GConf2-devel
 
 Requires:       kf5-filesystem
 
