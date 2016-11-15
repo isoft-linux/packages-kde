@@ -1,7 +1,7 @@
 %global framework ki18n
 
 Name:           kf5-%{framework}
-Version:        5.27.0
+Version:        5.28.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon for localization
 
@@ -104,6 +104,9 @@ popd
 
 
 %changelog
+* Tue Nov 15 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
+- 5.28.0
+
 * Mon Oct 31 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.27.0-1
 - 5.27.0
 
