@@ -2,7 +2,7 @@
 
 Name:           kwin
 Version:        5.8.3
-Release:        1
+Release:        2
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -198,6 +198,7 @@ fi
 %{_kf5_libdir}/kconf_update_bin/kwin5_update_default_rules
 %{_libexecdir}/kwin_killer_helper
 %{_libexecdir}/kwin_rules_dialog
+%{_libexecdir}/org_kde_kwin_xclipboard_syncer
 %{_datadir}/kwincompositing
 %{_kf5_datadir}/kservices5/*.desktop
 %{_kf5_datadir}/kservices5/kwin
@@ -243,6 +244,9 @@ fi
 
 
 %changelog
+* Wed Nov 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-2
+- Add missing org_kde_kwin_xclipboard_syncer
+
 * Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
 - 5.8.3
 
