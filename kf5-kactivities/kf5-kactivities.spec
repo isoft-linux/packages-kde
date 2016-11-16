@@ -4,7 +4,7 @@
 
 Name:           kf5-%{framework}
 Summary:        A KDE Frameworks 5 Tier 3 to organize user work into separate activities
-Version:        5.27.0
+Version:        5.28.0
 Release:        1%{?dist}
 
 License:        GPLv2+ and LGPLv2+
@@ -122,6 +122,9 @@ rm -rf %{buildroot}/%{_kf5_datadir}/kf5/kactivitymanagerd
 
 
 %changelog
+* Wed Nov 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
+- 5.28.0
+
 * Mon Oct 31 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.27.0-1
 - 5.27.0
 
