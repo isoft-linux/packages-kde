@@ -1,7 +1,7 @@
 %global framework kitemmodels
 
 Name:           kf5-%{framework}
-Version:        5.27.0
+Version:        5.28.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with item models
 
@@ -70,6 +70,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Thu Nov 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
+- 5.28.0
+
 * Tue Nov 01 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.27.0-1
 - 5.27.0
 
