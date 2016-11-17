@@ -2,7 +2,7 @@
 
 Name:    oxygen-icon-theme
 Summary: Oxygen icon theme for KF5
-Version: 5.25.0
+Version: 5.28.0
 EPoch: 1
 Release: 1
 License: LGPLv3+ 
@@ -91,6 +91,9 @@ fi
 
 
 %changelog
+* Thu Nov 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
+- 5.28.0
+
 * Thu Aug 18 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0
 - 5.25.0
 
