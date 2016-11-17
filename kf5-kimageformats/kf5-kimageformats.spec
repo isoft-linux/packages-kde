@@ -1,7 +1,7 @@
 %global framework kimageformats
 
 Name:           kf5-%{framework}
-Version:        5.25.0
+Version:        5.28.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with additional image plugins for QtGui
 
@@ -71,6 +71,9 @@ rm -rf  %{buildroot}%{_kf5_qtplugindir}/imageformats/kimg_psd.so
 
 
 %changelog
+* Thu Nov 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
+- 5.28.0
+
 * Wed Aug 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.25.0-1
 - 5.25.0
 
