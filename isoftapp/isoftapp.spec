@@ -1,6 +1,6 @@
 Name: isoftapp
 Version: 2.2.9
-Release: 4
+Release: 5
 Summary: iSOFT AppStore Skeleton
 
 License: GPLv2 or GPLv3
@@ -94,15 +94,20 @@ install -Dpm 644 %{SOURCE11} %{buildroot}%{_sysconfdir}/isoftapp/default.conf
 %{_datadir}/applications/qjade.isoft.desktop
 %{_datadir}/icons/oxygen/32x32/apps/isoft.png
 %{_datadir}/icons/oxygen/32x32/apps/qjade.png
+#%{_datadir}/qjade
 %{_datadir}/qjade/isoft.xml
 %{_datadir}/qjade/isoft.png
 %{_datadir}/qjade/title.png
 %{_datadir}/qjade/qml
 %{_datadir}/qjade/images
+%{_datadir}/qjade/backendlist.txt
 %{_datadir}/qt5/translations/qjade_zh_CN.qm
 
 
 %changelog
+* Mon Nov 21 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.9-5
+- rebuilt:bug fixed. 
+
 * Thu Nov 10 2016 fj <fujiang.zhu@i-soft.com.cn> - 2.2.9-4
 - rebuilt for v4x
 
