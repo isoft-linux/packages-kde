@@ -1,3 +1,5 @@
+%global kf5_version 5.28.0
+
 Name:           libkscreen
 Version:        5.8.3
 Release:        1
@@ -16,14 +18,14 @@ URL:            https://projects.kde.org/projects/kde/workspace/libkscreen
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 BuildRequires:  cmake
-BuildRequires:  extra-cmake-modules
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
 BuildRequires:  kf5-rpm-macros
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
 BuildRequires:  libXrandr-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
-BuildRequires:  kf5-kwayland-devel
+BuildRequires:  kf5-kwayland-devel >= %{kf5_version}
 
 Requires:       kf5-filesystem
 

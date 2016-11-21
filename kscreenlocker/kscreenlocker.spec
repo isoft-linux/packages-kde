@@ -1,3 +1,5 @@
+%global kf5_version 5.28.0
+
 Name:    kscreenlocker
 Version: 5.8.3
 Release: 1%{?dist}
@@ -27,17 +29,17 @@ BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qtx11extras-devel
 
 BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
 
-BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-kdeclarative-devel
-BuildRequires:  kf5-kidletime-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-kcrash-devel
-BuildRequires:  kf5-kglobalaccel-devel
+BuildRequires:  kf5-plasma-devel >= %{kf5_version}
+BuildRequires:  kf5-kcmutils-devel >= %{kf5_version}
+BuildRequires:  kf5-kdeclarative-devel >= %{kf5_version}
+BuildRequires:  kf5-kidletime-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-kcrash-devel >= %{kf5_version}
+BuildRequires:  kf5-kglobalaccel-devel >= %{kf5_version}
 BuildRequires:  libkscreen-devel >= %{version}
-BuildRequires:  kf5-kwayland-devel
+BuildRequires:  kf5-kwayland-devel >= %{kf5_version}
 
 BuildRequires:  libX11-devel
 BuildRequires:  xcb-util-keysyms-devel
