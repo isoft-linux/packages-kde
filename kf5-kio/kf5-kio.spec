@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.28.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -23,8 +23,8 @@ BuildRequires:  libxml2-devel
 BuildRequires:  libxslt-devel
 BuildRequires:  zlib-devel
 
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros >= %{version}
+BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  kf5-knotifications-devel >= %{version}
@@ -264,6 +264,9 @@ fi
 %{_kf5_docdir}/HTML/*/kioslave5/
 
 %changelog
+* Tue Nov 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
+- 5.28.0-2
+
 * Wed Nov 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
 - 5.28.0
 
