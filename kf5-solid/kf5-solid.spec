@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.28.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 integration module that provides hardware information
 
 License:        LGPLv2+
@@ -23,7 +23,7 @@ Patch0:         solid-5.25-fix-build-with-flex-2.6.0.patch
 
 BuildRequires:  systemd-devel
 
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
@@ -107,6 +107,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Tue Nov 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
+- 5.28.0-2
+
 * Wed Nov 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
 - 5.28.0
 
