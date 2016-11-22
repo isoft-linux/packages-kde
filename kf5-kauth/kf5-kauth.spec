@@ -67,7 +67,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_sysconfdir}/dbus-1/system.d/org.kde.kf5auth.conf
 %{_kf5_qtplugindir}/kauth/
 %{_kf5_datadir}/kf5/kauth/
-%{_kf5_libexecdir}/kauth/
+%{_libexecdir}/kauth/
 
 %files devel
 %{_kf5_includedir}/kauth_version.h
