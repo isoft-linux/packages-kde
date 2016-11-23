@@ -2,11 +2,11 @@
 # or arch where there's no package that would provide plasmashell
 #define bootstrap 1
 
-%global kf5_version 5.27.0
+%global kf5_version 5.28.0
 
 Name:           plasma-workspace
-Version:        5.8.3
-Release:        5
+Version:        5.8.4
+Release:        1
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -77,8 +77,8 @@ BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qtwebkit-devel
 BuildRequires:  phonon-qt5-devel
 
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
 BuildRequires:  kf5-plasma-devel >= %{kf5_version}
 BuildRequires:  kf5-kdoctools-devel >= %{kf5_version}
 BuildRequires:  kf5-krunner-devel >= %{kf5_version}
@@ -335,6 +335,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
+- 5.8.4-1
+
 * Mon Nov 21 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-5
 - 5.8.3-5
 

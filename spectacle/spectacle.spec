@@ -1,6 +1,8 @@
+%global kf5_version 5.28.0
+
 Name: spectacle
 Summary: A screen capture utility 
-Version: 15.12.3
+Version: 16.08.3
 Release: 1
 
 License: GPLv2+
@@ -15,32 +17,32 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{name}-%
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
-BuildRequires: extra-cmake-modules
+BuildRequires: extra-cmake-modules >= %{kf5_version}
 BuildRequires: gettext
-BuildRequires: kf5-rpm-macros
-BuildRequires: kf5-kcompletion-devel
-BuildRequires: kf5-kconfig-devel
-BuildRequires: kf5-kconfigwidgets-devel
-BuildRequires: kf5-kcoreaddons-devel
-BuildRequires: kf5-kdbusaddons-devel
-BuildRequires: kf5-kdeclarative-devel
-BuildRequires: kf5-kguiaddons-devel
-BuildRequires: kf5-ki18n-devel
-BuildRequires: kf5-kiconthemes-devel
-BuildRequires: kf5-kitemviews-devel
-BuildRequires: kf5-kio-devel
-BuildRequires: kf5-kjobwidgets-devel
-BuildRequires: kf5-knewstuff-devel
-BuildRequires: kf5-knotifyconfig-devel
-BuildRequires: kf5-knewstuff-devel
-BuildRequires: kf5-kservice-devel
-BuildRequires: kf5-kwindowsystem-devel
-BuildRequires: kf5-kwidgetsaddons-devel
-BuildRequires: kf5-kxmlgui-devel
-BuildRequires: kf5-kdoctools-devel
-BuildRequires: kf5-kparts-devel
-BuildRequires: kf5-knotifications-devel
-BuildRequires: kf5-libkipi-devel
+BuildRequires: kf5-rpm-macros >= %{kf5_version}
+BuildRequires: kf5-kcompletion-devel >= %{kf5_version}
+BuildRequires: kf5-kconfig-devel >= %{kf5_version}
+BuildRequires: kf5-kconfigwidgets-devel >= %{kf5_version}
+BuildRequires: kf5-kcoreaddons-devel >= %{kf5_version}
+BuildRequires: kf5-kdbusaddons-devel >= %{kf5_version}
+BuildRequires: kf5-kdeclarative-devel >= %{kf5_version}
+BuildRequires: kf5-kguiaddons-devel >= %{kf5_version}
+BuildRequires: kf5-ki18n-devel >= %{kf5_version}
+BuildRequires: kf5-kiconthemes-devel >= %{kf5_version}
+BuildRequires: kf5-kitemviews-devel >= %{kf5_version}
+BuildRequires: kf5-kio-devel >= %{kf5_version}
+BuildRequires: kf5-kjobwidgets-devel >= %{kf5_version}
+BuildRequires: kf5-knewstuff-devel >= %{kf5_version}
+BuildRequires: kf5-knotifyconfig-devel >= %{kf5_version}
+BuildRequires: kf5-knewstuff-devel >= %{kf5_version}
+BuildRequires: kf5-kservice-devel >= %{kf5_version}
+BuildRequires: kf5-kwindowsystem-devel >= %{kf5_version}
+BuildRequires: kf5-kwidgetsaddons-devel >= %{kf5_version}
+BuildRequires: kf5-kxmlgui-devel >= %{kf5_version}
+BuildRequires: kf5-kdoctools-devel >= %{kf5_version}
+BuildRequires: kf5-kparts-devel >= %{kf5_version}
+BuildRequires: kf5-knotifications-devel >= %{kf5_version}
+BuildRequires: kf5-libkipi-devel >= %{version}
 BuildRequires: pkgconfig(xcb-cursor)
 BuildRequires: pkgconfig(xcb-image)
 BuildRequires: pkgconfig(xcb-util)
@@ -98,6 +100,9 @@ fi
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 16.08.3-1
+- 16.08.3-1
+
 * Wed Apr 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 15.12.3-1
 - 15.12.3
 
