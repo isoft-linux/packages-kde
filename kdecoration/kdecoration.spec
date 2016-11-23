@@ -1,6 +1,8 @@
+%global kf5_version 5.28.0
+
 Name:           kdecoration
 Summary:        A plugin-based library to create window decorations
-Version:        5.8.3
+Version:        5.8.4
 Release:        1
 
 License:        LGPLv2
@@ -15,8 +17,8 @@ URL:            https://projects.kde.org/projects/kde/workspace/kdecoration
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 BuildRequires:  cmake
-BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
 BuildRequires:  qt5-qtbase-devel
 
 Requires:       kf5-filesystem
@@ -67,6 +69,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/kdecoration2_version.h
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
+- 5.8.4-1
+
 * Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
 - 5.8.3
 
