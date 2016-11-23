@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.28.0
-Release:        1
+Release:        2
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -29,8 +29,8 @@ Patch12: baloo-enable-kjieba.patch
 Patch13: baloo-add-pinyin-support.patch
 
 BuildRequires:  cmake
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros >= %{version}
+BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  gettext
 
 BuildRequires:  qt5-qtbase-devel
@@ -179,6 +179,9 @@ fi
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
+- 5.28.0-2
+
 * Thu Nov 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
 - 5.28.0
 
