@@ -1,7 +1,7 @@
 %global kf5_version 5.28.0
 
 Name:    kscreenlocker
-Version: 5.8.3
+Version: 5.8.4
 Release: 1%{?dist}
 Summary: Library and components for secure lock screen architecture
 
@@ -28,7 +28,7 @@ BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qtx11extras-devel
 
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
 BuildRequires:  extra-cmake-modules >= %{kf5_version}
 
 BuildRequires:  kf5-plasma-devel >= %{kf5_version}
@@ -111,6 +111,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
+- 5.8.4-1
+
 * Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
 - 5.8.3
 
