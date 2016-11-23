@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.28.0
-Release:        1
+Release:        2
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
 License:        GPLv2+ and LGPLv2+ and BSD
@@ -39,7 +39,7 @@ BuildRequires:  qt5-qtsvg-devel
 BuildRequires:  qt5-qtscript-devel
 
 BuildRequires:  cmake
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  kf5-kactivities-devel >= %{version}
 BuildRequires:  kf5-karchive-devel >= %{version}
@@ -136,6 +136,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
+- 5.28.0-2
+
 * Thu Nov 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
 - 5.28.0
 
