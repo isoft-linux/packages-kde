@@ -1,9 +1,10 @@
+%global kf5_version 5.28.0
 %global         base_name   breeze
 
 %global         build_kde4  1
 
 Name:           plasma-breeze
-Version:        5.8.3
+Version:        5.8.4
 Release:        1
 Summary:        Artwork, styles and assets for the Breeze visual style for the Plasma Desktop
 
@@ -19,26 +20,26 @@ URL:            https://projects.kde.org/projects/kde/workspace/breeze
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{base_name}-%{version}.tar.xz
 
 BuildRequires:  cmake
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
 
-BuildRequires:	kf5-kservice-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-kpackage-devel
+BuildRequires:	kf5-kservice-devel >= %{kf5_version}
+BuildRequires:  kf5-kcmutils-devel >= %{kf5_version}
+BuildRequires:  kf5-kpackage-devel >= %{kf5_version}
 
 # kde4breeze
-BuildRequires:  kf5-kcoreaddons-devel
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-kguiaddons-devel
+BuildRequires:  kf5-kcoreaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-kguiaddons-devel >= %{kf5_version}
 
 # kstyle
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kcompletion-devel
-BuildRequires:  kf5-frameworkintegration-devel
-BuildRequires:  kf5-kwindowsystem-devel
-BuildRequires:  kdecoration-devel
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kcompletion-devel >= %{kf5_version}
+BuildRequires:  kf5-frameworkintegration-devel >= %{kf5_version}
+BuildRequires:  kf5-kwindowsystem-devel >= %{kf5_version}
+BuildRequires:  kdecoration-devel >= %{version}
 
 BuildRequires:  libxcb-devel
 
@@ -167,6 +168,9 @@ fi
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
+- 5.8.4-1
+
 * Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
 - 5.8.3
 
