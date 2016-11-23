@@ -1,8 +1,10 @@
+%global kf5_version 5.28.0
+
 %define realname libkdcraw
 Name: kf5-libkdcraw
 Summary: A C++ interface used to decode RAW picture. KF5 Frameworks branch. 
-Version: 15.12.0
-Release: 2%{?dist}
+Version: 16.08.3
+Release: 1%{?dist}
 
 License: GPLv2+
 URL:     https://projects.kde.org/projects/kde/kdegraphics/libs/libkcraw
@@ -17,9 +19,9 @@ Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{realnam
 
 BuildRequires: cmake
 BuildRequires: desktop-file-utils
-BuildRequires: extra-cmake-modules
+BuildRequires: extra-cmake-modules >= %{kf5_version}
 BuildRequires: gettext
-BuildRequires: kf5-rpm-macros
+BuildRequires: kf5-rpm-macros >= %{kf5_version}
 BuildRequires: qt5-qtbase-devel
 BuildRequires: LibRaw-devel
 
@@ -65,6 +67,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_libdir}/cmake/KF5KDcraw
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 16.08.3-1
+- 16.08.3-1
+
 * Thu Dec 17 2015 Cjacker <cjacker@foxmail.com> - 15.12.0-2
 - Update
 
