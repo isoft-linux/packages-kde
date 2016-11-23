@@ -64,7 +64,7 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libdir}/libKF5Kipi.so.*
 %{_kf5_datadir}/kservicetypes5/kipiplugin.desktop
 %{_kf5_datadir}/icons/hicolor/*/apps/kipi.*
-%{_kf5_datadir}/kf5/kipi
+#%{_kf5_datadir}/kf5/kipi
 
 %files devel
 %{_kf5_libdir}/libKF5Kipi.so
