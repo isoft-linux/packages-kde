@@ -1,4 +1,5 @@
 %global framework kholidays
+%global kf5_version 5.28.0
 
 # uncomment to enable bootstrap mode
 #global bootstrap 1
@@ -8,7 +9,7 @@
 %endif
 
 Name:    kf5-%{framework}
-Version: 16.04.2
+Version: 16.08.3
 Release: 1%{?dist}
 Summary: The KHolidays Library
 
@@ -23,10 +24,10 @@ URL:     https://quickgit.kde.org/?p=%{framework}.git
 %endif
 Source0: http://download.kde.org/%{stable}/applications/%{version}/src/%{framework}-%{version}.tar.xz
 
-BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  kf5-kdelibs4support-devel >= 5.15
-BuildRequires:  kf5-kitemviews-devel >= 5.15
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-kitemviews-devel >= %{kf5_version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  qt5-qttools-devel
@@ -90,5 +91,8 @@ make test ARGS="--output-on-failure --timeout 20" -C %{_target_platform} ||:
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 16.08.3-1
+- 16.08.3-1
+
 * Mon Jun 27 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 16.04.2-1
 - 16.04.2
