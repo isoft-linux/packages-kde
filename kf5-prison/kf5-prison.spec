@@ -60,7 +60,7 @@ rm -rf %{buildroot}
 %files devel
 %defattr(-,root,root,-)
 %{_kf5_includedir}/prison_version.h
-%{_kf5_includedir}/PRISON
+%{_kf5_includedir}/Prison
 %{_kf5_libdir}/libKF5Prison.so
 %{_kf5_libdir}/cmake/KF5Prison/
 %{_libdir}/qt5/mkspecs/modules/qt_Prison.pri

@@ -1,8 +1,9 @@
+%global kf5_version 5.28.0
 %global         wayland 1
 
 Name:           kwin
-Version:        5.8.3
-Release:        2
+Version:        5.8.4
+Release:        1
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -23,8 +24,8 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 # Base
 BuildRequires:  cmake
-BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
 
 
 # Qt
@@ -51,7 +52,7 @@ BuildRequires:  libepoxy-devel
 
 # Wayland (optional)
 %if 0%{?wayland}
-BuildRequires:  kf5-kwayland-devel
+BuildRequires:  kf5-kwayland-devel >= %{kf5_version}
 BuildRequires:  libwayland-client-devel
 BuildRequires:  libwayland-server-devel
 BuildRequires:  libwayland-cursor-devel
@@ -64,28 +65,28 @@ BuildRequires:  pkgconfig(freetype2)
 BuildRequires:  pkgconfig(fontconfig)
 
 # KF5
-BuildRequires:  kf5-kcompletion-devel
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-kconfigwidgets-devel
-BuildRequires:  kf5-kcoreaddons-devel
-BuildRequires:  kf5-kcrash-devel
-BuildRequires:  kf5-kglobalaccel-devel
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kinit-devel
-BuildRequires:  kf5-kio-devel
-BuildRequires:  kf5-knotifications-devel
-BuildRequires:  kf5-kservice-devel
-BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-kwidgetsaddons-devel
-BuildRequires:  kf5-kwindowsystem-devel
-BuildRequires:  kf5-kdoctools-devel
-BuildRequires:  kf5-kcmutils-devel
-BuildRequires:  kf5-knewstuff-devel
-BuildRequires:  kf5-kactivities-devel
-BuildRequires:  kf5-kdoctools-devel
-BuildRequires:  kf5-kdeclarative-devel
-BuildRequires:  kf5-kiconthemes-devel
-BuildRequires:  kf5-kidletime-devel
+BuildRequires:  kf5-kcompletion-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfigwidgets-devel >= %{kf5_version}
+BuildRequires:  kf5-kcoreaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kcrash-devel >= %{kf5_version}
+BuildRequires:  kf5-kglobalaccel-devel >= %{kf5_version}
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kinit-devel >= %{kf5_version}
+BuildRequires:  kf5-kio-devel >= %{kf5_version}
+BuildRequires:  kf5-knotifications-devel >= %{kf5_version}
+BuildRequires:  kf5-kservice-devel >= %{kf5_version}
+BuildRequires:  kf5-plasma-devel >= %{kf5_version}
+BuildRequires:  kf5-kwidgetsaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kwindowsystem-devel >= %{kf5_version}
+BuildRequires:  kf5-kdoctools-devel >= %{kf5_version}
+BuildRequires:  kf5-kcmutils-devel >= %{kf5_version}
+BuildRequires:  kf5-knewstuff-devel >= %{kf5_version}
+BuildRequires:  kf5-kactivities-devel >= %{kf5_version}
+BuildRequires:  kf5-kdoctools-devel >= %{kf5_version}
+BuildRequires:  kf5-kdeclarative-devel >= %{kf5_version}
+BuildRequires:  kf5-kiconthemes-devel >= %{kf5_version}
+BuildRequires:  kf5-kidletime-devel >= %{kf5_version}
 BuildRequires:  kscreenlocker-devel >= %{version}
 BuildRequires:  kdecoration-devel >= %{version}
 BuildRequires:  plasma-breeze-devel >= %{version}
@@ -244,6 +245,9 @@ fi
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
+- 5.8.4-1
+
 * Wed Nov 16 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-2
 - Add missing org_kde_kwin_xclipboard_syncer
 

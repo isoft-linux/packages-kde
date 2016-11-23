@@ -104,7 +104,7 @@ BuildRequires:  kscreenlocker-devel >= %{version}
 BuildRequires:  kf5-kemoticons-devel >= %{kf5_version}
 
 #git codes
-BuildRequires:  kf5-prison-devel
+BuildRequires:  kf5-prison-devel >= %{kf5_version}
 
 BuildRequires:  kf5-ksysguard-devel >= %{version}
 BuildRequires:  kf5-kscreen-devel >= %{version}
