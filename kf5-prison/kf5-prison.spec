@@ -1,13 +1,13 @@
 Name:           kf5-prison
-Version:        2.8.8
-Release:        2.git
+Version:        5.28.0
+Release:        1.git
 Summary:        A Qt-based barcode abstraction library
 
 License:        MIT
 URL:            https://projects.kde.org/projects/kdesupport/prison
 #git clone git://anongit.kde.org/prison
 #git checkout frameworks
-Source0:        prison.tar.gz
+Source0:        prison-5.28.0.tar.bz2
 
 BuildRequires:  cmake
 BuildRequires:  libdmtx-devel
@@ -28,7 +28,7 @@ Requires: %{name}%{?_isa} = %{version}-%{release}
 
 
 %prep
-%setup -q -n prison
+%setup -q -n prison-%{version}
 
 
 %build
@@ -66,6 +66,9 @@ rm -rf %{buildroot}
 %{_libdir}/qt5/mkspecs/modules/qt_Prison.pri
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1.git
+- 5.28.0-1.git
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 2.8.8-2.git
 - Rebuild for new 4.0 release
 
