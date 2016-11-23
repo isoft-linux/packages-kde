@@ -1,5 +1,7 @@
+%global kf5_version 5.28.0
+
 Name:           libksysguard
-Version:        5.8.3
+Version:        5.8.4
 Release:        1
 Summary:        Library for managing processes running on the system
 
@@ -15,13 +17,13 @@ URL:            https://projects.kde.org/projects/kde/workspace/libksysguard
 Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{version}.tar.xz
 
 BuildRequires:  cmake
-BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-knewstuff-devel
-BuildRequires:  kf5-plasma-devel
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
+BuildRequires:  kf5-kconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-knewstuff-devel >= %{kf5_version}
+BuildRequires:  kf5-plasma-devel >= %{kf5_version}
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
 BuildRequires:  libXres-devel
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtscript-devel
@@ -106,6 +108,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_libdir}/cmake/KF5SysGuard
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
+- 5.8.4-1
+
 * Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
 - 5.8.3
 
