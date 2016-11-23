@@ -1,7 +1,7 @@
 %global kf5_version 5.28.0
 
 Name:           libkscreen
-Version:        5.8.3
+Version:        5.8.4
 Release:        1
 Summary:        KDE display configuration library
 
@@ -19,7 +19,7 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules >= %{kf5_version}
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
 BuildRequires:  libX11-devel
 BuildRequires:  libxcb-devel
 BuildRequires:  libXrandr-devel
@@ -87,6 +87,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
+- 5.8.4
+
 * Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
 - 5.8.3
 
