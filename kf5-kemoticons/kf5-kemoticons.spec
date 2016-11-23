@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.28.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 module with support for emoticons and emoticons themes
 
 License:        GPLv2+ and LGPLv2+
@@ -17,7 +17,7 @@ URL:            http://www.kde.org
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
 
@@ -79,6 +79,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_archdatadir}/mkspecs/modules/qt_KEmoticons.pri
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
+- 5.28.0-2
+
 * Thu Nov 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
 - 5.28.0
 
