@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.28.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A Tier 1 KDE Frameworks module wrapping ModemManager DBus API
 
 License:        LGPLv2+
@@ -17,8 +17,8 @@ URL:            https://projects.kde.org/projects/kde/workspace/modemmanager-qt
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/modemmanager-qt-%{version}.tar.xz
 
-BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  extra-cmake-modules >= %{version}
+BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  ModemManager-devel >= 1.0.0
 
@@ -74,6 +74,9 @@ make install/fast  DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_archdatadir}/mkspecs/modules/qt_ModemManagerQt.pri
 
 %changelog
+* Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
+- 5.28.0-2
+
 * Thu Nov 17 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-1
 - 5.28.0
 
