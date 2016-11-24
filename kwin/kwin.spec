@@ -87,6 +87,7 @@ BuildRequires:  kf5-kdoctools-devel >= %{kf5_version}
 BuildRequires:  kf5-kdeclarative-devel >= %{kf5_version}
 BuildRequires:  kf5-kiconthemes-devel >= %{kf5_version}
 BuildRequires:  kf5-kidletime-devel >= %{kf5_version}
+BuildRequires:  kf5-ktextwidgets-devel >= %{kf5_version}
 BuildRequires:  kscreenlocker-devel >= %{version}
 BuildRequires:  kdecoration-devel >= %{version}
 BuildRequires:  plasma-breeze-devel >= %{version}
