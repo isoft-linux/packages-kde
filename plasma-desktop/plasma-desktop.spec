@@ -207,10 +207,10 @@ fi
 %{_bindir}/krdb
 %{_bindir}/knetattach
 %{_bindir}/solid-action-desktop-gen
-%{_kf5_libexecdir}/kauth/kcmdatetimehelper
-%{_kf5_libexecdir}/kauth/fontinst
-%{_kf5_libexecdir}/kauth/fontinst_helper
-%{_kf5_libexecdir}/kauth/fontinst_x11
+%{_libexecdir}/kauth/kcmdatetimehelper
+%{_libexecdir}/kauth/fontinst
+%{_libexecdir}/kauth/fontinst_helper
+%{_libexecdir}/kauth/fontinst_x11
 #%{_libexecdir}/kimpanel-ibus-panel
 %{_libexecdir}/kfontprint
 %{_qt5_prefix}/qml/org/kde/plasma/private
@@ -268,7 +268,7 @@ fi
 %{_datadir}/dbus-1/interfaces/org.kde.touchpad.xml
 # kactivitymanagerd
 %{_datadir}/kf5/kactivitymanagerd/workspace/settings/qml/*
-%{_datadir}/metainfo/*.xml
+#%{_datadir}/metainfo/*.xml
 
 %files doc
 #%lang(ca) %{_docdir}/HTML/ca/kcontrol/
