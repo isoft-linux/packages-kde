@@ -1,8 +1,8 @@
-%global kf5_version 5.27.0
+%global kf5_version 5.28.0
 
 Name:           plasma-desktop
-Version:        5.8.3
-Release:        2
+Version:        5.8.4
+Release:        1
 Summary:        Plasma Desktop shell
 
 License:        GPLv2+ and (GPLv2 or GPLv3)
@@ -41,8 +41,8 @@ BuildRequires:  qt5-qtsvg-devel
 BuildRequires:  qt5-qtdeclarative-devel
 BuildRequires:  phonon-qt5-devel
 
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
 BuildRequires:  kf5-plasma-devel >= %{kf5_version}
 BuildRequires:  kf5-kdoctools-devel >= %{kf5_version}
 BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
@@ -288,6 +288,9 @@ fi
 
 
 %changelog
+* Thu Nov 24 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
+- 5.8.4-1
+
 * Wed Nov 02 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-2
 - 5.8.3
 

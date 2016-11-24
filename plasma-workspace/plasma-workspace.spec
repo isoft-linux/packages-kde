@@ -297,7 +297,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 %{_datadir}/kio_desktop/directory.desktop
 %{_datadir}/kio_desktop/directory.trash
 %{_datadir}/kdevappwizard/templates/ion-dataengine.tar.bz2
-%{_datadir}/metainfo/*.xml
+%{_kf5_metainfodir}/*.xml
 
 # PAM
 %config %{_sysconfdir}/pam.d/kde
