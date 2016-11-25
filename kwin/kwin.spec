@@ -3,7 +3,7 @@
 
 Name:           kwin
 Version:        5.8.4
-Release:        1
+Release:        2
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -246,6 +246,9 @@ fi
 
 
 %changelog
+* Fri Nov 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-2
+- 5.8.4-2
+
 * Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
 - 5.8.4-1
 
