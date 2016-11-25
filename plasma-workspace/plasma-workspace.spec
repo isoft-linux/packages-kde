@@ -6,7 +6,7 @@
 
 Name:           plasma-workspace
 Version:        5.8.4
-Release:        1
+Release:        2
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -330,6 +330,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Fri Nov 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-2
+- 5.8.4-2
+
 * Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
 - 5.8.4-1
 
