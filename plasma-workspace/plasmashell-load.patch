@@ -1,0 +1,27 @@
+diff --git a/shell/shellcorona.cpp b/shell/shellcorona.cpp
+index 0422bc3..93d7c8d 100644
+--- a/shell/shellcorona.cpp
++++ b/shell/shellcorona.cpp
+@@ -294,9 +294,9 @@ void ShellCorona::setShell(const QString &shell)
+ 
+     connect(m_activityController, &KActivities::Controller::serviceStatusChanged, this, &ShellCorona::load, Qt::UniqueConnection);
+ 
+-    if (m_activityController->serviceStatus() == KActivities::Controller::Running) {
++    //if (m_activityController->serviceStatus() == KActivities::Controller::Running) {
+         load();
+-    }
++    //}
+ }
+ 
+ 
+@@ -602,8 +602,8 @@ QString ShellCorona::shell() const
+ 
+ void ShellCorona::load()
+ {
+-    if (m_shell.isEmpty() ||
+-        m_activityController->serviceStatus() != KActivities::Controller::Running) {
++    if (m_shell.isEmpty()/* || m_activityController->serviceStatus() != KActivities::Controller::Running*/) {
++        qWarning() << __PRETTY_FUNCTION__ << "m_shell isEmpty!";
+         return;
+     }
+ 
