@@ -6,7 +6,7 @@
 
 Name:           plasma-workspace
 Version:        5.8.4
-Release:        2
+Release:        3
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -27,6 +27,8 @@ Patch30: 0003-splash-isoft-logo.patch
 
 #Rebase kjieba Chinese word segmentation for 5.6.95
 Patch34: 0007-query-for-cjk.patch
+
+Patch102:       startkde.patch
 
 BuildRequires:  zlib-devel
 BuildRequires:  dbusmenu-qt5-devel
@@ -212,6 +214,7 @@ Documentation and user manuals for %{name}.
 
 #%patch30 -p1
 #%patch34 -p1
+%patch102 -p1
 
 # omit conflicts with kf5-kxmlrpcclient-5.8
 rm -fv po/*/libkxmlrpcclient5.po
@@ -330,8 +333,8 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
-* Fri Nov 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-2
-- 5.8.4-2
+* Fri Nov 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-3
+- 5.8.4-3
 
 * Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
 - 5.8.4-1
