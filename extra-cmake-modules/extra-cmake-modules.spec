@@ -1,7 +1,7 @@
 Name:           extra-cmake-modules
 Summary:        Additional modules for CMake build system
-Version:        5.28.0
-Release:        2
+Version:        5.29.0
+Release:        1
 
 License:        BSD
 URL:            http://community.kde.org/KDE_Core/Platform_11/Buildsystem/FindFilesSurvey
@@ -48,6 +48,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_docdir}/ECM/
 
 %changelog
+* Tue Dec 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
+- 5.29.0-1
+
 * Tue Nov 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
 - 5.28.0
 
