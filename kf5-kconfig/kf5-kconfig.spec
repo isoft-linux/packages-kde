@@ -1,8 +1,8 @@
 %global framework kconfig
 
 Name:           kf5-%{framework}
-Version:        5.28.0
-Release:        2%{?dist}
+Version:        5.29.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 addon with advanced configuration system
 
 License:        GPLv2+ and LGPLv2+ and MIT
@@ -110,6 +110,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Tue Dec 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
+- 5.29.0-1
+
 * Tue Nov 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
 - 5.28.0-2
 
