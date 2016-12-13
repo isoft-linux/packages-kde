@@ -20,6 +20,9 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 # Workaround flex bug (https://bugzilla.redhat.com/show_bug.cgi?id=1364943)
 Patch102:  kservice-5.25-fix-build-with-flex-2.6.0.patch
 
+# Workaround lex yywrap
+Patch110:  lex_yywrap.patch
+
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -54,6 +57,7 @@ developing applications that use %{name}.
 %prep
 %setup -q -n %{framework}-%{version}
 %patch102 -p1
+%patch110 -p1
 
 %build
 mkdir %{_target_platform}
