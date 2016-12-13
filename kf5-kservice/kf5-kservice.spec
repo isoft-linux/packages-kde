@@ -20,6 +20,8 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 # Workaround flex bug (https://bugzilla.redhat.com/show_bug.cgi?id=1364943)
 Patch102:  kservice-5.25-fix-build-with-flex-2.6.0.patch
 
+Patch110:  lex-flex-2.6.2.patch
+
 BuildRequires:  cmake
 BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -54,6 +56,7 @@ developing applications that use %{name}.
 %prep
 %setup -q -n %{framework}-%{version}
 %patch102 -p1
+%patch110 -p1
 
 %build
 mkdir %{_target_platform}
@@ -96,8 +99,9 @@ mkdir -p %{buildroot}%{_kf5_datadir}/kservicetypes5
 
 
 %changelog
-* Tue Dec 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
-- 5.29.0-1
+* Tue Dec 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-2
+- flex-2.6.2 issue https://github.com/westes/flex/issues/134
+- 5.29.0-2
 
 * Tue Nov 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
 - 5.28.0-2
