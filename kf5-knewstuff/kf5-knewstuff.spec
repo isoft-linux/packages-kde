@@ -20,6 +20,7 @@ Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{fra
 BuildRequires:  kf5-rpm-macros  >= %{version}
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  qt5-qtbase-devel
+BuildRequires:  qt5-qtquickcontrols-devel
 BuildRequires:  kf5-attica-devel >= %{version}
 BuildRequires:  kf5-kservice-devel >= %{version}
 
