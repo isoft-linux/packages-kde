@@ -1,8 +1,8 @@
 %define framework kpackage
 
 Name:           kf5-%{framework}
-Version:        5.28.0
-Release:        3%{?dist}
+Version:        5.29.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 2 library to load and install packages as plugins
 
 License:        LGPLv2+
@@ -16,8 +16,6 @@ URL:            https://projects.kde.org/projects/frameworks/kpackage
 %global stable stable
 %endif
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
-
-Patch01:    kdebug-372594.patch
 
 BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  extra-cmake-modules >= %{version}
@@ -47,7 +45,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{framework}-%{version}
-%patch01 -p1
 
 %build
 mkdir -p %{_target_platform}
@@ -79,6 +76,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Dec 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
+- 5.29.0-1
+
 * Tue Nov 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-3
 - Use ArchLinux's patch
 
