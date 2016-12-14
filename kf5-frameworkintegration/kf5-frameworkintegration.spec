@@ -31,7 +31,7 @@ BuildRequires:  kf5-kiconthemes-devel >= %{version}
 BuildRequires:  kf5-kio-devel >= %{version}
 BuildRequires:  kf5-knotifications-devel >= %{version}
 BuildRequires:  kf5-kwidgetsaddons-devel >= %{version}
-
+BuildRequires:  kf5-kpackage-devel >= %{version}
 BuildRequires:  oxygen-fonts-devel
 
 BuildRequires:  libXcursor-devel
