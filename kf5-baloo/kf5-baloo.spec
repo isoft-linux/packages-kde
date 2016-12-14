@@ -1,8 +1,8 @@
 %define         framework baloo
 
 Name:           kf5-%{framework}
-Version:        5.28.0
-Release:        2
+Version:        5.29.0
+Release:        1
 Summary:        A Tier 3 KDE Frameworks 5 module that provides indexing and search functionality
 License:        LGPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/baloo
@@ -179,6 +179,9 @@ fi
 
 
 %changelog
+* Wed Dec 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
+- 5.29.0-1
+
 * Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
 - 5.28.0-2
 
