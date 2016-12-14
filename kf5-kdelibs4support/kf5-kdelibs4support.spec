@@ -164,7 +164,7 @@ rm -rf %{buildroot}%{_sysconfdir}/xdg/kdebugrc
 
 %files doc
 %{_kf5_docdir}/HTML/*/kdebugdialog5
-%{_kf5_docdir}/HTML/*/kcontrol/kcm_ssl/
+#%{_kf5_docdir}/HTML/*/kcontrol/kcm_ssl/
 %{_kf5_mandir}/man1/*
 %{_kf5_mandir}/*/man1/*
 %exclude %{_kf5_mandir}/man1
