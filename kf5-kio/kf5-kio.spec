@@ -1,8 +1,8 @@
 %global framework kio
 
 Name:           kf5-%{framework}
-Version:        5.28.0
-Release:        2%{?dist}
+Version:        5.29.0
+Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 solution for filesystem abstraction
 
 License:        GPLv2+ and MIT and BSD
@@ -264,6 +264,9 @@ fi
 %{_kf5_docdir}/HTML/*/kioslave5/
 
 %changelog
+* Wed Dec 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
+- 5.29.0-1
+
 * Tue Nov 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
 - 5.28.0-2
 
