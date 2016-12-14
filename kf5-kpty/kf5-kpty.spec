@@ -1,8 +1,8 @@
 %global framework kpty
 
 Name:           kf5-%{framework}
-Version:        5.28.0
-Release:        2
+Version:        5.29.0
+Release:        1
 Summary:        KDE Frameworks 5 Tier 2 module providing Pty abstraction
 
 License:        LGPLv2+ and GPLv2+
@@ -73,6 +73,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 
 %changelog
+* Wed Dec 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
+- 5.29.0-1
+
 * Tue Nov 22 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.28.0-2
 - 5.28.0-2
 
