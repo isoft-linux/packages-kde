@@ -31,6 +31,7 @@ BuildRequires:  kf5-ki18n-devel >= %{version}
 BuildRequires:  kf5-kio-devel >= %{version}
 BuildRequires:  kf5-kparts-devel >= %{version}
 BuildRequires:  kf5-sonnet-devel >= %{version}
+BuildRequires:  kf5-syntax-highlighting-devel >= %{version}
 
 BuildRequires:  libgit2-devel >= 0.22.0
 
