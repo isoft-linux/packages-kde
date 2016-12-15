@@ -46,7 +46,7 @@ popd
 
 %install
 make %{?_smp_mflags} -C %{_target_platform}
-
+cd %{_target_platform} && %make_install
 
 %post -p /sbin/ldconfig
 
@@ -54,15 +54,16 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 %files
 %doc COPYING* README*
-%config %{_kf5_configdir}/org_kde_ksyntaxhighlighting.categories
+#%config %{_kf5_configdir}/org_kde_ksyntaxhighlighting.categories
+%config /etc/xdg/org_kde_ksyntaxhighlighting.categories
 %{_kf5_bindir}/kate-syntax-highlighter
 %{_kf5_libdir}/libKF5SyntaxHighlighting.so.*
 
 %files devel
 %{_kf5_libdir}/libKF5SyntaxHighlighting.so
 %{_kf5_libdir}/cmake/KF5SyntaxHighlighting/
-%{_kf5_mkspecsdir}/qt_KSyntaxHighlighting.pri
-%{_kf5_includedir}/
+%{_kf5_libdir}/qt5/mkspecs/modules/qt_KSyntaxHighlighting.pri
+%{_kf5_includedir}/*
 
 %changelog
 * Wed Dec 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
