@@ -29,7 +29,7 @@ BuildRequires:  opencc-devel
 BuildRequires:  qt4-devel
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
-BuildRequires:  enchant-devel libxml2-devel
+BuildRequires:  enchant-devel libxml2-devel iso-codes-devel libxkbfile-devel gobject-introspection-devel
 Obsoletes:      scim
 
 %description
