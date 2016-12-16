@@ -29,6 +29,7 @@ BuildRequires:  opencc-devel
 BuildRequires:  qt4-devel
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
+BuildRequires:  enchant-devel
 Obsoletes:      scim
 
 %description
