@@ -28,6 +28,7 @@ BuildRequires:  glib2-devel
 BuildRequires:  opencc-devel
 BuildRequires:  qt4-devel
 BuildRequires:  cmake
+BuildRequires:  extra-cmake-modules
 Obsoletes:      scim
 
 %description
