@@ -14,7 +14,7 @@
 Summary:        FCITX input framework
 Name:           %{nam}
 Version:        %{ver}
-Release:        %{rel}.1
+Release:        %{rel}.2
 License:        GPL
 
 Source0:        %{name}-%{version}_dict.tar.xz
@@ -190,6 +190,9 @@ gtk-query-immodules-3.0 >%{_libdir}/gtk-3.0/3.0.0/immodules.cache
 %{_datadir}/gir-?.?/*
 
 %changelog
+* Fri Dec 16 2016 sulit - 4.2.9-2.2
+- rebuild fcitx
+
 * Sun Oct 25 2015 Cjacker <cjacker@foxmail.com> - 4.2.9-2.1
 - Rebuild for new 4.0 release
 
