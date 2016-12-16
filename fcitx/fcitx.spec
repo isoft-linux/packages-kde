@@ -24,6 +24,7 @@ Patch0:         fcitx-tweak.patch
 
 BuildRequires:  gtk2-devel
 BuildRequires:  gtk3-devel
+BuildRequires:  glib2-devel
 BuildRequires:  opencc-devel
 BuildRequires:  qt4-devel
 BuildRequires:  cmake
@@ -40,7 +41,8 @@ weight core. You can easily customize it to fit your requirements.
 %package gtk2-im-module 
 Summary:        Gtk2 im module of fcitx
 Requires:       %{name} = %{version}
-Requires:	glib2 >= %{build_time_glib_version}
+Requires:	glib2 
+#>= %{build_time_glib_version}
 Requires(pre):       gtk2
 
 %description gtk2-im-module
@@ -49,7 +51,8 @@ Gtk2 im module of fcitx
 %package gtk3-im-module
 Summary:        Gtk3 im module of fcitx
 Requires:       %{name} = %{version}
-Requires:	glib2 >= %{build_time_glib_version}
+#Requires:	glib2 >= %{build_time_glib_version}
+Requires:	glib2
 Requires(pre):       gtk3
 %description gtk3-im-module
 Gtk3 im module of fcitx
