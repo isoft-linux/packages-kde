@@ -30,7 +30,7 @@ BuildRequires:  qt4-devel
 BuildRequires:  cmake
 BuildRequires:  extra-cmake-modules
 BuildRequires:  enchant-devel libxml2-devel iso-codes-devel libxkbfile-devel gobject-introspection-devel
-BuildRequires:  gettext
+BuildRequires:  gettext gettext-devel
 Obsoletes:      scim
 
 %description
