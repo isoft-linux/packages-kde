@@ -2,7 +2,7 @@
 
 Name:           kf5-%{framework}
 Version:        5.29.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        KDE Frameworks 5 Tier 3 module for downloading application assets
 
 License:        LGPLv2+
@@ -77,18 +77,30 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %files -f knewstuff5_qt.lang
 %doc COPYING.LIB README.md
 %{_kf5_libdir}/libKF5NewStuff.so.*
+%{_kf5_libdir}/libKF5NewStuffCore.so.*
 %{_kf5_datadir}/kf5/knewstuff/
 %{_kf5_datadir}/kf5/kmoretools/
+%dir %{_kf5_qmldir}/org/
+%dir %{_kf5_qmldir}/org/kde
+%{_kf5_qmldir}/org/kde/newstuff/
 
 %files devel
 %{_kf5_includedir}/knewstuff_version.h
 %{_kf5_includedir}/KNewStuff3
 %{_kf5_libdir}/libKF5NewStuff.so
+%{_kf5_libdir}/libKF5NewStuffCore.so
 %{_kf5_libdir}/cmake/KF5NewStuff
 %{_kf5_archdatadir}/mkspecs/modules/qt_KNewStuff.pri
+%{_kf5_includedir}/KF5/knewstuffcore_version.h
+%{_kf5_includedir}/KF5/knewstuffquick_version.h
+%{_kf5_libdir}/cmake/KF5NewStuffCore/
+%{_kf5_libdir}/cmake/KF5NewStuffQuick/
 
 
 %changelog
+* Tue Dec 20 2016 sulit - 5.29.0-2
+- modify kf5-knewstuff contained files
+
 * Wed Dec 14 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
 - 5.29.0-1
 
