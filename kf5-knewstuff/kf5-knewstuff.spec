@@ -86,8 +86,8 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 
 %files devel
 %{_kf5_includedir}/knewstuff_version.h
-%{_kf5_includedir}knewstuffcore_version.h
-%{_kf5_includedir}knewstuffquick_version.h
+%{_kf5_includedir}/knewstuffcore_version.h
+%{_kf5_includedir}/knewstuffquick_version.h
 %{_kf5_includedir}/KNewStuff3
 %{_kf5_libdir}/libKF5NewStuff.so
 %{_kf5_libdir}/libKF5NewStuffCore.so
