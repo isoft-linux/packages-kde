@@ -2,11 +2,11 @@
 # or arch where there's no package that would provide plasmashell
 #define bootstrap 1
 
-%global kf5_version 5.28.0
+%global kf5_version 5.29.0
 
 Name:           plasma-workspace
-Version:        5.8.4
-Release:        4
+Version:        5.8.5
+Release:        1
 Summary:        Plasma workspace, applications and applets
 License:        GPLv2+
 URL:            https://projects.kde.org/projects/kde/workspace/plasma-workspace
@@ -333,6 +333,9 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/{plasma-windowed,org
 
 
 %changelog
+* Thu Dec 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.5-1
+- 5.8.5-1
+
 * Fri Nov 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-4
 - 5.8.4-4
 

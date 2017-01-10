@@ -1,6 +1,8 @@
+%global kf5_version 5.29.0
+
 Name:           kscreen
 Epoch:			2
-Version:        5.8.3
+Version:        5.8.5
 Release:        1
 Summary:        KDE Display Management software
 
@@ -17,21 +19,21 @@ Source0:        http://download.kde.org/%{stable}/plasma/%{version}/%{name}-%{ve
 
 BuildRequires:  cmake
 BuildRequires:  gettext
-BuildRequires:  extra-cmake-modules
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qtx11extras-devel
 BuildRequires:  qt5-qtdeclarative-devel
 
 BuildRequires:  libkscreen-devel >= %{version}
 
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kcoreaddons-devel
-BuildRequires:  kf5-kconfigwidgets-devel
-BuildRequires:  kf5-kdbusaddons-devel
-BuildRequires:  kf5-kxmlgui-devel
-BuildRequires:  kf5-kglobalaccel-devel
-BuildRequires:  kf5-kservice-devel
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kcoreaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfigwidgets-devel >= %{kf5_version}
+BuildRequires:  kf5-kdbusaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-kxmlgui-devel >= %{kf5_version}
+BuildRequires:  kf5-kglobalaccel-devel >= %{kf5_version}
+BuildRequires:  kf5-kservice-devel >= %{kf5_version}
 
 Requires:       kf5-filesystem
 Requires:       qt5-qtgraphicaleffects
@@ -81,6 +83,9 @@ fi
 
 
 %changelog
+* Thu Dec 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.5-1
+- 5.8.5-1
+
 * Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
 - 5.8.3
 

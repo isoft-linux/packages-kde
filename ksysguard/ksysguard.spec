@@ -1,5 +1,7 @@
+%global kf5_version 5.29.0
+
 Name:           ksysguard
-Version:        5.8.3
+Version:        5.8.5
 Release:        1
 Summary:        KDE Process Management application
 
@@ -19,19 +21,19 @@ BuildRequires:  qt5-qtscript-devel
 BuildRequires:  qt5-qtwebkit-devel
 
 BuildRequires:  cmake
-BuildRequires:  kf5-rpm-macros
-BuildRequires:  extra-cmake-modules
+BuildRequires:  kf5-rpm-macros >= %{kf5_version}
+BuildRequires:  extra-cmake-modules >= %{kf5_version}
 
-BuildRequires:  kf5-kcoreaddons-devel
-BuildRequires:  kf5-ki18n-devel
-BuildRequires:  kf5-kitemviews-devel
-BuildRequires:  kf5-knewstuff-devel
-BuildRequires:  kf5-kconfig-devel
-BuildRequires:  kf5-kiconthemes-devel
-BuildRequires:  kf5-kdelibs4support-devel
-BuildRequires:  kf5-kdoctools-devel
+BuildRequires:  kf5-kcoreaddons-devel >= %{kf5_version}
+BuildRequires:  kf5-ki18n-devel >= %{kf5_version}
+BuildRequires:  kf5-kitemviews-devel >= %{kf5_version}
+BuildRequires:  kf5-knewstuff-devel >= %{kf5_version}
+BuildRequires:  kf5-kconfig-devel >= %{kf5_version}
+BuildRequires:  kf5-kiconthemes-devel >= %{kf5_version}
+BuildRequires:  kf5-kdelibs4support-devel >= %{kf5_version}
+BuildRequires:  kf5-kdoctools-devel >= %{kf5_version}
 
-BuildRequires:  libksysguard-devel
+BuildRequires:  libksysguard-devel >= %{version}
 
 BuildRequires:  lm_sensors-devel
 BuildRequires:  desktop-file-utils
@@ -97,6 +99,9 @@ fi
 
 
 %changelog
+* Thu Dec 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.5-1
+- 5.8.5-1
+
 * Thu Nov 03 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.3-1
 - 5.8.3
 

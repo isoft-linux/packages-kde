@@ -1,9 +1,9 @@
-%global kf5_version 5.28.0
+%global kf5_version 5.29.0
 %global         wayland 1
 
 Name:           kwin
-Version:        5.8.4
-Release:        2
+Version:        5.8.5
+Release:        1
 Summary:        KDE Window manager
 
 # all sources are effectively GPLv2+, except for:
@@ -246,6 +246,9 @@ fi
 
 
 %changelog
+* Thu Dec 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.5-1
+- 5.8.5-1
+
 * Fri Nov 25 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-2
 - 5.8.4-2
 

@@ -1,8 +1,8 @@
-%global kf5_version 5.28.0
+%global kf5_version 5.29.0
 
 Name:           kdecoration
 Summary:        A plugin-based library to create window decorations
-Version:        5.8.4
+Version:        5.8.5
 Release:        1
 
 License:        LGPLv2
@@ -69,6 +69,9 @@ make install/fast DESTDIR=%{buildroot} -C %{_target_platform}
 %{_kf5_includedir}/kdecoration2_version.h
 
 %changelog
+* Thu Dec 29 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.5-1
+- 5.8.5-1
+
 * Wed Nov 23 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.8.4-1
 - 5.8.4-1
 
