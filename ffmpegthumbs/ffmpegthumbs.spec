@@ -1,7 +1,7 @@
 Name:    ffmpegthumbs 
 Summary: Video thumbnailer for KDE5
-Version: 15.12.0
-Release: 3%{?dist}
+Version: 16.12.0
+Release: 1%{?dist}
 
 License: GPLv2+ and GFDL
 URL:     https://projects.kde.org/projects/kde/kdegames/%{name}
@@ -84,6 +84,9 @@ gtk-update-icon-cache %{_kf5_datadir}/icons/hicolor &> /dev/null || :
 
 
 %changelog
+* Tue Jan 10 2017 sulit - 16.12.0-1
+- upgrade ffmpegthumbs to 16.12.0
+
 * Tue Jan 10 2017 sulit - 15.12.0-3
 - rebuild
 
