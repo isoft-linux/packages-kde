@@ -39,7 +39,7 @@ BuildRequires:  qt5-qtsvg-devel
 BuildRequires:  qt5-qtscript-devel
 
 BuildRequires:  cmake
-BuildRequires:  kf5-rpm-macros
+BuildRequires:  kf5-rpm-macros >= %{version}
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  kf5-kactivities-devel >= %{version}
 BuildRequires:  kf5-karchive-devel >= %{version}
