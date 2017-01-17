@@ -1,7 +1,7 @@
 %global framework kwindowsystem
 
 Name:           kf5-%{framework}
-Version:        5.29.0
+Version:        5.30.0
 Release:        1%{?dist}
 Summary:        KDE Frameworks 5 Tier 1 integration module with classes for windows management
 
@@ -77,6 +77,9 @@ make %{?_smp_mflags} -C %{_target_platform}
 
 
 %changelog
+* Tue Jan 17 2017 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.30.0-1
+- 5.30.0-1
+
 * Tue Dec 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
 - 5.29.0-1
 
