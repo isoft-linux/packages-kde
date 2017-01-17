@@ -18,8 +18,8 @@ URL:            http://www.kde.org
 Source0:        http://download.kde.org/%{stable}/frameworks/%{versiondir}/%{framework}-%{version}.tar.xz
 
 BuildRequires:  cmake
-BuildRequires:  kf5-rpm-macros >= %{version}
-BuildRequires:  extra-cmake-modules >= %{version}
+BuildRequires:  kf5-rpm-macros
+BuildRequires:  extra-cmake-modules
 BuildRequires:  qt5-qtbase-devel
 BuildRequires:  qt5-qttools-devel
 BuildRequires:  shared-mime-info
