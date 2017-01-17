@@ -1,7 +1,7 @@
 %global framework plasma
 
 Name:           kf5-%{framework}
-Version:        5.29.0
+Version:        5.30.0
 Release:        1
 Summary:        KDE Frameworks 5 Tier 3 framework is foundation to build a primary user interface
 
@@ -39,7 +39,7 @@ BuildRequires:  qt5-qtsvg-devel
 BuildRequires:  qt5-qtscript-devel
 
 BuildRequires:  cmake
-BuildRequires:  kf5-rpm-macros >= %{version}
+BuildRequires:  kf5-rpm-macros
 BuildRequires:  extra-cmake-modules >= %{version}
 BuildRequires:  kf5-kactivities-devel >= %{version}
 BuildRequires:  kf5-karchive-devel >= %{version}
