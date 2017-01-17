@@ -1,5 +1,5 @@
 Name:           kf5
-Version:        5.29.0
+Version:        5.30.0
 Release:        1
 Summary:        Filesystem and RPM macros for KDE Frameworks 5
 License:        BSD
@@ -58,6 +58,9 @@ sed -i \
 %{_rpmconfigdir}/macros.d/macros.kf5
 
 %changelog
+* Tue Jan 17 2017 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.30.0-1
+- 5.30.0-1
+
 * Tue Dec 13 2016 Leslie Zhai <xiang.zhai@i-soft.com.cn> - 5.29.0-1
 - 5.29.0-1
 
